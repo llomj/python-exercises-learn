@@ -29,17 +29,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Bundler
-        run: npm install -g esbuild
+      - name: Install dependencies
+        run: npm ci
 
-      - name: Build JS
-        run: |
-          esbuild index.tsx --bundle --minify --format=esm --outfile=index.js --define:process.env.API_KEY=\"${{ secrets.API_KEY }}\" --external:react --external:react-dom --external:@google/genai
-
-      - name: Prepare Assets
-        run: |
-          # The index.html currently points to index.tsx. We need it to point to index.js for production.
-          sed -i 's/index.tsx/index.js/g' index.html
+      - name: Build
+        run: npm run build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,7 +41,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
