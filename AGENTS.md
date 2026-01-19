@@ -19,3 +19,10 @@
 - **Completion Task**: Reach exactly 1,000 high-quality Python questions.
 - **Status**: ACHIEVED.
 - **Diversity Rule**: Use at least 10 logic templates per stage to ensure students encounter varied syntax and conceptual challenges.
+
+## 5. Testing and Deployment Rules
+- **Testing Requirement**: Agents must always run tests before telling the user that the app should deploy successfully.
+- **Layout Preservation**: Agents must never change the layout of the app when making changes unless explicitly asked by the user.
+- **Debugging Reference**: Agents must always consult ps.md for debugging information.
+- **Browser Testing**: Agents must always test the app in the browser first to ensure it works and opens correctly before pushing to Git.
+- **User Consent for Commits**: Agents must always ask the user for approval before committing to Git.

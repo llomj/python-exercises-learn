@@ -12,14 +12,15 @@ export class QuizService {
     count: number = 15,
     completedIds: number[] = []
   ): Promise<Question[]> {
-    // 1. Filter by requested level
+    // 1. Filter by requested level (should have 100 questions per level)
     const levelQuestions = QUESTIONS_BANK.filter(q => q.level === level);
     
-    // 2. Exclude already completed
+    // 2. Exclude already completed questions to prevent repeats
     const available = levelQuestions.filter(q => !completedIds.includes(q.id));
     
-    // 3. If we don't have enough "new" questions (user finished most), reuse the level pool
-    const source = available.length >= count ? available : levelQuestions;
+    // 3. Only use available (uncompleted) questions - never repeat until all are done
+    // If we have fewer than requested, return what's available
+    const source = available.length > 0 ? available : levelQuestions; // Fallback only if somehow all are marked completed
     
     // 4. Robust shuffle (Fisher-Yates style for better randomness)
     const shuffled = [...source];
@@ -28,8 +29,8 @@ export class QuizService {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    // 5. Slice and return
-    return shuffled.slice(0, count);
+    // 5. Return up to count questions (may be fewer if not enough available)
+    return shuffled.slice(0, Math.min(count, shuffled.length));
   }
 }
 

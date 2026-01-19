@@ -115,6 +115,62 @@ export const GLOSSARY = [
     example: "is_active = True\nhas_permission = False\nresult = (5 > 3) and (10 < 20)  # True"
   },
   {
+    term: "If Statement",
+    definition: "A conditional statement that executes code only when a condition is True.",
+    levelRange: "3-4",
+    detailedDescription: "The if statement is Python's primary conditional construct. It evaluates a boolean expression and executes the indented block only if the condition is True. Python uses indentation (not braces) to define code blocks. The if statement can be followed by optional elif (else-if) and else clauses for handling multiple conditions.",
+    example: "age = 18\nif age >= 18:\n    print('Adult')\nelif age >= 13:\n    print('Teen')\nelse:\n    print('Child')"
+  },
+  {
+    term: "Comparison Operator",
+    definition: "Operators that compare two values and return a boolean result.",
+    levelRange: "3-4",
+    detailedDescription: "Comparison operators evaluate relationships between values and return True or False. Python supports: == (equal), != (not equal), < (less than), > (greater than), <= (less than or equal), >= (greater than or equal), is (identity), in (membership). These operators are fundamental to conditional logic and control flow.",
+    example: "x = 10\ny = 5\nprint(x > y)   # True\nprint(x == y)  # False\nprint(x != y)  # True\nprint(5 in [1, 2, 3, 4, 5])  # True"
+  },
+  {
+    term: "Logical Operator",
+    definition: "Operators that combine boolean expressions: and, or, not.",
+    levelRange: "3-4",
+    detailedDescription: "Logical operators combine boolean values or expressions. 'and' returns True only if both operands are True. 'or' returns True if at least one operand is True. 'not' inverts the boolean value. Python uses short-circuit evaluation: 'and' stops at the first False, 'or' stops at the first True, which can improve performance.",
+    example: "x = 10\ny = 5\nresult1 = (x > 5) and (y < 10)  # True\nresult2 = (x < 5) or (y > 10)   # False\nresult3 = not (x > 5)            # False"
+  },
+  {
+    term: "For Loop",
+    definition: "A loop that iterates over a sequence (list, string, range, etc.).",
+    levelRange: "3-4",
+    detailedDescription: "The for loop iterates over items in a sequence or other iterable object. It automatically handles iteration, eliminating the need for manual index management. The loop variable takes each value from the sequence in turn. For loops are preferred when you know how many iterations you need or when iterating over a collection.",
+    example: "fruits = ['apple', 'banana', 'cherry']\nfor fruit in fruits:\n    print(fruit)\n\n# With range\nfor i in range(5):\n    print(i)  # 0, 1, 2, 3, 4"
+  },
+  {
+    term: "While Loop",
+    definition: "A loop that continues executing while a condition remains True.",
+    levelRange: "3-4",
+    detailedDescription: "The while loop repeatedly executes a block of code as long as the condition evaluates to True. Unlike for loops, while loops are used when the number of iterations is unknown beforehand. Care must be taken to ensure the condition eventually becomes False, otherwise an infinite loop occurs. The loop variable must be modified within the loop body.",
+    example: "count = 0\nwhile count < 5:\n    print(count)\n    count += 1  # Important: modify the condition\n\n# Infinite loop (avoid!)\n# while True:\n#     print('Forever')"
+  },
+  {
+    term: "Range",
+    definition: "A built-in function that generates a sequence of numbers.",
+    levelRange: "3-4",
+    detailedDescription: "The range() function generates an immutable sequence of numbers, commonly used in for loops. It can take one argument (stop), two arguments (start, stop), or three arguments (start, stop, step). The stop value is exclusive. Range is memory-efficient as it generates numbers on-demand rather than storing them all in memory.",
+    example: "range(5)           # 0, 1, 2, 3, 4\nrange(2, 6)        # 2, 3, 4, 5\nrange(0, 10, 2)    # 0, 2, 4, 6, 8\nrange(10, 0, -1)   # 10, 9, 8, 7, 6, 5, 4, 3, 2, 1"
+  },
+  {
+    term: "Break Statement",
+    definition: "A statement that immediately exits the current loop.",
+    levelRange: "3-4",
+    detailedDescription: "The break statement terminates the nearest enclosing loop (for or while) and continues execution after the loop. It's commonly used to exit a loop early when a condition is met, such as finding a target value or encountering an error condition. Break only exits one level of nesting.",
+    example: "for i in range(10):\n    if i == 5:\n        break  # Exit loop when i is 5\n    print(i)  # Prints 0, 1, 2, 3, 4"
+  },
+  {
+    term: "Continue Statement",
+    definition: "A statement that skips the rest of the current loop iteration.",
+    levelRange: "3-4",
+    detailedDescription: "The continue statement skips the remaining code in the current loop iteration and jumps to the next iteration. Unlike break, continue doesn't exit the loop entirely - it just moves to the next cycle. This is useful for skipping certain values or conditions while continuing to process others.",
+    example: "for i in range(10):\n    if i % 2 == 0:  # Skip even numbers\n        continue\n    print(i)  # Prints only odd numbers: 1, 3, 5, 7, 9"
+  },
+  {
     term: "Function",
     definition: "A reusable block of code that performs a specific task.",
     levelRange: "5-6",

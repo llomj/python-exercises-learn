@@ -32,13 +32,36 @@ export const QuizView: React.FC<QuizViewProps> = ({
   // This prevents the quiz from re-fetching if completedIds updates mid-quiz.
   const initialCompletedIds = useRef(completedIds);
 
+  // Helper function to shuffle array and track original index of correct answer
+  const shuffleOptions = (question: Question): Question => {
+    const options = [...question.options];
+    const correctValue = options[question.correct_option_index];
+    
+    // Fisher-Yates shuffle
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+    
+    // Find new position of correct answer
+    const newCorrectIndex = options.findIndex(opt => opt === correctValue);
+    
+    return {
+      ...question,
+      options,
+      correct_option_index: newCorrectIndex
+    };
+  };
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         setLoading(true);
         // We only fetch based on the level and the ids completed BEFORE the quiz started.
         const data = await quizService.getBatch(level, 15, initialCompletedIds.current);
-        setQuestions(data);
+        // Shuffle options for each question so correct answer isn't always first
+        const shuffledQuestions = data.map(shuffleOptions);
+        setQuestions(shuffledQuestions);
       } catch (err) {
         console.error("Failed to load genome batch:", err);
       } finally {

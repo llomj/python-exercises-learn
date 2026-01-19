@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Python Exercises Learn</title>
     
     <!-- PWA & iOS Meta Tags -->
@@ -41,6 +41,13 @@
                 padding-right: 1rem;
             }
         }
+        /* Force mobile layout in Cursor preview if viewport is large */
+        @media (min-width: 641px) and (max-width: 800px) {
+            body {
+                max-width: 390px;
+                margin: 0 auto;
+            }
+        }
     </style>
 <script type="importmap">
 {
@@ -55,5 +62,6 @@
 </head>
 <body>
     <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
