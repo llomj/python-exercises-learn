@@ -222,23 +222,26 @@ export const QuizView: React.FC<QuizViewProps> = ({
         {isAnswered && (
           <div className="animate-in slide-in-from-bottom-4 duration-500 space-y-6 pt-4">
             <div className="p-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20">
-              <button
-                onClick={() => setShowDetailedExplanation(!showDetailedExplanation)}
-                className="w-full flex items-center justify-between gap-2 mb-3 text-indigo-400 hover:text-indigo-300 transition-colors group"
-              >
-                <div className="flex items-center gap-2">
-                  <i className="fas fa-lightbulb text-sm"></i>
-                  <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">Codon Explanation</h4>
-                  {currentQuestion.detailedExplanation && (
+              {currentQuestion.detailedExplanation ? (
+                <button
+                  onClick={() => setShowDetailedExplanation(!showDetailedExplanation)}
+                  className="w-full flex items-center justify-between gap-2 mb-3 text-indigo-400 hover:text-indigo-300 transition-colors group cursor-pointer"
+                >
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-lightbulb text-sm"></i>
+                    <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">Codon Explanation</h4>
                     <span className="text-[9px] text-indigo-500/70 font-normal normal-case">
                       {showDetailedExplanation ? '(Click to collapse)' : '(Click for detailed explanation)'}
                     </span>
-                  )}
-                </div>
-                {currentQuestion.detailedExplanation && (
+                  </div>
                   <i className={`fas fa-chevron-${showDetailedExplanation ? 'up' : 'down'} text-xs transition-transform group-hover:scale-110`}></i>
-                )}
-              </button>
+                </button>
+              ) : (
+                <div className="flex items-center gap-2 mb-3 text-indigo-400">
+                  <i className="fas fa-lightbulb text-sm"></i>
+                  <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">Codon Explanation</h4>
+                </div>
+              )}
               <div className="space-y-4">
                 <p className="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
                   {currentQuestion.explanation}
