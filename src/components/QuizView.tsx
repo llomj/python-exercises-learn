@@ -12,6 +12,7 @@ interface QuizViewProps {
   onComplete: (score: number) => void;
   onExit: () => void;
   randomizeTrigger?: number; // Add trigger to force re-randomization
+  randomMode?: boolean; // Random mode: questions from all levels
 }
 
 export const QuizView: React.FC<QuizViewProps> = ({ 
@@ -21,7 +22,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
   onAttempt, 
   onComplete, 
   onExit,
-  randomizeTrigger 
+  randomizeTrigger,
+  randomMode = false
 }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -59,8 +61,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
     const fetchQuestions = async () => {
       try {
         setLoading(true);
-        // We only fetch based on the level and the ids completed BEFORE the quiz started.
-        const data = await quizService.getBatch(level, 15, initialCompletedIds.current);
+        // Fetch questions based on mode: level-specific or random from all levels
+        const data = await quizService.getBatch(level, 15, initialCompletedIds.current, randomMode);
         // Shuffle options for each question so correct answer isn't always first
         const shuffledQuestions = data.map(shuffleOptions);
         setQuestions(shuffledQuestions);
@@ -76,9 +78,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
       }
     };
     fetchQuestions();
-    // Dependency on 'level' and 'randomizeTrigger'. If either changes, we reset.
+    // Dependency on 'level', 'randomizeTrigger', and 'randomMode'. If any changes, we reset.
     // If completedIds (passed from props) changes, we do NOT re-run this.
-  }, [level, randomizeTrigger]);
+  }, [level, randomizeTrigger, randomMode]);
 
   const handleOptionClick = (index: number) => {
     if (isAnswered) return;

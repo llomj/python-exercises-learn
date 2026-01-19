@@ -22,6 +22,8 @@ const App: React.FC = () => {
   const [view, setView] = useState<'hub' | 'quiz' | 'log' | 'glossary'>('hub');
   const [showResult, setShowResult] = useState<{score: number, total: number} | null>(null);
   const [randomizeTrigger, setRandomizeTrigger] = useState(0);
+  const [randomMode, setRandomMode] = useState(false);
+  const [showRandomModeModal, setShowRandomModeModal] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -48,6 +50,29 @@ const App: React.FC = () => {
   const handleStartEvolution = () => {
     setView('quiz');
     setShowResult(null);
+    setRandomMode(false); // Reset to level mode when starting new quiz
+  };
+
+  const handleRandomModeToggle = () => {
+    if (!randomMode) {
+      // Show modal to confirm random mode
+      setShowRandomModeModal(true);
+    } else {
+      // Show modal to confirm going back to level mode
+      setShowRandomModeModal(true);
+    }
+  };
+
+  const confirmRandomMode = () => {
+    setRandomMode(true);
+    setShowRandomModeModal(false);
+    setRandomizeTrigger(prev => prev + 1); // Trigger question refresh
+  };
+
+  const confirmLevelMode = () => {
+    setRandomMode(false);
+    setShowRandomModeModal(false);
+    setRandomizeTrigger(prev => prev + 1); // Trigger question refresh
   };
 
   const recordAttempt = (attempt: QuestionAttempt) => {
@@ -92,6 +117,7 @@ const App: React.FC = () => {
 
     setShowResult({ score, total });
     setView('hub');
+    setRandomMode(false); // Reset to level mode when quiz completes
   };
 
   return (
@@ -132,9 +158,13 @@ const App: React.FC = () => {
                 </button>
                 {view === 'quiz' && (
                   <button
-                    onClick={() => setRandomizeTrigger(prev => prev + 1)}
-                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-500 hover:bg-green-600 border-2 border-green-400 text-white transition-all shadow-lg shadow-green-500/50 hover:scale-110 active:scale-95"
-                    title="Randomize questions"
+                    onClick={handleRandomModeToggle}
+                    className={`flex items-center justify-center w-8 h-8 rounded-lg border-2 transition-all shadow-lg hover:scale-110 active:scale-95 ${
+                      randomMode 
+                        ? 'bg-green-500 hover:bg-green-600 border-green-400 text-white shadow-green-500/50' 
+                        : 'bg-white/5 hover:bg-white/10 border-white/10 text-slate-400 hover:text-white'
+                    }`}
+                    title={randomMode ? "Switch to level mode" : "Switch to random mode"}
                   >
                     <i className="fas fa-shuffle text-sm"></i>
                   </button>
@@ -170,8 +200,12 @@ const App: React.FC = () => {
             completedIds={stats.completedQuestionIds}
             onAttempt={recordAttempt}
             onComplete={handleQuizComplete} 
-            onExit={() => setView('hub')}
+            onExit={() => {
+              setView('hub');
+              setRandomMode(false); // Reset to level mode when exiting quiz
+            }}
             randomizeTrigger={randomizeTrigger}
+            randomMode={randomMode}
           />
         ) : view === 'log' ? (
           <HistoryLog history={stats.history} onBack={() => setView('hub')} />
@@ -214,6 +248,47 @@ const App: React.FC = () => {
       <footer className="mt-auto border-t border-white/5 p-8 text-center text-slate-600 text-sm">
         <p>&copy; 2024 Python Exercises Learn. Interactive Learning Platform.</p>
       </footer>
+
+      {/* Random Mode Confirmation Modal */}
+      {showRandomModeModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="glass rounded-3xl p-8 max-w-md w-full space-y-6 animate-in zoom-in duration-300 shadow-2xl border border-white/10">
+            <div className="text-center space-y-4">
+              <div className={`w-16 h-16 rounded-full mx-auto flex items-center justify-center text-3xl ${
+                randomMode ? 'bg-indigo-500/20 text-indigo-400' : 'bg-green-500/20 text-green-400'
+              }`}>
+                <i className={`fas ${randomMode ? 'fa-layer-group' : 'fa-shuffle'}`}></i>
+              </div>
+              <h2 className="text-2xl font-black text-white">
+                {randomMode ? 'Switch to Level Mode?' : 'Switch to Random Mode?'}
+              </h2>
+              <p className="text-slate-400 leading-relaxed">
+                {randomMode 
+                  ? 'Return to level-based questions. You\'ll continue from your current level and progress normally.'
+                  : 'Questions will be randomly selected from all levels. Your progress and XP will still count toward leveling up.'}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowRandomModeModal(false)}
+                className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-white transition-all border border-white/10"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={randomMode ? confirmLevelMode : confirmRandomMode}
+                className={`flex-1 py-3 rounded-xl font-bold text-white transition-all ${
+                  randomMode 
+                    ? 'bg-indigo-500 hover:bg-indigo-600 shadow-xl shadow-indigo-500/30' 
+                    : 'bg-green-500 hover:bg-green-600 shadow-xl shadow-green-500/30'
+                }`}
+              >
+                {randomMode ? 'Level Mode' : 'Random Mode'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
