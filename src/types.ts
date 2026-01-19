@@ -8,6 +8,7 @@ export interface Question {
   options: string[];
   correct_option_index: number;
   explanation: string;
+  detailedExplanation?: string; // Optional detailed, verbose explanation for learning
 }
 
 export interface QuestionAttempt {

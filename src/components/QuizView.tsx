@@ -31,6 +31,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
   const [isAnswered, setIsAnswered] = useState(false);
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState(0);
+  const [showDetailedExplanation, setShowDetailedExplanation] = useState(false);
 
   // We use a ref to capture completedIds at the START of the quiz session.
   // This prevents the quiz from re-fetching if completedIds updates mid-quiz.
@@ -71,6 +72,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
         setSelectedOption(null);
         setIsAnswered(false);
         setScore(0);
+        setShowDetailedExplanation(false);
       } catch (err) {
         console.error("Failed to load genome batch:", err);
       } finally {
@@ -112,6 +114,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
       setCurrentIndex(c => c + 1);
       setSelectedOption(null);
       setIsAnswered(false);
+      setShowDetailedExplanation(false);
     } else {
       onComplete(score);
     }
@@ -219,13 +222,41 @@ export const QuizView: React.FC<QuizViewProps> = ({
         {isAnswered && (
           <div className="animate-in slide-in-from-bottom-4 duration-500 space-y-6 pt-4">
             <div className="p-6 rounded-2xl bg-indigo-500/10 border border-indigo-500/20">
-              <div className="flex items-center gap-2 mb-3 text-indigo-400">
-                <i className="fas fa-lightbulb text-sm"></i>
-                <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">Codon Explanation</h4>
+              <button
+                onClick={() => setShowDetailedExplanation(!showDetailedExplanation)}
+                className="w-full flex items-center justify-between gap-2 mb-3 text-indigo-400 hover:text-indigo-300 transition-colors group"
+              >
+                <div className="flex items-center gap-2">
+                  <i className="fas fa-lightbulb text-sm"></i>
+                  <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">Codon Explanation</h4>
+                  {currentQuestion.detailedExplanation && (
+                    <span className="text-[9px] text-indigo-500/70 font-normal normal-case">
+                      {showDetailedExplanation ? '(Click to collapse)' : '(Click for detailed explanation)'}
+                    </span>
+                  )}
+                </div>
+                {currentQuestion.detailedExplanation && (
+                  <i className={`fas fa-chevron-${showDetailedExplanation ? 'up' : 'down'} text-xs transition-transform group-hover:scale-110`}></i>
+                )}
+              </button>
+              <div className="space-y-4">
+                <p className="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
+                  {currentQuestion.explanation}
+                </p>
+                {showDetailedExplanation && currentQuestion.detailedExplanation && (
+                  <div className="animate-in slide-in-from-top-4 duration-300 pt-4 border-t border-indigo-500/20">
+                    <div className="space-y-3">
+                      <h5 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                        <i className="fas fa-graduation-cap text-xs"></i>
+                        In-Depth Explanation
+                      </h5>
+                      <div className="text-slate-200 leading-relaxed text-sm whitespace-pre-wrap">
+                        {currentQuestion.detailedExplanation}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <p className="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
-                {currentQuestion.explanation}
-              </p>
             </div>
             
             <button
