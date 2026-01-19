@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const [stats, setStats] = useState<UserStats>(INITIAL_STATS);
   const [view, setView] = useState<'hub' | 'quiz' | 'log' | 'glossary'>('hub');
   const [showResult, setShowResult] = useState<{score: number, total: number} | null>(null);
+  const [randomizeTrigger, setRandomizeTrigger] = useState(0);
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -118,16 +119,27 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex gap-1.5">
-              <button 
-                onClick={() => setView('glossary')}
-                className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
-                  view === 'glossary' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                }`}
-                title="Glossary"
-              >
-                <i className="fas fa-circle-info text-sm"></i>
-              </button>
+            <div className="flex gap-1.5 items-center">
+              <div className="flex flex-col items-center gap-1.5">
+                <button 
+                  onClick={() => setView('glossary')}
+                  className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
+                    view === 'glossary' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
+                  }`}
+                  title="Glossary"
+                >
+                  <i className="fas fa-circle-info text-sm"></i>
+                </button>
+                {view === 'quiz' && (
+                  <button
+                    onClick={() => setRandomizeTrigger(prev => prev + 1)}
+                    className="flex items-center justify-center w-7 h-7 rounded-lg bg-green-500 hover:bg-green-600 border border-green-400 text-white transition-all shadow-lg shadow-green-500/30 hover:scale-110 active:scale-95"
+                    title="Randomize questions"
+                  >
+                    <i className="fas fa-shuffle text-xs"></i>
+                  </button>
+                )}
+              </div>
 
               <button 
                 onClick={() => setView('log')}
@@ -158,7 +170,8 @@ const App: React.FC = () => {
             completedIds={stats.completedQuestionIds}
             onAttempt={recordAttempt}
             onComplete={handleQuizComplete} 
-            onExit={() => setView('hub')} 
+            onExit={() => setView('hub')}
+            randomizeTrigger={randomizeTrigger}
           />
         ) : view === 'log' ? (
           <HistoryLog history={stats.history} onBack={() => setView('hub')} />

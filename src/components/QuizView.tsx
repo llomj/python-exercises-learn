@@ -11,6 +11,7 @@ interface QuizViewProps {
   onAttempt: (attempt: QuestionAttempt) => void;
   onComplete: (score: number) => void;
   onExit: () => void;
+  randomizeTrigger?: number; // Add trigger to force re-randomization
 }
 
 export const QuizView: React.FC<QuizViewProps> = ({ 
@@ -19,7 +20,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
   completedIds, 
   onAttempt, 
   onComplete, 
-  onExit 
+  onExit,
+  randomizeTrigger 
 }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,6 +64,11 @@ export const QuizView: React.FC<QuizViewProps> = ({
         // Shuffle options for each question so correct answer isn't always first
         const shuffledQuestions = data.map(shuffleOptions);
         setQuestions(shuffledQuestions);
+        // Reset quiz state when questions are re-randomized
+        setCurrentIndex(0);
+        setSelectedOption(null);
+        setIsAnswered(false);
+        setScore(0);
       } catch (err) {
         console.error("Failed to load genome batch:", err);
       } finally {
@@ -69,9 +76,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
       }
     };
     fetchQuestions();
-    // Dependency only on 'level'. If the user switches level, we reset.
+    // Dependency on 'level' and 'randomizeTrigger'. If either changes, we reset.
     // If completedIds (passed from props) changes, we do NOT re-run this.
-  }, [level]);
+  }, [level, randomizeTrigger]);
 
   const handleOptionClick = (index: number) => {
     if (isAnswered) return;
