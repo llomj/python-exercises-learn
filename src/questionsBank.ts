@@ -12699,40 +12699,1013 @@ Example: [x if x % 2 == 0 else x * 2 for x in range(3)] uses a conditional expre
   }),
   
   // 71-80: Dictionary and Set Comprehensions
-  (_i: number) => ({ q: `What is {x: x**2 for x in range(3)}?`, o: ["{0: 0, 1: 1, 2: 4}", "{0, 1, 4}", "Error", "None"], c: 0, e: "Dictionary comprehension." }),
-  (_i: number) => ({ q: `What is {x**2 for x in range(3)}?`, o: ["{0, 1, 4}", "{0: 0, 1: 1, 2: 4}", "Error", "None"], c: 0, e: "Set comprehension." }),
-  (_i: number) => ({ q: `What is {x: x*2 for x in range(3)}?`, o: ["{0: 0, 1: 2, 2: 4}", "{0, 2, 4}", "Error", "None"], c: 0, e: "Dictionary comprehension with multiplication." }),
-  (_i: number) => ({ q: `What is {x for x in range(5) if x % 2 == 0}?`, o: ["{0, 2, 4}", "{1, 3}", "{0, 1, 2, 3, 4}", "Error"], c: 0, e: "Set comprehension with filter." }),
-  (_i: number) => ({ q: `What is {x: x for x in 'abc'}?`, o: ["{'a': 'a', 'b': 'b', 'c': 'c'}", "{'a', 'b', 'c'}", "Error", "None"], c: 0, e: "Dictionary comprehension with string." }),
-  (_i: number) => ({ q: `What is {x.upper() for x in 'abc'}?`, o: ["{'A', 'B', 'C'}", "{'a', 'b', 'c'}", "Error", "None"], c: 0, e: "Set comprehension with string method." }),
-  (_i: number) => ({ q: `What is {x: len(x) for x in ['a', 'ab', 'abc']}?`, o: ["{'a': 1, 'ab': 2, 'abc': 3}", "{1, 2, 3}", "Error", "None"], c: 0, e: "Dictionary comprehension with len()." }),
-  (_i: number) => ({ q: `What is {x for x in 'hello'}?`, o: ["{'h', 'e', 'l', 'o'}", "{'hello'}", "Error", "None"], c: 0, e: "Set comprehension removes duplicates." }),
-  (_i: number) => ({ q: `What is {x: x*2 for x in range(3) if x > 0}?`, o: ["{1: 2, 2: 4}", "{0: 0, 1: 2, 2: 4}", "Error", "None"], c: 0, e: "Dictionary comprehension with filter." }),
-  (_i: number) => ({ q: `What is {x if x % 2 == 0 else x*2 for x in range(3)}?`, o: ["{0, 2, 4}", "{0, 1, 2}", "Error", "None"], c: 0, e: "Set comprehension with conditional." }),
+  (_i: number) => ({ 
+    q: `What is {x: x**2 for x in range(3)}?`, 
+    o: ["{0: 0, 1: 1, 2: 4}", "{0, 1, 4}", "Error", "None"], 
+    c: 0, 
+    e: "Dictionary comprehension.",
+    de: `Dictionary comprehensions create dictionaries concisely, similar to list comprehensions. {x: x**2 for x in range(3)} creates {0: 0, 1: 1, 2: 4} because it iterates over range(3) (0, 1, 2) and creates key-value pairs where the key is x and the value is x**2 (squared). This is useful for creating dictionaries from iterables.
+
+Dictionary comprehension syntax:
+• {x: x**2 for x in range(3)} = {0: 0, 1: 1, 2: 4}
+• Syntax: {key: value for item in iterable}
+• Iterates over range(3): x = 0, 1, 2
+• Creates pairs: key=x, value=x**2
+
+How it works:
+• for x in range(3) iterates: x = 0, 1, 2
+• For each x, creates key-value pair: x: x**2
+• 0: 0**2=0, 1: 1**2=1, 2: 2**2=4
+• Results collected: {0: 0, 1: 1, 2: 4}
+
+Example:
+{x: x**2 for x in range(3)}    # {0: 0, 1: 1, 2: 4}
+{x: x*2 for x in range(3)}     # {0: 0, 1: 2, 2: 4}
+
+Common uses:
+• Creating dictionaries: squares = {x: x**2 for x in range(n)}
+• Key-value mappings
+• Dictionary transformations
+• Efficient dictionary creation
+
+Example: {x: x**2 for x in range(3)} returns {0: 0, 1: 1, 2: 4} because it creates a dictionary with keys from range(3) and values as their squares.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x**2 for x in range(3)}?`, 
+    o: ["{0, 1, 4}", "{0: 0, 1: 1, 2: 4}", "Error", "None"], 
+    c: 0, 
+    e: "Set comprehension.",
+    de: `Set comprehensions create sets concisely, similar to list comprehensions but with curly braces and no colons. {x**2 for x in range(3)} creates {0, 1, 4} because it iterates over range(3) (0, 1, 2) and creates a set with x**2 (squared) values. Sets automatically remove duplicates and are unordered.
+
+Set comprehension syntax:
+• {x**2 for x in range(3)} = {0, 1, 4}
+• Syntax: {expression for item in iterable}
+• Note: No colon (:) - that's for dictionaries
+• Iterates over range(3): x = 0, 1, 2
+• Creates set with x**2 values
+
+How it works:
+• for x in range(3) iterates: x = 0, 1, 2
+• For each x, evaluates expression x**2
+• 0**2=0, 1**2=1, 2**2=4
+• Results collected into set: {0, 1, 4}
+• Sets remove duplicates (if any)
+
+Example:
+{x**2 for x in range(3)}    # {0, 1, 4} (set)
+{x**2 for x in [-1, 0, 1]}  # {0, 1} (duplicates removed)
+
+Common uses:
+• Creating sets: squares = {x**2 for x in range(n)}
+• Unique value sets
+• Set transformations
+• Efficient set creation
+
+Example: {x**2 for x in range(3)} returns {0, 1, 4} because it creates a set with the squared values from range(3).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x: x*2 for x in range(3)}?`, 
+    o: ["{0: 0, 1: 2, 2: 4}", "{0, 2, 4}", "Error", "None"], 
+    c: 0, 
+    e: "Dictionary comprehension with multiplication.",
+    de: `Dictionary comprehensions can use any expression for both keys and values. {x: x*2 for x in range(3)} creates {0: 0, 1: 2, 2: 4} because it iterates over range(3) (0, 1, 2) and creates key-value pairs where the key is x and the value is x*2 (doubled). This demonstrates dictionary comprehensions with transformations.
+
+Dictionary comprehension with transformation:
+• {x: x*2 for x in range(3)} = {0: 0, 1: 2, 2: 4}
+• Key: x (from range)
+• Value: x*2 (doubled)
+• Iterates: x = 0, 1, 2
+• Creates pairs: 0:0, 1:2, 2:4
+
+How it works:
+• for x in range(3) iterates: x = 0, 1, 2
+• For each x, creates key-value pair: x: x*2
+• 0: 0*2=0, 1: 1*2=2, 2: 2*2=4
+• Results collected: {0: 0, 1: 2, 2: 4}
+
+Example:
+{x: x*2 for x in range(3)}     # {0: 0, 1: 2, 2: 4}
+{x: x+1 for x in range(3)}     # {0: 1, 1: 2, 2: 3}
+
+Common uses:
+• Creating dictionaries: doubled = {x: x*2 for x in numbers}
+• Value transformations
+• Key-value mappings
+• Dictionary generation
+
+Example: {x: x*2 for x in range(3)} returns {0: 0, 1: 2, 2: 4} because it creates a dictionary with keys from range(3) and values as their doubles.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x for x in range(5) if x % 2 == 0}?`, 
+    o: ["{0, 2, 4}", "{1, 3}", "{0, 1, 2, 3, 4}", "Error"], 
+    c: 0, 
+    e: "Set comprehension with filter.",
+    de: `Set comprehensions can filter elements using if conditions, just like list comprehensions. {x for x in range(5) if x % 2 == 0} creates {0, 2, 4} because it iterates over range(5) (0, 1, 2, 3, 4) and includes only elements where x % 2 == 0 (even numbers). The if clause filters the elements before they're added to the set.
+
+Set comprehension with filter:
+• {x for x in range(5) if x % 2 == 0} = {0, 2, 4}
+• Condition: x % 2 == 0 (even numbers)
+• Iterates: x = 0, 1, 2, 3, 4
+• Filters: includes only 0, 2, 4 (even)
+• Results collected into set: {0, 2, 4}
+
+How it works:
+• for x in range(5) iterates: x = 0, 1, 2, 3, 4
+• if x % 2 == 0 filters: keeps 0, 2, 4
+• Results collected into set: {0, 2, 4}
+• Only elements matching condition included
+
+Example:
+{x for x in range(5) if x % 2 == 0}  # {0, 2, 4} (even)
+{x for x in range(5) if x > 2}        # {3, 4} (greater than 2)
+
+Common uses:
+• Filtering sets: evens = {x for x in numbers if x % 2 == 0}
+• Conditional inclusion
+• Element selection
+• Set filtering
+
+Example: {x for x in range(5) if x % 2 == 0} returns {0, 2, 4} because it filters range(5) to include only even numbers in the set.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x: x for x in 'abc'}?`, 
+    o: ["{'a': 'a', 'b': 'b', 'c': 'c'}", "{'a', 'b', 'c'}", "Error", "None"], 
+    c: 0, 
+    e: "Dictionary comprehension with string.",
+    de: `Dictionary comprehensions work with any iterable, including strings. {x: x for x in 'abc'} creates {'a': 'a', 'b': 'b', 'c': 'c'} because it iterates over the string 'abc' character by character, creating key-value pairs where both the key and value are the same character. This is useful for creating character-to-character mappings.
+
+Dictionary comprehension with string:
+• {x: x for x in 'abc'} = {'a': 'a', 'b': 'b', 'c': 'c'}
+• Iterates over string 'abc': characters 'a', 'b', 'c'
+• Creates pairs: key=x, value=x
+• Each character becomes both key and value
+
+How it works:
+• for x in 'abc' iterates: x = 'a', 'b', 'c'
+• For each character x, creates pair: x: x
+• 'a': 'a', 'b': 'b', 'c': 'c'
+• Results collected: {'a': 'a', 'b': 'b', 'c': 'c'}
+
+Example:
+{x: x for x in 'abc'}         # {'a': 'a', 'b': 'b', 'c': 'c'}
+{x: x.upper() for x in 'abc'} # {'a': 'A', 'b': 'B', 'c': 'C'}
+
+Common uses:
+• Character mappings: identity = {c: c for c in string}
+• String transformations
+• Character-to-character mappings
+• Dictionary generation from strings
+
+Example: {x: x for x in 'abc'} returns {'a': 'a', 'b': 'b', 'c': 'c'} because it creates a dictionary with characters as both keys and values.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x.upper() for x in 'abc'}?`, 
+    o: ["{'A', 'B', 'C'}", "{'a', 'b', 'c'}", "Error", "None"], 
+    c: 0, 
+    e: "Set comprehension with string method.",
+    de: `Set comprehensions work with any iterable and can use method calls in the expression. {x.upper() for x in 'abc'} creates {'A', 'B', 'C'} because it iterates over the string 'abc' character by character, applies the .upper() method to each character (converting to uppercase), and collects the results into a set. This demonstrates set comprehensions with string transformations.
+
+Set comprehension with string method:
+• {x.upper() for x in 'abc'} = {'A', 'B', 'C'}
+• Iterates over string 'abc': characters 'a', 'b', 'c'
+• Applies .upper() to each: 'A', 'B', 'C'
+• Results collected into set: {'A', 'B', 'C'}
+
+How it works:
+• for x in 'abc' iterates: x = 'a', 'b', 'c'
+• For each character x, evaluates x.upper()
+• 'a'.upper()='A', 'b'.upper()='B', 'c'.upper()='C'
+• Results collected into set: {'A', 'B', 'C'}
+
+Example:
+{x.upper() for x in 'abc'}    # {'A', 'B', 'C'}
+{x.lower() for x in 'ABC'}    # {'a', 'b', 'c'}
+
+Common uses:
+• String transformations: uppercase = {c.upper() for c in text}
+• Character transformations
+• Set generation from strings
+• Method-based transformations
+
+Example: {x.upper() for x in 'abc'} returns {'A', 'B', 'C'} because it creates a set with uppercase versions of each character.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x: len(x) for x in ['a', 'ab', 'abc']}?`, 
+    o: ["{'a': 1, 'ab': 2, 'abc': 3}", "{1, 2, 3}", "Error", "None"], 
+    c: 0, 
+    e: "Dictionary comprehension with len().",
+    de: `Dictionary comprehensions can use function calls in expressions. {x: len(x) for x in ['a', 'ab', 'abc']} creates {'a': 1, 'ab': 2, 'abc': 3} because it iterates over the list ['a', 'ab', 'abc'], creating key-value pairs where the key is the string and the value is its length. This is useful for creating mappings from strings to their lengths.
+
+Dictionary comprehension with len():
+• {x: len(x) for x in ['a', 'ab', 'abc']} = {'a': 1, 'ab': 2, 'abc': 3}
+• Iterates over list: 'a', 'ab', 'abc'
+• Creates pairs: key=x (string), value=len(x) (length)
+• Maps each string to its length
+
+How it works:
+• for x in ['a', 'ab', 'abc'] iterates: x = 'a', 'ab', 'abc'
+• For each string x, creates pair: x: len(x)
+• 'a': len('a')=1, 'ab': len('ab')=2, 'abc': len('abc')=3
+• Results collected: {'a': 1, 'ab': 2, 'abc': 3}
+
+Example:
+{x: len(x) for x in ['a', 'ab', 'abc']}  # {'a': 1, 'ab': 2, 'abc': 3}
+{x: len(x) for x in ['hello', 'hi']}     # {'hello': 5, 'hi': 2}
+
+Common uses:
+• Length mappings: lengths = {s: len(s) for s in strings}
+• String-to-number mappings
+• Function-based transformations
+• Dictionary generation with functions
+
+Example: {x: len(x) for x in ['a', 'ab', 'abc']} returns {'a': 1, 'ab': 2, 'abc': 3} because it creates a dictionary mapping each string to its length.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x for x in 'hello'}?`, 
+    o: ["{'h', 'e', 'l', 'o'}", "{'hello'}", "Error", "None"], 
+    c: 0, 
+    e: "Set comprehension removes duplicates.",
+    de: `Set comprehensions automatically remove duplicate values because sets only contain unique elements. {x for x in 'hello'} creates {'h', 'e', 'l', 'o'} because it iterates over the string 'hello' character by character, but the set only contains unique characters. The string 'hello' has two 'l's, but the set contains only one 'l'. This is a key feature of sets.
+
+Set comprehension removes duplicates:
+• {x for x in 'hello'} = {'h', 'e', 'l', 'o'}
+• String 'hello' has characters: 'h', 'e', 'l', 'l', 'o'
+• Set contains unique characters only
+• Duplicate 'l' is removed
+
+How it works:
+• for x in 'hello' iterates: x = 'h', 'e', 'l', 'l', 'o'
+• Creates set with each character
+• Sets only contain unique elements
+• Duplicate 'l' appears only once: {'h', 'e', 'l', 'o'}
+
+Example:
+{x for x in 'hello'}     # {'h', 'e', 'l', 'o'} (duplicates removed)
+{x for x in 'hello'}     # {'h', 'e', 'l', 'o'} (not {'h', 'e', 'l', 'l', 'o'})
+
+Common uses:
+• Removing duplicates: unique = {x for x in items}
+• Finding unique values
+• Deduplication
+• Set generation with automatic deduplication
+
+Example: {x for x in 'hello'} returns {'h', 'e', 'l', 'o'} because sets automatically remove duplicate values, so the two 'l's in 'hello' become one 'l' in the set.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x: x*2 for x in range(3) if x > 0}?`, 
+    o: ["{1: 2, 2: 4}", "{0: 0, 1: 2, 2: 4}", "Error", "None"], 
+    c: 0, 
+    e: "Dictionary comprehension with filter.",
+    de: `Dictionary comprehensions can combine filters with transformations. {x: x*2 for x in range(3) if x > 0} creates {1: 2, 2: 4} because it iterates over range(3) (0, 1, 2), filters to include only x > 0 (1, 2), and creates key-value pairs where the key is x and the value is x*2. The if clause filters elements before creating pairs.
+
+Dictionary comprehension with filter:
+• {x: x*2 for x in range(3) if x > 0} = {1: 2, 2: 4}
+• Condition: x > 0 (positive numbers)
+• Iterates: x = 0, 1, 2
+• Filters: includes only 1, 2 (x > 0)
+• Creates pairs: 1: 2, 2: 4
+
+How it works:
+• for x in range(3) iterates: x = 0, 1, 2
+• if x > 0 filters: keeps 1, 2 (excludes 0)
+• For each remaining x, creates pair: x: x*2
+• 1: 2, 2: 4
+• Results collected: {1: 2, 2: 4}
+
+Example:
+{x: x*2 for x in range(3) if x > 0}   # {1: 2, 2: 4}
+{x: x**2 for x in range(5) if x % 2 == 0}  # {0: 0, 2: 4, 4: 16}
+
+Common uses:
+• Filtered dictionaries: positive_doubled = {x: x*2 for x in numbers if x > 0}
+• Conditional dictionary creation
+• Filtered transformations
+• Dictionary generation with filters
+
+Example: {x: x*2 for x in range(3) if x > 0} returns {1: 2, 2: 4} because it filters range(3) to include only positive numbers, then creates pairs with doubled values.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is {x if x % 2 == 0 else x*2 for x in range(3)}?`, 
+    o: ["{0, 2, 4}", "{0, 1, 2}", "Error", "None"], 
+    c: 0, 
+    e: "Set comprehension with conditional.",
+    de: `Set comprehensions can use conditional expressions (ternary operators) in the expression part. {x if x % 2 == 0 else x*2 for x in range(3)} creates {0, 2, 4} because it iterates over range(3) (0, 1, 2) and uses conditional logic: if x is even (x % 2 == 0), use x, otherwise use x*2. The results are collected into a set. This demonstrates set comprehensions with conditional transformations.
+
+Set comprehension with conditional:
+• {x if x % 2 == 0 else x*2 for x in range(3)} = {0, 2, 4}
+• Conditional: x if x % 2 == 0 else x*2
+• Iterates: x = 0, 1, 2
+• Applies conditional to each
+• Results collected into set: {0, 2, 4}
+
+How it works:
+• for x in range(3) iterates: x = 0, 1, 2
+• Conditional evaluated for each:
+  - x=0: 0 % 2 == 0 → True → x = 0
+  - x=1: 1 % 2 == 0 → False → x*2 = 2
+  - x=2: 2 % 2 == 0 → True → x = 2
+• Results collected into set: {0, 2, 4}
+
+Example:
+{x if x % 2 == 0 else x*2 for x in range(3)}  # {0, 2, 4}
+{x*2 if x > 0 else x for x in range(3)}       # {0, 2, 4}
+
+Common uses:
+• Conditional sets: transformed = {x if condition else transform(x) for x in items}
+• Element modification based on conditions
+• Value selection
+• Conditional set creation
+
+Example: {x if x % 2 == 0 else x*2 for x in range(3)} returns {0, 2, 4} because it applies conditional logic to each element before adding to the set.
+`
+  }),
   
   // 81-90: Generator Expressions
-  (_i: number) => ({ q: `What is (x for x in range(3))?`, o: ["generator object", "[0, 1, 2]", "Error", "None"], c: 0, e: "Generator expression syntax." }),
-  (_i: number) => ({ q: `What is list((x for x in range(3)))?`, o: ["[0, 1, 2]", "(0, 1, 2)", "Error", "None"], c: 0, e: "Generator expression converted to list." }),
-  (_i: number) => ({ q: `What is tuple((x for x in range(3)))?`, o: ["(0, 1, 2)", "[0, 1, 2]", "Error", "None"], c: 0, e: "Generator expression converted to tuple." }),
-  (_i: number) => ({ q: `What is sum(x for x in range(3))?`, o: ["3", "0", "Error", "None"], c: 0, e: "sum() with generator expression." }),
-  (_i: number) => ({ q: `What is max(x for x in range(3))?`, o: ["2", "3", "0", "Error"], c: 0, e: "max() with generator expression." }),
-  (_i: number) => ({ q: `What is min(x for x in range(3))?`, o: ["0", "1", "2", "Error"], c: 0, e: "min() with generator expression." }),
-  (_i: number) => ({ q: `What is all(x > 0 for x in range(1, 3))?`, o: ["True", "False", "Error", "None"], c: 0, e: "all() with generator expression." }),
-  (_i: number) => ({ q: `What is any(x > 2 for x in range(3))?`, o: ["False", "True", "Error", "None"], c: 0, e: "any() with generator expression." }),
-  (_i: number) => ({ q: `What is (x*2 for x in range(3))?`, o: ["generator object", "[0, 2, 4]", "Error", "None"], c: 0, e: "Generator expression with transformation." }),
-  (_i: number) => ({ q: `What is list((x*2 for x in range(3)))?`, o: ["[0, 2, 4]", "(0, 2, 4)", "Error", "None"], c: 0, e: "Generator expression with transformation converted to list." }),
+  (_i: number) => ({ 
+    q: `What is (x for x in range(3))?`, 
+    o: ["generator object", "[0, 1, 2]", "Error", "None"], 
+    c: 0, 
+    e: "Generator expression syntax.",
+    de: `Generator expressions create generator objects, similar to list comprehensions but using parentheses instead of square brackets. (x for x in range(3)) creates a generator object because it uses parentheses, not square brackets. Generator expressions are lazy - they don't create all values immediately, saving memory. They're useful for large sequences.
+
+Generator expression syntax:
+• (x for x in range(3)) = generator object
+• Syntax: (expression for item in iterable)
+• Uses parentheses (not square brackets)
+• Creates generator object (not list)
+
+How it works:
+• (x for x in range(3)) creates generator
+• Generator is lazy - doesn't compute values yet
+• Values computed on-demand when iterated
+• More memory-efficient than lists
+
+Example:
+gen = (x for x in range(3))
+list(gen)  # [0, 1, 2] (consumes generator)
+
+Common uses:
+• Memory efficiency: gen = (x**2 for x in range(1000))
+• Large sequences
+• On-demand computation
+• Lazy evaluation
+
+Example: (x for x in range(3)) returns a generator object because it uses parentheses, creating a lazy iterator rather than a list.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is list((x for x in range(3)))?`, 
+    o: ["[0, 1, 2]", "(0, 1, 2)", "Error", "None"], 
+    c: 0, 
+    e: "Generator expression converted to list.",
+    de: `You can convert generator expressions to lists using list(). list((x for x in range(3))) creates [0, 1, 2] because it takes the generator expression (x for x in range(3)), which would generate 0, 1, 2, and converts it to a list by consuming all values from the generator. This is useful when you need an actual list instead of a generator.
+
+Generator to list conversion:
+• list((x for x in range(3))) = [0, 1, 2]
+• Generator expression: (x for x in range(3))
+• list() consumes generator
+• Creates list with all values: [0, 1, 2]
+
+How it works:
+• (x for x in range(3)) creates generator
+• list() iterates through generator
+• Values generated: 0, 1, 2
+• Results collected into list: [0, 1, 2]
+
+Example:
+list((x for x in range(3)))    # [0, 1, 2]
+list((x**2 for x in range(3))) # [0, 1, 4]
+
+Common uses:
+• Converting generators to lists: numbers = list((x for x in range(n)))
+• Materializing lazy sequences
+• Getting all values from generator
+• List creation from generators
+
+Example: list((x for x in range(3))) returns [0, 1, 2] because list() consumes the generator expression and collects all values into a list.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is tuple((x for x in range(3)))?`, 
+    o: ["(0, 1, 2)", "[0, 1, 2]", "Error", "None"], 
+    c: 0, 
+    e: "Generator expression converted to tuple.",
+    de: `You can convert generator expressions to tuples using tuple(). tuple((x for x in range(3))) creates (0, 1, 2) because it takes the generator expression (x for x in range(3)), which would generate 0, 1, 2, and converts it to a tuple by consuming all values from the generator. This is useful when you need an immutable sequence instead of a list.
+
+Generator to tuple conversion:
+• tuple((x for x in range(3))) = (0, 1, 2)
+• Generator expression: (x for x in range(3))
+• tuple() consumes generator
+• Creates tuple with all values: (0, 1, 2)
+
+How it works:
+• (x for x in range(3)) creates generator
+• tuple() iterates through generator
+• Values generated: 0, 1, 2
+• Results collected into tuple: (0, 1, 2)
+
+Example:
+tuple((x for x in range(3)))    # (0, 1, 2)
+tuple((x**2 for x in range(3))) # (0, 1, 4)
+
+Common uses:
+• Converting generators to tuples: numbers = tuple((x for x in range(n)))
+• Materializing lazy sequences into tuples
+• Creating immutable sequences
+• Tuple creation from generators
+
+Example: tuple((x for x in range(3))) returns (0, 1, 2) because tuple() consumes the generator expression and collects all values into a tuple.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is sum(x for x in range(3))?`, 
+    o: ["3", "0", "Error", "None"], 
+    c: 0, 
+    e: "sum() with generator expression.",
+    de: `The sum() function works with generator expressions directly, without converting to a list first. sum(x for x in range(3)) returns 3 because it iterates over the generator expression (x for x in range(3)), which generates 0, 1, 2, and sums them: 0 + 1 + 2 = 3. This is memory-efficient because it doesn't create an intermediate list.
+
+sum() with generator:
+• sum(x for x in range(3)) = 3
+• Generator expression: (x for x in range(3))
+• Generates values: 0, 1, 2
+• Sum: 0 + 1 + 2 = 3
+• No intermediate list created
+
+How it works:
+• (x for x in range(3)) creates generator
+• sum() iterates through generator
+• Values generated: 0, 1, 2
+• Sum calculated: 0 + 1 + 2 = 3
+• Returns 3
+
+Example:
+sum(x for x in range(3))      # 3 (0+1+2)
+sum(x**2 for x in range(3))   # 5 (0+1+4)
+
+Common uses:
+• Summing sequences: total = sum(x for x in numbers)
+• Memory-efficient summation
+• Large sequence operations
+• Direct generator consumption
+
+Example: sum(x for x in range(3)) returns 3 because it sums the values generated by the generator expression (0 + 1 + 2 = 3).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is max(x for x in range(3))?`, 
+    o: ["2", "3", "0", "Error"], 
+    c: 0, 
+    e: "max() with generator expression.",
+    de: `The max() function works with generator expressions directly, without converting to a list first. max(x for x in range(3)) returns 2 because it iterates over the generator expression (x for x in range(3)), which generates 0, 1, 2, and finds the maximum: 2. This is memory-efficient because it doesn't create an intermediate list.
+
+max() with generator:
+• max(x for x in range(3)) = 2
+• Generator expression: (x for x in range(3))
+• Generates values: 0, 1, 2
+• Maximum: 2
+• No intermediate list created
+
+How it works:
+• (x for x in range(3)) creates generator
+• max() iterates through generator
+• Values generated: 0, 1, 2
+• Maximum found: 2
+• Returns 2
+
+Example:
+max(x for x in range(3))      # 2 (maximum)
+max(x**2 for x in range(3))   # 4 (maximum square)
+
+Common uses:
+• Finding maximum: largest = max(x for x in numbers)
+• Memory-efficient maximum finding
+• Large sequence operations
+• Direct generator consumption
+
+Example: max(x for x in range(3)) returns 2 because it finds the maximum value generated by the generator expression (0, 1, 2).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is min(x for x in range(3))?`, 
+    o: ["0", "1", "2", "Error"], 
+    c: 0, 
+    e: "min() with generator expression.",
+    de: `The min() function works with generator expressions directly, without converting to a list first. min(x for x in range(3)) returns 0 because it iterates over the generator expression (x for x in range(3)), which generates 0, 1, 2, and finds the minimum: 0. This is memory-efficient because it doesn't create an intermediate list.
+
+min() with generator:
+• min(x for x in range(3)) = 0
+• Generator expression: (x for x in range(3))
+• Generates values: 0, 1, 2
+• Minimum: 0
+• No intermediate list created
+
+How it works:
+• (x for x in range(3)) creates generator
+• min() iterates through generator
+• Values generated: 0, 1, 2
+• Minimum found: 0
+• Returns 0
+
+Example:
+min(x for x in range(3))      # 0 (minimum)
+min(x**2 for x in range(1, 4)) # 1 (minimum square)
+
+Common uses:
+• Finding minimum: smallest = min(x for x in numbers)
+• Memory-efficient minimum finding
+• Large sequence operations
+• Direct generator consumption
+
+Example: min(x for x in range(3)) returns 0 because it finds the minimum value generated by the generator expression (0, 1, 2).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is all(x > 0 for x in range(1, 3))?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "all() with generator expression.",
+    de: `The all() function works with generator expressions and returns True only if all elements in the generator are truthy. all(x > 0 for x in range(1, 3)) returns True because it iterates over the generator expression (x > 0 for x in range(1, 3)), which generates True, True (since 1 > 0 and 2 > 0), and all() returns True when all values are truthy. This is memory-efficient.
+
+all() with generator:
+• all(x > 0 for x in range(1, 3)) = True
+• Generator expression: (x > 0 for x in range(1, 3))
+• Generates values: True, True (1>0, 2>0)
+• all() checks if all are truthy: True
+• Returns True
+
+How it works:
+• (x > 0 for x in range(1, 3)) creates generator
+• Generates boolean values: True, True
+• all() checks if all are truthy
+• All are True, returns True
+• Returns True
+
+Example:
+all(x > 0 for x in range(1, 3))  # True (all > 0)
+all(x > 0 for x in range(0, 3))  # False (0 is not > 0)
+
+Common uses:
+• Validation: if all(x > 0 for x in numbers):
+• Checking conditions
+• Memory-efficient validation
+• Large sequence validation
+
+Example: all(x > 0 for x in range(1, 3)) returns True because all values in range(1, 3) (1, 2) are greater than 0.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is any(x > 2 for x in range(3))?`, 
+    o: ["False", "True", "Error", "None"], 
+    c: 0, 
+    e: "any() with generator expression.",
+    de: `The any() function works with generator expressions and returns True if any element in the generator is truthy. any(x > 2 for x in range(3)) returns False because it iterates over the generator expression (x > 2 for x in range(3)), which generates False, False, False (since 0 > 2, 1 > 2, and 2 > 2 are all False), and any() returns False when no values are truthy. This is memory-efficient.
+
+any() with generator:
+• any(x > 2 for x in range(3)) = False
+• Generator expression: (x > 2 for x in range(3))
+• Generates values: False, False, False (0>2, 1>2, 2>2)
+• any() checks if any is truthy: False
+• Returns False
+
+How it works:
+• (x > 2 for x in range(3)) creates generator
+• Generates boolean values: False, False, False
+• any() checks if any is truthy
+• None are True, returns False
+• Returns False
+
+Example:
+any(x > 2 for x in range(3))  # False (none > 2)
+any(x > 1 for x in range(3))  # True (2 > 1)
+
+Common uses:
+• Checking existence: if any(x > 10 for x in numbers):
+• Finding matches
+• Memory-efficient checking
+• Large sequence checking
+
+Example: any(x > 2 for x in range(3)) returns False because none of the values in range(3) (0, 1, 2) are greater than 2.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is (x*2 for x in range(3))?`, 
+    o: ["generator object", "[0, 2, 4]", "Error", "None"], 
+    c: 0, 
+    e: "Generator expression with transformation.",
+    de: `Generator expressions can transform elements using expressions. (x*2 for x in range(3)) creates a generator object because it uses parentheses. When iterated, it generates 0, 2, 4 because it multiplies each element from range(3) (0, 1, 2) by 2. The transformation is applied lazily - values are computed on-demand, saving memory.
+
+Generator expression with transformation:
+• (x*2 for x in range(3)) = generator object
+• Expression: x*2 (doubles each element)
+• Iterates: x = 0, 1, 2
+• Generates: 0, 2, 4 (on-demand)
+• Creates generator (not list)
+
+How it works:
+• (x*2 for x in range(3)) creates generator
+• Generator is lazy - doesn't compute values yet
+• When iterated, generates: 0, 2, 4
+• Transformation applied on-demand
+• More memory-efficient than list
+
+Example:
+gen = (x*2 for x in range(3))
+list(gen)  # [0, 2, 4] (consumes generator)
+
+Common uses:
+• Memory-efficient transformations: gen = (x*2 for x in large_sequence)
+• Large sequence transformations
+• On-demand computation
+• Lazy evaluation
+
+Example: (x*2 for x in range(3)) returns a generator object that, when iterated, generates 0, 2, 4 because it doubles each element from range(3).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is list((x*2 for x in range(3)))?`, 
+    o: ["[0, 2, 4]", "(0, 2, 4)", "Error", "None"], 
+    c: 0, 
+    e: "Generator expression with transformation converted to list.",
+    de: `You can convert generator expressions with transformations to lists. list((x*2 for x in range(3))) creates [0, 2, 4] because it takes the generator expression (x*2 for x in range(3)), which generates doubled values (0, 2, 4), and converts it to a list by consuming all values from the generator. This materializes the lazy generator into a concrete list.
+
+Generator to list with transformation:
+• list((x*2 for x in range(3))) = [0, 2, 4]
+• Generator expression: (x*2 for x in range(3))
+• Generates transformed values: 0, 2, 4
+• list() consumes generator
+• Creates list: [0, 2, 4]
+
+How it works:
+• (x*2 for x in range(3)) creates generator
+• Generator transforms: 0→0, 1→2, 2→4
+• list() iterates through generator
+• Values collected: [0, 2, 4]
+• Returns list
+
+Example:
+list((x*2 for x in range(3)))    # [0, 2, 4]
+list((x**2 for x in range(3)))   # [0, 1, 4]
+
+Common uses:
+• Materializing generators: doubled = list((x*2 for x in numbers))
+• Converting lazy sequences to lists
+• Getting all transformed values
+• List creation from generators
+
+Example: list((x*2 for x in range(3))) returns [0, 2, 4] because list() consumes the generator expression and collects all doubled values into a list.
+`
+  }),
   
   // 91-100: Advanced Iteration
-  (_i: number) => ({ q: `What is list(map(lambda x: x*2, range(3)))?`, o: ["[0, 2, 4]", "[0, 1, 2]", "Error", "None"], c: 0, e: "map() applies function to iterable." }),
-  (_i: number) => ({ q: `What is list(filter(lambda x: x % 2 == 0, range(5)))?`, o: ["[0, 2, 4]", "[1, 3]", "[0, 1, 2, 3, 4]", "Error"], c: 0, e: "filter() keeps elements matching condition." }),
-  (_i: number) => ({ q: `What is list(map(str, range(3)))?`, o: ["['0', '1', '2']", "[0, 1, 2]", "Error", "None"], c: 0, e: "map() with type conversion." }),
-  (_i: number) => ({ q: `What is list(filter(None, [0, 1, 2, '', 'a']))?`, o: ["[1, 2, 'a']", "[0, 1, 2, '', 'a']", "Error", "None"], c: 0, e: "filter(None) removes Falsy values." }),
-  (_i: number) => ({ q: `What is next(iter(range(3)))?`, o: ["0", "1", "Error", "None"], c: 0, e: "next() gets next value from iterator." }),
-  (_i: number) => ({ q: `What is iter([1, 2, 3])?`, o: ["list_iterator object", "[1, 2, 3]", "Error", "None"], c: 0, e: "iter() creates iterator from iterable." }),
-  (_i: number) => ({ q: `What is list(iter([1, 2, 3]))?`, o: ["[1, 2, 3]", "list_iterator object", "Error", "None"], c: 0, e: "list() consumes iterator." }),
-  (_i: number) => ({ q: `What is sum([1, 2, 3])?`, o: ["6", "0", "Error", "None"], c: 0, e: "sum() adds all elements in iterable." }),
-  (_i: number) => ({ q: `What is all([True, True, False])?`, o: ["False", "True", "Error", "None"], c: 0, e: "all() returns True only if all elements are Truthy." }),
-  (_i: number) => ({ q: `What is any([False, False, True])?`, o: ["True", "False", "Error", "None"], c: 0, e: "any() returns True if any element is Truthy." }),
+  (_i: number) => ({ 
+    q: `What is list(map(lambda x: x*2, range(3)))?`, 
+    o: ["[0, 2, 4]", "[0, 1, 2]", "Error", "None"], 
+    c: 0, 
+    e: "map() applies function to iterable.",
+    de: `The map() function applies a function to every element of an iterable. list(map(lambda x: x*2, range(3))) creates [0, 2, 4] because map() applies the lambda function lambda x: x*2 (which doubles each value) to each element of range(3) (0, 1, 2). map() returns a map object, which list() converts to a list. This is equivalent to a list comprehension but using functional programming style.
+
+map() function:
+• list(map(lambda x: x*2, range(3))) = [0, 2, 4]
+• map() applies function to each element
+• Lambda: lambda x: x*2 (doubles each value)
+• Iterates over range(3): 0, 1, 2
+• Transforms: 0→0, 1→2, 2→4
+
+How it works:
+• map(lambda x: x*2, range(3)) creates map object
+• Applies lambda to each element: 0*2=0, 1*2=2, 2*2=4
+• Returns map object
+• list() converts map to list: [0, 2, 4]
+
+Example:
+list(map(lambda x: x*2, range(3)))     # [0, 2, 4]
+list(map(lambda x: x**2, range(3)))    # [0, 1, 4]
+list(map(str, range(3)))               # ['0', '1', '2']
+
+Common uses:
+• Applying functions: doubled = list(map(lambda x: x*2, numbers))
+• Function-based transformations
+• Functional programming style
+• Iterable transformations
+
+Example: list(map(lambda x: x*2, range(3))) returns [0, 2, 4] because map() applies the lambda function (doubling) to each element of range(3).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is list(filter(lambda x: x % 2 == 0, range(5)))?`, 
+    o: ["[0, 2, 4]", "[1, 3]", "[0, 1, 2, 3, 4]", "Error"], 
+    c: 0, 
+    e: "filter() keeps elements matching condition.",
+    de: `The filter() function keeps only elements from an iterable that satisfy a condition. list(filter(lambda x: x % 2 == 0, range(5))) creates [0, 2, 4] because filter() applies the lambda function lambda x: x % 2 == 0 (which checks if a number is even) to each element of range(5) (0, 1, 2, 3, 4) and keeps only those where the condition is True. filter() returns a filter object, which list() converts to a list.
+
+filter() function:
+• list(filter(lambda x: x % 2 == 0, range(5))) = [0, 2, 4]
+• filter() keeps elements where condition is True
+• Lambda: lambda x: x % 2 == 0 (even check)
+• Iterates over range(5): 0, 1, 2, 3, 4
+• Filters: keeps 0, 2, 4 (even)
+
+How it works:
+• filter(lambda x: x % 2 == 0, range(5)) creates filter object
+• Checks each element: 0%2==0→True, 1%2==0→False, 2%2==0→True, 3%2==0→False, 4%2==0→True
+• Keeps only True cases: 0, 2, 4
+• list() converts filter to list: [0, 2, 4]
+
+Example:
+list(filter(lambda x: x % 2 == 0, range(5)))  # [0, 2, 4] (even)
+list(filter(lambda x: x > 2, range(5)))        # [3, 4] (greater than 2)
+
+Common uses:
+• Filtering elements: evens = list(filter(lambda x: x % 2 == 0, numbers))
+• Conditional filtering
+• Functional programming style
+• Iterable filtering
+
+Example: list(filter(lambda x: x % 2 == 0, range(5))) returns [0, 2, 4] because filter() keeps only elements from range(5) where x % 2 == 0 (even numbers).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is list(map(str, range(3)))?`, 
+    o: ["['0', '1', '2']", "[0, 1, 2]", "Error", "None"], 
+    c: 0, 
+    e: "map() with type conversion.",
+    de: `The map() function can use built-in functions like str() to convert types. list(map(str, range(3))) creates ['0', '1', '2'] because map() applies the str() function (which converts values to strings) to each element of range(3) (0, 1, 2). This converts each integer to its string representation. map() returns a map object, which list() converts to a list.
+
+map() with type conversion:
+• list(map(str, range(3))) = ['0', '1', '2']
+• map() applies str() to each element
+• str() converts integers to strings
+• Iterates over range(3): 0, 1, 2
+• Converts: 0→'0', 1→'1', 2→'2'
+
+How it works:
+• map(str, range(3)) creates map object
+• Applies str() to each element: str(0)='0', str(1)='1', str(2)='2'
+• Returns map object
+• list() converts map to list: ['0', '1', '2']
+
+Example:
+list(map(str, range(3)))        # ['0', '1', '2']
+list(map(int, ['1', '2', '3'])) # [1, 2, 3]
+
+Common uses:
+• Type conversion: strings = list(map(str, numbers))
+• Converting types
+• Functional programming style
+• Iterable type conversion
+
+Example: list(map(str, range(3))) returns ['0', '1', '2'] because map() applies str() to each element of range(3), converting integers to strings.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is list(filter(None, [0, 1, 2, '', 'a']))?`, 
+    o: ["[1, 2, 'a']", "[0, 1, 2, '', 'a']", "Error", "None"], 
+    c: 0, 
+    e: "filter(None) removes Falsy values.",
+    de: `When filter() is called with None as the first argument, it removes all falsy values from the iterable. list(filter(None, [0, 1, 2, '', 'a'])) creates [1, 2, 'a'] because filter(None, ...) removes falsy values (0, '', etc.) and keeps only truthy values (1, 2, 'a'). This is a common pattern for removing falsy values without writing a lambda.
+
+filter(None) behavior:
+• list(filter(None, [0, 1, 2, '', 'a'])) = [1, 2, 'a']
+• filter(None, ...) removes falsy values
+• Falsy values: 0, '' (empty string)
+• Truthy values: 1, 2, 'a'
+• Keeps only truthy values
+
+How it works:
+• filter(None, [0, 1, 2, '', 'a']) creates filter object
+• Checks each element: 0→False, 1→True, 2→True, ''→False, 'a'→True
+• Keeps only truthy: 1, 2, 'a'
+• list() converts filter to list: [1, 2, 'a']
+
+Example:
+list(filter(None, [0, 1, 2, '', 'a']))  # [1, 2, 'a'] (falsy removed)
+list(filter(None, [0, None, '', 'a']))   # ['a'] (falsy removed)
+
+Common uses:
+• Removing falsy values: truthy = list(filter(None, items))
+• Cleaning data
+• Removing None/empty values
+• Quick falsy filtering
+
+Example: list(filter(None, [0, 1, 2, '', 'a'])) returns [1, 2, 'a'] because filter(None, ...) removes falsy values (0, '') and keeps only truthy values (1, 2, 'a').
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is next(iter(range(3)))?`, 
+    o: ["0", "1", "Error", "None"], 
+    c: 0, 
+    e: "next() gets next value from iterator.",
+    de: `The next() function retrieves the next value from an iterator. next(iter(range(3))) returns 0 because iter(range(3)) creates an iterator from range(3), and next() retrieves the first value from that iterator (0). Each call to next() advances the iterator to the next value. This is useful for manual iteration and consuming values one at a time.
+
+next() function:
+• next(iter(range(3))) = 0
+• iter(range(3)) creates iterator from range(3)
+• next() retrieves first value from iterator
+• Returns 0 (first value)
+• Iterator advances to next value
+
+How it works:
+• iter(range(3)) creates iterator
+• Iterator points to first value: 0
+• next() retrieves current value: 0
+• Iterator advances to next value: 1
+• Returns 0
+
+Example:
+it = iter(range(3))
+next(it)  # 0 (first value)
+next(it)  # 1 (second value)
+next(it)  # 2 (third value)
+
+Common uses:
+• Manual iteration: value = next(iterator)
+• Consuming values one at a time
+• Iterator control
+• Step-by-step iteration
+
+Example: next(iter(range(3))) returns 0 because next() retrieves the first value from the iterator created from range(3).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is iter([1, 2, 3])?`, 
+    o: ["list_iterator object", "[1, 2, 3]", "Error", "None"], 
+    c: 0, 
+    e: "iter() creates iterator from iterable.",
+    de: `The iter() function creates an iterator from an iterable. iter([1, 2, 3]) returns a list_iterator object because it takes the list [1, 2, 3] and creates an iterator object that can be used to iterate over the list one element at a time. Iterators allow manual control over iteration and are used by for loops internally. The iterator remembers its position and can be advanced with next().
+
+iter() function:
+• iter([1, 2, 3]) = list_iterator object
+• Creates iterator from iterable [1, 2, 3]
+• Returns iterator object (not list)
+• Iterator can be used with next() or for loop
+
+How it works:
+• iter([1, 2, 3]) takes list
+• Creates iterator object
+• Iterator points to first element: 1
+• Iterator remembers position
+• Can be advanced with next()
+
+Example:
+it = iter([1, 2, 3])
+type(it)  # <class 'list_iterator'>
+next(it)  # 1 (first element)
+next(it)  # 2 (second element)
+
+Common uses:
+• Creating iterators: it = iter(collection)
+• Manual iteration control
+• Iterator objects
+• Step-by-step iteration
+
+Example: iter([1, 2, 3]) returns a list_iterator object because it creates an iterator from the list [1, 2, 3] that can be used for manual iteration.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is list(iter([1, 2, 3]))?`, 
+    o: ["[1, 2, 3]", "list_iterator object", "Error", "None"], 
+    c: 0, 
+    e: "list() consumes iterator.",
+    de: `The list() function can consume an iterator, creating a list with all remaining values from the iterator. list(iter([1, 2, 3])) creates [1, 2, 3] because it takes the iterator created from [1, 2, 3], iterates through it completely, and collects all values into a list. This exhausts the iterator (consumes all values), which is useful for converting iterators back to lists.
+
+list() with iterator:
+• list(iter([1, 2, 3])) = [1, 2, 3]
+• iter([1, 2, 3]) creates iterator
+• list() iterates through iterator
+• Collects all values: 1, 2, 3
+• Creates list: [1, 2, 3]
+
+How it works:
+• iter([1, 2, 3]) creates iterator
+• list() iterates through iterator completely
+• Values retrieved: 1, 2, 3
+• Results collected into list: [1, 2, 3]
+• Iterator is exhausted
+
+Example:
+it = iter([1, 2, 3])
+list(it)  # [1, 2, 3] (consumes iterator)
+list(it)  # [] (iterator exhausted)
+
+Common uses:
+• Converting iterators to lists: items = list(iter(collection))
+• Materializing iterators
+• Getting all values from iterator
+• Iterator consumption
+
+Example: list(iter([1, 2, 3])) returns [1, 2, 3] because list() consumes the iterator and collects all values into a list.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is sum([1, 2, 3])?`, 
+    o: ["6", "0", "Error", "None"], 
+    c: 0, 
+    e: "sum() adds all elements in iterable.",
+    de: `The sum() function adds all elements in an iterable (list, tuple, range, etc.) and returns the total. sum([1, 2, 3]) returns 6 because it iterates over the list [1, 2, 3] and adds all values: 1 + 2 + 3 = 6. sum() works with any iterable containing numbers and is commonly used for calculating totals.
+
+sum() function:
+• sum([1, 2, 3]) = 6
+• Iterates over list [1, 2, 3]
+• Adds all values: 1 + 2 + 3 = 6
+• Returns total: 6
+
+How it works:
+• sum([1, 2, 3]) takes list
+• Iterates through elements: 1, 2, 3
+• Adds values: 1 + 2 + 3
+• Returns total: 6
+
+Example:
+sum([1, 2, 3])       # 6 (1+2+3)
+sum(range(5))        # 10 (0+1+2+3+4)
+sum([1.5, 2.5, 3.5]) # 7.5 (floats work)
+
+Common uses:
+• Summing numbers: total = sum(numbers)
+• Calculating totals
+• Aggregating values
+• Number operations
+
+Example: sum([1, 2, 3]) returns 6 because it adds all elements in the list (1 + 2 + 3 = 6).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is all([True, True, False])?`, 
+    o: ["False", "True", "Error", "None"], 
+    c: 0, 
+    e: "all() returns True only if all elements are Truthy.",
+    de: `The all() function returns True only if all elements in an iterable are truthy. all([True, True, False]) returns False because it checks each element: True (truthy), True (truthy), False (falsy). Since not all elements are truthy (False is falsy), all() returns False. If all elements were truthy, it would return True.
+
+all() function:
+• all([True, True, False]) = False
+• Checks each element: True, True, False
+• All must be truthy for True result
+• False is falsy, so returns False
+• Returns False
+
+How it works:
+• all([True, True, False]) takes list
+• Checks each element: True (truthy), True (truthy), False (falsy)
+• Short-circuits at first falsy value
+• Returns False (not all truthy)
+
+Example:
+all([True, True, False])  # False (not all truthy)
+all([True, True, True])   # True (all truthy)
+all([1, 2, 3])            # True (all numbers are truthy)
+
+Common uses:
+• Validation: if all(conditions): ...
+• Checking if all elements satisfy condition
+• Boolean logic
+• Iterable validation
+
+Example: all([True, True, False]) returns False because not all elements are truthy (False is falsy).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is any([False, False, True])?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "any() returns True if any element is Truthy.",
+    de: `The any() function returns True if any element in an iterable is truthy. any([False, False, True]) returns True because it checks each element: False (falsy), False (falsy), True (truthy). Since at least one element is truthy (True is truthy), any() returns True. If all elements were falsy, it would return False.
+
+any() function:
+• any([False, False, True]) = True
+• Checks each element: False, False, True
+• At least one must be truthy for True result
+• True is truthy, so returns True
+• Returns True
+
+How it works:
+• any([False, False, True]) takes list
+• Checks each element: False (falsy), False (falsy), True (truthy)
+• Short-circuits at first truthy value
+• Returns True (at least one truthy)
+
+Example:
+any([False, False, True])  # True (at least one truthy)
+any([False, False, False]) # False (all falsy)
+any([0, 0, 1])             # True (1 is truthy)
+
+Common uses:
+• Checking existence: if any(conditions): ...
+• Finding if any element satisfies condition
+• Boolean logic
+• Iterable checking
+
+Example: any([False, False, True]) returns True because at least one element is truthy (True is truthy).
+`
+  }),
 ];
 
 // --- LEVEL 5: OCTOPUS (Lists, Arrays, Indexing) - 100 TRULY UNIQUE QUESTIONS ---
