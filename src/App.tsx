@@ -133,10 +133,10 @@ const App: React.FC = () => {
                 {view === 'quiz' && (
                   <button
                     onClick={() => setRandomizeTrigger(prev => prev + 1)}
-                    className="flex items-center justify-center w-7 h-7 rounded-lg bg-green-500 hover:bg-green-600 border border-green-400 text-white transition-all shadow-lg shadow-green-500/30 hover:scale-110 active:scale-95"
+                    className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-500 hover:bg-green-600 border-2 border-green-400 text-white transition-all shadow-lg shadow-green-500/50 hover:scale-110 active:scale-95"
                     title="Randomize questions"
                   >
-                    <i className="fas fa-shuffle text-xs"></i>
+                    <i className="fas fa-shuffle text-sm"></i>
                   </button>
                 )}
               </div>
