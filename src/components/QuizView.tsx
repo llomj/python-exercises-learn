@@ -7,65 +7,64 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Function to format code snippets with proper Python indentation
+// Ensures newline after : and 4-space indentation for the next line
 const formatCodeSnippet = (text: string): string => {
   if (!text) return '';
   
-  // Replace ; with newlines to split statements
-  let formatted = text.replace(/; /g, '\n');
-  
-  // Normalize existing newlines and split into lines
-  const lines = formatted.split(/\r?\n/);
-  const indentedLines: string[] = [];
-  let indentLevel = 0;
   const indentSize = 4; // Python standard is 4 spaces
-
-  for (let i = 0; i < lines.length; i++) {
-    let line = lines[i];
-    const trimmedLine = line.trim();
+  
+  // Step 1: Split on semicolons to separate statements
+  let parts = text.split(/;\s*/).filter(p => p.trim());
+  
+  // Step 2: Process each part - ensure newline after : with proper indentation
+  const formattedLines: string[] = [];
+  
+  // Recursive function to process a part and handle nested colons
+  const processPart = (p: string, indent: number): void => {
+    p = p.trim();
+    if (!p) return;
     
-    // Preserve empty lines
-    if (!trimmedLine) {
-      indentedLines.push('');
-      continue;
+    // Handle decorators first - they go on their own line at current indent
+    if (p.startsWith('@')) {
+      formattedLines.push(' '.repeat(indent * indentSize) + p);
+      return;
     }
-
-    // Check if line already has proper indentation (starts with spaces)
-    const existingIndentMatch = line.match(/^(\s*)/);
-    const existingIndent = existingIndentMatch ? existingIndentMatch[1] : '';
     
-    // If line already has indentation, preserve it (normalize to 4-space increments)
-    if (existingIndent.length > 0) {
-      // Normalize to 4-space indentation
-      const existingIndentLevel = Math.round(existingIndent.length / indentSize);
-      indentedLines.push(' '.repeat(existingIndentLevel * indentSize) + trimmedLine);
+    // If part contains a colon, split it
+    if (p.includes(':')) {
+      const colonIndex = p.indexOf(':');
+      const beforeColon = p.substring(0, colonIndex).trim();
+      const afterColon = p.substring(colonIndex + 1).trim();
       
-      // Update indent level for next line based on current line
-      if (trimmedLine.endsWith(':')) {
-        indentLevel = existingIndentLevel + 1;
-      } else if (/^\s*(else|elif|except|finally)\b/.test(trimmedLine)) {
-        // These keywords should be at the same level as the previous block
-        indentLevel = Math.max(0, existingIndentLevel);
+      // Add the line ending with colon
+      formattedLines.push(' '.repeat(indent * indentSize) + beforeColon + ':');
+      
+      // If there's content after colon, process it with increased indent (4 spaces more)
+      if (afterColon) {
+        processPart(afterColon, indent + 1);
       }
     } else {
-      // Line has no indentation - apply current indent level
-      if (trimmedLine.endsWith(':')) {
-        indentedLines.push(' '.repeat(indentLevel * indentSize) + trimmedLine);
-        indentLevel += 1;
-      } else if (/^(else|elif|except|finally)\b/.test(trimmedLine)) {
-        // These should be at previous indent level
-        indentLevel = Math.max(0, indentLevel - 1);
-        indentedLines.push(' '.repeat(indentLevel * indentSize) + trimmedLine);
-      } else {
-        indentedLines.push(' '.repeat(indentLevel * indentSize) + trimmedLine);
-        // Decrease indent for dedent keywords
-        if (/^(pass|break|continue|return|raise)\b/.test(trimmedLine)) {
-          indentLevel = Math.max(0, indentLevel - 1);
-        }
-      }
+      // No colon - just add the line at current indent
+      formattedLines.push(' '.repeat(indent * indentSize) + p);
+    }
+  };
+  
+  // Process all parts, starting at indent level 0
+  for (let part of parts) {
+    part = part.trim();
+    if (!part) continue;
+    
+    // Check if this starts a new top-level block (class, def, etc.)
+    // If so, reset to indent 0
+    if (/^(class|def|if|for|while|with|try|import|from)\b/.test(part)) {
+      processPart(part, 0);
+    } else {
+      // Continue at current level (0 for top-level statements)
+      processPart(part, 0);
     }
   }
-
-  return indentedLines.join('\n');
+  
+  return formattedLines.join('\n');
 };
 
 // Function to split question into prefix and code
