@@ -165,7 +165,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
       </div>
 
       <div className="glass rounded-3xl p-6 md:p-10 space-y-8 shadow-2xl relative overflow-hidden">
-        {/* Logic icon - positioned top left */}
+        {/* Logic icon - positioned top left - updated */}
         <div className="absolute top-3 left-3 z-10">
           <div className="w-7 h-7 rounded-lg bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
             <i className="fas fa-microchip text-indigo-400 text-xs"></i>
