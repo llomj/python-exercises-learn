@@ -6,6 +6,32 @@ import { LEVELS } from '../constants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+// Function to format code snippets with proper indentation
+const formatCodeSnippet = (text: string): string => {
+  // If it already has newlines and indentation, return as is
+  if (text.includes('\n') && text.match(/^\s+/m)) {
+    return text;
+  }
+
+  // Simple formatting for common patterns
+  let formatted = text;
+
+  // Add newline after def/class/if/for/while
+  formatted = formatted.replace(/(\bdef\s+\w+\([^)]*\):)/g, '$1\n');
+  formatted = formatted.replace(/(\bclass\s+\w+[^:]*:)/g, '$1\n');
+  formatted = formatted.replace(/(\bif\s+[^:]+:)/g, '$1\n');
+  formatted = formatted.replace(/(\bfor\s+[^:]+:)/g, '$1\n');
+  formatted = formatted.replace(/(\bwhile\s+[^:]+:)/g, '$1\n');
+
+  // Add indentation for pass/return/print statements
+  formatted = formatted.replace(/(\n|^)(pass|return|print)/g, '$1    $2');
+
+  // Add indentation for nested statements (basic)
+  formatted = formatted.replace(/(\n|^)(\s*)(if|for|while)/g, '$1$2    $3');
+
+  return formatted;
+};
+
 interface QuizViewProps {
   level: number;
   currentProgress: number;
@@ -174,10 +200,10 @@ export const QuizView: React.FC<QuizViewProps> = ({
          </div>
 
          <div className="space-y-4 pt-8">
-           <div className="max-h-96 overflow-auto">
+           <div className="max-h-[70vh] overflow-y-auto overflow-x-auto bg-slate-800 p-4 rounded-lg">
              {currentQuestion.question.match(/\b(def|print|for|if|while|class|import)\b/) ? (
-               <SyntaxHighlighter language="python" style={oneDark} className="rounded-lg text-sm overflow-x-auto">
-                 {currentQuestion.question}
+               <SyntaxHighlighter language="python" style={oneDark} className="text-sm">
+                 {formatCodeSnippet(currentQuestion.question)}
                </SyntaxHighlighter>
              ) : (
                <h2 className="text-xl md:text-2xl font-bold leading-tight text-white">

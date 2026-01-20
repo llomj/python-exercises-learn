@@ -55,6 +55,30 @@ Before moving to the next level:
 
 ---
 
+## Current UI Issues
+- Code panel too small (needs 3x larger, e.g., max-h-[70vh])
+- Code panel background white/light instead of matching dark logic panel
+- Code panel scrolls horizontal instead of vertical for long code
+- Code snippets lack proper Python indentation (appear in one row, not formatted like real code)
+
+## Solutions Implemented
+- Updated SW cache version for refresh
+- Added random mode button in quiz view only
+- Implemented question display with syntax highlighting for code questions
+
+## Solutions Needed
+- Increase code panel size significantly
+- Match code panel background to dark theme
+- Ensure vertical scrolling priority
+- Add function to format code snippets with proper indentation (newlines and spaces)
+- Detect and format code in question strings for display
+
+## TODO
+- Optimize bundle size with code splitting
+- Add proper error handling for API calls
+- Improve PWA offline experience
+- Add more interactive features
+
 ## Notes
 - Last updated: Level 3 completed with 100 truly unique questions
 - Level 1 Details:
