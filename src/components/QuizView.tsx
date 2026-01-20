@@ -3,6 +3,8 @@ import { Question, QuestionAttempt } from '../types';
 import { quizService } from '../services/quizService';
 import { ProgressBar } from './ProgressBar';
 import { LEVELS } from '../constants';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface QuizViewProps {
   level: number;
@@ -172,10 +174,22 @@ export const QuizView: React.FC<QuizViewProps> = ({
          </div>
 
          <div className="space-y-4 pt-8">
-          <h2 className="text-xl md:text-2xl font-bold leading-tight text-white">
-            {currentQuestion.question}
-          </h2>
-        </div>
+           <div className="max-h-64 overflow-y-auto">
+             {currentQuestion.question.includes('```') ? (
+               <SyntaxHighlighter language="python" style={oneDark} className="rounded-lg">
+                 {currentQuestion.question.replace(/```python\n?/g, '').replace(/```\n?/g, '')}
+               </SyntaxHighlighter>
+             ) : currentQuestion.question.includes('\n') && currentQuestion.question.match(/^\s+/) ? (
+               <pre className="text-sm md:text-base font-mono bg-slate-800 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap">
+                 {currentQuestion.question}
+               </pre>
+             ) : (
+               <h2 className="text-xl md:text-2xl font-bold leading-tight text-white">
+                 {currentQuestion.question}
+               </h2>
+             )}
+           </div>
+         </div>
 
         <div className="grid gap-3">
           {currentQuestion.options.map((option, idx) => {
