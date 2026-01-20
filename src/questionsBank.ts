@@ -31243,28 +31243,926 @@ Example: Since __enter__ returns self, ctx is the MyContext instance, so ctx ref
   (_i: number) => ({ q: `What is class MyIter: def __iter__(self): return self; def __next__(self): return 1; type(MyIter())?`, o: ["<class '__main__.MyIter'>", "<class 'generator'>", "Error", "None"], c: 0, e: "Iterator class implements __iter__ and __next__." }),
   
   // 51-60: Decorators
-  (_i: number) => ({ q: `What is def decorator(func): return func; @decorator; def func(): pass; type(func)?`, o: ["<class 'function'>", "<class 'decorator'>", "Error", "None"], c: 0, e: "Decorator that returns function unchanged." }),
-  (_i: number) => ({ q: `What is def decorator(func): def wrapper(): return func(); return wrapper; @decorator; def func(): return 1; func()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Decorator wraps function in another function." }),
-  (_i: number) => ({ q: `What is def decorator(func): def wrapper(*args, **kwargs): return func(*args, **kwargs); return wrapper; @decorator; def add(x, y): return x + y; add(1, 2)?`, o: ["3", "Error", "None", "0"], c: 0, e: "Decorator wrapper preserves function arguments." }),
-  (_i: number) => ({ q: `What is from functools import wraps; def decorator(func): @wraps(func); def wrapper(): return func(); return wrapper; @decorator; def func(): pass; func.__name__?`, o: ["'func'", "'wrapper'", "Error", "None"], c: 0, e: "@wraps preserves original function metadata." }),
-  (_i: number) => ({ q: `What is def decorator(arg): return lambda func: func; @decorator(1); def func(): pass?`, o: ["Decorator with argument", "SyntaxError", "Error", "None"], c: 0, e: "Decorator factory: function that returns decorator." }),
-  (_i: number) => ({ q: `What is class Decorator: def __init__(self, func): self.func = func; def __call__(self): return self.func(); @Decorator; def func(): return 1; func()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Class-based decorator using __call__." }),
-  (_i: number) => ({ q: `What is @staticmethod; def func(): return 1?`, o: ["Static method decorator", "SyntaxError", "Error", "None"], c: 0, e: "@staticmethod is built-in decorator." }),
-  (_i: number) => ({ q: `What is @classmethod; def method(cls): return cls?`, o: ["Class method decorator", "SyntaxError", "Error", "None"], c: 0, e: "@classmethod is built-in decorator." }),
-  (_i: number) => ({ q: `What is @property; def x(self): return 1?`, o: ["Property decorator", "SyntaxError", "Error", "None"], c: 0, e: "@property is built-in decorator." }),
-  (_i: number) => ({ q: `What is def decorator1(func): return func; def decorator2(func): return func; @decorator1; @decorator2; def func(): pass?`, o: ["Multiple decorators", "SyntaxError", "Error", "None"], c: 0, e: "Multiple decorators applied bottom to top." }),
+  (_i: number) => ({
+    q: `What is def decorator(func): return func; @decorator; def func(): pass; type(func)?`,
+    o: ["<class 'function'>", "<class 'decorator'>", "Error", "None"],
+    c: 0,
+    e: "Decorator that returns function unchanged.",
+    de: `This is a simple decorator that returns the original function unchanged. The @decorator syntax applies the decorator to the function definition. Since the decorator just returns func, the decorated function behaves exactly like the original function. This is essentially a no-op decorator, useful for testing or as a template.
+
+Simple decorator that does nothing:
+• def decorator(func): return func - returns function unchanged
+• @decorator - applies decorator to function below
+• Decorated function has same type and behavior
+• type(func) returns <class 'function'> (original function type)
+• Useful as template or for conditional decoration
+
+How it works:
+• @decorator applied to def func(): pass
+• decorator(func) called with function object
+• decorator returns func unchanged
+• func assigned the original function
+• No change in behavior or type
+
+Example:
+def simple_decorator(func):
+    return func  # Return unchanged
+
+@simple_decorator
+def my_function():
+    pass
+
+type(my_function)  # <class 'function'> - unchanged
+
+Common uses:
+• Template for more complex decorators
+• Conditional decoration
+• Debugging decorator framework
+• Testing decorator application
+
+Example: def decorator(func): return func creates a decorator that returns the function unchanged, so type(func) is still <class 'function'>.`
+  }),
+  (_i: number) => ({
+    q: `What is def decorator(func): def wrapper(): return func(); return wrapper; @decorator; def func(): return 1; func()?`,
+    o: ["1", "Error", "None", "0"],
+    c: 0,
+    e: "Decorator wraps function in another function.",
+    de: `This decorator replaces the original function with a wrapper function. The wrapper function calls the original function and returns its result. When func() is called, it actually calls the wrapper, which then calls the original func() and returns 1. The wrapper preserves the original function's behavior while allowing additional logic to be added.
+
+Function wrapping decorator:
+• def decorator(func): def wrapper(): return func(); return wrapper
+• @decorator replaces func with wrapper
+• wrapper() calls original func() and returns result
+• func() now calls wrapper, which calls original
+• Result is same as original function
+
+How it works:
+• @decorator applied to def func(): return 1
+• decorator(func) called, returns wrapper function
+• func assigned wrapper function
+• func() calls wrapper()
+• wrapper() calls original func(), gets 1
+• wrapper() returns 1
+
+Example:
+def logging_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@logging_decorator
+def my_function():
+    return 42
+
+my_function()  # Prints "Calling my_function", returns 42
+
+Benefits:
+• Add behavior without changing function code
+• Logging, timing, validation
+• Cross-cutting concerns
+• Reusable wrapper logic
+
+Example: The decorator wraps the original function, so func() calls wrapper(), which calls the original func() and returns 1.`
+  }),
+  (_i: number) => ({
+    q: `What is def decorator(func): def wrapper(*args, **kwargs): return func(*args, **kwargs); return wrapper; @decorator; def add(x, y): return x + y; add(1, 2)?`,
+    o: ["3", "Error", "None", "0"],
+    c: 0,
+    e: "Decorator wrapper preserves function arguments.",
+    de: `This decorator creates a wrapper that accepts any arguments (*args, **kwargs) and passes them to the original function. This allows the decorator to work with functions that have any signature. The wrapper preserves all arguments and keyword arguments, making it a generic decorator template.
+
+Generic wrapper with preserved arguments:
+• def wrapper(*args, **kwargs): return func(*args, **kwargs)
+• *args collects positional arguments into tuple
+• **kwargs collects keyword arguments into dict
+• All arguments passed to original function unchanged
+• Works with any function signature
+
+How it works:
+• @decorator applied to def add(x, y): return x + y
+• decorator(add) returns generic wrapper
+• add assigned generic wrapper function
+• add(1, 2) calls wrapper(1, 2)
+• wrapper calls original add(1, 2) → 3
+• wrapper returns 3
+
+Example:
+def generic_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(f"Calling {func.__name__} with {args} {kwargs}")
+        return func(*args, **kwargs)
+    return wrapper
+
+@generic_decorator
+def multiply(a, b, factor=1):
+    return a * b * factor
+
+multiply(3, 4, factor=2)  # Works with any args
+
+Benefits:
+• Works with any function signature
+• Preserves all argument types
+• Generic decorator template
+• No signature assumptions
+
+Example: wrapper(*args, **kwargs) preserves all arguments, so add(1, 2) works and returns 3 from the original add function.`
+  }),
+  (_i: number) => ({
+    q: `What is from functools import wraps; def decorator(func): @wraps(func); def wrapper(): return func(); return wrapper; @decorator; def func(): pass; func.__name__?`,
+    o: ["'func'", "'wrapper'", "Error", "None"],
+    c: 0,
+    e: "@wraps preserves original function metadata.",
+    de: `@wraps is a decorator from functools that copies metadata from the original function to the wrapper function. Without @wraps, the wrapper function would have its own __name__, __doc__, etc. With @wraps, the wrapper appears to have the same metadata as the original function, which is important for debugging, documentation, and tools that inspect function metadata.
+
+@wraps preserves function metadata:
+• @wraps(func) copies __name__, __doc__, __module__, etc.
+• Wrapper appears as original function to introspection
+• Essential for decorators to not break function identity
+• Prevents __name__ from being 'wrapper'
+• Maintains documentation and debugging info
+
+How it works:
+• @wraps(func) applied to wrapper function
+• Copies metadata from func to wrapper
+• wrapper.__name__ becomes func.__name__
+• wrapper.__doc__ becomes func.__doc__
+• Preserves function identity for tools
+
+Example:
+from functools import wraps
+
+def my_decorator(func):
+    @wraps(func)  # Preserves metadata
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+@my_decorator
+def original_function():
+    """This is the original docstring."""
+    pass
+
+print(original_function.__name__)   # 'original_function' (not 'wrapper')
+print(original_function.__doc__)    # 'This is the original docstring.'
+
+Benefits:
+• Preserves function identity
+• Better debugging (stack traces show correct names)
+• Documentation tools work correctly
+• Introspection works as expected
+• Essential for professional decorators
+
+Example: @wraps(func) copies metadata, so func.__name__ returns 'func' instead of 'wrapper'.`
+  }),
+  (_i: number) => ({
+    q: `What is def decorator(arg): return lambda func: func; @decorator(1); def func(): pass?`,
+    o: ["Decorator with argument", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "Decorator factory: function that returns decorator.",
+    de: `This is a decorator factory - a function that takes arguments and returns a decorator. @decorator(1) calls decorator(1), which returns a lambda function that acts as the actual decorator. The lambda takes the function and returns it unchanged. This pattern allows decorators to be configured with parameters.
+
+Decorator factory pattern:
+• def decorator(arg): return lambda func: func
+• @decorator(1) calls decorator(1)
+• Returns lambda that acts as decorator
+• Lambda takes function and returns it
+• Allows parameterized decorators
+
+How it works:
+• @decorator(1) executes decorator(1)
+• decorator(1) returns lambda func: func
+• Lambda becomes the actual decorator
+• @ (lambda func: func) applied to def func()
+• lambda returns func unchanged
+
+Example:
+def repeat(times):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for _ in range(times):
+                result = func(*args, **kwargs)
+            return result
+        return wrapper
+    return decorator
+
+@repeat(3)  # Decorator factory with argument
+def say_hello():
+    print("Hello!")
+
+say_hello()  # Prints "Hello!" 3 times
+
+Benefits:
+• Configurable decorators
+• Reusable with different parameters
+• Flexible decorator behavior
+• Clean syntax for configuration
+
+Example: @decorator(1) calls decorator(1), which returns a lambda that acts as the decorator for the function.`
+  }),
+  (_i: number) => ({
+    q: `What is class Decorator: def __init__(self, func): self.func = func; def __call__(self): return self.func(); @Decorator; def func(): return 1; func()?`,
+    o: ["1", "Error", "None", "0"],
+    c: 0,
+    e: "Class-based decorator using __call__.",
+    de: `This is a class-based decorator that uses the __call__ method. The @Decorator syntax creates a Decorator instance with the function as argument. When the decorated function is called, it actually calls the Decorator instance's __call__ method, which then calls the original function. This is an alternative to function-based decorators.
+
+Class-based decorator with __call__:
+• class Decorator: def __init__(self, func): self.func = func
+• @Decorator creates Decorator instance with function
+• Instance stored as func
+• func() calls instance.__call__()
+• __call__ calls original function
+
+How it works:
+• @Decorator applied to def func(): return 1
+• Decorator(func) creates instance with func stored
+• func assigned Decorator instance
+• func() calls instance.__call__()
+• __call__() calls self.func() → 1
+• Returns 1
+
+Example:
+class TimingDecorator:
+    def __init__(self, func):
+        self.func = func
+        self.call_count = 0
+
+    def __call__(self, *args, **kwargs):
+        self.call_count += 1
+        import time
+        start = time.time()
+        result = self.func(*args, **kwargs)
+        end = time.time()
+        print(f"{self.func.__name__} took {end-start:.3f}s (called {self.call_count} times)")
+        return result
+
+@TimingDecorator
+def slow_function():
+    import time
+    time.sleep(0.1)
+    return "done"
+
+slow_function()
+
+Benefits:
+• Can store state between calls
+• More complex logic than function decorators
+• Instance variables for configuration
+• Inheritance support
+
+Example: Class-based decorator uses __call__ method, so func() calls the Decorator instance which returns self.func() = 1.`
+  }),
+  (_i: number) => ({
+    q: `What is @staticmethod; def func(): return 1?`,
+    o: ["Static method decorator", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "@staticmethod is built-in decorator.",
+    de: `@staticmethod is a built-in Python decorator that creates a static method. Static methods don't receive self or cls as the first argument and can be called on the class without an instance. They are utility methods that don't need access to instance or class state. Static methods are bound to the class, not instances.
+
+@staticmethod creates static method:
+• @staticmethod marks method as static
+• No self or cls parameter required
+• Can be called on class: Class.method()
+• Cannot access instance (self) or class (cls) attributes
+• Utility functions related to class
+
+How it works:
+• @staticmethod applied to method
+• Method becomes static (no implicit first argument)
+• Accessible via class or instance
+• No access to self or cls
+• Behaves like regular function in class context
+
+Example:
+class MathUtils:
+    @staticmethod
+    def add(a, b):  # No self needed
+        return a + b
+
+    @staticmethod
+    def multiply(a, b):
+        return a * b
+
+# Can call on class
+result = MathUtils.add(3, 4)  # 7
+
+# Can also call on instance
+utils = MathUtils()
+result = utils.multiply(3, 4)  # 12
+
+Benefits:
+• Utility functions in classes
+• No instance required
+• Cleaner API for helper functions
+• Group related functions in class
+
+Example: @staticmethod creates a static method that can be called without an instance, like a utility function in a class.`
+  }),
+  (_i: number) => ({
+    q: `What is @classmethod; def method(cls): return cls?`,
+    o: ["Class method decorator", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "@classmethod is built-in decorator.",
+    de: `@classmethod is a built-in Python decorator that creates a class method. Class methods receive the class (cls) as the first argument instead of an instance (self). They can access class attributes and create new instances. Class methods are commonly used for factory methods and alternative constructors.
+
+@classmethod creates class method:
+• @classmethod marks method as class method
+• Receives cls instead of self
+• Can access class attributes and methods
+• Can create new instances of class
+• Bound to class, not instance
+
+How it works:
+• @classmethod applied to method
+• Method receives class as first argument (cls)
+• Can access class variables and methods
+• Often used for factory methods
+• Accessible via class or instance
+
+Example:
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    @classmethod
+    def from_birth_year(cls, name, birth_year):
+        age = 2024 - birth_year  # Calculate age
+        return cls(name, age)    # Create instance
+
+# Factory method
+person = Person.from_birth_year("Alice", 1990)
+print(person.age)  # 34
+
+Benefits:
+• Factory methods for object creation
+• Alternative constructors
+• Class-level operations
+• Access to class state
+
+Example: @classmethod creates a class method that receives cls as first argument and can access class-level attributes and create instances.`
+  }),
+  (_i: number) => ({
+    q: `What is @property; def x(self): return 1?`,
+    o: ["Property decorator", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "@property is built-in decorator.",
+    de: `@property is a built-in Python decorator that creates a property - a method that can be accessed like an attribute. Properties allow controlled access to instance attributes, enabling getter/setter behavior without changing the external API. Properties are computed on access and can include validation or computation.
+
+@property creates property (getter):
+• @property marks method as property
+• Method becomes attribute-like access
+• obj.x calls method instead of accessing attribute
+• Enables computed properties
+• Foundation for getters/setters
+
+How it works:
+• @property applied to method
+• Method becomes property descriptor
+• Access obj.x calls the method
+• Returns computed value
+• Can be extended with @x.setter for assignment
+
+Example:
+class Circle:
+    def __init__(self, radius):
+        self._radius = radius
+
+    @property
+    def radius(self):
+        return self._radius
+
+    @property
+    def area(self):
+        return 3.14159 * self._radius ** 2
+
+    @property
+    def circumference(self):
+        return 2 * 3.14159 * self._radius
+
+circle = Circle(5)
+print(circle.radius)        # 5 (property access)
+print(circle.area)          # 78.53975 (computed property)
+print(circle.circumference) # 31.4159 (computed property)
+
+Benefits:
+• Encapsulation with simple syntax
+• Computed properties
+• Validation on access
+• Backward compatibility
+• Clean API design
+
+Example: @property turns a method into a property that can be accessed like an attribute, computing values on demand.`
+  }),
+  (_i: number) => ({
+    q: `What is def decorator1(func): return func; def decorator2(func): return func; @decorator1; @decorator2; def func(): pass?`,
+    o: ["Multiple decorators", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "Multiple decorators applied bottom to top.",
+    de: `Multiple decorators can be stacked on a single function. They are applied from bottom to top - the decorator closest to the function definition is applied first. Each decorator receives the result of the previous decorator application. This allows combining multiple behaviors.
+
+Multiple decorators stack bottom-to-top:
+• @decorator1; @decorator2; def func()
+• Decorators applied bottom to top
+• @decorator2 applied first to original function
+• @decorator1 applied to result of @decorator2
+• Rightmost decorator is outermost
+
+How it works:
+• def func(): pass defined
+• @decorator2 applied first: func = decorator2(func)
+• @decorator1 applied second: func = decorator1(func)
+• Final func is decorator1(decorator2(original_func))
+• Execution order: decorator1 → decorator2 → original
+
+Example:
+def logging_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(f"Logging: calling {func.__name__}")
+        return func(*args, **kwargs)
+    return wrapper
+
+def timing_decorator(func):
+    def wrapper(*args, **kwargs):
+        import time
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(f"Timing: {end-start:.3f}s")
+        return result
+    return wrapper
+
+@logging_decorator  # Applied second (outermost)
+@timing_decorator   # Applied first (innermost)
+def my_function():
+    return "done"
+
+my_function()
+# Output: Logging: calling my_function
+#         Timing: 0.000s
+
+Benefits:
+• Combine multiple behaviors
+• Modular decorator design
+• Reusable decorator combinations
+• Clean separation of concerns
+
+Example: Multiple decorators are applied bottom-to-top, so @decorator1 @decorator2 means decorator1(decorator2(func)).`
+  }),
   
   // 61-70: Design Patterns - Singleton, Factory, etc.
-  (_i: number) => ({ q: `What is class Singleton: _instance = None; def __new__(cls): if cls._instance is None: cls._instance = super().__new__(cls); return cls._instance; obj1 = Singleton(); obj2 = Singleton(); obj1 is obj2?`, o: ["True", "False", "Error", "None"], c: 0, e: "Singleton pattern: __new__ ensures single instance." }),
-  (_i: number) => ({ q: `What is class Factory: @staticmethod; def create(type): return type(); obj = Factory.create(list)?`, o: ["[]", "Error", "None", "Factory"], c: 0, e: "Factory pattern: creates objects without specifying exact class." }),
-  (_i: number) => ({ q: `What is class Observer: def __init__(self): self._observers = []; def attach(self, observer): self._observers.append(observer); def notify(self): [o.update() for o in self._observers]?`, o: ["Observer pattern", "Error", "None", "Singleton"], c: 0, e: "Observer pattern: subject notifies observers of changes." }),
-  (_i: number) => ({ q: `What is class Strategy: def execute(self): pass; class StrategyA(Strategy): def execute(self): return 'A'; class StrategyB(Strategy): def execute(self): return 'B'?`, o: ["Strategy pattern", "Error", "None", "Factory"], c: 0, e: "Strategy pattern: interchangeable algorithms." }),
-  (_i: number) => ({ q: `What is class Adapter: def __init__(self, obj): self.obj = obj; def method(self): return self.obj.other_method()?`, o: ["Adapter pattern", "Error", "None", "Observer"], c: 0, e: "Adapter pattern: adapts interface of one class to another." }),
-  (_i: number) => ({ q: `What is class Builder: def __init__(self): self.parts = []; def add(self, part): self.parts.append(part); return self; def build(self): return ''.join(self.parts)?`, o: ["Builder pattern", "Error", "None", "Factory"], c: 0, e: "Builder pattern: constructs complex objects step by step." }),
-  (_i: number) => ({ q: `What is class Prototype: def clone(self): return type(self)()?`, o: ["Prototype pattern", "Error", "None", "Singleton"], c: 0, e: "Prototype pattern: creates objects by cloning." }),
-  (_i: number) => ({ q: `What is class Facade: def __init__(self): self.subsystem1 = Subsystem1(); self.subsystem2 = Subsystem2(); def operation(self): return self.subsystem1.method() + self.subsystem2.method()?`, o: ["Facade pattern", "Error", "None", "Adapter"], c: 0, e: "Facade pattern: provides simplified interface to complex subsystem." }),
-  (_i: number) => ({ q: `What is class Command: def execute(self): pass; class Invoker: def __init__(self): self.command = None; def set_command(self, cmd): self.command = cmd; def execute(self): self.command.execute()?`, o: ["Command pattern", "Error", "None", "Strategy"], c: 0, e: "Command pattern: encapsulates request as object." }),
-  (_i: number) => ({ q: `What is class Component: def operation(self): pass; class Composite(Component): def __init__(self): self.children = []; def add(self, child): self.children.append(child); def operation(self): [c.operation() for c in self.children]?`, o: ["Composite pattern", "Error", "None", "Facade"], c: 0, e: "Composite pattern: treats individual and composite objects uniformly." }),
+  (_i: number) => ({
+    q: `What is class Singleton: _instance = None; def __new__(cls): if cls._instance is None: cls._instance = super().__new__(cls); return cls._instance; obj1 = Singleton(); obj2 = Singleton(); obj1 is obj2?`,
+    o: ["True", "False", "Error", "None"],
+    c: 0,
+    e: "Singleton pattern: __new__ ensures single instance.",
+    de: `The Singleton pattern ensures only one instance of a class exists. By overriding __new__, we control object creation and return the same instance every time. obj1 is obj2 returns True because they reference the same object.
+
+Singleton pattern implementation:
+• class Singleton: defines singleton class
+• _instance = None: class variable to store single instance
+• __new__(cls): controls instance creation
+• if cls._instance is None: creates instance only once
+• return cls._instance: returns same instance always
+• obj1 is obj2: True (same object identity)
+
+How it works:
+• First Singleton() call creates new instance
+• Instance stored in cls._instance
+• Subsequent calls return existing instance
+• All instances are identical (obj1 is obj2)
+• Only one object exists in memory
+
+Example:
+class Singleton:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+obj1 = Singleton()
+obj2 = Singleton()
+print(obj1 is obj2)  # True - same instance
+
+Benefits:
+• Ensures single instance
+• Global access point
+• Memory efficiency
+• Controlled instantiation
+
+Example: Singleton.__new__ ensures only one instance exists, so obj1 is obj2 returns True.`
+  }),
+  (_i: number) => ({
+    q: `What is class Factory: @staticmethod; def create(type): return type(); obj = Factory.create(list)?`,
+    o: ["[]", "Error", "None", "Factory"],
+    c: 0,
+    e: "Factory pattern: creates objects without specifying exact class.",
+    de: `The Factory pattern provides a way to create objects without specifying the exact class. The create method takes a type and instantiates it, returning the created object. Factory.create(list) returns [] because list() creates an empty list.
+
+Factory pattern implementation:
+• class Factory: defines factory class
+• @staticmethod def create(type): static factory method
+• return type(): instantiates the passed type
+• obj = Factory.create(list): creates list instance
+• Factory.create(list) returns [] (empty list)
+
+How it works:
+• Factory.create(list) calls create method
+• type parameter is list class
+• return type() creates list() → []
+• obj assigned the created object
+• Returns new instance each time
+
+Example:
+class Factory:
+    @staticmethod
+    def create(obj_type):
+        return obj_type()
+
+# Create different types
+my_list = Factory.create(list)      # []
+my_dict = Factory.create(dict)      # {}
+my_set = Factory.create(set)        # set()
+
+Benefits:
+• Centralized object creation
+• Decouples client from specific classes
+• Easy to extend with new types
+• Consistent creation interface
+
+Example: Factory.create(list) returns [] because the factory instantiates the list type, creating an empty list.`
+  }),
+  (_i: number) => ({
+    q: `What is class Observer: def __init__(self): self._observers = []; def attach(self, observer): self._observers.append(observer); def notify(self): [o.update() for o in self._observers]?`,
+    o: ["Observer pattern", "Error", "None", "Singleton"],
+    c: 0,
+    e: "Observer pattern: subject notifies observers of changes.",
+    de: `The Observer pattern allows objects to be notified when another object changes. A subject maintains a list of observers and notifies them when its state changes. [o.update() for o in self._observers] iterates through all observers and calls their update method.
+
+Observer pattern structure:
+• class Observer: defines observer class
+• self._observers = []: list to store observers
+• attach(observer): adds observer to list
+• notify(): iterates through observers
+• [o.update() for o in self._observers]: calls update on each
+
+How it works:
+• Subject maintains list of observers
+• attach() adds observers to list
+• When subject changes, notify() is called
+• notify() calls update() on each observer
+• Observers react to the change
+
+Example:
+class NewsPublisher:
+    def __init__(self):
+        self._subscribers = []
+
+    def subscribe(self, subscriber):
+        self._subscribers.append(subscriber)
+
+    def notify(self, news):
+        for subscriber in self._subscribers:
+            subscriber.update(news)
+
+class Subscriber:
+    def update(self, news):
+        print(f"Received news: {news}")
+
+Benefits:
+• Loose coupling between objects
+• Automatic notifications
+• Extensible observer system
+• Event-driven architecture
+
+Example: Observer pattern where notify() iterates through observers and calls o.update() on each one.`
+  }),
+  (_i: number) => ({
+    q: `What is class Strategy: def execute(self): pass; class StrategyA(Strategy): def execute(self): return 'A'; class StrategyB(Strategy): def execute(self): return 'B'?`,
+    o: ["Strategy pattern", "Error", "None", "Factory"],
+    c: 0,
+    e: "Strategy pattern: interchangeable algorithms.",
+    de: `The Strategy pattern defines a family of algorithms and makes them interchangeable. StrategyA and StrategyB implement different versions of the execute method, allowing clients to choose different algorithms at runtime.
+
+Strategy pattern structure:
+• class Strategy: defines strategy interface
+• def execute(self): pass: abstract method
+• class StrategyA(Strategy): implements strategy A
+• class StrategyB(Strategy): implements strategy B
+• execute() returns different results for each strategy
+
+How it works:
+• Base Strategy class defines interface
+• Concrete strategies implement execute differently
+• Client can switch strategies at runtime
+• Each strategy encapsulates different algorithm
+• Polymorphism allows interchangeable use
+
+Example:
+class SortStrategy:
+    def sort(self, data):
+        pass
+
+class BubbleSort(SortStrategy):
+    def sort(self, data):
+        # Bubble sort implementation
+        return sorted(data)  # simplified
+
+class QuickSort(SortStrategy):
+    def sort(self, data):
+        # Quick sort implementation
+        return sorted(data)  # simplified
+
+Benefits:
+• Interchangeable algorithms
+• Runtime strategy selection
+• Clean separation of concerns
+• Easy to add new strategies
+
+Example: Strategy pattern with StrategyA.execute() returning 'A' and StrategyB.execute() returning 'B' - different algorithms for same interface.`
+  }),
+  (_i: number) => ({
+    q: `What is class Adapter: def __init__(self, obj): self.obj = obj; def method(self): return self.obj.other_method()?`,
+    o: ["Adapter pattern", "Error", "None", "Observer"],
+    c: 0,
+    e: "Adapter pattern: adapts interface of one class to another.",
+    de: `The Adapter pattern allows classes with incompatible interfaces to work together. The Adapter wraps an object and provides the expected interface by calling the wrapped object's methods. method() calls self.obj.other_method(), adapting the interface.
+
+Adapter pattern structure:
+• class Adapter: adapts incompatible interfaces
+• def __init__(self, obj): stores wrapped object
+• def method(self): provides expected interface
+• return self.obj.other_method(): calls wrapped object's method
+• Translates interface calls
+
+How it works:
+• Adapter wraps incompatible object
+• Provides expected interface to client
+• Translates method calls to wrapped object
+• method() → other_method() translation
+• Client uses adapter as if it were compatible
+
+Example:
+class OldSystem:
+    def old_method(self):
+        return "old result"
+
+class Adapter:
+    def __init__(self, old_system):
+        self.old_system = old_system
+
+    def new_method(self):  # Expected interface
+        return self.old_system.old_method()  # Adapts call
+
+old = OldSystem()
+adapter = Adapter(old)
+result = adapter.new_method()  # Works with new interface
+
+Benefits:
+• Interface compatibility
+• Legacy system integration
+• Clean API adaptation
+• Third-party library integration
+
+Example: Adapter adapts interfaces by wrapping objects and translating method calls - method() calls self.obj.other_method().`
+  }),
+  (_i: number) => ({
+    q: `What is class Builder: def __init__(self): self.parts = []; def add(self, part): self.parts.append(part); return self; def build(self): return ''.join(self.parts)?`,
+    o: ["Builder pattern", "Error", "None", "Factory"],
+    c: 0,
+    e: "Builder pattern: constructs complex objects step by step.",
+    de: `The Builder pattern separates the construction of complex objects from their representation. The builder accumulates parts and then builds the final object. add() returns self for method chaining, and build() assembles the final result.
+
+Builder pattern structure:
+• class Builder: constructs complex objects
+• self.parts = []: accumulates object parts
+• add(part): adds part and returns self for chaining
+• return self: enables method chaining
+• build(): assembles final object from parts
+
+How it works:
+• Builder accumulates parts step by step
+• add() adds parts to internal list
+• Returns self for method chaining
+• build() combines all parts
+• ''.join(self.parts) creates final string
+
+Example:
+class StringBuilder:
+    def __init__(self):
+        self.parts = []
+
+    def add(self, part):
+        self.parts.append(part)
+        return self  # Enable chaining
+
+    def build(self):
+        return ''.join(self.parts)
+
+builder = StringBuilder()
+result = builder.add('Hello').add(' ').add('World').build()
+# result = 'Hello World'
+
+Benefits:
+• Step-by-step construction
+• Method chaining
+• Complex object assembly
+• Clean construction API
+
+Example: Builder accumulates parts with add() and assembles them in build() using ''.join(self.parts).`
+  }),
+  (_i: number) => ({
+    q: `What is class Prototype: def clone(self): return type(self)()?`,
+    o: ["Prototype pattern", "Error", "None", "Singleton"],
+    c: 0,
+    e: "Prototype pattern: creates objects by cloning.",
+    de: `The Prototype pattern creates new objects by copying existing ones. clone() creates a new instance of the same type using type(self)() constructor. This avoids expensive initialization and allows creating variations from prototypes.
+
+Prototype pattern structure:
+• class Prototype: defines prototype class
+• def clone(self): creates copy of self
+• return type(self)(): creates new instance of same type
+• clone() returns new object with same structure
+• Allows creating variations from base prototype
+
+How it works:
+• Prototype defines clone method
+• clone() creates new instance using type(self)()
+• type(self) gets the class of current instance
+• () creates new instance with default values
+• Returns cloned object
+
+Example:
+class Document:
+    def __init__(self, title="", content=""):
+        self.title = title
+        self.content = content
+
+    def clone(self):
+        return type(self)(self.title, self.content)
+
+doc = Document("Original", "Content")
+copy = doc.clone()  # Creates new Document with same values
+
+Benefits:
+• Avoid expensive object creation
+• Create variations from prototypes
+• Runtime object creation
+• Simplified cloning logic
+
+Example: Prototype.clone() creates new instance using type(self)(), cloning the object's structure and initial values.`
+  }),
+  (_i: number) => ({
+    q: `What is class Facade: def __init__(self): self.subsystem1 = Subsystem1(); self.subsystem2 = Subsystem2(); def operation(self): return self.subsystem1.method() + self.subsystem2.method()?`,
+    o: ["Facade pattern", "Error", "None", "Adapter"],
+    c: 0,
+    e: "Facade pattern: provides simplified interface to complex subsystem.",
+    de: `The Facade pattern provides a simplified interface to a complex system. The facade hides the complexity of multiple subsystems and provides a single operation() method that coordinates calls to subsystem1.method() and subsystem2.method().
+
+Facade pattern structure:
+• class Facade: provides simplified interface
+• self.subsystem1 = Subsystem1(): initializes subsystems
+• self.subsystem2 = Subsystem2(): initializes more subsystems
+• def operation(self): single method for complex operations
+• return self.subsystem1.method() + self.subsystem2.method(): coordinates subsystems
+
+How it works:
+• Facade wraps multiple complex subsystems
+• Provides single operation() method
+• operation() calls multiple subsystem methods
+• Client uses simple facade interface
+• Complexity hidden behind facade
+
+Example:
+class DatabaseFacade:
+    def __init__(self):
+        self.connection = DatabaseConnection()
+        self.query_builder = QueryBuilder()
+        self.result_formatter = ResultFormatter()
+
+    def get_user_data(self, user_id):
+        # Complex operations hidden
+        query = self.query_builder.build_select(user_id)
+        raw_data = self.connection.execute(query)
+        return self.result_formatter.format(raw_data)
+
+# Simple interface for complex system
+facade = DatabaseFacade()
+user_data = facade.get_user_data(123)
+
+Benefits:
+• Simplified interface to complex systems
+• Reduced coupling to subsystems
+• Easier to use and maintain
+• Encapsulates system complexity
+
+Example: Facade provides simplified operation() that coordinates self.subsystem1.method() + self.subsystem2.method().`
+  }),
+  (_i: number) => ({
+    q: `What is class Command: def execute(self): pass; class Invoker: def __init__(self): self.command = None; def set_command(self, cmd): self.command = cmd; def execute(self): self.command.execute()?`,
+    o: ["Command pattern", "Error", "None", "Strategy"],
+    c: 0,
+    e: "Command pattern: encapsulates request as object.",
+    de: `The Command pattern encapsulates requests as objects, allowing parameterization and queuing of operations. The Invoker stores a command and calls its execute() method when needed. This decouples the requester from the actual operation.
+
+Command pattern structure:
+• class Command: defines command interface
+• def execute(self): pass: abstract execute method
+• class Invoker: stores and executes commands
+• self.command = None: stores current command
+• set_command(cmd): sets command to execute
+• execute(): calls self.command.execute()
+
+How it works:
+• Command objects encapsulate operations
+• Invoker stores command object
+• set_command() assigns command to execute
+• execute() calls command.execute()
+• Decouples operation from invocation
+
+Example:
+class Light:
+    def on(self): print("Light on")
+    def off(self): print("Light off")
+
+class LightOnCommand:
+    def __init__(self, light):
+        self.light = light
+
+    def execute(self):
+        self.light.on()
+
+class RemoteControl:
+    def __init__(self):
+        self.command = None
+
+    def set_command(self, command):
+        self.command = command
+
+    def press_button(self):
+        self.command.execute()
+
+Benefits:
+• Decouples caller from operation
+• Commands can be queued and logged
+• Undo/redo functionality possible
+• Parameterized operations
+
+Example: Command pattern where Invoker.set_command(cmd) stores command and Invoker.execute() calls self.command.execute().`
+  }),
+  (_i: number) => ({
+    q: `What is class Component: def operation(self): pass; class Composite(Component): def __init__(self): self.children = []; def add(self, child): self.children.append(child); def operation(self): [c.operation() for c in self.children]?`,
+    o: ["Composite pattern", "Error", "None", "Facade"],
+    c: 0,
+    e: "Composite pattern: treats individual and composite objects uniformly.",
+    de: `The Composite pattern allows treating individual objects and compositions of objects uniformly. operation() calls the same method on all children, whether they are individual objects or other composites. This creates a tree structure where operations propagate through the hierarchy.
+
+Composite pattern structure:
+• class Composite: defines composite class
+• self.children = []: stores child components
+• add(child): adds child to composition
+• operation(): performs operation on self and children
+• [c.operation() for c in self.children]: calls operation on each child
+
+How it works:
+• Composite contains list of children
+• add() adds components to composition
+• operation() performs work and delegates to children
+• Children can be individual objects or other composites
+• Creates recursive tree structure
+
+Example:
+class FileSystemComponent:
+    def operation(self):
+        pass
+
+class File(FileSystemComponent):
+    def operation(self):
+        print("Processing file")
+
+class Directory(FileSystemComponent):
+    def __init__(self):
+        self.children = []
+
+    def add(self, component):
+        self.children.append(component)
+
+    def operation(self):
+        print("Processing directory")
+        for child in self.children:
+            child.operation()
+
+Benefits:
+• Uniform treatment of objects and compositions
+• Recursive operations on tree structures
+• Easy to add new component types
+• Complex hierarchies simplified
+
+Example: Composite.operation() calls [c.operation() for c in self.children], recursively processing all components in the composition.`
+  }),
   
   // 71-80: Metaclasses and Advanced Features
   (_i: number) => ({ q: `What is class Meta(type): pass; class MyClass(metaclass=Meta): pass; type(MyClass)?`, o: ["<class '__main__.Meta'>", "<class 'type'>", "Error", "None"], c: 0, e: "metaclass parameter sets class's metaclass." }),
@@ -31298,9 +32196,132 @@ Example: Since __enter__ returns self, ctx is the MyContext instance, so ctx ref
   (_i: number) => ({ q: `What is import pickle; pickle.dumps([1, 2, 3])?`, o: ["Bytes object", "[1, 2, 3]", "Error", "None"], c: 0, e: "pickle.dumps() serializes object to bytes." }),
   (_i: number) => ({ q: `What is import pickle; data = pickle.dumps([1, 2, 3]); pickle.loads(data)?`, o: ["[1, 2, 3]", "Bytes object", "Error", "None"], c: 0, e: "pickle.loads() deserializes bytes to object." }),
   (_i: number) => ({ q: `What is from collections import namedtuple; Point = namedtuple('Point', ['x', 'y']); Point(1, 2)?`, o: ["Point(x=1, y=2)", "Error", "None", "(1, 2)"], c: 0, e: "namedtuple creates tuple subclass with named fields." }),
-  (_i: number) => ({ q: `What is from collections import defaultdict; d = defaultdict(list); d['key']?`, o: ["[]", "KeyError", "Error", "None"], c: 0, e: "defaultdict returns default value for missing keys." }),
-  (_i: number) => ({ q: `What is from collections import Counter; Counter([1, 1, 2, 2, 2])?`, o: ["Counter({2: 3, 1: 2})", "[1, 1, 2, 2, 2]", "Error", "None"], c: 0, e: "Counter counts occurrences of elements." }),
-  (_i: number) => ({ q: `What is from functools import lru_cache; @lru_cache(maxsize=128); def fib(n): return n if n < 2 else fib(n-1) + fib(n-2); fib(10)?`, o: ["55", "10", "Error", "None"], c: 0, e: "@lru_cache memoizes function results (caching)." }),
+  (_i: number) => ({
+    q: `What is from collections import defaultdict; d = defaultdict(list); d['key']?`,
+    o: ["[]", "KeyError", "Error", "None"],
+    c: 0,
+    e: "defaultdict returns default value for missing keys.",
+    de: `defaultdict from collections automatically creates default values for missing keys. defaultdict(list) creates a dictionary where accessing a missing key returns an empty list [] instead of raising KeyError.
+
+defaultdict features:
+• from collections import defaultdict: imports defaultdict
+• defaultdict(list): creates dict with list factory
+• d['key']: accesses missing key, gets [] (empty list)
+• No KeyError for missing keys
+• Factory function creates default values
+
+How it works:
+• defaultdict takes factory function (list)
+• When key missing, calls factory() to create value
+• d['key'] triggers list() → []
+• Value stored for future access
+• Subsequent access returns same object
+
+Example:
+from collections import defaultdict
+
+# Create defaultdict with list factory
+d = defaultdict(list)
+
+# Access missing key - gets empty list
+items = d['missing_key']  # items = []
+print(items)  # []
+
+# List is now stored
+d['missing_key'].append('item')
+print(d['missing_key'])  # ['item']
+
+Benefits:
+• No KeyError for missing keys
+• Automatic value creation
+• Cleaner code than dict.get() or manual checks
+• Useful for grouping and counting operations
+
+Example: defaultdict(list) creates dict where missing keys return [] instead of KeyError.`
+  }),
+  (_i: number) => ({
+    q: `What is from collections import Counter; Counter([1, 1, 2, 2, 2])?`,
+    o: ["Counter({2: 3, 1: 2})", "[1, 1, 2, 2, 2]", "Error", "None"],
+    c: 0,
+    e: "Counter counts occurrences of elements.",
+    de: `Counter from collections counts occurrences of elements in an iterable. Counter([1, 1, 2, 2, 2]) returns Counter({2: 3, 1: 2}) because 1 appears twice and 2 appears three times.
+
+Counter functionality:
+• from collections import Counter: imports Counter
+• Counter(iterable): counts element frequencies
+• Counter([1, 1, 2, 2, 2]): counts 1→2, 2→3
+• Returns Counter object: Counter({2: 3, 1: 2})
+• Dictionary-like with extra methods
+
+How it works:
+• Counter iterates through [1, 1, 2, 2, 2]
+• Counts each element's frequency
+• 1 appears twice: 1: 2
+• 2 appears three times: 2: 3
+• Creates Counter({2: 3, 1: 2})
+
+Example:
+from collections import Counter
+
+data = [1, 1, 2, 2, 2]
+counter = Counter(data)
+print(counter)  # Counter({2: 3, 1: 2})
+
+# Access counts
+print(counter[1])  # 2
+print(counter[2])  # 3
+print(counter[3])  # 0 (missing keys return 0)
+
+Benefits:
+• Easy frequency counting
+• Most common elements: counter.most_common()
+• Mathematical operations between counters
+• Missing keys return 0 (not KeyError)
+
+Example: Counter([1, 1, 2, 2, 2]) returns Counter({2: 3, 1: 2}) because 1 appears twice and 2 appears three times.`
+  }),
+  (_i: number) => ({
+    q: `What is from functools import lru_cache; @lru_cache(maxsize=128); def fib(n): return n if n < 2 else fib(n-1) + fib(n-2); fib(10)?`,
+    o: ["55", "10", "Error", "None"],
+    c: 0,
+    e: "@lru_cache memoizes function results (caching).",
+    de: `@lru_cache is a decorator that caches function results to avoid redundant computations. For fib(10), it caches intermediate results, making recursive Fibonacci much faster by avoiding recalculations.
+
+@lru_cache features:
+• from functools import lru_cache: imports decorator
+• @lru_cache(maxsize=128): applies caching with max 128 entries
+• Caches fib(n) results to avoid recomputation
+• fib(10) returns 55 (Fibonacci sequence)
+• Subsequent calls with same args use cached result
+
+How it works:
+• @lru_cache wraps fib function
+• First call to fib(10) computes recursively
+• Intermediate results cached: fib(9), fib(8), etc.
+• Second call to fib(10) returns cached 55
+• Dramatically faster for repeated calls
+
+Example:
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def fib(n):
+    if n < 2:
+        return n
+    return fib(n-1) + fib(n-2)
+
+result = fib(10)  # 55
+# Second call is instant (cached)
+
+Benefits:
+• Eliminates redundant computations
+• Speeds up recursive functions dramatically
+• Configurable cache size
+• Transparent to calling code
+• Memory vs speed tradeoff
+
+Example: @lru_cache enables fib(10) to return 55 quickly by caching intermediate Fibonacci calculations.`
+  }),
 ];
 
 // GENERATOR ENGINE
