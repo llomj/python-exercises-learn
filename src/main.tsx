@@ -7,7 +7,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     // Use base path for production (GitHub Pages), '/' for local development
     const basePath = import.meta.env.PROD ? '/python-exercises-learn/' : '/';
-    navigator.serviceWorker.register(`${basePath}sw.js`)
+    navigator.serviceWorker.register(`${basePath}sw.js?v=4`)
       .then(registration => {
         console.log('Python Exercises Learn SW registered: ', registration);
       })
