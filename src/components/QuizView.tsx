@@ -277,9 +277,15 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 </div>
               )}
               <div className="space-y-4">
-                <p className="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
-                  {currentQuestion.explanation}
-                </p>
+                {currentQuestion.explanation.match(/\b(def|print|for|if|while|class|import)\b/) ? (
+                  <SyntaxHighlighter language="python" style={oneDark} className="text-sm rounded-lg">
+                    {formatCodeSnippet(currentQuestion.explanation)}
+                  </SyntaxHighlighter>
+                ) : (
+                  <p className="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
+                    {currentQuestion.explanation}
+                  </p>
+                )}
                 {showDetailedExplanation && currentQuestion.detailedExplanation && (
                   <div className="animate-in slide-in-from-top-4 duration-300 pt-4 border-t border-indigo-500/20">
                     <div className="space-y-3">
