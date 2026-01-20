@@ -13,8 +13,10 @@ const formatCodeSnippet = (text: string): string => {
     return text;
   }
 
+  // Replace ; with newlines to split statements
+  let formatted = text.replace(/; /g, ';\n');
+
   // Simple Python-like indentation
-  let formatted = text;
   let indentLevel = 0;
 
   // Split into statements (basic)
