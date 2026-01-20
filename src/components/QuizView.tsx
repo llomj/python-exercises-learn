@@ -8,27 +8,59 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Function to format code snippets with proper Python indentation
 const formatCodeSnippet = (text: string): string => {
+  if (!text) return '';
+  
   // Replace ; with newlines to split statements
   let formatted = text.replace(/; /g, '\n');
-
-  // Split into lines
-  const lines = formatted.split('\n');
+  
+  // Normalize existing newlines and split into lines
+  const lines = formatted.split(/\r?\n/);
   const indentedLines: string[] = [];
   let indentLevel = 0;
+  const indentSize = 4; // Python standard is 4 spaces
 
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i].trim();
-    if (!line) continue;
+    let line = lines[i];
+    const trimmedLine = line.trim();
+    
+    // Preserve empty lines
+    if (!trimmedLine) {
+      indentedLines.push('');
+      continue;
+    }
 
-    // Increase indent after :
-    if (line.endsWith(':')) {
-      indentedLines.push('    '.repeat(indentLevel) + line);
-      indentLevel += 1;
+    // Check if line already has proper indentation (starts with spaces)
+    const existingIndentMatch = line.match(/^(\s*)/);
+    const existingIndent = existingIndentMatch ? existingIndentMatch[1] : '';
+    
+    // If line already has indentation, preserve it (normalize to 4-space increments)
+    if (existingIndent.length > 0) {
+      // Normalize to 4-space indentation
+      const existingIndentLevel = Math.round(existingIndent.length / indentSize);
+      indentedLines.push(' '.repeat(existingIndentLevel * indentSize) + trimmedLine);
+      
+      // Update indent level for next line based on current line
+      if (trimmedLine.endsWith(':')) {
+        indentLevel = existingIndentLevel + 1;
+      } else if (/^\s*(else|elif|except|finally)\b/.test(trimmedLine)) {
+        // These keywords should be at the same level as the previous block
+        indentLevel = Math.max(0, existingIndentLevel);
+      }
     } else {
-      indentedLines.push('    '.repeat(indentLevel) + line);
-      // Decrease indent for dedent keywords
-      if (/^\s*(pass|break|continue|return|raise)\b/.test(line)) {
+      // Line has no indentation - apply current indent level
+      if (trimmedLine.endsWith(':')) {
+        indentedLines.push(' '.repeat(indentLevel * indentSize) + trimmedLine);
+        indentLevel += 1;
+      } else if (/^(else|elif|except|finally)\b/.test(trimmedLine)) {
+        // These should be at previous indent level
         indentLevel = Math.max(0, indentLevel - 1);
+        indentedLines.push(' '.repeat(indentLevel * indentSize) + trimmedLine);
+      } else {
+        indentedLines.push(' '.repeat(indentLevel * indentSize) + trimmedLine);
+        // Decrease indent for dedent keywords
+        if (/^(pass|break|continue|return|raise)\b/.test(trimmedLine)) {
+          indentLevel = Math.max(0, indentLevel - 1);
+        }
       }
     }
   }
@@ -37,16 +69,101 @@ const formatCodeSnippet = (text: string): string => {
 };
 
 // Function to split question into prefix and code
+// Keeps all question text (like "What is", "Result of", "Value of", etc.) together at the top
 const splitQuestion = (text: string) => {
-  const codeKeywords = /\b(def|print|for|if|while|class|import|type|len|str|int|float|list|dict|set|tuple|range|enumerate|zip|map|filter|sum|max|min|sorted|reversed|abs|round|bool|isinstance|callable|hasattr|getattr|setattr|delattr|property|staticmethod|classmethod|super|is|in|not|and|or|True|False|None)\b/;
-  const match = text.match(codeKeywords);
-  if (match) {
-    const codeStart = text.indexOf(match[0]);
-    return {
-      prefix: text.substring(0, codeStart).trim(),
-      code: text.substring(codeStart)
-    };
+  // Check for multi-line code blocks (has newlines and indentation)
+  if (text.includes('\n')) {
+    const lines = text.split('\n');
+    // Find first line that looks like code (has indentation or code keywords)
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      // If line has indentation or starts with code keywords, split here
+      if (/^\s{2,}/.test(line) || /^\s*(def|class|for|while|if|with|import|from)\s+/.test(line)) {
+        return {
+          prefix: lines.slice(0, i).join('\n').trim(),
+          code: lines.slice(i).join('\n')
+        };
+      }
+    }
   }
+  
+  // For single-line questions, find where code starts
+  // First, check if there's a question word pattern
+  const questionWordMatch = text.match(/^(What|Result|Output|Value|Which|How|When|Where|Why|Can|Does|Is|Are|Will|Would|Should)\s+(is|of|are|the|does|will|would|should|can)?\s*/i);
+  
+  if (questionWordMatch) {
+    const questionEnd = questionWordMatch[0].length;
+    let remainingText = text.substring(questionEnd).trim();
+    
+    // Remove trailing question mark if present (it's part of the question, not code)
+    const hasQuestionMark = remainingText.endsWith('?');
+    if (hasQuestionMark) {
+      remainingText = remainingText.slice(0, -1).trim();
+    }
+    
+    // If remaining text has function calls, brackets, or other code patterns, treat as code
+    // This catches cases like "type(None)", "print('hello')", "[1, 2, 3]", etc.
+    const functionCallPattern = /[a-zA-Z_]\w*\s*\(/;
+    const bracketPattern = /[\[\(\{]/;
+    const codeKeywordPattern = /\b(def|class|for|while|if|with|import|from|print)\s+/;
+    
+    if (functionCallPattern.test(remainingText) || 
+        bracketPattern.test(remainingText) || 
+        codeKeywordPattern.test(remainingText)) {
+      // Find where the code actually starts
+      const codeStartMatch = remainingText.match(functionCallPattern) || 
+                            remainingText.match(bracketPattern) ||
+                            remainingText.match(codeKeywordPattern);
+      
+      if (codeStartMatch && codeStartMatch.index !== undefined) {
+        const codeStart = codeStartMatch.index;
+        // If code starts after a short word (like "the"), include it in prefix
+        if (codeStart > 0 && codeStart < 10) {
+          const beforeCode = remainingText.substring(0, codeStart).trim();
+          if (/^(the|a|an)\s+/i.test(beforeCode)) {
+            return {
+              prefix: text.substring(0, questionEnd + codeStart).trim() + (hasQuestionMark ? '?' : ''),
+              code: remainingText.substring(codeStart)
+            };
+          }
+        }
+        // Code starts at beginning or after question word
+        return {
+          prefix: text.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
+          code: remainingText.substring(codeStart)
+        };
+      } else {
+        // Has code patterns but no clear start - treat all remaining as code
+        return {
+          prefix: text.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
+          code: remainingText
+        };
+      }
+    }
+  }
+  
+  // Fallback: look for common code patterns anywhere in the text
+  const codePatterns = [
+    /\b(def|class|for|while|if|with|import|from)\s+/,  // Code keywords
+    /print\s*\(/,                                      // Print statements
+    /[a-zA-Z_]\w*\s*\(/,                               // Function calls (more lenient)
+  ];
+  
+  for (const pattern of codePatterns) {
+    const match = text.match(pattern);
+    if (match && match.index !== undefined) {
+      const beforeCode = text.substring(0, match.index).trim();
+      // Check if there's a question word before
+      if (/^(What|Result|Output|Value|Which|How|When|Where|Why|Can|Does|Is|Are|Will|Would|Should)/i.test(beforeCode)) {
+        return {
+          prefix: beforeCode,
+          code: text.substring(match.index).trim()
+        };
+      }
+    }
+  }
+  
+  // Fallback: if no clear code pattern, return as prefix
   return { prefix: text, code: '' };
 };
 
@@ -218,31 +335,54 @@ export const QuizView: React.FC<QuizViewProps> = ({
          </div>
 
          <div className="space-y-4 pt-8">
-           <div className="max-h-[70vh] overflow-y-auto overflow-x-auto bg-slate-800 rounded-lg">
-             {currentQuestion.question.match(/\b(def|print|for|if|while|class|import|type|len|str|int|float|list|dict|set|tuple|range|enumerate|zip|map|filter|sum|max|min|sorted|reversed|abs|round|bool|isinstance|callable|hasattr|getattr|setattr|delattr|property|staticmethod|classmethod|super|is|in|not|and|or|True|False|None)\b/) ? (
-               (() => {
-                 const { prefix, code } = splitQuestion(currentQuestion.question);
+           <div className="max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
+             {(() => {
+               const { prefix, code } = splitQuestion(currentQuestion.question);
+               // If we detected code, show prefix at top and code below
+               if (code) {
                  return (
-                   <div className="space-y-2">
+                   <div className="flex flex-col">
+                     {/* Question text always grouped at the top */}
                      {prefix && (
-                       <p className="text-white text-lg font-medium px-2 pt-2">{prefix}</p>
+                       <div className="px-4 pt-4 pb-2 border-b border-slate-700/50">
+                         <p className="text-white text-lg font-medium leading-relaxed">{prefix}</p>
+                       </div>
                      )}
-                     <SyntaxHighlighter
-                       language="python"
-                       style={oneDark}
-                       customStyle={{padding: '0.5rem', margin: 0, background: 'transparent'}}
-                       className="text-sm"
-                     >
-                       {formatCodeSnippet(code)}
-                     </SyntaxHighlighter>
+                     {/* Code snippet below with proper formatting */}
+                     <div className="overflow-x-auto flex-1">
+                       <SyntaxHighlighter
+                         language="python"
+                         style={oneDark}
+                         customStyle={{
+                           padding: '1rem',
+                           margin: 0,
+                           background: 'transparent',
+                           fontSize: '0.875rem',
+                           lineHeight: '1.75',
+                           fontFamily: "'Fira Code', monospace"
+                         }}
+                         codeTagProps={{
+                           style: {
+                             fontFamily: "'Fira Code', monospace",
+                             whiteSpace: 'pre',
+                             display: 'block'
+                           }
+                         }}
+                         PreTag="div"
+                       >
+                         {formatCodeSnippet(code)}
+                       </SyntaxHighlighter>
+                     </div>
                    </div>
                  );
-               })()
-             ) : (
-               <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-2 pt-2">
-                 {currentQuestion.question}
-               </h2>
-             )}
+               }
+               // No code detected, show as regular question
+               return (
+                 <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4">
+                   {currentQuestion.question}
+                 </h2>
+               );
+             })()}
            </div>
          </div>
 
@@ -311,9 +451,30 @@ export const QuizView: React.FC<QuizViewProps> = ({
               )}
               <div className="space-y-4">
                 {currentQuestion.explanation.match(/\b(def|print|for|if|while|class|import)\b/) ? (
-                  <SyntaxHighlighter language="python" style={oneDark} className="text-sm rounded-lg">
-                    {formatCodeSnippet(currentQuestion.explanation)}
-                  </SyntaxHighlighter>
+                  <div className="overflow-x-auto bg-slate-900 rounded-lg">
+                    <SyntaxHighlighter 
+                      language="python" 
+                      style={oneDark} 
+                      customStyle={{
+                        padding: '1rem',
+                        margin: 0,
+                        background: 'transparent',
+                        fontSize: '0.875rem',
+                        lineHeight: '1.5',
+                        fontFamily: "'Fira Code', monospace"
+                      }}
+                      codeTagProps={{
+                        style: {
+                          fontFamily: "'Fira Code', monospace",
+                          whiteSpace: 'pre',
+                          display: 'block'
+                        }
+                      }}
+                      PreTag="div"
+                    >
+                      {formatCodeSnippet(currentQuestion.explanation)}
+                    </SyntaxHighlighter>
+                  </div>
                 ) : (
                   <p className="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
                     {currentQuestion.explanation}
