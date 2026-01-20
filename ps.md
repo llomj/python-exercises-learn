@@ -55,14 +55,19 @@ Before moving to the next level:
 
 ---
 
-## URGENT: Code Snippet Indentation Issue
-**CRITICAL**: Code snippets in questions MUST have proper 4-space Python indentation. Currently, code appears without indentation, making it unreadable. This is a blocking issue that must be fixed immediately.
+## URGENT: Code Snippet Formatting Issues
+**CRITICAL**: 
+- Code snippets MUST use proper 4-space Python indentation (not 2 or other)
+- Remove excessive left padding from code panel - code should align to far left
+- No wasted space - minimal padding only
+- Research proper react-syntax-highlighter styling for clean code display
 
 ## Current UI Issues
 - Code panel too small (needs 3x larger, e.g., max-h-[70vh])
 - Code panel background white/light instead of matching dark logic panel
 - Code panel scrolls horizontal instead of vertical for long code
 - Code snippets lack proper Python indentation (appear in one row, not formatted like real code) - **URGENT FIX NEEDED**
+- Excessive left padding wasting space - **FIX IMMEDIATELY**
 
 ## Solutions Implemented
 - Updated SW cache version for refresh

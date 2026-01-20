@@ -211,23 +211,28 @@ export const QuizView: React.FC<QuizViewProps> = ({
          </div>
 
          <div className="space-y-4 pt-8">
-           <div className="max-h-[70vh] overflow-y-auto overflow-x-auto bg-slate-800 p-4 rounded-lg">
+           <div className="max-h-[70vh] overflow-y-auto overflow-x-auto bg-slate-800 rounded-lg">
              {currentQuestion.question.match(/\b(def|print|for|if|while|class|import|type|len|str|int|float|list|dict|set|tuple|range|enumerate|zip|map|filter|sum|max|min|sorted|reversed|abs|round|bool|isinstance|callable|hasattr|getattr|setattr|delattr|property|staticmethod|classmethod|super|is|in|not|and|or|True|False|None)\b/) ? (
                (() => {
                  const { prefix, code } = splitQuestion(currentQuestion.question);
                  return (
-                   <div className="space-y-4">
+                   <div className="space-y-2">
                      {prefix && (
-                       <p className="text-white text-lg font-medium">{prefix}</p>
+                       <p className="text-white text-lg font-medium px-2 pt-2">{prefix}</p>
                      )}
-                     <SyntaxHighlighter language="python" style={oneDark} className="text-sm">
+                     <SyntaxHighlighter
+                       language="python"
+                       style={oneDark}
+                       customStyle={{padding: '0.5rem', margin: 0, background: 'transparent'}}
+                       className="text-sm"
+                     >
                        {formatCodeSnippet(code)}
                      </SyntaxHighlighter>
                    </div>
                  );
                })()
              ) : (
-               <h2 className="text-xl md:text-2xl font-bold leading-tight text-white">
+               <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-2 pt-2">
                  {currentQuestion.question}
                </h2>
              )}
