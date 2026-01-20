@@ -173,7 +173,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
          <div className="space-y-4 pt-8">
            <div className="max-h-64 overflow-y-auto">
-             {currentQuestion.question.includes('\n') ? (
+             {currentQuestion.question.match(/\n/) && currentQuestion.question.match(/^\s+/m) ? (
                <pre className="text-sm md:text-base font-mono bg-slate-800 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap text-white">
                  {currentQuestion.question}
                </pre>
