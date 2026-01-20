@@ -1,6 +1,6 @@
 {
   "name": "python-exercises-learn",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Interactive Python learning platform with evolutionary progression",
   "type": "module",
   "scripts": {
