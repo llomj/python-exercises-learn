@@ -13,26 +13,38 @@ const formatCodeSnippet = (text: string): string => {
     return text;
   }
 
-  // Simple formatting for common patterns
+  // Simple Python-like indentation
   let formatted = text;
+  let indentLevel = 0;
 
-  // Add newline after def/class/if/for/while
-  formatted = formatted.replace(/(\bdef\s+\w+\([^)]*\):)/g, '$1\n');
-  formatted = formatted.replace(/(\bclass\s+\w+[^:]*:)/g, '$1\n');
-  formatted = formatted.replace(/(\bif\s+[^:]+:)/g, '$1\n');
-  formatted = formatted.replace(/(\bfor\s+[^:]+:)/g, '$1\n');
-  formatted = formatted.replace(/(\bwhile\s+[^:]+:)/g, '$1\n');
-
-  // Split into lines
+  // Split into statements (basic)
   const lines = formatted.split('\n');
+  const indentedLines: string[] = [];
 
-  // Indent body lines (not the first line if it's def/class)
-  const indentedLines = lines.map((line, index) => {
-    if (index === 0 && /^\s*(def|class)\b/.test(line)) {
-      return line; // Don't indent def/class line
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i].trim();
+    if (!line) continue;
+
+    // Check for keywords that increase indent
+    if (/^\s*(def|class|if|elif|else|for|while|with|try|except|finally)\b/.test(line)) {
+      indentedLines.push('    '.repeat(indentLevel) + line);
+      if (line.endsWith(':')) {
+        indentLevel++;
+      }
+    } else if (/^\s*(elif|else|except|finally)\b/.test(line)) {
+      indentLevel = Math.max(0, indentLevel - 1);
+      indentedLines.push('    '.repeat(indentLevel) + line);
+      if (line.endsWith(':')) {
+        indentLevel++;
+      }
+    } else {
+      indentedLines.push('    '.repeat(indentLevel) + line);
+      // Basic dedent for pass/break/continue/return
+      if (/^\s*(pass|break|continue|return|raise)\b/.test(line)) {
+        indentLevel = Math.max(0, indentLevel - 1);
+      }
     }
-    return line.trim() ? '    ' + line : line; // Indent body lines
-  });
+  }
 
   return indentedLines.join('\n');
 };
