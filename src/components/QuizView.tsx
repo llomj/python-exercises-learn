@@ -32,6 +32,20 @@ const formatCodeSnippet = (text: string): string => {
   return formatted;
 };
 
+// Function to split question into prefix and code
+const splitQuestion = (text: string) => {
+  const codeKeywords = /\b(def|print|for|if|while|class|import|type)\b/;
+  const match = text.match(codeKeywords);
+  if (match) {
+    const codeStart = text.indexOf(match[0]);
+    return {
+      prefix: text.substring(0, codeStart).trim(),
+      code: text.substring(codeStart)
+    };
+  }
+  return { prefix: text, code: '' };
+};
+
 interface QuizViewProps {
   level: number;
   currentProgress: number;
@@ -202,9 +216,19 @@ export const QuizView: React.FC<QuizViewProps> = ({
          <div className="space-y-4 pt-8">
            <div className="max-h-[70vh] overflow-y-auto overflow-x-auto bg-slate-800 p-4 rounded-lg">
              {currentQuestion.question.match(/\b(def|print|for|if|while|class|import)\b/) ? (
-               <SyntaxHighlighter language="python" style={oneDark} className="text-sm">
-                 {formatCodeSnippet(currentQuestion.question)}
-               </SyntaxHighlighter>
+               (() => {
+                 const { prefix, code } = splitQuestion(currentQuestion.question);
+                 return (
+                   <div className="space-y-4">
+                     {prefix && (
+                       <p className="text-white text-lg font-medium">{prefix}</p>
+                     )}
+                     <SyntaxHighlighter language="python" style={oneDark} className="text-sm">
+                       {formatCodeSnippet(code)}
+                     </SyntaxHighlighter>
+                   </div>
+                 );
+               })()
              ) : (
                <h2 className="text-xl md:text-2xl font-bold leading-tight text-white">
                  {currentQuestion.question}
