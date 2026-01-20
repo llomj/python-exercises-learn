@@ -32322,6 +32322,167 @@ Benefits:
 
 Example: @lru_cache enables fib(10) to return 55 quickly by caching intermediate Fibonacci calculations.`
   }),
+  (_i: number) => ({
+    q: `What is class Meta(type): def __new__(cls, name, bases, dct): return super().__new__(cls, name, bases, dct); class MyClass(metaclass=Meta): pass; isinstance(MyClass, Meta)?`,
+    o: ["True", "False", "Error", "None"],
+    c: 0,
+    e: "Metaclass is the class of a class.",
+    de: `Metaclasses are classes that create classes. isinstance(MyClass, Meta) returns True because MyClass is an instance of the Meta metaclass. Meta is the metaclass that created MyClass.
+
+Metaclass relationship:
+• class Meta(type): metaclass definition
+• metaclass=Meta: uses Meta to create MyClass
+• Meta is the class of MyClass
+• isinstance(MyClass, Meta): True
+• type(MyClass): <class '__main__.Meta'>
+
+How it works:
+• metaclass=Meta tells Python to use Meta for class creation
+• Meta.__new__() creates the class object
+• Meta.__init__() initializes the class
+• MyClass becomes instance of Meta
+• isinstance(MyClass, Meta) confirms relationship
+
+Example:
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f"Creating class {name}")
+        return super().__new__(cls, name, bases, dct)
+
+class MyClass(metaclass=Meta):
+    pass
+
+print(isinstance(MyClass, Meta))  # True
+print(type(MyClass))              # <class '__main__.Meta'>
+
+Benefits:
+• Class creation customization
+• Automatic class modification
+• Singleton classes, ORM mapping
+• Advanced class behaviors
+
+Example: isinstance(MyClass, Meta) returns True because Meta is the metaclass that created MyClass.`
+  }),
+  (_i: number) => ({
+    q: `What is class MyClass: __slots__ = ['x', 'y']; obj = MyClass(); obj.x = 1; hasattr(obj, '__dict__')?`,
+    o: ["False", "True", "Error", "None"],
+    c: 0,
+    e: "__slots__ prevents __dict__ creation for memory efficiency.",
+    de: `__slots__ restricts instance attributes to a fixed set, preventing __dict__ creation. This saves memory by avoiding the dynamic attribute dictionary. hasattr(obj, '__dict__') returns False because __slots__ eliminates the __dict__.
+
+__slots__ memory optimization:
+• __slots__ = ['x', 'y']: restricts attributes to listed names
+• No __dict__ created for instances
+• Saves memory (no attribute dictionary)
+• Faster attribute access
+• hasattr(obj, '__dict__'): False
+
+How it works:
+• __slots__ defines allowed attribute names
+• Python doesn't create __dict__ for instances
+• Attributes stored in fixed memory layout
+• Cannot add arbitrary attributes
+• Memory efficient for many instances
+
+Example:
+class Point:
+    __slots__ = ['x', 'y']
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+p = Point(1, 2)
+print(hasattr(p, '__dict__'))  # False
+p.z = 3  # AttributeError - not in __slots__
+
+Benefits:
+• Memory savings (no __dict__)
+• Faster attribute access
+• Prevents accidental attribute creation
+• Better memory usage for large numbers of instances
+
+Example: hasattr(obj, '__dict__') returns False because __slots__ prevents __dict__ creation for memory efficiency.`
+  }),
+  (_i: number) => ({
+    q: `What is from typing import List, Dict; def process(data: List[int]) -> Dict[str, int]: return {'count': len(data), 'sum': sum(data)}; process.__annotations__?`,
+    o: ["{'data': <class 'typing.List[int]'>, 'return': <class 'typing.Dict[str, int]'>}", "{}", "Error", "None"],
+    c: 0,
+    e: "__annotations__ stores type hints as dictionary.",
+    de: `Type hints are stored in the __annotations__ attribute as a dictionary. process.__annotations__ contains the parameter and return type annotations. This allows runtime inspection of type hints.
+
+Type annotations storage:
+• def process(data: List[int]) -> Dict[str, int]: function with type hints
+• __annotations__ stores type information
+• {'data': List[int], 'return': Dict[str, int]}
+• Runtime accessible type information
+• Used by type checkers and documentation tools
+
+How it works:
+• Type hints added to function definition
+• Python stores hints in __annotations__
+• Accessible at runtime
+• Not enforced by Python (hints only)
+• Used by mypy, IDEs, documentation
+
+Example:
+from typing import List, Dict
+
+def process(data: List[int]) -> Dict[str, int]:
+    return {'count': len(data), 'sum': sum(data)}
+
+print(process.__annotations__)
+# {'data': typing.List[int], 'return': typing.Dict[str, int]}
+
+Benefits:
+• Runtime type information access
+• Documentation and IDE support
+• Type checking tools
+• API introspection
+• Development tooling
+
+Example: process.__annotations__ returns {'data': List[int], 'return': Dict[str, int]} containing the function's type hints.`
+  }),
+  (_i: number) => ({
+    q: `What is import asyncio; async def fetch(): return 'data'; asyncio.run(fetch())?`,
+    o: ["'data'", "Error", "None", "<coroutine object>"],
+    c: 0,
+    e: "asyncio.run() executes async function and returns result.",
+    de: `asyncio.run() executes an async function and returns its result. async def defines a coroutine function. asyncio.run(fetch()) runs the coroutine and returns 'data'.
+
+Async/await execution:
+• async def fetch(): defines coroutine function
+• return 'data': coroutine returns value
+• asyncio.run(fetch()): executes coroutine
+• Returns 'data' (the coroutine's return value)
+• Handles event loop management
+
+How it works:
+• async def creates coroutine function
+• Calling fetch() creates coroutine object
+• asyncio.run() executes coroutine
+• Event loop manages execution
+• Returns final result
+
+Example:
+import asyncio
+
+async def fetch():
+    await asyncio.sleep(0.1)  # Simulate async operation
+    return 'data'
+
+result = asyncio.run(fetch())  # 'data'
+print(result)
+
+Benefits:
+• Non-blocking I/O operations
+• Concurrent execution
+• Better resource utilization
+• Scalable network applications
+• Simplified async code with async/await
+
+Example: asyncio.run(fetch()) executes the async function and returns 'data', the result of the coroutine.`
+  }),
 ];
 
 // GENERATOR ENGINE
