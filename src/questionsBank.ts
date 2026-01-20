@@ -30258,35 +30258,960 @@ Example: If class A: def __str__(self): return 'A'; class B: def __str__(self): 
 // Each question tests a DIFFERENT concept - NO number/variable variations of the same question
 const level10Patterns = [
   // 1-10: Exception Handling - try/except
-  (_i: number) => ({ q: `What is try/except?`, o: ["Exception handling", "Loop control", "Error", "Function definition"], c: 0, e: "try/except handles exceptions." }),
-  (_i: number) => ({ q: `What is try: 1/0; except: pass?`, o: ["Catches all exceptions", "Raises exception", "Error", "None"], c: 0, e: "Bare except catches all exceptions." }),
-  (_i: number) => ({ q: `What is try: 1/0; except ZeroDivisionError: pass?`, o: ["Catches ZeroDivisionError", "Raises exception", "Error", "None"], c: 0, e: "Specific exception type catches only that exception." }),
-  (_i: number) => ({ q: `What is try: 1/0; except ZeroDivisionError as e: type(e)?`, o: ["<class 'ZeroDivisionError'>", "Error", "None", "<class 'Exception'>"], c: 0, e: "Exception object captured in variable." }),
-  (_i: number) => ({ q: `What is try: 1/0; except (ZeroDivisionError, ValueError): pass?`, o: ["Catches multiple exception types", "Raises exception", "Error", "None"], c: 0, e: "Tuple catches multiple exception types." }),
-  (_i: number) => ({ q: `What is try: 1/0; except ZeroDivisionError: pass; except ValueError: pass?`, o: ["Multiple except clauses", "SyntaxError", "Error", "None"], c: 0, e: "Multiple except clauses handle different exceptions." }),
-  (_i: number) => ({ q: `What is try: pass; except: pass; else: x = 1; x?`, o: ["1", "Error", "None", "0"], c: 0, e: "else clause runs if no exception occurred." }),
-  (_i: number) => ({ q: `What is try: 1/0; except: pass; else: x = 1; x?`, o: ["NameError", "1", "Error", "None"], c: 0, e: "else clause doesn't run if exception occurred." }),
-  (_i: number) => ({ q: `What is try: pass; except: pass; finally: x = 1; x?`, o: ["1", "Error", "None", "0"], c: 0, e: "finally clause always runs." }),
-  (_i: number) => ({ q: `What is try: 1/0; except: pass; finally: x = 1; x?`, o: ["1", "Error", "None", "0"], c: 0, e: "finally clause runs even if exception occurred." }),
+  (_i: number) => ({
+    q: `What is try/except?`,
+    o: ["Exception handling", "Loop control", "Error", "Function definition"],
+    c: 0,
+    e: "try/except handles exceptions.",
+    de: `try/except is Python's exception handling mechanism that allows code to gracefully handle errors and unexpected conditions. The try block contains code that might raise an exception, and the except block catches and handles those exceptions. If an exception occurs in the try block, execution immediately jumps to the except block, skipping any remaining code in the try block. This prevents the program from crashing and allows for proper error handling.
+
+try/except syntax:
+• try: block_of_code_that_might_fail
+• except ExceptionType: handle_the_error
+• Execution jumps to except if exception occurs
+• Program continues after handling the exception
+
+How it works:
+• Code in try block executes normally
+• If exception occurs, execution jumps to except block
+• Exception is caught and handled
+• Program continues after try/except
+• Multiple except blocks can handle different exception types
+
+Example:
+try:
+    result = 10 / 0  # This raises ZeroDivisionError
+    print("This won't execute")
+except ZeroDivisionError:
+    print("Division by zero!")  # This executes instead
+
+Common uses:
+• File operations: handle file not found, permission errors
+• Network operations: handle connection failures, timeouts
+• User input: handle invalid input, conversion errors
+• Database operations: handle connection issues, query errors
+
+Example: try/except is exception handling - it allows code to catch and respond to errors gracefully instead of crashing the program.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except: pass?`,
+    o: ["Catches all exceptions", "Raises exception", "Error", "None"],
+    c: 0,
+    e: "Bare except catches all exceptions.",
+    de: `A bare except clause (except: without specifying an exception type) catches all exceptions, including system exceptions like KeyboardInterrupt and SystemExit. While convenient for catching any error, bare except clauses are generally discouraged because they can hide important errors and make debugging difficult. The pass statement does nothing, so this code silently ignores any exception that occurs in the try block.
+
+Bare except catches everything:
+• except: (no type specified)
+• Catches all exception types
+• Including KeyboardInterrupt, SystemExit, etc.
+• Generally discouraged practice
+• Can hide important errors
+
+How it works:
+• Any exception in try block is caught
+• No matter what type of exception
+• Code in except block executes
+• pass does nothing (silently ignores error)
+• Program continues after try/except
+
+Example:
+try:
+    result = 1 / 0  # ZeroDivisionError
+except:  # Catches ALL exceptions
+    pass  # Does nothing, silently ignores
+
+Problems with bare except:
+• Hides bugs and unexpected errors
+• Makes debugging difficult
+• Can catch system signals (Ctrl+C)
+• Better to specify exception types
+
+Example: try: 1/0; except: pass catches all exceptions including ZeroDivisionError, KeyboardInterrupt, and others, silently ignoring them with pass.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except ZeroDivisionError: pass?`,
+    o: ["Catches ZeroDivisionError", "Raises exception", "Error", "None"],
+    c: 0,
+    e: "Specific exception type catches only that exception.",
+    de: `Specifying an exception type in the except clause catches only that specific type of exception. When you write except ZeroDivisionError, only ZeroDivisionError exceptions are caught - other exceptions will not be caught and will propagate up. This is the recommended way to handle exceptions because it allows specific error handling and doesn't hide unrelated errors.
+
+Specific exception catching:
+• except ZeroDivisionError: catches only ZeroDivisionError
+• Other exceptions not caught
+• Allows targeted error handling
+• Doesn't hide unrelated errors
+• Recommended practice
+
+How it works:
+• Exception occurs in try block
+• Python checks exception type
+• If ZeroDivisionError, executes except block
+• If other exception, not caught, propagates up
+• Program can have multiple except blocks
+
+Example:
+try:
+    result = 1 / 0  # ZeroDivisionError
+except ZeroDivisionError:  # Catches only ZeroDivisionError
+    print("Division by zero!")
+except ValueError:  # Would catch ValueError if it occurred
+    print("Value error!")
+
+Benefits:
+• Targeted error handling
+• Different exceptions handled differently
+• Unrelated errors still visible
+• Easier debugging
+
+Example: try: 1/0; except ZeroDivisionError: pass catches only ZeroDivisionError, letting other exceptions (like ValueError, TypeError) propagate uncaught.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except ZeroDivisionError as e: type(e)?`,
+    o: ["<class 'ZeroDivisionError'>", "Error", "None", "<class 'Exception'>"],
+    c: 0,
+    e: "Exception object captured in variable.",
+    de: `The 'as variable' syntax in except clauses captures the exception object, allowing access to exception details. When you write except ZeroDivisionError as e, the exception object is assigned to variable e, and you can access its attributes and methods. The type(e) returns the class of the exception object, which is ZeroDivisionError in this case.
+
+Exception object capture:
+• except ExceptionType as variable: captures exception
+• Exception object assigned to variable
+• Can access exception attributes
+• type(e) returns exception class
+• str(e) returns error message
+
+How it works:
+• Exception occurs in try block
+• Exception object created
+• Object assigned to variable 'e'
+• Can inspect exception details
+• type(e) shows exception type
+
+Example:
+try:
+    result = 1 / 0
+except ZeroDivisionError as e:
+    print(type(e))  # <class 'ZeroDivisionError'>
+    print(str(e))   # "division by zero"
+
+Exception object attributes:
+• __class__: exception type
+• args: exception arguments
+• __str__(): string representation
+• Custom attributes for custom exceptions
+
+Example: try: 1/0; except ZeroDivisionError as e: type(e) returns <class 'ZeroDivisionError'> because the exception object captured in variable e is an instance of ZeroDivisionError.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except (ZeroDivisionError, ValueError): pass?`,
+    o: ["Catches multiple exception types", "Raises exception", "Error", "None"],
+    c: 0,
+    e: "Tuple catches multiple exception types.",
+    de: `You can catch multiple exception types in a single except clause by using a tuple of exception types. except (ZeroDivisionError, ValueError) will catch either ZeroDivisionError or ValueError exceptions. This is useful when multiple different exceptions require the same handling logic, avoiding code duplication.
+
+Multiple exception types in tuple:
+• except (Type1, Type2, Type3): catches any of these
+• Single except block handles multiple exceptions
+• Avoids code duplication
+• Parentheses required for tuple
+
+How it works:
+• Exception occurs in try block
+• Python checks if exception type matches any in tuple
+• If match, executes except block
+• If no match, exception propagates
+• All listed types handled the same way
+
+Example:
+try:
+    # Code that might raise different errors
+    result = int(input("Enter number: "))  # ValueError if not number
+    result = 10 / result  # ZeroDivisionError if 0
+except (ZeroDivisionError, ValueError):  # Catches both
+    print("Invalid input or division by zero!")
+
+Benefits:
+• Single handler for related exceptions
+• Cleaner code than multiple except blocks
+• Groups exceptions with same handling
+• Reduces duplication
+
+Example: try: 1/0; except (ZeroDivisionError, ValueError): pass catches both ZeroDivisionError and ValueError with a single except clause.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except ZeroDivisionError: pass; except ValueError: pass?`,
+    o: ["Multiple except clauses", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "Multiple except clauses handle different exceptions.",
+    de: `You can have multiple except clauses after a single try block to handle different exception types with different logic. Each except clause is checked in order, and only the first matching one executes. This allows for specific, targeted error handling where different exceptions require different responses.
+
+Multiple except clauses:
+• try: code_that_might_fail
+• except Type1: handle_type1_error
+• except Type2: handle_type2_error
+• except Type3: handle_type3_error
+• Each except handles different exception
+
+How it works:
+• Exception occurs in try block
+• Python checks except clauses in order
+• First matching exception type executes
+• Other except clauses skipped
+• Unmatched exceptions propagate up
+
+Example:
+try:
+    result = 10 / int(input("Enter divisor: "))
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+except ValueError:
+    print("Please enter a valid number!")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+
+Benefits:
+• Specific handling for each exception type
+• Different error messages for different errors
+• More precise error handling
+• Better user experience
+
+Example: Multiple except clauses allow different exception types to be handled with different logic - ZeroDivisionError gets one response, ValueError gets another.`
+  }),
+  (_i: number) => ({
+    q: `What is try: pass; except: pass; else: x = 1; x?`,
+    o: ["1", "Error", "None", "0"],
+    c: 0,
+    e: "else clause runs if no exception occurred.",
+    de: `The else clause in try/except blocks executes only if no exception occurred in the try block. It's useful for code that should run only when the try block completes successfully, separating successful execution from error handling. The else clause runs after the try block but before any finally clause.
+
+else clause execution:
+• else: runs only if no exception in try block
+• Executes after try completes successfully
+• Skipped if exception occurs
+• Runs before finally (if present)
+• Useful for success-only code
+
+How it works:
+• Try block executes
+• If no exception, else block executes
+• If exception, else block skipped, except block runs
+• Finally block (if present) always runs last
+
+Example:
+try:
+    result = 10 / 2  # No exception
+    print("Division successful")
+except ZeroDivisionError:
+    print("Division failed")
+else:
+    print("No errors occurred")  # This executes
+    x = result * 2
+
+Benefits:
+• Separates success logic from error handling
+• Code runs only on successful execution
+• Cleaner organization
+• Avoids nesting success code in try
+
+Example: In try: pass; except: pass; else: x = 1; x, the else clause executes because no exception occurred in the try block, so x is set to 1.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except: pass; else: x = 1; x?`,
+    o: ["NameError", "1", "Error", "None"],
+    c: 0,
+    e: "else clause doesn't run if exception occurred.",
+    de: `The else clause only executes when no exception occurs in the try block. If an exception happens, the else clause is completely skipped, and execution jumps directly to the except block. This ensures that else code only runs on successful execution.
+
+else clause behavior with exceptions:
+• else: skipped if exception occurs
+• Exception triggers except block
+• else never executes when exception happens
+• Separates success path from error path
+
+How it works:
+• Exception occurs in try block
+• Execution jumps to except block
+• else block completely skipped
+• finally block (if present) still runs
+
+Example:
+try:
+    result = 1 / 0  # Exception occurs
+    print("This won't print")
+except ZeroDivisionError:
+    print("Exception caught")
+    x = "error"
+else:
+    x = 1  # This is skipped
+    print("No exception")
+
+Result:
+• except block executes: x = "error"
+• else block skipped: x is not set to 1
+• x refers to the variable from except block
+
+Example: In try: 1/0; except: pass; else: x = 1; x, a NameError occurs because the else clause doesn't execute when an exception occurs, so x is never defined.`
+  }),
+  (_i: number) => ({
+    q: `What is try: pass; except: pass; finally: x = 1; x?`,
+    o: ["1", "Error", "None", "0"],
+    c: 0,
+    e: "finally clause always runs.",
+    de: `The finally clause always executes, regardless of whether an exception occurred or not. It's used for cleanup code that must run no matter what happens in the try block. finally blocks are commonly used for closing files, releasing resources, or cleaning up connections.
+
+finally clause always executes:
+• finally: code_that_always_runs
+• Executes after try/except/else complete
+• Runs even if exception occurs
+• Runs even if return/break/continue in try
+• Guaranteed execution (almost always)
+
+How it works:
+• try block executes
+• If exception: except block runs
+• If no exception: else block runs (if present)
+• finally block always runs last
+• Even if exception not caught
+
+Example:
+try:
+    print("Try block")
+    # No exception
+except:
+    print("Except block")
+else:
+    print("Else block")
+finally:
+    print("Finally block")  # Always executes
+    x = 1
+
+Common uses:
+• File cleanup: file.close()
+• Resource release: connection.close()
+• Lock release: lock.release()
+• Temporary file removal
+• Database transaction cleanup
+
+Example: finally clause executes regardless of exceptions, so in try: pass; except: pass; finally: x = 1; x returns 1 because finally always runs.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except: pass; finally: x = 1; x?`,
+    o: ["1", "Error", "None", "0"],
+    c: 0,
+    e: "finally clause runs even if exception occurred.",
+    de: `The finally clause executes unconditionally, even when an exception occurs in the try block. This makes it perfect for cleanup operations that must happen regardless of success or failure. The finally block runs after all try/except/else processing is complete.
+
+finally with exceptions:
+• finally: always executes
+• Even when exception occurs and is caught
+• Even when exception occurs and is not caught
+• Executes before exception propagates up
+• Perfect for cleanup code
+
+Execution order with exception:
+1. Exception occurs in try
+2. except block executes (if matches)
+3. else block skipped
+4. finally block executes
+5. Exception may continue propagating
+
+Example:
+try:
+    result = 1 / 0  # Exception occurs
+except ZeroDivisionError:
+    print("Exception caught")
+finally:
+    print("Cleanup code")  # Always executes
+    x = 1
+
+Benefits:
+• Guaranteed cleanup
+• Resources always released
+• No matter what happens in try/except
+• Prevents resource leaks
+• Consistent cleanup behavior
+
+Example: finally executes even with exceptions, so try: 1/0; except: pass; finally: x = 1; x returns 1 because finally always runs, setting x = 1.`
+  }),
   
   // 11-20: Exception Handling - Raising and Custom Exceptions
-  (_i: number) => ({ q: `What is raise ValueError('error')?`, o: ["Raises ValueError exception", "Returns error", "Error", "None"], c: 0, e: "raise statement raises exception." }),
-  (_i: number) => ({ q: `What is raise ValueError?`, o: ["Raises ValueError without message", "SyntaxError", "Error", "None"], c: 0, e: "raise can be used without message." }),
-  (_i: number) => ({ q: `What is try: raise ValueError; except ValueError as e: raise?`, o: ["Re-raises the exception", "Returns None", "Error", "None"], c: 0, e: "raise without argument re-raises current exception." }),
-  (_i: number) => ({ q: `What is class MyError(Exception): pass; raise MyError()?`, o: ["Raises custom exception", "SyntaxError", "Error", "None"], c: 0, e: "Custom exceptions inherit from Exception." }),
-  (_i: number) => ({ q: `What is class MyError(Exception): pass; isinstance(MyError(), Exception)?`, o: ["True", "False", "Error", "None"], c: 0, e: "Custom exception is instance of Exception." }),
-  (_i: number) => ({ q: `What is try: raise ValueError('msg'); except ValueError as e: str(e)?`, o: ["'msg'", "'ValueError'", "Error", "None"], c: 0, e: "str(exception) returns exception message." }),
-  (_i: number) => ({ q: `What is try: raise ValueError('msg'); except ValueError as e: repr(e)?`, o: ["\"ValueError('msg')\"", "'msg'", "Error", "None"], c: 0, e: "repr(exception) returns exception representation." }),
-  (_i: number) => ({ q: `What is try: 1/0; except Exception as e: type(e).__name__?`, o: ["'ZeroDivisionError'", "'Exception'", "Error", "None"], c: 0, e: "Exception object has __name__ attribute." }),
-  (_i: number) => ({ q: `What is try: raise ValueError; except Exception: pass?`, o: ["Catches ValueError (subclass)", "Raises exception", "Error", "None"], c: 0, e: "Catching base class catches subclasses." }),
-  (_i: number) => ({ q: `What is try: raise ValueError; except (ValueError, TypeError): pass?`, o: ["Catches ValueError", "Raises exception", "Error", "None"], c: 0, e: "Tuple of exceptions catches any matching type." }),
+  (_i: number) => ({
+    q: `What is raise ValueError('error')?`,
+    o: ["Raises ValueError exception", "Returns error", "Error", "None"],
+    c: 0,
+    e: "raise statement raises exception.",
+    de: `The raise statement explicitly raises an exception in Python. raise ValueError('error') creates a ValueError exception with the message 'error' and raises it, causing the program to stop normal execution and jump to the nearest exception handler. This is how you intentionally trigger error conditions.
+
+raise statement syntax:
+• raise ExceptionType(message)
+• Creates exception object with message
+• Immediately stops execution
+• Jumps to nearest except block
+• Can raise built-in or custom exceptions
+
+How it works:
+• Exception object created: ValueError('error')
+• Execution stops immediately
+• Python looks for except block to handle it
+• If no handler, program crashes with traceback
+• Stack unwinds until handler found
+
+Example:
+def validate_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative")
+    return age
+
+validate_age(-5)  # Raises ValueError with message
+
+Common uses:
+• Input validation: raise ValueError for invalid input
+• Preconditions: raise AssertionError for invalid state
+• Custom errors: raise custom exception classes
+• Re-raising: raise to re-raise caught exception
+
+Example: raise ValueError('error') creates and raises a ValueError exception with message 'error', stopping execution and jumping to exception handler.`
+  }),
+  (_i: number) => ({
+    q: `What is raise ValueError?`,
+    o: ["Raises ValueError without message", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "raise can be used without message.",
+    de: `You can raise an exception without providing a message by just using the exception class name. raise ValueError creates a ValueError exception with no custom message. The exception will still have a default representation, but no descriptive error message. This is less common than raising with a message.
+
+raise without message:
+• raise ExceptionClass (no parentheses for no-arg)
+• Creates exception with default state
+• No custom error message
+• Still raises the exception normally
+• Less informative than with message
+
+How it works:
+• Exception class instantiated without arguments
+• Default exception object created
+• str(e) will show class name only
+• Still triggers exception handling
+• Can be caught same as any ValueError
+
+Example:
+raise ValueError      # Creates ValueError()
+raise ValueError()    # Same thing, explicit instantiation
+raise ValueError('msg')  # With message
+
+Exception without message:
+• str(e) returns '' (empty string for ValueError)
+• repr(e) shows "ValueError()""
+• Less useful for debugging
+• Still functionally raises exception
+
+Example: raise ValueError creates a ValueError exception without a custom message, which is still a valid exception that can be caught and handled.`
+  }),
+  (_i: number) => ({
+    q: `What is try: raise ValueError; except ValueError as e: raise?`,
+    o: ["Re-raises the exception", "Returns None", "Error", "None"],
+    c: 0,
+    e: "raise without argument re-raises current exception.",
+    de: `raise without any arguments inside an except block re-raises the currently caught exception. This is useful when you want to catch an exception for logging or partial handling, but still want the exception to propagate up to higher-level handlers. The original exception object and traceback are preserved.
+
+Re-raising exceptions:
+• raise (no arguments in except block)
+• Re-raises the currently caught exception
+• Preserves original traceback
+• Useful for logging + re-raising
+• Allows partial exception handling
+
+How it works:
+• Exception caught in except block
+• raise with no arguments
+• Same exception object re-raised
+• Original stack trace preserved
+• Higher-level handlers can catch it
+
+Example:
+try:
+    risky_operation()
+except ValueError as e:
+    log_error(e)  # Log the error
+    raise         # Re-raise the same exception
+
+Benefits:
+• Add logging without stopping propagation
+• Cleanup before re-raising
+• Partial error handling
+• Preserve original stack trace
+
+Example: In except block, raise (with no arguments) re-raises the currently caught ValueError, preserving the original exception and traceback.`
+  }),
+  (_i: number) => ({
+    q: `What is class MyError(Exception): pass; raise MyError()?`,
+    o: ["Raises custom exception", "SyntaxError", "Error", "None"],
+    c: 0,
+    e: "Custom exceptions inherit from Exception.",
+    de: `You can create custom exception classes by inheriting from the built-in Exception class or its subclasses. class MyError(Exception): pass creates a custom exception type that can be raised and caught like built-in exceptions. Custom exceptions allow for more specific error handling and better error categorization.
+
+Custom exception creation:
+• class MyException(Exception): pass
+• Inherits from Exception base class
+• Can add custom attributes/methods
+• Behaves like built-in exceptions
+• Can be caught specifically
+
+How it works:
+• Define class inheriting from Exception
+• Class becomes exception type
+• Can instantiate: MyError()
+• Can raise: raise MyError()
+• Can catch: except MyError
+
+Example:
+class ValidationError(Exception):
+    def __init__(self, field, value):
+        self.field = field
+        self.value = value
+        super().__init__(f"Invalid {field}: {value}")
+
+raise ValidationError("email", "invalid@email")
+
+Benefits:
+• Specific error types for different situations
+• Better error categorization
+• Custom error messages and data
+• More precise exception handling
+• Cleaner error handling logic
+
+Example: class MyError(Exception): pass; raise MyError() creates and raises a custom exception instance, which can be caught with except MyError.`
+  }),
+  (_i: number) => ({
+    q: `What is class MyError(Exception): pass; isinstance(MyError(), Exception)?`,
+    o: ["True", "False", "Error", "None"],
+    c: 0,
+    e: "Custom exception is instance of Exception.",
+    de: `Custom exceptions that inherit from Exception are instances of the Exception class. isinstance(MyError(), Exception) returns True because MyError inherits from Exception, so instances of MyError are also instances of Exception. This inheritance relationship allows custom exceptions to be caught by except Exception blocks.
+
+Inheritance and isinstance:
+• Custom exceptions inherit from Exception
+• isinstance(custom_instance, Exception) = True
+• isinstance(custom_instance, CustomException) = True
+• Can be caught by broader exception handlers
+• Maintains Liskov Substitution Principle
+
+How it works:
+• class MyError(Exception): inheritance
+• MyError() creates instance
+• isinstance checks inheritance chain
+• Exception is base class for all exceptions
+• Custom exceptions are subclasses
+
+Example:
+class MyError(Exception): pass
+error = MyError()
+isinstance(error, MyError)     # True - exact type
+isinstance(error, Exception)   # True - base class
+isinstance(error, ValueError)  # False - not related
+
+Exception hierarchy:
+• BaseException (root)
+• Exception (most exceptions inherit from this)
+• Custom exceptions inherit from Exception
+• Specific built-ins like ValueError, TypeError
+
+Example: isinstance(MyError(), Exception) returns True because custom exceptions inherit from Exception, making them instances of the base Exception class.`
+  }),
+  (_i: number) => ({
+    q: `What is try: raise ValueError('msg'); except ValueError as e: str(e)?`,
+    o: ["'msg'", "'ValueError'", "Error", "None"],
+    c: 0,
+    e: "str(exception) returns exception message.",
+    de: `str() on an exception object returns the exception's message (if provided) or a default string representation. For ValueError('msg'), str(e) returns 'msg' - the message passed to the exception constructor. This is useful for displaying user-friendly error messages.
+
+Exception string representation:
+• str(exception) returns the error message
+• For ValueError('msg'), str(e) = 'msg'
+• For exceptions without message, str(e) may be empty
+• repr(exception) returns full representation
+• str() is for user-friendly display
+
+How it works:
+• Exception created with message: ValueError('msg')
+• str(e) extracts the message string
+• Returns 'msg' for display
+• Different from repr(e) which shows "ValueError('msg')"
+
+Example:
+try:
+    raise ValueError("Invalid input")
+except ValueError as e:
+    user_message = str(e)  # "Invalid input"
+    print(f"Error: {user_message}")
+
+Exception messages:
+• ValueError("message") → str(e) = "message"
+• TypeError("message") → str(e) = "message"
+• Custom exceptions can override __str__
+
+Example: str(ValueError('msg')) returns 'msg' because str() on an exception returns the message passed to the exception constructor.`
+  }),
+  (_i: number) => ({
+    q: `What is try: raise ValueError('msg'); except ValueError as e: repr(e)?`,
+    o: ["\"ValueError('msg')\"", "'msg'", "Error", "None"],
+    c: 0,
+    e: "repr(exception) returns exception representation.",
+    de: `repr() on an exception object returns a string that represents the exception object, including its type and message. For ValueError('msg'), repr(e) returns "ValueError('msg')" - a string that could be used to recreate the exception object. This is more detailed than str() and is useful for debugging.
+
+Exception repr vs str:
+• repr(e) returns full representation: "ValueError('msg')"
+• str(e) returns just message: 'msg'
+• repr() for debugging/detailed info
+• str() for user-friendly messages
+• repr() shows type and constructor args
+
+How it works:
+• Exception object: ValueError('msg')
+• repr(e) shows how to recreate it
+• Includes class name and arguments
+• More detailed than str()
+• Useful for logging and debugging
+
+Example:
+try:
+    raise ValueError("Something went wrong")
+except ValueError as e:
+    debug_info = repr(e)  # "ValueError('Something went wrong')"
+    user_info = str(e)    # "Something went wrong"
+    print(f"Debug: {debug_info}")
+    print(f"User: {user_info}")
+
+Exception representations:
+• ValueError('msg') → repr = "ValueError('msg')"
+• TypeError('msg') → repr = "TypeError('msg')"
+• Custom exceptions show their class name
+
+Example: repr(ValueError('msg')) returns "ValueError('msg')" because repr() shows the full representation of the exception object, including its type and arguments.`
+  }),
+  (_i: number) => ({
+    q: `What is try: 1/0; except Exception as e: type(e).__name__?`,
+    o: ["'ZeroDivisionError'", "'Exception'", "Error", "None"],
+    c: 0,
+    e: "Exception object has __name__ attribute.",
+    de: `Exception classes have a __name__ attribute that contains the class name as a string. For ZeroDivisionError, type(e).__name__ returns 'ZeroDivisionError' because that's the name of the exception class. This is useful for programmatic checking of exception types.
+
+Exception class attributes:
+• __name__ contains class name string
+• type(e).__name__ gets the exception type name
+• Useful for conditional error handling
+• More reliable than string parsing
+• Works with custom exceptions too
+
+How it works:
+• Exception caught: ZeroDivisionError
+• type(e) returns ZeroDivisionError class
+• __name__ attribute accessed
+• Returns string: 'ZeroDivisionError'
+• Can be used in conditionals
+
+Example:
+try:
+    risky_operation()
+except Exception as e:
+    error_type = type(e).__name__
+    if error_type == 'ValueError':
+        handle_value_error()
+    elif error_type == 'ZeroDivisionError':
+        handle_division_error()
+    else:
+        handle_other_error()
+
+Benefits:
+• Programmatic exception type checking
+• No string parsing needed
+• Works with any exception type
+• Reliable and clean
+
+Example: type(ZeroDivisionError()).__name__ returns 'ZeroDivisionError' because the exception object's class has __name__ = 'ZeroDivisionError'.`
+  }),
+  (_i: number) => ({
+    q: `What is try: raise ValueError; except Exception: pass?`,
+    o: ["Catches ValueError (subclass)", "Raises exception", "Error", "None"],
+    c: 0,
+    e: "Catching base class catches subclasses.",
+    de: `Catching a base exception class like Exception catches all subclasses of that exception. Since ValueError inherits from Exception, except Exception will catch ValueError exceptions. This is the inheritance-based exception handling system in Python.
+
+Exception inheritance hierarchy:
+• Exception is base class for most exceptions
+• ValueError, TypeError, etc. inherit from Exception
+• except Exception catches all Exception subclasses
+• Allows broad exception handling
+• Can be too broad (catches everything)
+
+How it works:
+• Exception hierarchy: BaseException → Exception → ValueError
+• ValueError is subclass of Exception
+• except Exception catches ValueError
+• except BaseException catches everything
+• Inheritance determines catchability
+
+Example:
+try:
+    raise ValueError("Invalid value")
+except Exception:  # Catches ValueError because ValueError(Exception)
+    print("Some exception occurred")
+
+Exception hierarchy:
+• BaseException (catches everything)
+• Exception (catches most application errors)
+• ArithmeticError, LookupError, etc. (specific categories)
+• ValueError, KeyError, etc. (specific exceptions)
+
+Example: except Exception catches ValueError because ValueError inherits from Exception, allowing broad exception handling.`
+  }),
+  (_i: number) => ({
+    q: `What is try: raise ValueError; except (ValueError, TypeError): pass?`,
+    o: ["Catches ValueError", "Raises exception", "Error", "None"],
+    c: 0,
+    e: "Tuple of exceptions catches any matching type.",
+    de: `A tuple of exception types in an except clause catches any exception that matches any of the types in the tuple. except (ValueError, TypeError) will catch either ValueError or TypeError exceptions. This allows handling multiple related exception types with the same code.
+
+Multiple exception types in tuple:
+• except (Type1, Type2, Type3): catches any of these
+• Tuple syntax for multiple types
+• Single handler for multiple exceptions
+• Cleaner than separate except blocks
+• Related exceptions handled together
+
+How it works:
+• Exception occurs in try block
+• Python checks each type in tuple
+• If exception matches any type, handler executes
+• Order doesn't matter (unlike multiple except blocks)
+• First matching tuple element wins
+
+Example:
+try:
+    # Code that might raise ValueError or TypeError
+    value = int(input("Enter number: "))  # ValueError if not number
+    result = 10 / value  # ZeroDivisionError if 0
+except (ValueError, TypeError):  # Catches both
+    print("Invalid input type")
+except ZeroDivisionError:  # Separate handler for different error
+    print("Cannot divide by zero")
+
+Benefits:
+• Groups related exceptions
+• Single handler for similar errors
+• Cleaner than multiple except blocks
+• More readable code
+
+Example: except (ValueError, TypeError) catches either ValueError or TypeError with a single except clause, grouping related type errors.`
+  }),
   
   // 21-30: Context Managers and with Statement
-  (_i: number) => ({ q: `What is with open('file') as f?`, o: ["Context manager", "File opening", "Error", "Loop statement"], c: 0, e: "with statement uses context manager." }),
-  (_i: number) => ({ q: `What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): pass; with MyContext() as ctx: pass?`, o: ["Uses context manager", "Error", "None", "Raises exception"], c: 0, e: "Context manager needs __enter__ and __exit__ methods." }),
-  (_i: number) => ({ q: `What is class MyContext: def __enter__(self): return 1; def __exit__(self, *args): pass; with MyContext() as x: x?`, o: ["1", "Error", "None", "0"], c: 0, e: "__enter__ return value assigned to variable after 'as'." }),
-  (_i: number) => ({ q: `What is class MyContext: def __enter__(self): return self; def __exit__(self, exc_type, exc_val, exc_tb): return True; with MyContext(): 1/0?`, o: ["Suppresses exception", "Raises exception", "Error", "None"], c: 0, e: "__exit__ returning True suppresses exception." }),
-  (_i: number) => ({ q: `What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): pass; with MyContext() as ctx: ctx?`, o: ["MyContext instance", "Error", "None", "0"], c: 0, e: "Context manager instance available in with block." }),
+  (_i: number) => ({
+    q: `What is with open('file') as f?`,
+    o: ["Context manager", "File opening", "Error", "Loop statement"],
+    c: 0,
+    e: "with statement uses context manager.",
+    de: `The with statement provides a clean syntax for working with context managers. with open('file') as f creates a context manager that automatically handles resource management. The open() function returns a file object that is a context manager - it automatically closes the file when the with block exits, even if an exception occurs.
+
+with statement and context managers:
+• with expression as variable: context_manager_syntax
+• Context managers handle resource management automatically
+• Automatic setup and cleanup of resources
+• Exception-safe resource handling
+• Replaces try/finally patterns
+
+How it works:
+• Expression evaluated (open('file'))
+• __enter__() method called automatically
+• Result assigned to variable (f)
+• Code in with block executes normally
+• __exit__() always called for cleanup (closes file)
+
+Example:
+with open('data.txt', 'r') as f:
+    content = f.read()  # File is open here
+# File automatically closed here, even if exception occurs
+
+Benefits:
+• Automatic resource cleanup (no manual close needed)
+• Exception-safe (file closed even if error occurs)
+• Cleaner than try/finally blocks
+• Prevents resource leaks
+• Readable and maintainable code
+
+Example: with open('file') as f uses the file object's context manager to ensure the file is automatically closed after the with block, regardless of how the block exits.`
+  }),
+  (_i: number) => ({
+    q: `What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): pass; with MyContext() as ctx: pass?`,
+    o: ["Uses context manager", "Error", "None", "Raises exception"],
+    c: 0,
+    e: "Context manager needs __enter__ and __exit__ methods.",
+    de: `To create a custom context manager, a class must implement both __enter__ and __exit__ methods. __enter__ is called when entering the with block and returns the object to be used. __exit__ is called when exiting the with block and handles cleanup. This is the context manager protocol that makes objects work with the with statement.
+
+Context manager protocol:
+• __enter__(self): called on entry, returns context value
+• __exit__(self, exc_type, exc_val, exc_tb): called on exit, handles cleanup
+• Both methods are required for context manager functionality
+• __exit__ receives exception info if any occurred
+• Returning True from __exit__ suppresses exceptions
+
+How it works:
+• with MyContext() as ctx:
+• MyContext() creates instance
+• __enter__() called, return value (self) assigned to ctx
+• Code in with block executes
+• __exit__() called for cleanup (pass does nothing)
+• Context manager instance available as ctx
+
+Example:
+class MyContext:
+    def __enter__(self):
+        print("Entering context")
+        return self  # Return self for use in with block
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print("Exiting context")
+        return False  # Don't suppress exceptions
+
+with MyContext() as ctx:
+    print(f"Context: {ctx}")  # ctx is the MyContext instance
+
+Benefits:
+• Custom resource management for any resource
+• Automatic cleanup logic
+• Exception handling control
+• Reusable cleanup patterns
+• Clean API for resource management
+
+Example: Custom context manager class must implement __enter__ and __exit__ methods to work with the with statement. The __enter__ method returns self, which is assigned to ctx.`
+  }),
+  (_i: number) => ({
+    q: `What is class MyContext: def __enter__(self): return 1; def __exit__(self, *args): pass; with MyContext() as x: x?`,
+    o: ["1", "Error", "None", "0"],
+    c: 0,
+    e: "__enter__ return value assigned to variable after 'as'.",
+    de: `The value returned by __enter__ is assigned to the variable after 'as' in the with statement. If __enter__ returns 1, then x will be assigned the value 1 inside the with block. This allows context managers to provide different objects than themselves for use in the with block.
+
+__enter__ return value assignment:
+• with ContextManager() as variable:
+• __enter__() return value assigned to variable
+• Can return self (common) or different object
+• Variable available throughout with block
+• Variable goes out of scope after with block
+
+How it works:
+• Context manager created: MyContext()
+• __enter__() called, returns 1
+• Value 1 assigned to variable x
+• x = 1 inside with block
+• __exit__() called when block exits
+
+Example:
+class NumberContext:
+    def __enter__(self):
+        return 42  # Return number, not self
+
+    def __exit__(self, *args):
+        pass
+
+with NumberContext() as x:
+    print(x)  # 42 (not the context manager object)
+
+Common patterns:
+• Return self: standard resource management (files, connections)
+• Return different object: factory pattern, configuration objects
+• Return None: when no specific object needed
+• Return wrapper: decorator pattern
+
+Example: __enter__ return value (1) is assigned to variable x, so x equals 1 inside the with block. The context manager can return any value it wants.`
+  }),
+  (_i: number) => ({
+    q: `What is class MyContext: def __enter__(self): return self; def __exit__(self, exc_type, exc_val, exc_tb): return True; with MyContext(): 1/0?`,
+    o: ["Suppresses exception", "Raises exception", "Error", "None"],
+    c: 0,
+    e: "__exit__ returning True suppresses exception.",
+    de: `__exit__ can control exception handling by returning True to suppress exceptions that occur in the with block. When __exit__ returns True, any exception is caught and suppressed - it doesn't propagate outside the with statement. This is useful for context managers that handle errors internally.
+
+Exception suppression in __exit__:
+• __exit__(self, exc_type, exc_val, exc_tb) receives exception info
+• Return True: suppress the exception completely
+• Return False/None: let exception propagate normally
+• Return value controls whether exception bubbles up
+• Useful for expected/handled error conditions
+
+How it works:
+• Exception occurs in with block (1/0 causes ZeroDivisionError)
+• __exit__ called with exception info: (ZeroDivisionError, exception_object, traceback)
+• __exit__ returns True
+• Exception is suppressed, doesn't propagate
+• Program continues after with block
+
+Example:
+class SuppressErrors:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print(f"Suppressed: {exc_type.__name__}")
+        return True  # Suppress any exception
+
+with SuppressErrors():
+    raise ValueError("This won't propagate")
+
+Benefits:
+• Handle expected errors gracefully
+• Prevent error propagation for known issues
+• Cleanup even when errors occur
+• Robust error handling in specific contexts
+• Prevent crashes from anticipated errors
+
+Example: __exit__ returning True suppresses the ZeroDivisionError from 1/0, preventing it from being raised outside the with block.`
+  }),
+  (_i: number) => ({
+    q: `What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): pass; with MyContext() as ctx: ctx?`,
+    o: ["MyContext instance", "Error", "None", "0"],
+    c: 0,
+    e: "Context manager instance available in with block.",
+    de: `The context manager instance is available in the with block through the variable assigned with 'as'. Since __enter__ returns self, ctx refers to the MyContext instance, allowing access to its attributes and methods during the with block.
+
+Context manager instance access:
+• with MyContext() as ctx: ctx refers to context manager
+• Since __enter__ returns self, ctx is the instance
+• Can access attributes and methods in with block
+• Useful for resource management with instance state
+• Instance persists throughout with block
+
+How it works:
+• MyContext() creates instance
+• __enter__() returns self (the instance)
+• Instance assigned to ctx variable
+• ctx available throughout with block
+• Can call methods: ctx.method()
+• Can access attributes: ctx.attribute
+
+Example:
+class DatabaseConnection:
+    def __init__(self):
+        self.connected = False
+
+    def __enter__(self):
+        self.connected = True
+        return self  # Return self for access
+
+    def __exit__(self, *args):
+        self.connected = False
+
+with DatabaseConnection() as conn:
+    print(conn.connected)  # True
+    # Can call methods on conn here
+
+Benefits:
+• Access to context manager state and methods
+• Resource control during with block
+• Method calls on managed resource
+• State inspection and modification
+• Full resource API access
+
+Example: Since __enter__ returns self, ctx is the MyContext instance, so ctx refers to the context manager object inside the with block.`
+  }),
   (_i: number) => ({ q: `What is from contextlib import contextmanager; @contextmanager; def my_context(): yield 1; with my_context() as x: x?`, o: ["1", "Error", "None", "0"], c: 0, e: "@contextmanager decorator creates context manager from generator." }),
   (_i: number) => ({ q: `What is with open('file', 'w') as f: f.write('text'); f.closed?`, o: ["True", "False", "Error", "None"], c: 0, e: "File automatically closed after with block." }),
   (_i: number) => ({ q: `What is with open('file', 'w') as f1, open('file2', 'w') as f2: pass?`, o: ["Multiple context managers", "SyntaxError", "Error", "None"], c: 0, e: "Multiple context managers in one with statement." }),
