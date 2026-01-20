@@ -8,40 +8,25 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Function to format code snippets with proper Python indentation
 const formatCodeSnippet = (text: string): string => {
-  // If it already has newlines and proper indentation, return as is
-  if (text.includes('\n') && text.match(/^\s{4}/m)) {
-    return text;
-  }
-
   // Replace ; with newlines to split statements
   let formatted = text.replace(/; /g, '\n');
 
-  // Simple Python-like indentation
-  let indentLevel = 0;
-
-  // Split into statements (basic)
+  // Split into lines
   const lines = formatted.split('\n');
   const indentedLines: string[] = [];
+  let indentLevel = 0;
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i].trim();
     if (!line) continue;
 
-    // Check for keywords that increase indent
-    if (/^\s*(def|class|if|elif|else|for|while|with|try|except|finally)\b/.test(line)) {
+    // Increase indent after :
+    if (line.endsWith(':')) {
       indentedLines.push('    '.repeat(indentLevel) + line);
-      if (line.endsWith(':')) {
-        indentLevel++;
-      }
-    } else if (/^\s*(elif|else|except|finally)\b/.test(line)) {
-      indentLevel = Math.max(0, indentLevel - 1);
-      indentedLines.push('    '.repeat(indentLevel) + line);
-      if (line.endsWith(':')) {
-        indentLevel++;
-      }
+      indentLevel += 1;
     } else {
       indentedLines.push('    '.repeat(indentLevel) + line);
-      // Basic dedent for pass/break/continue/return
+      // Decrease indent for dedent keywords
       if (/^\s*(pass|break|continue|return|raise)\b/.test(line)) {
         indentLevel = Math.max(0, indentLevel - 1);
       }
