@@ -31,7 +31,7 @@ const formatCodeSnippet = (text: string): string => {
 
 // Function to split question into prefix and code
 const splitQuestion = (text: string) => {
-  const codeKeywords = /\b(def|print|for|if|while|class|import|type)\b/;
+  const codeKeywords = /\b(def|print|for|if|while|class|import|type|len|str|int|float|list|dict|set|tuple|range|enumerate|zip|map|filter|sum|max|min|sorted|reversed|abs|round|bool|isinstance|callable|hasattr|getattr|setattr|delattr|property|staticmethod|classmethod|super|is|in|not|and|or|True|False|None)\b/;
   const match = text.match(codeKeywords);
   if (match) {
     const codeStart = text.indexOf(match[0]);
@@ -212,7 +212,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
          <div className="space-y-4 pt-8">
            <div className="max-h-[70vh] overflow-y-auto overflow-x-auto bg-slate-800 p-4 rounded-lg">
-             {currentQuestion.question.match(/\b(def|print|for|if|while|class|import)\b/) ? (
+             {currentQuestion.question.match(/\b(def|print|for|if|while|class|import|type|len|str|int|float|list|dict|set|tuple|range|enumerate|zip|map|filter|sum|max|min|sorted|reversed|abs|round|bool|isinstance|callable|hasattr|getattr|setattr|delattr|property|staticmethod|classmethod|super|is|in|not|and|or|True|False|None)\b/) ? (
                (() => {
                  const { prefix, code } = splitQuestion(currentQuestion.question);
                  return (

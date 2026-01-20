@@ -14,6 +14,7 @@
 ## 3. Glossary & Educational Integrity
 - **Glossary Source of Truth**: The `glossary.md` file is the master reference.
 - **Consistency Rule**: All definitions must be consistent with `glossary.md`.
+- **Debugging Reference**: Agents must always consult `ps.md` for debugging information and urgent issues.
 
 ## 4. The 1,000-Question Genome Goal
 - **Completion Task**: Reach exactly 1,000 high-quality Python questions.
