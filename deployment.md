@@ -1,4 +1,4 @@
-# Deployment Guide
+db3f5997-1f1f-4471-a541-41611b070be3# Deployment Guide
 
 This document outlines the steps required to deploy **Python Exercises Learn** to GitHub Pages with automated updates.
 

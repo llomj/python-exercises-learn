@@ -1,5 +1,5 @@
 #deployment
-https://llomj.github.io/python-exercises-learn/https://llomj.github.io/python-exercises-learn/
+https://llomj.github.io/python-exercises-learn/
 
 #App type(offline).
 

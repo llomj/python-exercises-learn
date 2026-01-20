@@ -1,4 +1,4 @@
-const CACHE_NAME = 'python-exercises-learn-offline-v2';
+const CACHE_NAME = 'python-exercises-learn-offline-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
