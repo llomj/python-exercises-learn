@@ -3,8 +3,6 @@ import { Question, QuestionAttempt } from '../types';
 import { quizService } from '../services/quizService';
 import { ProgressBar } from './ProgressBar';
 import { LEVELS } from '../constants';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface QuizViewProps {
   level: number;
@@ -175,12 +173,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
          <div className="space-y-4 pt-8">
            <div className="max-h-64 overflow-y-auto">
-             {currentQuestion.question.includes('```') ? (
-               <SyntaxHighlighter language="python" style={oneDark} className="rounded-lg">
-                 {currentQuestion.question.replace(/```python\n?/g, '').replace(/```\n?/g, '')}
-               </SyntaxHighlighter>
-             ) : currentQuestion.question.includes('\n') && currentQuestion.question.match(/^\s+/) ? (
-               <pre className="text-sm md:text-base font-mono bg-slate-800 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap">
+             {currentQuestion.question.includes('\n') ? (
+               <pre className="text-sm md:text-base font-mono bg-slate-800 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap text-white">
                  {currentQuestion.question}
                </pre>
              ) : (
