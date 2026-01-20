@@ -3,6 +3,8 @@ import { Question, QuestionAttempt } from '../types';
 import { quizService } from '../services/quizService';
 import { ProgressBar } from './ProgressBar';
 import { LEVELS } from '../constants';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface QuizViewProps {
   level: number;
@@ -174,9 +176,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
          <div className="space-y-4 pt-8">
            <div className="max-h-64 overflow-y-auto">
              {currentQuestion.question.match(/\b(def|print|for|if|while|class|import)\b/) ? (
-               <pre className="text-sm md:text-base font-mono bg-slate-800 p-4 rounded-lg overflow-x-auto whitespace-pre-wrap text-white">
+               <SyntaxHighlighter language="python" style={oneLight} className="rounded-lg text-sm">
                  {currentQuestion.question}
-               </pre>
+               </SyntaxHighlighter>
              ) : (
                <h2 className="text-xl md:text-2xl font-bold leading-tight text-white">
                  {currentQuestion.question}
