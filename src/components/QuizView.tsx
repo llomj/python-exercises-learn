@@ -172,10 +172,6 @@ export const QuizView: React.FC<QuizViewProps> = ({
           </div>
         </div>
 
-        <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
-          <i className={`fas fa-brain text-8xl`}></i>
-        </div>
-
         <div className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em] border border-indigo-500/20">
             {currentQuestion.concept}
