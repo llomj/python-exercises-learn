@@ -6,7 +6,7 @@ import { LEVELS } from '../constants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-// Function to format code snippets with proper indentation
+// Function to format code snippets with proper Python indentation
 const formatCodeSnippet = (text: string): string => {
   // If it already has newlines and proper indentation, return as is
   if (text.includes('\n') && text.match(/^\s{4}/m)) {
@@ -23,10 +23,18 @@ const formatCodeSnippet = (text: string): string => {
   formatted = formatted.replace(/(\bfor\s+[^:]+:)/g, '$1\n');
   formatted = formatted.replace(/(\bwhile\s+[^:]+:)/g, '$1\n');
 
-  // Add 4-space indentation to all lines
-  formatted = formatted.split('\n').map(line => line.trim() ? '    ' + line : line).join('\n');
+  // Split into lines
+  const lines = formatted.split('\n');
 
-  return formatted;
+  // Indent body lines (not the first line if it's def/class)
+  const indentedLines = lines.map((line, index) => {
+    if (index === 0 && /^\s*(def|class)\b/.test(line)) {
+      return line; // Don't indent def/class line
+    }
+    return line.trim() ? '    ' + line : line; // Indent body lines
+  });
+
+  return indentedLines.join('\n');
 };
 
 // Function to split question into prefix and code
