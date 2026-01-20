@@ -30194,64 +30194,2000 @@ Example: If class A: def __str__(self): return 'A'; class B: def __str__(self): 
   }),
   
   // 51-60: Encapsulation - Private Attributes
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj.__x?`, o: ["AttributeError", "1", "Error", "None"], c: 0, e: "Double underscore prefix triggers name mangling (private)." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj._MyClass__x?`, o: ["1", "Error", "None", "0"], c: 0, e: "Name mangling: __x becomes _MyClass__x (can still access)." }),
-  (_i: number) => ({ q: `What is class MyClass: __x = 1; MyClass.__x?`, o: ["1", "Error", "None", "0"], c: 0, e: "Class attribute with __ prefix doesn't mangle (no self)." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; obj = MyClass(); obj._x?`, o: ["1", "Error", "None", "0"], c: 0, e: "Single underscore is convention (protected), not enforced." }),
-  (_i: number) => ({ q: `What is class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self.__x; Child().method()?`, o: ["AttributeError", "1", "Error", "None"], c: 0, e: "Name mangling: Child can't access Parent.__x (becomes _Parent__x)." }),
-  (_i: number) => ({ q: `What is class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self._Parent__x; Child().method()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Can access mangled name with _ClassName prefix." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.__x__ = 1; obj = MyClass(); obj.__x__?`, o: ["1", "Error", "None", "0"], c: 0, e: "Double underscore on both sides doesn't mangle (special methods)." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; obj = MyClass(); obj.get_x()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Getter method provides controlled access to protected attribute." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.__x = 1; def get_x(self): return self.__x; obj = MyClass(); obj.get_x()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Getter method can access mangled name from within class." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.__x = 1; def set_x(self, val): self.__x = val; obj = MyClass(); obj.set_x(2); obj.get_x() if hasattr(obj, 'get_x') else obj._MyClass__x?`, o: ["2", "1", "Error", "None"], c: 0, e: "Setter method can modify mangled attribute." }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj.__x?`, 
+    o: ["AttributeError", "1", "Error", "None"], 
+    c: 0, 
+    e: "Double underscore prefix triggers name mangling (private).",
+    de: `Double underscore prefix (__) triggers name mangling, making attributes "private" by changing their name. If class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj.__x, then obj.__x raises an AttributeError because Python automatically renames __x to _MyClass__x (adding the class name prefix). This is name mangling - Python changes the attribute name to include the class name, making it harder to access from outside the class. The attribute still exists, but with a different name (_MyClass__x), so direct access via __x fails.
+
+Name mangling with double underscore:
+• obj.__x raises AttributeError
+• Python renames __x to _MyClass__x
+• Name mangling adds class name prefix
+• Direct access via __x fails
+• Raises AttributeError
+
+How it works:
+• self.__x = 1 sets attribute
+• Python renames __x to _MyClass__x internally
+• obj.__x tries to access __x
+• Python looks for __x (not found, it's _MyClass__x now)
+• Raises AttributeError: 'MyClass' object has no attribute '__x'
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.__x = 1  # Name mangled to _MyClass__x
+obj = MyClass()
+obj.__x                # AttributeError (name mangled)
+obj._MyClass__x       # 1 (mangled name works)
+
+Common uses:
+• Private attributes: self.__attr (name mangled, harder to access)
+• Encapsulation: prevent direct access to internal attributes
+• Name mangling
+• Object-oriented programming
+
+Example: If class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj.__x, then obj.__x raises an AttributeError because double underscore prefix triggers name mangling, renaming __x to _MyClass__x.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj._MyClass__x?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Name mangling: __x becomes _MyClass__x (can still access).",
+    de: `Name mangling renames attributes with double underscore prefix by adding the class name. If class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj._MyClass__x, then obj._MyClass__x returns 1 because Python renames __x to _MyClass__x (class name + attribute name). While name mangling makes attributes harder to access, they're not truly private - you can still access them using the mangled name. This is Python's way of providing "privacy" - it's a convention, not enforced security.
+
+Name mangling creates mangled name:
+• obj._MyClass__x returns 1
+• __x is renamed to _MyClass__x
+• Mangled name: _ClassName__attribute
+• Can still access using mangled name
+• Returns: 1
+
+How it works:
+• self.__x = 1 sets attribute
+• Python renames __x to _MyClass__x
+• obj._MyClass__x accesses mangled name
+• Attribute exists as _MyClass__x
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.__x = 1  # Renamed to _MyClass__x
+obj = MyClass()
+obj._MyClass__x       # 1 (access via mangled name)
+obj.__x               # AttributeError (original name doesn't work)
+
+Common uses:
+• Understanding mangling: __attr becomes _ClassName__attr
+• Accessing mangled attributes: obj._ClassName__attr
+• Name mangling
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj._MyClass__x, then obj._MyClass__x returns 1 because name mangling renames __x to _MyClass__x, and you can still access it using the mangled name.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: __x = 1; MyClass.__x?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Class attribute with __ prefix doesn't mangle (no self).",
+    de: `Class attributes with double underscore prefix don't get name mangled because name mangling only applies to instance attributes (those set with self). If class MyClass: __x = 1; MyClass.__x, then MyClass.__x returns 1 because __x is a class attribute (defined at class level, not with self), so Python doesn't apply name mangling to it. Name mangling only happens for instance attributes (self.__x), not class attributes (__x at class level).
+
+Class attribute doesn't mangle:
+• MyClass.__x returns 1
+• __x is class attribute (not self.__x)
+• Name mangling only applies to instance attributes
+• Class attributes with __ don't mangle
+• Returns: 1
+
+How it works:
+• class MyClass: __x = 1 defines class attribute
+• __x is at class level (not self.__x)
+• Name mangling only for instance attributes
+• MyClass.__x accesses class attribute directly
+• Returns: 1
+
+Example:
+class MyClass:
+    __x = 1  # Class attribute (doesn't mangle)
+MyClass.__x            # 1 (access directly, no mangling)
+# vs
+class MyClass:
+    def __init__(self):
+        self.__x = 1  # Instance attribute (mangles to _MyClass__x)
+
+Common uses:
+• Class attributes: __attr at class level (doesn't mangle)
+• Understanding mangling: only instance attributes get mangled
+• Name mangling
+• Class vs instance attributes
+
+Example: If class MyClass: __x = 1; MyClass.__x, then MyClass.__x returns 1 because class attributes with __ prefix don't get name mangled - name mangling only applies to instance attributes (self.__x).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; obj = MyClass(); obj._x?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Single underscore is convention (protected), not enforced.",
+    de: `Single underscore prefix (_) is a naming convention indicating "protected" or "internal use" attributes, but Python doesn't enforce it. If class MyClass: def __init__(self): self._x = 1; obj = MyClass(); obj._x, then obj._x returns 1 because single underscore is just a convention - it doesn't trigger name mangling or prevent access. It's a signal to other developers that this attribute is intended for internal use, but Python allows access anyway. This is different from double underscore (__), which triggers name mangling.
+
+Single underscore convention:
+• obj._x returns 1
+• Single underscore is convention only
+• Not enforced by Python
+• Signals "internal use" but accessible
+• Returns: 1
+
+How it works:
+• self._x = 1 sets attribute with single underscore
+• Python doesn't mangle or restrict access
+• obj._x accesses attribute directly
+• Convention indicates internal use
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1  # Protected (convention)
+obj = MyClass()
+obj._x                # 1 (accessible, but convention says "internal")
+
+Common uses:
+• Protected attributes: self._attr (convention, not enforced)
+• Internal use: signal that attribute is for internal use
+• Naming conventions
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; obj = MyClass(); obj._x, then obj._x returns 1 because single underscore is a convention indicating "protected" attributes, but Python doesn't enforce it - the attribute is still accessible.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self.__x; Child().method()?`, 
+    o: ["AttributeError", "1", "Error", "None"], 
+    c: 0, 
+    e: "Name mangling: Child can't access Parent.__x (becomes _Parent__x).",
+    de: `Name mangling prevents child classes from accessing parent's private attributes. If class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self.__x; Child().method(), then Child().method() raises an AttributeError because Parent's __x is mangled to _Parent__x, but Child's method tries to access __x, which would be mangled to _Child__x (different name). Name mangling includes the class name, so each class has its own mangled namespace, preventing child classes from accidentally accessing parent's private attributes.
+
+Name mangling prevents child access:
+• Child().method() raises AttributeError
+• Parent.__x is mangled to _Parent__x
+• Child tries to access __x (would be _Child__x)
+• Different mangled names
+• Raises AttributeError
+
+How it works:
+• Parent.__init__ sets self.__x = 1 (mangled to _Parent__x)
+• Child().method() tries to access self.__x
+• In Child context, __x would mangle to _Child__x
+• _Child__x doesn't exist (attribute is _Parent__x)
+• Raises AttributeError
+
+Example:
+class Parent:
+    def __init__(self):
+        self.__x = 1  # Mangled to _Parent__x
+class Child(Parent):
+    def method(self):
+        return self.__x  # Would mangle to _Child__x (doesn't exist)
+Child().method()        # AttributeError (can't access parent's __x)
+
+Common uses:
+• Private attributes: name mangling prevents child access
+• Encapsulation: each class has its own mangled namespace
+• Name mangling
+• Inheritance
+
+Example: If class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self.__x; Child().method(), then Child().method() raises an AttributeError because name mangling prevents child classes from accessing parent's private attributes - Parent.__x becomes _Parent__x, but Child tries to access __x which would be _Child__x.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self._Parent__x; Child().method()?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Can access mangled name with _ClassName prefix.",
+    de: `You can access a parent's mangled attribute by using the mangled name with the parent class name prefix. If class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self._Parent__x; Child().method(), then Child().method() returns 1 because self._Parent__x accesses the mangled name directly. Parent's __x is mangled to _Parent__x, and by using the full mangled name, you can access it from the child class. This shows that name mangling is not true privacy - it's just a naming convention that makes access harder.
+
+Access mangled name directly:
+• Child().method() returns 1
+• self._Parent__x accesses mangled name
+• Parent.__x is mangled to _Parent__x
+• Using mangled name works
+• Returns: 1
+
+How it works:
+• Parent.__init__ sets self.__x = 1 (mangled to _Parent__x)
+• Child().method() accesses self._Parent__x
+• Uses full mangled name with class prefix
+• Attribute exists as _Parent__x
+• Returns: 1
+
+Example:
+class Parent:
+    def __init__(self):
+        self.__x = 1  # Mangled to _Parent__x
+class Child(Parent):
+    def method(self):
+        return self._Parent__x  # Access via mangled name
+Child().method()        # 1 (can access parent's mangled attribute)
+
+Common uses:
+• Accessing mangled attributes: obj._ClassName__attr
+• Understanding mangling: can access if you know the mangled name
+• Name mangling
+• Inheritance
+
+Example: If class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self._Parent__x; Child().method(), then Child().method() returns 1 because you can access the mangled name with the class name prefix - Parent.__x becomes _Parent__x, and accessing it directly works.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.__x__ = 1; obj = MyClass(); obj.__x__?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Double underscore on both sides doesn't mangle (special methods).",
+    de: `Double underscore on both sides (__x__) doesn't trigger name mangling because Python reserves this pattern for special methods (magic methods). If class MyClass: def __init__(self): self.__x__ = 1; obj = MyClass(); obj.__x__, then obj.__x__ returns 1 because attributes with double underscores on both sides (like __str__, __len__, __init__) are reserved for Python's special methods and don't get name mangled. This allows you to define custom special methods without interference from name mangling.
+
+Double underscore both sides doesn't mangle:
+• obj.__x__ returns 1
+• __x__ has double underscore on both sides
+• Reserved pattern for special methods
+• Doesn't trigger name mangling
+• Returns: 1
+
+How it works:
+• self.__x__ = 1 sets attribute
+• Python sees __x__ (double underscore both sides)
+• Recognizes as special method pattern
+• Doesn't apply name mangling
+• obj.__x__ accesses attribute directly
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.__x__ = 1  # Doesn't mangle (special method pattern)
+obj = MyClass()
+obj.__x__              # 1 (no mangling, accessible)
+# vs
+self.__x = 1            # Mangles to _MyClass__x
+
+Common uses:
+• Special methods: __str__, __len__, etc. (don't mangle)
+• Understanding mangling: only __attr (not __attr__) mangles
+• Name mangling
+• Special methods
+
+Example: If class MyClass: def __init__(self): self.__x__ = 1; obj = MyClass(); obj.__x__, then obj.__x__ returns 1 because double underscore on both sides doesn't trigger name mangling - this pattern is reserved for special methods.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; obj = MyClass(); obj.get_x()?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Getter method provides controlled access to protected attribute.",
+    de: `Getter methods provide controlled access to protected (single underscore) attributes. If class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; obj = MyClass(); obj.get_x(), then obj.get_x() returns 1 because get_x() is a getter method that provides controlled access to the protected attribute _x. While _x could be accessed directly (obj._x), using a getter method provides a controlled interface, allowing the class to add validation, transformation, or logging in the future without changing the external API.
+
+Getter method for protected attribute:
+• obj.get_x() returns 1
+• get_x() provides controlled access
+• Accesses protected attribute _x
+• Returns value through method
+• Returns: 1
+
+How it works:
+• obj.get_x() calls getter method
+• get_x() executes: return self._x
+• Accesses protected attribute _x = 1
+• Returns value through method
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1  # Protected attribute
+    def get_x(self):
+        return self._x  # Getter method
+obj = MyClass()
+obj.get_x()            # 1 (controlled access)
+obj._x                 # 1 (direct access also works, but getter preferred)
+
+Common uses:
+• Controlled access: getter methods provide interface to protected attributes
+• Encapsulation: hide implementation details behind methods
+• Getter methods
+• Object-oriented programming
+
+Example: If class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; obj = MyClass(); obj.get_x(), then obj.get_x() returns 1 because getter methods provide controlled access to protected attributes, allowing the class to manage how attributes are accessed.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.__x = 1; def get_x(self): return self.__x; obj = MyClass(); obj.get_x()?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Getter method can access mangled name from within class.",
+    de: `Getter methods can access mangled (double underscore) attributes from within the class. If class MyClass: def __init__(self): self.__x = 1; def get_x(self): return self.__x; obj = MyClass(); obj.get_x(), then obj.get_x() returns 1 because when you access __x from within the class (in a method), Python automatically uses the mangled name (_MyClass__x). Inside the class, you can use __x and Python knows to look for _MyClass__x. This allows getter methods to access private (mangled) attributes while keeping them hidden from external access.
+
+Getter accesses mangled name:
+• obj.get_x() returns 1
+• get_x() accesses __x from within class
+• Python automatically uses mangled name _MyClass__x
+• Works from within class
+• Returns: 1
+
+How it works:
+• obj.get_x() calls getter method
+• get_x() executes: return self.__x
+• Inside class, __x refers to _MyClass__x (mangled)
+• Python automatically resolves to mangled name
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.__x = 1  # Mangled to _MyClass__x
+    def get_x(self):
+        return self.__x  # Inside class, __x works (auto-mangled)
+obj = MyClass()
+obj.get_x()            # 1 (works from within class)
+obj.__x                # AttributeError (doesn't work from outside)
+
+Common uses:
+• Private attributes: getter methods can access mangled attributes
+• Encapsulation: hide attributes, provide controlled access
+• Getter methods
+• Name mangling
+
+Example: If class MyClass: def __init__(self): self.__x = 1; def get_x(self): return self.__x; obj = MyClass(); obj.get_x(), then obj.get_x() returns 1 because getter methods can access mangled names from within the class - Python automatically resolves __x to _MyClass__x inside the class.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.__x = 1; def set_x(self, val): self.__x = val; obj = MyClass(); obj.set_x(2); obj.get_x() if hasattr(obj, 'get_x') else obj._MyClass__x?`, 
+    o: ["2", "1", "Error", "None"], 
+    c: 0, 
+    e: "Setter method can modify mangled attribute.",
+    de: `Setter methods can modify mangled (double underscore) attributes from within the class. If class MyClass: def __init__(self): self.__x = 1; def set_x(self, val): self.__x = val; obj = MyClass(); obj.set_x(2); obj.get_x() if hasattr(obj, 'get_x') else obj._MyClass__x, then it returns 2 because set_x() is a setter method that modifies the mangled attribute __x. Inside the class, __x automatically refers to _MyClass__x, so set_x() can modify it. If get_x() exists, it returns the updated value (2); otherwise, accessing _MyClass__x directly also returns 2.
+
+Setter modifies mangled attribute:
+• obj.set_x(2) modifies __x
+• Inside class, __x refers to _MyClass__x
+• set_x() modifies mangled attribute
+• obj.get_x() or obj._MyClass__x returns 2
+• Returns: 2
+
+How it works:
+• obj.set_x(2) calls setter method
+• set_x() executes: self.__x = val
+• Inside class, __x refers to _MyClass__x
+• Sets _MyClass__x = 2
+• obj.get_x() or obj._MyClass__x returns 2
+• Returns: 2
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.__x = 1  # Mangled to _MyClass__x
+    def set_x(self, val):
+        self.__x = val  # Modifies mangled attribute
+    def get_x(self):
+        return self.__x
+obj = MyClass()
+obj.set_x(2)            # Modifies __x
+obj.get_x()            # 2 (updated value)
+
+Common uses:
+• Private attributes: setter methods can modify mangled attributes
+• Encapsulation: controlled modification of private attributes
+• Setter methods
+• Name mangling
+
+Example: If class MyClass: def __init__(self): self.__x = 1; def set_x(self, val): self.__x = val; obj = MyClass(); obj.set_x(2); obj.get_x() if hasattr(obj, 'get_x') else obj._MyClass__x, then it returns 2 because setter methods can modify mangled attributes from within the class.
+`
+  }),
   
   // 61-70: Encapsulation - Properties and Access Control
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x?`, o: ["1", "Error", "None", "0"], c: 0, e: "Property provides controlled read access." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): self._x = val * 2; obj = MyClass(); obj.x = 5; obj.x?`, o: ["10", "5", "Error", "None"], c: 0, e: "Property setter can validate/transform before storing." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.__x = 1; @property; def x(self): return self.__x; obj = MyClass(); obj.x?`, o: ["1", "Error", "None", "0"], c: 0, e: "Property can access mangled attribute." }),
-  (_i: number) => ({ q: `What is class MyClass: @property; def x(self): return 1; @x.setter; def x(self, val): pass; obj = MyClass(); obj.x = 5; obj.x?`, o: ["1", "5", "Error", "None"], c: 0, e: "Setter that doesn't store doesn't change property." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; def set_x(self, val): self._x = val; x = property(get_x, set_x); obj = MyClass(); obj.x = 5; obj.x?`, o: ["5", "1", "Error", "None"], c: 0, e: "property() can be created with getter and setter functions." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.deleter; def x(self): del self._x; obj = MyClass(); del obj.x; hasattr(obj, '_x')?`, o: ["False", "True", "Error", "None"], c: 0, e: "Property deleter provides controlled deletion." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x = 2?`, o: ["AttributeError", "2", "Error", "None"], c: 0, e: "Property without setter is read-only." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x if self._x > 0 else 0; obj = MyClass(); obj._x = -1; obj.x?`, o: ["0", "-1", "Error", "None"], c: 0, e: "Property getter can validate/transform on access." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): if val < 0: raise ValueError; self._x = val; obj = MyClass(); obj.x = -1?`, o: ["ValueError", "-1", "Error", "None"], c: 0, e: "Property setter can validate and raise errors." }),
-  (_i: number) => ({ q: `What is class MyClass: _x = 1; @classmethod; @property; def x(cls): return cls._x?`, o: ["TypeError", "1", "Error", "None"], c: 0, e: "Can't combine @classmethod and @property (property is for instances)." }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Property provides controlled read access.",
+    de: `The @property decorator provides controlled read access to attributes. If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x, then obj.x returns 1 because @property converts the method x() into a property, allowing you to access it like an attribute (obj.x instead of obj.x()). The property getter returns the value of the protected attribute _x, providing controlled access while keeping _x protected. This is a cleaner interface than using getter methods like get_x().
+
+Property provides controlled access:
+• obj.x returns 1
+• @property makes method accessible as attribute
+• Property getter returns self._x
+• Clean interface: obj.x (not obj.get_x())
+• Returns: 1
+
+How it works:
+• obj.x accesses property
+• Python calls property getter: @property def x(self)
+• Getter executes: return self._x
+• Returns protected attribute value
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1  # Protected attribute
+    @property
+    def x(self):
+        return self._x  # Property getter
+obj = MyClass()
+obj.x                        # 1 (property access, clean interface)
+
+Common uses:
+• Controlled access: @property def attr(self): return self._attr
+• Clean interface: obj.attr instead of obj.get_attr()
+• Properties
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x, then obj.x returns 1 because @property provides controlled read access, making the method accessible as an attribute.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): self._x = val * 2; obj = MyClass(); obj.x = 5; obj.x?`, 
+    o: ["10", "5", "Error", "None"], 
+    c: 0, 
+    e: "Property setter can validate/transform before storing.",
+    de: `Property setters can validate or transform values before storing them. If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): self._x = val * 2; obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 10 because the setter multiplies the value by 2 before storing it (self._x = val * 2 = 5 * 2 = 10). When you assign obj.x = 5, the setter is called, transforms the value (5 * 2 = 10), and stores 10. This allows properties to enforce business rules, validate input, or transform data before storage.
+
+Property setter transforms value:
+• obj.x = 5 calls setter
+• Setter executes: self._x = val * 2 = 5 * 2 = 10
+• Stores transformed value: 10
+• obj.x calls getter: return self._x
+• Returns: 10
+
+How it works:
+• obj.x = 5 calls setter: @x.setter def x(self, val)
+• Setter transforms: self._x = val * 2
+• Evaluates: 5 * 2 = 10
+• Stores: self._x = 10
+• obj.x returns: 10
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self, val):
+        self._x = val * 2  # Transforms value
+obj = MyClass()
+obj.x = 5                    # Stores 10 (5 * 2)
+obj.x                        # 10 (transformed value)
+
+Common uses:
+• Value transformation: @x.setter def x(self, val): self._x = transform(val)
+• Validation: @x.setter def x(self, val): if valid: self._x = val
+• Properties
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): self._x = val * 2; obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 10 because the property setter transforms the value before storing it (5 * 2 = 10).
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.__x = 1; @property; def x(self): return self.__x; obj = MyClass(); obj.x?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Property can access mangled attribute.",
+    de: `Properties can access mangled (double underscore) attributes. If class MyClass: def __init__(self): self.__x = 1; @property; def x(self): return self.__x; obj = MyClass(); obj.x, then obj.x returns 1 because the property getter can access the mangled attribute __x from within the class. Inside the class, __x automatically refers to _MyClass__x (the mangled name), so the property can retrieve it. This allows properties to provide controlled access to private (mangled) attributes while keeping them hidden from direct external access.
+
+Property accesses mangled attribute:
+• obj.x returns 1
+• Property getter accesses __x
+• Inside class, __x refers to _MyClass__x
+• Property can access mangled name
+• Returns: 1
+
+How it works:
+• obj.x accesses property
+• Property getter executes: return self.__x
+• Inside class, __x refers to _MyClass__x (mangled)
+• Python automatically resolves to mangled name
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.__x = 1  # Mangled to _MyClass__x
+    @property
+    def x(self):
+        return self.__x  # Property can access mangled name
+obj = MyClass()
+obj.x                        # 1 (property accesses mangled attribute)
+obj.__x                      # AttributeError (direct access fails)
+
+Common uses:
+• Private attributes: @property def attr(self): return self.__attr
+• Controlled access: properties provide interface to mangled attributes
+• Properties
+• Name mangling
+
+Example: If class MyClass: def __init__(self): self.__x = 1; @property; def x(self): return self.__x; obj = MyClass(); obj.x, then obj.x returns 1 because properties can access mangled attributes - inside the class, __x automatically refers to the mangled name.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: @property; def x(self): return 1; @x.setter; def x(self, val): pass; obj = MyClass(); obj.x = 5; obj.x?`, 
+    o: ["1", "5", "Error", "None"], 
+    c: 0, 
+    e: "Setter that doesn't store doesn't change property.",
+    de: `A property setter that doesn't store the value doesn't change the property. If class MyClass: @property; def x(self): return 1; @x.setter; def x(self, val): pass; obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 1 because the setter has pass (does nothing), so it doesn't store the value. The assignment obj.x = 5 calls the setter, but the setter ignores the value. The getter still returns 1, so the property value remains unchanged. This pattern can be used to create read-only properties that accept assignments but ignore them.
+
+Setter doesn't store:
+• obj.x = 5 calls setter
+• Setter executes: pass (does nothing)
+• Value 5 is ignored (not stored)
+• obj.x calls getter: return 1
+• Returns: 1 (unchanged)
+
+How it works:
+• obj.x = 5 calls setter: @x.setter def x(self, val)
+• Setter executes: pass (does nothing)
+• Value 5 is not stored
+• obj.x calls getter: @property def x(self)
+• Getter returns: 1 (unchanged)
+• Returns: 1
+
+Example:
+class MyClass:
+    @property
+    def x(self):
+        return 1
+    @x.setter
+    def x(self, val):
+        pass  # Doesn't store value
+obj = MyClass()
+obj.x = 5                    # Calls setter (ignores value)
+obj.x                        # 1 (getter unchanged)
+
+Common uses:
+• Read-only simulation: setter that ignores values
+• Validation-only setters: setter that validates but doesn't store
+• Properties
+• Encapsulation
+
+Example: If class MyClass: @property; def x(self): return 1; @x.setter; def x(self, val): pass; obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 1 because a setter that doesn't store the value doesn't change the property, so the getter still returns 1.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; def set_x(self, val): self._x = val; x = property(get_x, set_x); obj = MyClass(); obj.x = 5; obj.x?`, 
+    o: ["5", "1", "Error", "None"], 
+    c: 0, 
+    e: "property() can be created with getter and setter functions.",
+    de: `The property() function can be created with getter and setter functions as arguments. If class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; def set_x(self, val): self._x = val; x = property(get_x, set_x); obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 5 because property(get_x, set_x) creates a property where get_x is the getter and set_x is the setter. This is an alternative syntax to using @property and @x.setter decorators. When you assign obj.x = 5, it calls set_x(5), which sets self._x = 5. When you access obj.x, it calls get_x(), which returns self._x = 5.
+
+property() with getter and setter:
+• obj.x = 5 calls set_x(5)
+• set_x sets self._x = 5
+• obj.x calls get_x()
+• get_x returns self._x = 5
+• Returns: 5
+
+How it works:
+• property(get_x, set_x) creates property
+• get_x is getter function
+• set_x is setter function
+• obj.x = 5 calls set_x(5)
+• set_x sets self._x = 5
+• obj.x calls get_x()
+• Returns: 5
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1
+    def get_x(self):
+        return self._x
+    def set_x(self, val):
+        self._x = val
+    x = property(get_x, set_x)  # Alternative to @property
+obj = MyClass()
+obj.x = 5                    # Calls set_x(5)
+obj.x                        # 5 (calls get_x())
+
+Common uses:
+• Property creation: x = property(getter, setter) (alternative syntax)
+• Functional style: property() function instead of decorators
+• Properties
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; def set_x(self, val): self._x = val; x = property(get_x, set_x); obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 5 because property() can be created with getter and setter functions, and the setter stores the value.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.deleter; def x(self): del self._x; obj = MyClass(); del obj.x; hasattr(obj, '_x')?`, 
+    o: ["False", "True", "Error", "None"], 
+    c: 0, 
+    e: "Property deleter provides controlled deletion.",
+    de: `The @x.deleter decorator defines a property deleter that provides controlled deletion. If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.deleter; def x(self): del self._x; obj = MyClass(); del obj.x; hasattr(obj, '_x'), then hasattr(obj, '_x') returns False because @x.deleter defines what happens when you delete the property, and del obj.x calls the deleter, which deletes self._x. This provides controlled deletion of attributes, allowing you to add cleanup logic or validation before deletion.
+
+Property deleter:
+• del obj.x calls deleter
+• @x.deleter defines deletion behavior
+• Deleter executes: del self._x
+• Attribute _x is deleted
+• hasattr(obj, '_x') returns False
+
+How it works:
+• obj._x = 1 sets attribute
+• del obj.x calls deleter: @x.deleter def x(self)
+• Deleter executes: del self._x
+• Attribute _x is deleted
+• hasattr(obj, '_x') checks if attribute exists
+• Returns: False
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1
+    @property
+    def x(self):
+        return self._x
+    @x.deleter
+    def x(self):
+        del self._x  # Controlled deletion
+obj = MyClass()
+del obj.x                    # Calls deleter
+hasattr(obj, '_x')          # False (deleted)
+
+Common uses:
+• Controlled deletion: @x.deleter def x(self): cleanup logic
+• Property deletion: del obj.property (uses deleter)
+• Properties
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.deleter; def x(self): del self._x; obj = MyClass(); del obj.x; hasattr(obj, '_x'), then hasattr(obj, '_x') returns False because @x.deleter provides controlled deletion, and del obj.x calls the deleter, which deletes self._x.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x = 2?`, 
+    o: ["AttributeError", "2", "Error", "None"], 
+    c: 0, 
+    e: "Property without setter is read-only.",
+    de: `A property without a setter is read-only - you cannot assign to it. If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x = 2, then obj.x = 2 raises an AttributeError because the property only has a getter (defined by @property), but no setter. To make a property writable, you need to define a setter using @x.setter. Without a setter, the property is read-only, and any attempt to assign to it raises an AttributeError.
+
+Property without setter:
+• obj.x = 2 raises AttributeError
+• Property only has getter (no setter)
+• Cannot assign to read-only property
+• Raises AttributeError: can't set attribute
+• Error: AttributeError
+
+How it works:
+• obj.x = 2 attempts to assign to property
+• Property has no setter defined
+• Python cannot set read-only property
+• Raises AttributeError: can't set attribute
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1
+    @property
+    def x(self):
+        return self._x  # Only getter, no setter
+obj = MyClass()
+obj.x                        # 1 (read works)
+obj.x = 2                    # AttributeError (no setter, read-only)
+
+Common uses:
+• Read-only properties: @property def value(self): return self._value
+• Computed properties: @property def area(self): return self.width * self.height
+• Properties
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x = 2, then obj.x = 2 raises an AttributeError because a property without a setter is read-only and cannot be assigned to.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x if self._x > 0 else 0; obj = MyClass(); obj._x = -1; obj.x?`, 
+    o: ["0", "-1", "Error", "None"], 
+    c: 0, 
+    e: "Property getter can validate/transform on access.",
+    de: `Property getters can validate or transform values when they're accessed. If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x if self._x > 0 else 0; obj = MyClass(); obj._x = -1; obj.x, then obj.x returns 0 because the property getter checks if self._x > 0, and if not, it returns 0 instead of the actual value. Even though obj._x = -1 (set directly), when you access obj.x, the getter transforms the value, returning 0 for negative values. This allows properties to enforce constraints or transform data on access.
+
+Property getter transforms value:
+• obj._x = -1 sets attribute directly
+• obj.x calls property getter
+• Getter checks: self._x > 0? (False, -1 is not > 0)
+• Returns transformed value: 0
+• Returns: 0
+
+How it works:
+• obj._x = -1 sets attribute directly (bypasses property)
+• obj.x accesses property
+• Getter executes: return self._x if self._x > 0 else 0
+• Evaluates: -1 > 0? (False)
+• Returns: 0 (transformed value)
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1
+    @property
+    def x(self):
+        return self._x if self._x > 0 else 0  # Transforms on access
+obj = MyClass()
+obj._x = -1                    # Set directly (bypasses property)
+obj.x                        # 0 (getter transforms negative to 0)
+
+Common uses:
+• Value transformation: @property def x(self): return transform(self._x)
+• Validation on access: getter can validate/transform values
+• Properties
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x if self._x > 0 else 0; obj = MyClass(); obj._x = -1; obj.x, then obj.x returns 0 because the property getter can validate/transform values on access, returning 0 for negative values.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): if val < 0: raise ValueError; self._x = val; obj = MyClass(); obj.x = -1?`, 
+    o: ["ValueError", "-1", "Error", "None"], 
+    c: 0, 
+    e: "Property setter can validate and raise errors.",
+    de: `Property setters can validate input and raise errors if validation fails. If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): if val < 0: raise ValueError; self._x = val; obj = MyClass(); obj.x = -1, then obj.x = -1 raises a ValueError because the setter validates that val >= 0, and since -1 < 0, it raises ValueError before storing the value. This allows properties to enforce business rules and prevent invalid data from being stored.
+
+Property setter validates:
+• obj.x = -1 calls setter
+• Setter checks: val < 0? (True, -1 < 0)
+• Raises ValueError (validation fails)
+• Value is not stored
+• Raises ValueError
+
+How it works:
+• obj.x = -1 calls setter: @x.setter def x(self, val)
+• Setter validates: if val < 0: raise ValueError
+• -1 < 0 is True
+• Raises ValueError
+• Value is not stored
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self, val):
+        if val < 0:
+            raise ValueError("Value must be non-negative")
+        self._x = val
+obj = MyClass()
+obj.x = -1                    # ValueError (validation fails)
+
+Common uses:
+• Input validation: @x.setter def x(self, val): if not valid: raise Error
+• Business rules: properties can enforce constraints
+• Properties
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): if val < 0: raise ValueError; self._x = val; obj = MyClass(); obj.x = -1, then obj.x = -1 raises a ValueError because the property setter validates input and raises an error if validation fails.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: _x = 1; @classmethod; @property; def x(cls): return cls._x?`, 
+    o: ["TypeError", "1", "Error", "None"], 
+    c: 0, 
+    e: "Can't combine @classmethod and @property (property is for instances).",
+    de: `You cannot combine @classmethod and @property decorators because properties are designed for instances, not classes. If class MyClass: _x = 1; @classmethod; @property; def x(cls): return cls._x, then it raises a TypeError because @property expects an instance method (with self), but @classmethod provides a class method (with cls). These decorators are incompatible - properties work with instances, while class methods work with classes. To access class attributes, you would use a regular class method without @property, or use a class-level property descriptor (which is more complex).
+
+Cannot combine decorators:
+• Raises TypeError
+• @property expects instance method (self)
+• @classmethod provides class method (cls)
+• Decorators are incompatible
+• Raises TypeError
+
+How it works:
+• @classmethod @property def x(cls): tries to combine decorators
+• @property expects method with self (instance)
+• @classmethod provides method with cls (class)
+• Decorators conflict
+• Raises TypeError
+
+Example:
+class MyClass:
+    _x = 1
+    @classmethod
+    @property  # TypeError (can't combine)
+    def x(cls):
+        return cls._x
+# Instead, use:
+class MyClass:
+    _x = 1
+    @classmethod
+    def x(cls):
+        return cls._x  # Class method (no @property)
+
+Common uses:
+• Understanding limitations: @property and @classmethod can't be combined
+• Class attributes: use @classmethod without @property
+• Properties
+• Class methods
+
+Example: If class MyClass: _x = 1; @classmethod; @property; def x(cls): return cls._x, then it raises a TypeError because you can't combine @classmethod and @property - properties are for instances, class methods are for classes.
+`
+  }),
   
   // 71-80: Abstract Base Classes
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass()?`, o: ["TypeError", "Creates instance", "Error", "None"], c: 0, e: "Abstract class with abstractmethod can't be instantiated." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; Child()?`, o: ["TypeError", "Creates instance", "Error", "None"], c: 0, e: "Child must implement abstract method or be abstract." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child().method()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Child implementing abstract method can be instantiated." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): @abstractmethod; def method(self): pass; Child()?`, o: ["TypeError", "Creates instance", "Error", "None"], c: 0, e: "Child keeping method abstract still can't be instantiated." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass.__abstractmethods__?`, o: ["frozenset({'method'})", "set()", "Error", "None"], c: 0, e: "__abstractmethods__ contains set of abstract method names." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child.__abstractmethods__?`, o: ["frozenset()", "frozenset({'method'})", "Error", "None"], c: 0, e: "Child implementing abstract method has no abstract methods." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @classmethod; def method(cls): pass; MyClass()?`, o: ["TypeError", "Creates instance", "Error", "None"], c: 0, e: "Abstract classmethod prevents instantiation." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @staticmethod; def method(): pass; MyClass()?`, o: ["TypeError", "Creates instance", "Error", "None"], c: 0, e: "Abstract staticmethod prevents instantiation." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; issubclass(Child, Parent)?`, o: ["True", "False", "Error", "None"], c: 0, e: "Child is still subclass even if abstract." }),
-  (_i: number) => ({ q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; isinstance(MyClass(), MyClass)?`, o: ["TypeError (can't instantiate)", "True", "False", "Error"], c: 0, e: "Can't create instance to test isinstance." }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass()?`, 
+    o: ["TypeError", "Creates instance", "Error", "None"], 
+    c: 0, 
+    e: "Abstract class with abstractmethod can't be instantiated.",
+    de: `Abstract classes with abstract methods cannot be instantiated. If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass(), then MyClass() raises a TypeError because abstract classes are designed to be base classes that define an interface, but cannot be used directly. The @abstractmethod decorator marks a method as abstract, meaning it must be implemented by subclasses. Python prevents instantiation of classes with abstract methods to enforce that the interface is properly implemented before use.
+
+Abstract class can't be instantiated:
+• MyClass() raises TypeError
+• MyClass has abstract method (method)
+• Abstract classes cannot be instantiated
+• Must implement abstract methods first
+• Raises TypeError
+
+How it works:
+• MyClass() tries to create instance
+• Python checks for abstract methods
+• Finds @abstractmethod def method(self)
+• Class has abstract methods
+• Raises TypeError: Can't instantiate abstract class MyClass with abstract method method
+
+Example:
+from abc import ABC, abstractmethod
+class MyClass(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+MyClass()                    # TypeError (can't instantiate abstract class)
+
+Common uses:
+• Abstract base classes: define interface that subclasses must implement
+• Interface enforcement: prevent instantiation until interface is complete
+• Abstract base classes
+• Object-oriented programming
+
+Example: If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass(), then MyClass() raises a TypeError because abstract classes with abstract methods cannot be instantiated - they must be subclassed and the abstract methods must be implemented first.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; Child()?`, 
+    o: ["TypeError", "Creates instance", "Error", "None"], 
+    c: 0, 
+    e: "Child must implement abstract method or be abstract.",
+    de: `A child class must implement all abstract methods from the parent, or it also becomes abstract and cannot be instantiated. If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; Child(), then Child() raises a TypeError because Child inherits the abstract method from Parent but doesn't implement it. Abstract methods are inherited, so Child also has an abstract method and cannot be instantiated until it implements all abstract methods.
+
+Child must implement abstract method:
+• Child() raises TypeError
+• Child inherits abstract method from Parent
+• Child doesn't implement method()
+• Child is also abstract
+• Raises TypeError
+
+How it works:
+• Child() tries to create instance
+• Python checks for abstract methods
+• Finds inherited @abstractmethod def method(self) from Parent
+• Child doesn't implement method()
+• Child is abstract
+• Raises TypeError: Can't instantiate abstract class Child with abstract method method
+
+Example:
+from abc import ABC, abstractmethod
+class Parent(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+class Child(Parent): pass  # Doesn't implement method
+Child()                    # TypeError (still abstract)
+
+Common uses:
+• Abstract inheritance: child must implement parent's abstract methods
+• Interface enforcement: abstract methods must be implemented
+• Abstract base classes
+• Inheritance
+
+Example: If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; Child(), then Child() raises a TypeError because the child must implement the abstract method or it also becomes abstract and cannot be instantiated.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child().method()?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Child implementing abstract method can be instantiated.",
+    de: `A child class that implements all abstract methods can be instantiated. If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child().method(), then Child().method() returns 1 because Child implements the abstract method method(), so it's no longer abstract and can be instantiated. When you call Child().method(), it uses Child's implementation, which returns 1.
+
+Child implementing abstract method:
+• Child().method() returns 1
+• Child implements abstract method from Parent
+• Child is no longer abstract
+• Can be instantiated
+• Returns: 1
+
+How it works:
+• Child() creates instance (no longer abstract)
+• Child implements method() (returns 1)
+• Child().method() calls Child.method()
+• Method executes: return 1
+• Returns: 1
+
+Example:
+from abc import ABC, abstractmethod
+class Parent(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+class Child(Parent):
+    def method(self):
+        return 1  # Implements abstract method
+Child().method()          # 1 (can instantiate, method implemented)
+
+Common uses:
+• Abstract implementation: child implements parent's abstract methods
+• Interface completion: implementing abstract methods makes class concrete
+• Abstract base classes
+• Inheritance
+
+Example: If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child().method(), then Child().method() returns 1 because a child implementing the abstract method can be instantiated and the method works correctly.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): @abstractmethod; def method(self): pass; Child()?`, 
+    o: ["TypeError", "Creates instance", "Error", "None"], 
+    c: 0, 
+    e: "Child keeping method abstract still can't be instantiated.",
+    de: `A child class that keeps a method abstract (by marking it with @abstractmethod again) still cannot be instantiated. If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): @abstractmethod; def method(self): pass; Child(), then Child() raises a TypeError because even though Child defines method(), it marks it as abstract again with @abstractmethod. This means Child is still abstract and cannot be instantiated. The method must be implemented (have actual code, not just pass) and not be marked as abstract for the class to be concrete.
+
+Child keeps method abstract:
+• Child() raises TypeError
+• Child marks method() as @abstractmethod
+• Method is still abstract (not implemented)
+• Child is still abstract
+• Raises TypeError
+
+How it works:
+• Child() tries to create instance
+• Python checks for abstract methods
+• Finds @abstractmethod def method(self) in Child
+• Method is still abstract (marked with @abstractmethod)
+• Child is abstract
+• Raises TypeError: Can't instantiate abstract class Child with abstract method method
+
+Example:
+from abc import ABC, abstractmethod
+class Parent(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+class Child(Parent):
+    @abstractmethod
+    def method(self):
+        pass  # Still abstract
+Child()                    # TypeError (still abstract)
+
+Common uses:
+• Abstract inheritance: child can keep method abstract
+• Multi-level abstraction: abstract methods can be passed down
+• Abstract base classes
+• Inheritance
+
+Example: If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): @abstractmethod; def method(self): pass; Child(), then Child() raises a TypeError because a child keeping the method abstract still cannot be instantiated - the method must be implemented (not just marked abstract) for the class to be concrete.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass.__abstractmethods__?`, 
+    o: ["frozenset({'method'})", "set()", "Error", "None"], 
+    c: 0, 
+    e: "__abstractmethods__ contains set of abstract method names.",
+    de: `The __abstractmethods__ attribute contains a frozenset of abstract method names. If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass.__abstractmethods__, then MyClass.__abstractmethods__ returns frozenset({'method'}) because __abstractmethods__ stores the names of all abstract methods in the class. This is used internally by Python to determine if a class is abstract and can be instantiated. When all methods in __abstractmethods__ are implemented, the class becomes concrete.
+
+__abstractmethods__ attribute:
+• MyClass.__abstractmethods__ returns frozenset({'method'})
+• Contains names of abstract methods
+• Used to check if class is abstract
+• Empty when all methods implemented
+• Returns: frozenset({'method'})
+
+How it works:
+• @abstractmethod def method(self) marks method as abstract
+• Python adds 'method' to __abstractmethods__
+• __abstractmethods__ is frozenset of abstract method names
+• Contains: {'method'}
+• Returns: frozenset({'method'})
+
+Example:
+from abc import ABC, abstractmethod
+class MyClass(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+MyClass.__abstractmethods__  # frozenset({'method'}) (abstract methods)
+
+Common uses:
+• Abstract method inspection: Class.__abstractmethods__ (see abstract methods)
+• Introspection: check which methods are abstract
+• Abstract base classes
+• Type system
+
+Example: If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass.__abstractmethods__, then MyClass.__abstractmethods__ returns frozenset({'method'}) because __abstractmethods__ contains a set of abstract method names.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child.__abstractmethods__?`, 
+    o: ["frozenset()", "frozenset({'method'})", "Error", "None"], 
+    c: 0, 
+    e: "Child implementing abstract method has no abstract methods.",
+    de: `A child class that implements all abstract methods has an empty __abstractmethods__ set. If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child.__abstractmethods__, then Child.__abstractmethods__ returns frozenset() because Child implements the abstract method method(), so it's no longer abstract. When a class implements all abstract methods, Python removes them from __abstractmethods__, making it empty. This indicates the class is concrete and can be instantiated.
+
+Child has no abstract methods:
+• Child.__abstractmethods__ returns frozenset()
+• Child implements abstract method from Parent
+• All abstract methods are implemented
+• __abstractmethods__ is empty
+• Returns: frozenset()
+
+How it works:
+• Child implements method() (returns 1)
+• Python checks abstract methods
+• All abstract methods are implemented
+• Removes 'method' from __abstractmethods__
+• __abstractmethods__ becomes empty
+• Returns: frozenset()
+
+Example:
+from abc import ABC, abstractmethod
+class Parent(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+class Child(Parent):
+    def method(self):
+        return 1  # Implements abstract method
+Child.__abstractmethods__  # frozenset() (no abstract methods)
+
+Common uses:
+• Abstract method inspection: Child.__abstractmethods__ (check if concrete)
+• Introspection: empty set means class is concrete
+• Abstract base classes
+• Type system
+
+Example: If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child.__abstractmethods__, then Child.__abstractmethods__ returns frozenset() because a child implementing the abstract method has no abstract methods - all are implemented.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @classmethod; def method(cls): pass; MyClass()?`, 
+    o: ["TypeError", "Creates instance", "Error", "None"], 
+    c: 0, 
+    e: "Abstract classmethod prevents instantiation.",
+    de: `Abstract class methods prevent instantiation of the class. If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @classmethod; def method(cls): pass; MyClass(), then MyClass() raises a TypeError because @abstractmethod can be applied to class methods, and having an abstract class method makes the class abstract. The class cannot be instantiated until the abstract class method is implemented by a subclass. Abstract methods can be instance methods, class methods, or static methods - all prevent instantiation.
+
+Abstract classmethod:
+• MyClass() raises TypeError
+• @abstractmethod @classmethod marks class method as abstract
+• Class has abstract class method
+• Cannot be instantiated
+• Raises TypeError
+
+How it works:
+• MyClass() tries to create instance
+• Python checks for abstract methods
+• Finds @abstractmethod @classmethod def method(cls)
+• Class has abstract class method
+• Raises TypeError: Can't instantiate abstract class MyClass with abstract method method
+
+Example:
+from abc import ABC, abstractmethod
+class MyClass(ABC):
+    @abstractmethod
+    @classmethod
+    def method(cls):
+        pass  # Abstract class method
+MyClass()                    # TypeError (abstract class method)
+
+Common uses:
+• Abstract class methods: @abstractmethod @classmethod (abstract class method)
+• Interface enforcement: abstract methods can be class methods
+• Abstract base classes
+• Class methods
+
+Example: If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @classmethod; def method(cls): pass; MyClass(), then MyClass() raises a TypeError because an abstract class method prevents instantiation - the class is abstract until the class method is implemented.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @staticmethod; def method(): pass; MyClass()?`, 
+    o: ["TypeError", "Creates instance", "Error", "None"], 
+    c: 0, 
+    e: "Abstract staticmethod prevents instantiation.",
+    de: `Abstract static methods prevent instantiation of the class. If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @staticmethod; def method(): pass; MyClass(), then MyClass() raises a TypeError because @abstractmethod can be applied to static methods, and having an abstract static method makes the class abstract. The class cannot be instantiated until the abstract static method is implemented by a subclass. Abstract methods can be instance methods, class methods, or static methods - all prevent instantiation.
+
+Abstract staticmethod:
+• MyClass() raises TypeError
+• @abstractmethod @staticmethod marks static method as abstract
+• Class has abstract static method
+• Cannot be instantiated
+• Raises TypeError
+
+How it works:
+• MyClass() tries to create instance
+• Python checks for abstract methods
+• Finds @abstractmethod @staticmethod def method()
+• Class has abstract static method
+• Raises TypeError: Can't instantiate abstract class MyClass with abstract method method
+
+Example:
+from abc import ABC, abstractmethod
+class MyClass(ABC):
+    @abstractmethod
+    @staticmethod
+    def method():
+        pass  # Abstract static method
+MyClass()                    # TypeError (abstract static method)
+
+Common uses:
+• Abstract static methods: @abstractmethod @staticmethod (abstract static method)
+• Interface enforcement: abstract methods can be static methods
+• Abstract base classes
+• Static methods
+
+Example: If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @staticmethod; def method(): pass; MyClass(), then MyClass() raises a TypeError because an abstract static method prevents instantiation - the class is abstract until the static method is implemented.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; issubclass(Child, Parent)?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "Child is still subclass even if abstract.",
+    de: `A child class is still a subclass of the parent, even if it's abstract (hasn't implemented abstract methods). If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; issubclass(Child, Parent), then issubclass(Child, Parent) returns True because Child inherits from Parent, making it a subclass regardless of whether it implements abstract methods. Being abstract doesn't change the inheritance relationship - Child is still a subclass of Parent, it just can't be instantiated until it implements the abstract methods.
+
+Child is still subclass:
+• issubclass(Child, Parent) returns True
+• Child inherits from Parent
+• Abstract status doesn't affect inheritance
+• Child is subclass even if abstract
+• Returns: True
+
+How it works:
+• class Child(Parent): creates child inheriting from Parent
+• issubclass(Child, Parent) checks inheritance
+• Child is indeed a subclass of Parent
+• Abstract status doesn't affect this
+• Returns: True
+
+Example:
+from abc import ABC, abstractmethod
+class Parent(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+class Child(Parent): pass  # Abstract (doesn't implement method)
+issubclass(Child, Parent)  # True (still subclass, even if abstract)
+
+Common uses:
+• Inheritance check: issubclass(Child, Parent) (works even if abstract)
+• Understanding abstraction: abstract status doesn't affect inheritance
+• Abstract base classes
+• Inheritance
+
+Example: If from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; issubclass(Child, Parent), then issubclass(Child, Parent) returns True because a child is still a subclass even if it's abstract - abstract status doesn't affect the inheritance relationship.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; isinstance(MyClass(), MyClass)?`, 
+    o: ["TypeError (can't instantiate)", "True", "False", "Error"], 
+    c: 0, 
+    e: "Can't create instance to test isinstance.",
+    de: `You cannot create an instance of an abstract class to test isinstance(). If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; isinstance(MyClass(), MyClass), then it raises a TypeError because MyClass() tries to instantiate an abstract class, which is not allowed. You cannot create an instance of an abstract class, so you cannot test isinstance() with an abstract class instance. To test isinstance(), you would need to create an instance of a concrete subclass that implements all abstract methods.
+
+Cannot instantiate abstract class:
+• isinstance(MyClass(), MyClass) raises TypeError
+• MyClass() tries to instantiate abstract class
+• Abstract classes cannot be instantiated
+• Cannot create instance for isinstance()
+• Raises TypeError
+
+How it works:
+• isinstance(MyClass(), MyClass) tries to create instance
+• MyClass() attempts to instantiate abstract class
+• Python checks for abstract methods
+• Finds @abstractmethod def method(self)
+• Raises TypeError: Can't instantiate abstract class MyClass with abstract method method
+
+Example:
+from abc import ABC, abstractmethod
+class MyClass(ABC):
+    @abstractmethod
+    def method(self):
+        pass
+isinstance(MyClass(), MyClass)  # TypeError (can't instantiate abstract class)
+# Instead, create concrete subclass:
+class Concrete(MyClass):
+    def method(self):
+        return 1
+isinstance(Concrete(), MyClass)  # True (works with concrete subclass)
+
+Common uses:
+• Understanding limitations: can't instantiate abstract classes
+• isinstance() testing: need concrete subclass for isinstance()
+• Abstract base classes
+• Type system
+
+Example: If from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; isinstance(MyClass(), MyClass), then it raises a TypeError because you can't create an instance of an abstract class to test isinstance() - abstract classes cannot be instantiated.
+`
+  }),
   
   // 81-90: isinstance and issubclass
-  (_i: number) => ({ q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), Parent)?`, o: ["True", "False", "Error", "None"], c: 0, e: "isinstance() returns True for parent class." }),
-  (_i: number) => ({ q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), Child)?`, o: ["True", "False", "Error", "None"], c: 0, e: "isinstance() returns True for own class." }),
-  (_i: number) => ({ q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), (Parent, str))?`, o: ["True", "False", "Error", "None"], c: 0, e: "isinstance() can check multiple types (tuple)." }),
-  (_i: number) => ({ q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Parent(), Child)?`, o: ["False", "True", "Error", "None"], c: 0, e: "isinstance() doesn't work backwards (parent not instance of child)." }),
-  (_i: number) => ({ q: `What is class Parent: pass; class Child(Parent): pass; issubclass(Child, Parent)?`, o: ["True", "False", "Error", "None"], c: 0, e: "issubclass() checks if first is subclass of second." }),
-  (_i: number) => ({ q: `What is class Parent: pass; class Child(Parent): pass; issubclass(Parent, Child)?`, o: ["False", "True", "Error", "None"], c: 0, e: "issubclass() doesn't work backwards." }),
-  (_i: number) => ({ q: `What is class Parent: pass; class Child(Parent): pass; issubclass(Child, (Parent, str))?`, o: ["True", "False", "Error", "None"], c: 0, e: "issubclass() can check multiple base classes (tuple)." }),
-  (_i: number) => ({ q: `What is class A: pass; class B(A): pass; class C(B): pass; issubclass(C, A)?`, o: ["True", "False", "Error", "None"], c: 0, e: "issubclass() checks entire inheritance chain." }),
-  (_i: number) => ({ q: `What is class A: pass; class B(A): pass; class C(B): pass; isinstance(C(), A)?`, o: ["True", "False", "Error", "None"], c: 0, e: "isinstance() checks entire inheritance chain." }),
-  (_i: number) => ({ q: `What is class A: pass; class B: pass; class C(A, B): pass; issubclass(C, A) and issubclass(C, B)?`, o: ["True", "False", "Error", "None"], c: 0, e: "Multiple inheritance: child is subclass of all parents." }),
+  (_i: number) => ({ 
+    q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), Parent)?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "isinstance() returns True for parent class.",
+    de: `The isinstance() function returns True if an instance is of a class or any of its parent classes. If class Parent: pass; class Child(Parent): pass; isinstance(Child(), Parent), then isinstance(Child(), Parent) returns True because isinstance() checks the entire inheritance chain. Since Child inherits from Parent, an instance of Child is also considered an instance of Parent. This is different from type() ==, which only checks the exact type.
+
+isinstance() with inheritance:
+• isinstance(Child(), Parent) returns True
+• isinstance() checks inheritance chain
+• Child() is instance of Child
+• Child inherits from Parent
+• Child() is also instance of Parent
+• Returns: True
+
+How it works:
+• Child() creates instance of Child
+• isinstance(instance, Parent) checks if instance is of Parent
+• Child inherits from Parent
+• Instance of Child is also instance of Parent
+• Returns: True
+
+Example:
+class Parent: pass
+class Child(Parent): pass
+isinstance(Child(), Parent)   # True (Child inherits from Parent)
+isinstance(Child(), Child)    # True (Child() is instance of Child)
+
+Common uses:
+• Type checking: if isinstance(obj, Parent): ... (works with inheritance)
+• Polymorphism: isinstance(obj, BaseClass) (checks base classes)
+• isinstance() function
+• Type system
+
+Example: If class Parent: pass; class Child(Parent): pass; isinstance(Child(), Parent), then isinstance(Child(), Parent) returns True because isinstance() returns True for parent classes - it checks the entire inheritance chain.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), Child)?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "isinstance() returns True for own class.",
+    de: `The isinstance() function returns True if an instance is of its own class. If class Parent: pass; class Child(Parent): pass; isinstance(Child(), Child), then isinstance(Child(), Child) returns True because Child() creates an instance of Child, and isinstance() checks if the instance is of the specified class. An instance is always an instance of its own class, so this always returns True.
+
+isinstance() with own class:
+• isinstance(Child(), Child) returns True
+• Child() creates instance of Child
+• isinstance() checks if instance is of Child
+• Instance is of its own class
+• Returns: True
+
+How it works:
+• Child() creates instance of Child
+• isinstance(instance, Child) checks if instance is of Child
+• Instance is indeed of Child class
+• Returns: True
+
+Example:
+class Parent: pass
+class Child(Parent): pass
+isinstance(Child(), Child)    # True (instance is of its own class)
+isinstance(Child(), Parent)    # True (also of parent class)
+
+Common uses:
+• Type checking: if isinstance(obj, Class): ... (check own class)
+• Instance validation: isinstance(instance, Class) (always True for own class)
+• isinstance() function
+• Type system
+
+Example: If class Parent: pass; class Child(Parent): pass; isinstance(Child(), Child), then isinstance(Child(), Child) returns True because isinstance() returns True for the instance's own class - an instance is always an instance of its own class.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), (Parent, str))?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "isinstance() can check multiple types (tuple).",
+    de: `The isinstance() function can check if an instance is of any type in a tuple. If class Parent: pass; class Child(Parent): pass; isinstance(Child(), (Parent, str)), then isinstance(Child(), (Parent, str)) returns True because isinstance() checks if the instance is of any type in the tuple. Since Child() is an instance of Parent (through inheritance), it matches Parent in the tuple, so it returns True. This is useful for checking if an object is one of several types.
+
+isinstance() with tuple:
+• isinstance(Child(), (Parent, str)) returns True
+• isinstance() checks if instance is of any type in tuple
+• Child() is instance of Parent (inheritance)
+• Matches Parent in tuple
+• Returns: True
+
+How it works:
+• isinstance(Child(), (Parent, str)) checks multiple types
+• Checks if Child() is instance of Parent (True, through inheritance)
+• Or instance of str (False)
+• Returns True if matches any type in tuple
+• Returns: True
+
+Example:
+class Parent: pass
+class Child(Parent): pass
+isinstance(Child(), (Parent, str))  # True (matches Parent)
+isinstance(Child(), (str, int))     # False (matches neither)
+
+Common uses:
+• Multiple type checking: isinstance(obj, (Type1, Type2, Type3))
+• Type validation: check if object is one of several types
+• isinstance() function
+• Type system
+
+Example: If class Parent: pass; class Child(Parent): pass; isinstance(Child(), (Parent, str)), then isinstance(Child(), (Parent, str)) returns True because isinstance() can check multiple types using a tuple, and Child() is an instance of Parent.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: pass; class Child(Parent): pass; isinstance(Parent(), Child)?`, 
+    o: ["False", "True", "Error", "None"], 
+    c: 0, 
+    e: "isinstance() doesn't work backwards (parent not instance of child).",
+    de: `The isinstance() function doesn't work backwards - a parent instance is not an instance of a child class. If class Parent: pass; class Child(Parent): pass; isinstance(Parent(), Child), then isinstance(Parent(), Child) returns False because Parent() creates an instance of Parent, not Child. Inheritance only works one way - a child is an instance of the parent, but a parent is not an instance of the child. isinstance() checks if the instance is of the specified class or any of its ancestors, not descendants.
+
+isinstance() doesn't work backwards:
+• isinstance(Parent(), Child) returns False
+• Parent() creates instance of Parent
+• Parent is not a subclass of Child
+• Parent instance is not instance of Child
+• Returns: False
+
+How it works:
+• Parent() creates instance of Parent
+• isinstance(instance, Child) checks if instance is of Child
+• Parent is not a subclass of Child (inheritance is one-way)
+• Parent instance is not instance of Child
+• Returns: False
+
+Example:
+class Parent: pass
+class Child(Parent): pass
+isinstance(Parent(), Child)    # False (parent not instance of child)
+isinstance(Child(), Parent)    # True (child is instance of parent)
+
+Common uses:
+• Understanding inheritance: isinstance() only works forward (child -> parent)
+• Type checking: parent instances are not instances of child classes
+• isinstance() function
+• Inheritance
+
+Example: If class Parent: pass; class Child(Parent): pass; isinstance(Parent(), Child), then isinstance(Parent(), Child) returns False because isinstance() doesn't work backwards - a parent instance is not an instance of a child class.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: pass; class Child(Parent): pass; issubclass(Child, Parent)?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "issubclass() checks if first is subclass of second.",
+    de: `The issubclass() function checks if the first class is a subclass of the second class. If class Parent: pass; class Child(Parent): pass; issubclass(Child, Parent), then issubclass(Child, Parent) returns True because Child inherits from Parent, making Child a subclass of Parent. issubclass() checks the inheritance relationship between classes, returning True if the first class inherits from (or is the same as) the second class.
+
+issubclass() function:
+• issubclass(Child, Parent) returns True
+• issubclass() checks if Child is subclass of Parent
+• Child inherits from Parent
+• Child is subclass of Parent
+• Returns: True
+
+How it works:
+• class Child(Parent): creates child inheriting from Parent
+• issubclass(Child, Parent) checks inheritance
+• Child is indeed a subclass of Parent
+• Returns: True
+
+Example:
+class Parent: pass
+class Child(Parent): pass
+issubclass(Child, Parent)     # True (Child is subclass of Parent)
+
+Common uses:
+• Inheritance check: issubclass(Child, Parent) (check if subclass)
+• Type checking: if issubclass(cls, Parent): ...
+• issubclass() function
+• Inheritance
+
+Example: If class Parent: pass; class Child(Parent): pass; issubclass(Child, Parent), then issubclass(Child, Parent) returns True because issubclass() checks if the first class is a subclass of the second class, and Child inherits from Parent.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: pass; class Child(Parent): pass; issubclass(Parent, Child)?`, 
+    o: ["False", "True", "Error", "None"], 
+    c: 0, 
+    e: "issubclass() doesn't work backwards.",
+    de: `The issubclass() function doesn't work backwards - a parent is not a subclass of a child. If class Parent: pass; class Child(Parent): pass; issubclass(Parent, Child), then issubclass(Parent, Child) returns False because Parent doesn't inherit from Child - inheritance only works one way. Child is a subclass of Parent, but Parent is not a subclass of Child. issubclass() checks if the first class inherits from the second class, not the other way around.
+
+issubclass() doesn't work backwards:
+• issubclass(Parent, Child) returns False
+• Parent doesn't inherit from Child
+• Inheritance is one-way (Child -> Parent)
+• Parent is not subclass of Child
+• Returns: False
+
+How it works:
+• issubclass(Parent, Child) checks if Parent is subclass of Child
+• Parent doesn't inherit from Child
+• Inheritance only works one way
+• Parent is not a subclass of Child
+• Returns: False
+
+Example:
+class Parent: pass
+class Child(Parent): pass
+issubclass(Parent, Child)     # False (parent not subclass of child)
+issubclass(Child, Parent)     # True (child is subclass of parent)
+
+Common uses:
+• Understanding inheritance: issubclass() only works forward (child -> parent)
+• Type checking: parent classes are not subclasses of child classes
+• issubclass() function
+• Inheritance
+
+Example: If class Parent: pass; class Child(Parent): pass; issubclass(Parent, Child), then issubclass(Parent, Child) returns False because issubclass() doesn't work backwards - a parent is not a subclass of a child.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Parent: pass; class Child(Parent): pass; issubclass(Child, (Parent, str))?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "issubclass() can check multiple base classes (tuple).",
+    de: `The issubclass() function can check if a class is a subclass of any class in a tuple. If class Parent: pass; class Child(Parent): pass; issubclass(Child, (Parent, str)), then issubclass(Child, (Parent, str)) returns True because issubclass() checks if Child is a subclass of any class in the tuple. Since Child inherits from Parent, it matches Parent in the tuple, so it returns True. This is useful for checking if a class inherits from one of several base classes.
+
+issubclass() with tuple:
+• issubclass(Child, (Parent, str)) returns True
+• issubclass() checks if Child is subclass of any class in tuple
+• Child inherits from Parent
+• Matches Parent in tuple
+• Returns: True
+
+How it works:
+• issubclass(Child, (Parent, str)) checks multiple base classes
+• Checks if Child is subclass of Parent (True)
+• Or subclass of str (False)
+• Returns True if matches any class in tuple
+• Returns: True
+
+Example:
+class Parent: pass
+class Child(Parent): pass
+issubclass(Child, (Parent, str))  # True (Child is subclass of Parent)
+issubclass(Child, (str, int))      # False (Child is not subclass of str or int)
+
+Common uses:
+• Multiple base class checking: issubclass(Class, (Base1, Base2, Base3))
+• Type validation: check if class inherits from one of several bases
+• issubclass() function
+• Inheritance
+
+Example: If class Parent: pass; class Child(Parent): pass; issubclass(Child, (Parent, str)), then issubclass(Child, (Parent, str)) returns True because issubclass() can check multiple base classes using a tuple, and Child is a subclass of Parent.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class A: pass; class B(A): pass; class C(B): pass; issubclass(C, A)?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "issubclass() checks entire inheritance chain.",
+    de: `The issubclass() function checks the entire inheritance chain, not just direct parents. If class A: pass; class B(A): pass; class C(B): pass; issubclass(C, A), then issubclass(C, A) returns True because issubclass() checks if C is a subclass of A through the entire inheritance chain. Even though C directly inherits from B (not A), C is still a subclass of A because B inherits from A, creating a chain: C -> B -> A. issubclass() follows this entire chain.
+
+issubclass() checks entire chain:
+• issubclass(C, A) returns True
+• issubclass() checks entire inheritance chain
+• C inherits from B, B inherits from A
+• C is subclass of A (through B)
+• Returns: True
+
+How it works:
+• issubclass(C, A) checks if C is subclass of A
+• C directly inherits from B
+• B inherits from A
+• Inheritance chain: C -> B -> A
+• C is subclass of A (through inheritance chain)
+• Returns: True
+
+Example:
+class A: pass
+class B(A): pass
+class C(B): pass
+issubclass(C, A)              # True (C is subclass of A through B)
+issubclass(C, B)              # True (C directly inherits from B)
+
+Common uses:
+• Inheritance chain: issubclass() checks entire chain, not just direct parent
+• Type checking: check if class inherits from ancestor
+• issubclass() function
+• Inheritance
+
+Example: If class A: pass; class B(A): pass; class C(B): pass; issubclass(C, A), then issubclass(C, A) returns True because issubclass() checks the entire inheritance chain, and C is a subclass of A through B.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class A: pass; class B(A): pass; class C(B): pass; isinstance(C(), A)?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "isinstance() checks entire inheritance chain.",
+    de: `The isinstance() function checks the entire inheritance chain, not just the direct class. If class A: pass; class B(A): pass; class C(B): pass; isinstance(C(), A), then isinstance(C(), A) returns True because isinstance() checks if the instance is of A through the entire inheritance chain. Even though C() is an instance of C (not directly A), it's also an instance of A because C inherits from B, which inherits from A, creating a chain: C -> B -> A. isinstance() follows this entire chain.
+
+isinstance() checks entire chain:
+• isinstance(C(), A) returns True
+• isinstance() checks entire inheritance chain
+• C() is instance of C
+• C inherits from B, B inherits from A
+• C() is instance of A (through inheritance chain)
+• Returns: True
+
+How it works:
+• isinstance(C(), A) checks if C() is instance of A
+• C() is instance of C
+• C inherits from B, B inherits from A
+• Inheritance chain: C -> B -> A
+• C() is instance of A (through inheritance chain)
+• Returns: True
+
+Example:
+class A: pass
+class B(A): pass
+class C(B): pass
+isinstance(C(), A)             # True (C() is instance of A through B)
+isinstance(C(), B)             # True (C() is instance of B)
+isinstance(C(), C)             # True (C() is instance of C)
+
+Common uses:
+• Inheritance chain: isinstance() checks entire chain, not just direct class
+• Type checking: check if instance is of ancestor class
+• isinstance() function
+• Inheritance
+
+Example: If class A: pass; class B(A): pass; class C(B): pass; isinstance(C(), A), then isinstance(C(), A) returns True because isinstance() checks the entire inheritance chain, and C() is an instance of A through B.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class A: pass; class B: pass; class C(A, B): pass; issubclass(C, A) and issubclass(C, B)?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "Multiple inheritance: child is subclass of all parents.",
+    de: `In multiple inheritance, a child class is a subclass of all its parent classes. If class A: pass; class B: pass; class C(A, B): pass; issubclass(C, A) and issubclass(C, B), then issubclass(C, A) and issubclass(C, B) returns True because C inherits from both A and B, making C a subclass of both. In multiple inheritance, the child inherits from all parents, so it's a subclass of all of them. Both issubclass(C, A) and issubclass(C, B) return True, so the and expression returns True.
+
+Multiple inheritance:
+• issubclass(C, A) and issubclass(C, B) returns True
+• C inherits from both A and B
+• C is subclass of A (True)
+• C is subclass of B (True)
+• Both True, so and returns True
+• Returns: True
+
+How it works:
+• class C(A, B): creates child with multiple parents
+• issubclass(C, A) checks if C is subclass of A (True)
+• issubclass(C, B) checks if C is subclass of B (True)
+• Both return True
+• and expression: True and True = True
+• Returns: True
+
+Example:
+class A: pass
+class B: pass
+class C(A, B): pass  # Multiple inheritance
+issubclass(C, A)              # True (C is subclass of A)
+issubclass(C, B)              # True (C is subclass of B)
+issubclass(C, A) and issubclass(C, B)  # True (both True)
+
+Common uses:
+• Multiple inheritance: child is subclass of all parents
+• Type checking: check if class inherits from multiple bases
+• issubclass() function
+• Multiple inheritance
+
+Example: If class A: pass; class B: pass; class C(A, B): pass; issubclass(C, A) and issubclass(C, B), then it returns True because in multiple inheritance, the child is a subclass of all parents - C inherits from both A and B, so it's a subclass of both.
+`
+  }),
   
   // 91-100: Advanced OOP Concepts
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.x = 1; class Child(MyClass): def __init__(self): super().__init__(); self.y = 2; obj = Child(); [obj.x, obj.y]?`, o: ["[1, 2]", "[1]", "[2]", "Error"], c: 0, e: "super().__init__() initializes parent attributes." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self, x): self.x = x; class Child(MyClass): def __init__(self, x, y): super().__init__(x); self.y = y; Child(1, 2).x?`, o: ["1", "2", "Error", "None"], c: 0, e: "super().__init__() passes arguments to parent." }),
-  (_i: number) => ({ q: `What is class MyClass: x = 1; class Child(MyClass): x = 2; class GrandChild(Child): pass; GrandChild.x?`, o: ["2", "1", "Error", "None"], c: 0, e: "Grandchild inherits from immediate parent (Child.x)." }),
-  (_i: number) => ({ q: `What is class MyClass: def method(self): return 1; class Child(MyClass): def method(self): return super().method() + 1; Child().method()?`, o: ["2", "1", "Error", "None"], c: 0, e: "Child can extend parent method using super()." }),
-  (_i: number) => ({ q: `What is class MyClass: def __str__(self): return 'MyClass'; class Child(MyClass): def __str__(self): return 'Child'; str(Child())?`, o: ["'Child'", "'MyClass'", "Error", "None"], c: 0, e: "Child can override special methods." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self.__x = 1; class Child(MyClass): def method(self): return self.__x; Child().method()?`, o: ["AttributeError", "1", "Error", "None"], c: 0, e: "Name mangling prevents child from accessing parent's __x." }),
-  (_i: number) => ({ q: `What is class MyClass: def __init__(self): self._x = 1; class Child(MyClass): def method(self): return self._x; Child().method()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Single underscore (protected) is accessible to child." }),
-  (_i: number) => ({ q: `What is class MyClass: @classmethod; def method(cls): return cls; class Child(MyClass): pass; Child.method()?`, o: ["<class '__main__.Child'>", "<class '__main__.MyClass'>", "Error", "None"], c: 0, e: "Class method receives child class when called on child." }),
-  (_i: number) => ({ q: `What is class MyClass: @staticmethod; def method(): return 1; class Child(MyClass): pass; Child.method()?`, o: ["1", "Error", "None", "0"], c: 0, e: "Static method inherited unchanged." }),
-  (_i: number) => ({ q: `What is class MyClass: @property; def x(self): return 1; class Child(MyClass): pass; Child().x?`, o: ["1", "Error", "None", "0"], c: 0, e: "Property is inherited by child class." }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.x = 1; class Child(MyClass): def __init__(self): super().__init__(); self.y = 2; obj = Child(); [obj.x, obj.y]?`, 
+    o: ["[1, 2]", "[1]", "[2]", "Error"], 
+    c: 0, 
+    e: "super().__init__() initializes parent attributes.",
+    de: `The super().__init__() call initializes parent attributes in the child class. If class MyClass: def __init__(self): self.x = 1; class Child(MyClass): def __init__(self): super().__init__(); self.y = 2; obj = Child(); [obj.x, obj.y], then [obj.x, obj.y] returns [1, 2] because super().__init__() calls the parent's __init__, which sets self.x = 1. Then the child's __init__ sets self.y = 2. This ensures both parent and child attributes are initialized correctly. Without super().__init__(), only self.y would be set, and obj.x would raise an AttributeError.
+
+super().__init__() initializes parent:
+• [obj.x, obj.y] returns [1, 2]
+• super().__init__() calls parent __init__
+• Parent __init__ sets self.x = 1
+• Child __init__ sets self.y = 2
+• Both attributes initialized
+• Returns: [1, 2]
+
+How it works:
+• Child() creates instance and calls __init__
+• Child.__init__ executes: super().__init__()
+• super().__init__() calls MyClass.__init__()
+• MyClass.__init__ sets self.x = 1
+• Child.__init__ sets self.y = 2
+• obj.x = 1, obj.y = 2
+• Returns: [1, 2]
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.x = 1
+class Child(MyClass):
+    def __init__(self):
+        super().__init__()  # Initializes parent
+        self.y = 2
+obj = Child()
+[obj.x, obj.y]              # [1, 2] (both initialized)
+
+Common uses:
+• Parent initialization: def __init__(self): super().__init__(); self.child_attr = value
+• Constructor chaining: ensure parent attributes are initialized
+• super() function
+• Object initialization
+
+Example: If class MyClass: def __init__(self): self.x = 1; class Child(MyClass): def __init__(self): super().__init__(); self.y = 2; obj = Child(); [obj.x, obj.y], then [obj.x, obj.y] returns [1, 2] because super().__init__() initializes parent attributes, ensuring both parent and child attributes are set.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self, x): self.x = x; class Child(MyClass): def __init__(self, x, y): super().__init__(x); self.y = y; Child(1, 2).x?`, 
+    o: ["1", "2", "Error", "None"], 
+    c: 0, 
+    e: "super().__init__() passes arguments to parent.",
+    de: `The super().__init__() call can pass arguments to the parent's __init__ method. If class MyClass: def __init__(self, x): self.x = x; class Child(MyClass): def __init__(self, x, y): super().__init__(x); self.y = y; Child(1, 2).x, then Child(1, 2).x returns 1 because Child.__init__ receives arguments (1, 2), calls super().__init__(1) which passes x = 1 to MyClass.__init__, setting self.x = 1. Then Child.__init__ sets self.y = 2. This allows the child to initialize parent attributes with specific values passed to the child's constructor.
+
+super().__init__() with arguments:
+• Child(1, 2).x returns 1
+• Child(1, 2) calls Child.__init__(1, 2)
+• Child.__init__ calls super().__init__(1) (passes x)
+• MyClass.__init__ sets self.x = 1
+• Child.__init__ sets self.y = 2
+• Returns: 1
+
+How it works:
+• Child(1, 2) calls Child.__init__(1, 2)
+• Child.__init__ executes: super().__init__(1)
+• super().__init__(1) calls MyClass.__init__(1)
+• MyClass.__init__ sets self.x = 1
+• Child.__init__ sets self.y = 2
+• Child(1, 2).x returns 1
+
+Example:
+class MyClass:
+    def __init__(self, x):
+        self.x = x
+class Child(MyClass):
+    def __init__(self, x, y):
+        super().__init__(x)  # Passes x to parent
+        self.y = y
+Child(1, 2).x                # 1 (parent __init__ sets with x=1)
+
+Common uses:
+• Parent initialization: def __init__(self, x, y): super().__init__(x); self.y = y
+• Constructor chaining: pass arguments to parent __init__
+• super() function
+• Object initialization
+
+Example: If class MyClass: def __init__(self, x): self.x = x; class Child(MyClass): def __init__(self, x, y): super().__init__(x); self.y = y; Child(1, 2).x, then Child(1, 2).x returns 1 because super().__init__() passes arguments to the parent, so x = 1 is passed to MyClass.__init__, setting self.x = 1.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: x = 1; class Child(MyClass): x = 2; class GrandChild(Child): pass; GrandChild.x?`, 
+    o: ["2", "1", "Error", "None"], 
+    c: 0, 
+    e: "Grandchild inherits from immediate parent (Child.x).",
+    de: `A grandchild class inherits from its immediate parent, not from the grandparent when there's an override. If class MyClass: x = 1; class Child(MyClass): x = 2; class GrandChild(Child): pass; GrandChild.x, then GrandChild.x returns 2 because GrandChild inherits from Child (its immediate parent), and Child has x = 2. The inheritance chain is GrandChild -> Child -> MyClass, and when searching for x, Python finds it in Child first (x = 2), so it uses that value, not MyClass's x = 1.
+
+Grandchild inherits from immediate parent:
+• GrandChild.x returns 2
+• GrandChild inherits from Child (immediate parent)
+• Child has x = 2 (overrides MyClass.x = 1)
+• GrandChild uses Child.x = 2
+• Returns: 2
+
+How it works:
+• class GrandChild(Child): creates grandchild inheriting from Child
+• GrandChild.x looks for attribute x
+• Python searches: GrandChild (not found) -> Child (finds x = 2)
+• Uses Child.x = 2 (doesn't reach MyClass.x = 1)
+• Returns: 2
+
+Example:
+class MyClass: x = 1
+class Child(MyClass): x = 2  # Overrides parent
+class GrandChild(Child): pass
+GrandChild.x                 # 2 (inherits from immediate parent Child)
+
+Common uses:
+• Inheritance chain: grandchild inherits from immediate parent
+• Attribute resolution: child's override takes precedence
+• Inheritance
+• Attribute shadowing
+
+Example: If class MyClass: x = 1; class Child(MyClass): x = 2; class GrandChild(Child): pass; GrandChild.x, then GrandChild.x returns 2 because the grandchild inherits from its immediate parent (Child), and Child has x = 2.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def method(self): return 1; class Child(MyClass): def method(self): return super().method() + 1; Child().method()?`, 
+    o: ["2", "1", "Error", "None"], 
+    c: 0, 
+    e: "Child can extend parent method using super().",
+    de: `A child class can extend a parent method using super() to call the parent's method and then add additional behavior. If class MyClass: def method(self): return 1; class Child(MyClass): def method(self): return super().method() + 1; Child().method(), then Child().method() returns 2 because super().method() calls the parent's method (returns 1), and then the child adds 1 to it (1 + 1 = 2). This allows the child to extend the parent's behavior rather than completely replace it - a common pattern for adding functionality while preserving parent behavior.
+
+Child extends parent method:
+• Child().method() returns 2
+• Child's method calls super().method()
+• Parent method returns 1
+• Child adds 1: 1 + 1 = 2
+• Returns: 2
+
+How it works:
+• Child().method() calls method on Child instance
+• Child.method() executes: return super().method() + 1
+• super().method() calls MyClass.method(), returns 1
+• Child adds 1: 1 + 1 = 2
+• Returns: 2
+
+Example:
+class MyClass:
+    def method(self):
+        return 1
+class Child(MyClass):
+    def method(self):
+        return super().method() + 1  # Extends parent
+Child().method()              # 2 (parent's 1 + 1)
+
+Common uses:
+• Method extension: def method(self): return super().method() + extension
+• Behavior extension: child extends parent behavior
+• super() function
+• Method overriding
+
+Example: If class MyClass: def method(self): return 1; class Child(MyClass): def method(self): return super().method() + 1; Child().method(), then Child().method() returns 2 because the child can extend the parent method using super(), calling the parent and then adding child-specific behavior.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __str__(self): return 'MyClass'; class Child(MyClass): def __str__(self): return 'Child'; str(Child())?`, 
+    o: ["'Child'", "'MyClass'", "Error", "None"], 
+    c: 0, 
+    e: "Child can override special methods.",
+    de: `Child classes can override special methods (magic methods) from the parent. If class MyClass: def __str__(self): return 'MyClass'; class Child(MyClass): def __str__(self): return 'Child'; str(Child()), then str(Child()) returns 'Child' because Child defines its own __str__() method, which overrides the parent's __str__(). When you call str() on a Child instance, Python uses Child.__str__(), not MyClass.__str__(). Special methods can be overridden just like regular methods, allowing child classes to customize behavior for built-in functions and operators.
+
+Child overrides special method:
+• str(Child()) returns 'Child'
+• Child defines __str__() (overrides parent)
+• str() calls Child.__str__()
+• Child.__str__() returns 'Child'
+• Returns: 'Child'
+
+How it works:
+• str(Child()) calls str() on Child instance
+• str() looks for __str__() method
+• Python finds __str__() in Child (overrides parent)
+• Calls Child.__str__() (returns 'Child')
+• Returns: 'Child'
+
+Example:
+class MyClass:
+    def __str__(self):
+        return 'MyClass'
+class Child(MyClass):
+    def __str__(self):
+        return 'Child'  # Overrides parent __str__
+str(Child())              # 'Child' (uses child's __str__)
+
+Common uses:
+• Special method override: child can override __str__, __len__, __add__, etc.
+• Customization: child provides different behavior for built-ins
+• Special methods
+• Method overriding
+
+Example: If class MyClass: def __str__(self): return 'MyClass'; class Child(MyClass): def __str__(self): return 'Child'; str(Child()), then str(Child()) returns 'Child' because the child can override special methods, and Child.__str__() takes precedence over MyClass.__str__().
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self.__x = 1; class Child(MyClass): def method(self): return self.__x; Child().method()?`, 
+    o: ["AttributeError", "1", "Error", "None"], 
+    c: 0, 
+    e: "Name mangling prevents child from accessing parent's __x.",
+    de: `Name mangling prevents child classes from accessing parent's private attributes. If class MyClass: def __init__(self): self.__x = 1; class Child(MyClass): def method(self): return self.__x; Child().method(), then Child().method() raises an AttributeError because MyClass's __x is mangled to _MyClass__x, but Child's method tries to access __x, which would be mangled to _Child__x (different name). Name mangling includes the class name, so each class has its own mangled namespace, preventing child classes from accidentally accessing parent's private attributes.
+
+Name mangling prevents child access:
+• Child().method() raises AttributeError
+• MyClass.__x is mangled to _MyClass__x
+• Child tries to access __x (would be _Child__x)
+• Different mangled names
+• Raises AttributeError
+
+How it works:
+• MyClass.__init__ sets self.__x = 1 (mangled to _MyClass__x)
+• Child().method() tries to access self.__x
+• In Child context, __x would mangle to _Child__x
+• _Child__x doesn't exist (attribute is _MyClass__x)
+• Raises AttributeError
+
+Example:
+class MyClass:
+    def __init__(self):
+        self.__x = 1  # Mangled to _MyClass__x
+class Child(MyClass):
+    def method(self):
+        return self.__x  # Would mangle to _Child__x (doesn't exist)
+Child().method()        # AttributeError (can't access parent's __x)
+
+Common uses:
+• Private attributes: name mangling prevents child access
+• Encapsulation: each class has its own mangled namespace
+• Name mangling
+• Inheritance
+
+Example: If class MyClass: def __init__(self): self.__x = 1; class Child(MyClass): def method(self): return self.__x; Child().method(), then Child().method() raises an AttributeError because name mangling prevents child classes from accessing parent's private attributes - MyClass.__x becomes _MyClass__x, but Child tries to access __x which would be _Child__x.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __init__(self): self._x = 1; class Child(MyClass): def method(self): return self._x; Child().method()?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Single underscore (protected) is accessible to child.",
+    de: `Single underscore prefix (_) indicates "protected" attributes that are accessible to child classes. If class MyClass: def __init__(self): self._x = 1; class Child(MyClass): def method(self): return self._x; Child().method(), then Child().method() returns 1 because single underscore is just a naming convention (not enforced by Python), so child classes can access protected attributes. Unlike double underscore (__) which triggers name mangling, single underscore doesn't change the attribute name, so it's accessible to child classes through inheritance.
+
+Single underscore accessible to child:
+• Child().method() returns 1
+• self._x is protected attribute (single underscore)
+• Single underscore doesn't mangle
+• Child can access parent's _x
+• Returns: 1
+
+How it works:
+• MyClass.__init__ sets self._x = 1
+• Child().method() accesses self._x
+• Single underscore doesn't trigger name mangling
+• Attribute name remains _x
+• Child can access it through inheritance
+• Returns: 1
+
+Example:
+class MyClass:
+    def __init__(self):
+        self._x = 1  # Protected (convention)
+class Child(MyClass):
+    def method(self):
+        return self._x  # Can access parent's protected attribute
+Child().method()        # 1 (accessible to child)
+
+Common uses:
+• Protected attributes: self._attr (accessible to child classes)
+• Inheritance: child can access parent's protected attributes
+• Naming conventions
+• Encapsulation
+
+Example: If class MyClass: def __init__(self): self._x = 1; class Child(MyClass): def method(self): return self._x; Child().method(), then Child().method() returns 1 because single underscore (protected) is accessible to child classes - it's a convention, not enforced privacy.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: @classmethod; def method(cls): return cls; class Child(MyClass): pass; Child.method()?`, 
+    o: ["<class '__main__.Child'>", "<class '__main__.MyClass'>", "Error", "None"], 
+    c: 0, 
+    e: "Class method receives child class when called on child.",
+    de: `Class methods receive the class they're called on, not the class they're defined in. If class MyClass: @classmethod; def method(cls): return cls; class Child(MyClass): pass; Child.method(), then Child.method() returns <class '__main__.Child'> because when you call a class method on a child class, the cls parameter receives the child class (Child), not the parent class (MyClass). This allows class methods to work polymorphically - they receive the actual class they're called on, enabling class-specific behavior.
+
+Class method receives child class:
+• Child.method() returns <class '__main__.Child'>
+• @classmethod def method(cls) receives cls parameter
+• When called on Child, cls = Child
+• Returns the class it's called on
+• Returns: <class '__main__.Child'>
+
+How it works:
+• Child.method() calls class method on Child class
+• Python calls method with cls = Child (not MyClass)
+• method(cls) executes: return cls
+• Returns Child class
+• Returns: <class '__main__.Child'>
+
+Example:
+class MyClass:
+    @classmethod
+    def method(cls):
+        return cls  # Returns the class it's called on
+class Child(MyClass): pass
+Child.method()              # <class '__main__.Child'> (receives Child, not MyClass)
+MyClass.method()            # <class '__main__.MyClass'> (receives MyClass)
+
+Common uses:
+• Polymorphic class methods: @classmethod def method(cls): return cls (receives actual class)
+• Class-specific behavior: class methods work with the class they're called on
+• Class methods
+• Inheritance
+
+Example: If class MyClass: @classmethod; def method(cls): return cls; class Child(MyClass): pass; Child.method(), then Child.method() returns <class '__main__.Child'> because class methods receive the child class when called on the child - cls receives Child, not MyClass.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: @staticmethod; def method(): return 1; class Child(MyClass): pass; Child.method()?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Static method inherited unchanged.",
+    de: `Static methods are inherited unchanged by child classes. If class MyClass: @staticmethod; def method(): return 1; class Child(MyClass): pass; Child.method(), then Child.method() returns 1 because static methods don't receive self or cls, so they behave the same regardless of which class they're called on. When Child inherits from MyClass, it inherits the static method, and calling Child.method() uses the same implementation as MyClass.method(), returning 1. Static methods are not polymorphic - they don't change based on the class they're called on.
+
+Static method inherited unchanged:
+• Child.method() returns 1
+• Static method doesn't receive self or cls
+• Same behavior regardless of class
+• Inherited unchanged from parent
+• Returns: 1
+
+How it works:
+• Child.method() calls static method on Child class
+• Static method doesn't receive class information
+• Uses same implementation as MyClass.method()
+• Returns: 1
+
+Example:
+class MyClass:
+    @staticmethod
+    def method():
+        return 1
+class Child(MyClass): pass
+Child.method()              # 1 (inherited unchanged)
+MyClass.method()            # 1 (same behavior)
+
+Common uses:
+• Static method inheritance: static methods are inherited unchanged
+• Non-polymorphic methods: static methods don't change based on class
+• Static methods
+• Inheritance
+
+Example: If class MyClass: @staticmethod; def method(): return 1; class Child(MyClass): pass; Child.method(), then Child.method() returns 1 because static methods are inherited unchanged - they don't receive class information, so they behave the same regardless of which class they're called on.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: @property; def x(self): return 1; class Child(MyClass): pass; Child().x?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Property is inherited by child class.",
+    de: `Properties are inherited by child classes. If class MyClass: @property; def x(self): return 1; class Child(MyClass): pass; Child().x, then Child().x returns 1 because properties are class attributes (descriptors), and they're inherited just like other class attributes. When Child inherits from MyClass, it inherits the property x, and when you access Child().x, Python uses the inherited property, which returns 1. Properties work the same way in child classes as they do in parent classes.
+
+Property inherited by child:
+• Child().x returns 1
+• Property is class attribute (descriptor)
+• Inherited by Child from MyClass
+• Works the same in child class
+• Returns: 1
+
+How it works:
+• Child() creates instance of Child
+• Child().x accesses property
+• Property is inherited from MyClass
+• Python uses inherited property getter
+• Property getter returns 1
+• Returns: 1
+
+Example:
+class MyClass:
+    @property
+    def x(self):
+        return 1
+class Child(MyClass): pass
+Child().x                        # 1 (inherits property from MyClass)
+
+Common uses:
+• Property inheritance: properties are inherited by child classes
+• Code reuse: child can use parent's properties
+• Properties
+• Inheritance
+
+Example: If class MyClass: @property; def x(self): return 1; class Child(MyClass): pass; Child().x, then Child().x returns 1 because properties are inherited by child classes, so Child inherits the property from MyClass.
+`
+  }),
 ];
 
 // --- LEVEL 10: GOD_WHALE (Design Patterns, Architecture, Best Practices) - 100 TRULY UNIQUE QUESTIONS ---
@@ -31219,28 +33155,774 @@ Example: Since __enter__ returns self, ctx is the MyContext instance, so ctx ref
   (_i: number) => ({ q: `What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): self.closed = True; ctx = MyContext(); with ctx: pass; ctx.closed?`, o: ["True", "False", "Error", "None"], c: 0, e: "__exit__ called after with block completes." }),
   
   // 31-40: Modules and Imports
-  (_i: number) => ({ q: `What is import module?`, o: ["Imports a module", "Exports a module", "Error", "Creates a module"], c: 0, e: "import loads a module." }),
-  (_i: number) => ({ q: `What is from module import name?`, o: ["Imports name from module", "Imports entire module", "Error", "None"], c: 0, e: "from...import imports specific name." }),
-  (_i: number) => ({ q: `What is from module import name as alias?`, o: ["Imports with alias", "SyntaxError", "Error", "None"], c: 0, e: "as keyword creates alias for import." }),
-  (_i: number) => ({ q: `What is import module as alias?`, o: ["Imports module with alias", "SyntaxError", "Error", "None"], c: 0, e: "Module can be imported with alias." }),
-  (_i: number) => ({ q: `What is from module import *?`, o: ["Imports all public names", "SyntaxError", "Error", "None"], c: 0, e: "* imports all public names from module." }),
-  (_i: number) => ({ q: `What is __name__ == '__main__'?`, o: ["Checks if script is run directly", "Checks if imported", "Error", "None"], c: 0, e: "__name__ is '__main__' when script run directly." }),
-  (_i: number) => ({ q: `What is if __name__ == '__main__': pass?`, o: ["Runs code only when script executed", "Runs always", "Error", "None"], c: 0, e: "Common pattern to run code only when script is main." }),
-  (_i: number) => ({ q: `What is import sys; sys.path?`, o: ["List of module search paths", "Error", "None", "()"], c: 0, e: "sys.path contains directories Python searches for modules." }),
-  (_i: number) => ({ q: `What is __all__ = ['name1', 'name2']?`, o: ["Defines public API", "SyntaxError", "Error", "None"], c: 0, e: "__all__ defines what 'from module import *' imports." }),
-  (_i: number) => ({ q: `What is __file__?`, o: ["Path to current module file", "Error", "None", "''"], c: 0, e: "__file__ contains path to current module." }),
+  (_i: number) => ({ 
+    q: `What is import module?`, 
+    o: ["Imports a module", "Exports a module", "Error", "Creates a module"], 
+    c: 0, 
+    e: "import loads a module.",
+    de: `The import statement loads a module and makes it available in the current namespace. When you write import module, Python searches for a file named module.py (or a package named module) in the module search path, loads it, and creates a module object. The module is then accessible via the module name (e.g., module.function()). Importing a module executes all top-level code in the module file, but subsequent imports of the same module reuse the cached module object.
+
+import statement:
+• import module loads the module
+• Searches for module.py or package module
+• Executes module code on first import
+• Creates module object in namespace
+• Access via module.name
+
+How it works:
+• Python searches for module in sys.path
+• Loads module file (module.py)
+• Executes top-level code in module
+• Creates module object
+• Adds module to current namespace
+• Subsequent imports reuse cached module
+
+Example:
+import math  # Imports math module
+math.pi      # 3.14159... (access module attributes)
+math.sqrt(4) # 2 (use module functions)
+
+Common uses:
+• Importing standard library: import os, import sys, import math
+• Importing custom modules: import mymodule
+• Module access: module.function(), module.attribute
+• Modules and imports
+
+Example: import module loads a module and makes it available in the current namespace, allowing you to access its attributes and functions via module.name.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from module import name?`, 
+    o: ["Imports name from module", "Imports entire module", "Error", "None"], 
+    c: 0, 
+    e: "from...import imports specific name.",
+    de: `The from...import statement imports a specific name (function, class, or variable) from a module directly into the current namespace. When you write from module import name, Python imports the module, then copies the specified name into the current namespace, so you can use it directly without the module prefix. This is more concise than import module; module.name, but can cause namespace pollution if many names are imported.
+
+from...import statement:
+• from module import name imports specific name
+• Loads module and copies name to current namespace
+• Use name directly (no module prefix)
+• More concise than import module; module.name
+• Can cause namespace pollution
+
+How it works:
+• Python imports module
+• Finds name in module namespace
+• Copies name to current namespace
+• Use name directly
+• Original module still imported but not needed
+
+Example:
+from math import pi  # Imports pi directly
+pi                   # 3.14159... (use directly, no math prefix)
+from os import path
+path.join('a', 'b')  # 'a/b' (use directly)
+
+Common uses:
+• Importing specific names: from module import function, from module import Class
+• Cleaner syntax: use name directly without module prefix
+• Selective imports: import only what you need
+• Modules and imports
+
+Example: from module import name imports a specific name from a module directly into the current namespace, allowing you to use it directly without the module prefix.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from module import name as alias?`, 
+    o: ["Imports with alias", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "as keyword creates alias for import.",
+    de: `The as keyword creates an alias for an imported name, allowing you to use a different name in the current namespace. When you write from module import name as alias, Python imports name from the module but makes it available as alias in the current namespace. This is useful when the original name conflicts with an existing name, or when you want a shorter or more descriptive name.
+
+Import with alias:
+• from module import name as alias imports name as alias
+• name is imported from module
+• Available as alias in current namespace
+• Use alias instead of name
+• Prevents name conflicts
+
+How it works:
+• Python imports name from module
+• Assigns name to alias in current namespace
+• Use alias to access the imported name
+• Original name not in namespace (only alias)
+• Prevents naming conflicts
+
+Example:
+from datetime import datetime as dt  # Import with alias
+dt.now()                              # Use alias
+from collections import defaultdict as dd
+dd(int)                               # Use shorter alias
+
+Common uses:
+• Avoiding name conflicts: from module import name as alias
+• Shorter names: from module import long_name as short
+• Descriptive names: from module import func as descriptive_func
+• Modules and imports
+
+Example: from module import name as alias creates an alias for the imported name, allowing you to use alias instead of name in the current namespace.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is import module as alias?`, 
+    o: ["Imports module with alias", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "Module can be imported with alias.",
+    de: `The as keyword can also create an alias for an entire module. When you write import module as alias, Python imports the module but makes it available as alias in the current namespace. This is useful when the module name is long, conflicts with another name, or you want a shorter, more convenient name.
+
+Module import with alias:
+• import module as alias imports module as alias
+• Module is imported and accessible via alias
+• Use alias.name instead of module.name
+• Prevents name conflicts
+• Provides shorter names
+
+How it works:
+• Python imports module
+• Assigns module to alias in current namespace
+• Use alias to access module
+• alias.name is same as module.name
+• Original module name not in namespace
+
+Example:
+import numpy as np  # Common alias for NumPy
+np.array([1, 2, 3]) # Use shorter alias
+import pandas as pd # Common alias for Pandas
+pd.DataFrame(...)   # Use shorter alias
+
+Common uses:
+• Shorter names: import long_module_name as short
+• Avoiding conflicts: import module as alias when name conflicts
+• Convention: numpy as np, pandas as pd (common conventions)
+• Modules and imports
+
+Example: import module as alias imports a module with an alias, allowing you to access it via alias.name instead of module.name.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from module import *?`, 
+    o: ["Imports all public names", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "* imports all public names from module.",
+    de: `The asterisk (*) in from module import * imports all public names (names not starting with underscore) from the module into the current namespace. This allows you to use all public names directly without the module prefix. However, this is generally discouraged because it causes namespace pollution, makes it unclear where names come from, and can cause name conflicts. If the module defines __all__, only names in __all__ are imported.
+
+Wildcard import:
+• from module import * imports all public names
+• Imports all names not starting with _
+• If __all__ defined, imports only names in __all__
+• Names available directly (no module prefix)
+• Causes namespace pollution (discouraged)
+
+How it works:
+• Python imports all public names from module
+• Names not starting with _ are imported
+• If __all__ exists, imports only names in __all__
+• All names copied to current namespace
+• Use names directly
+
+Example:
+from math import *  # Imports all public names
+pi                  # 3.14159... (direct access)
+sqrt(16)            # 4 (direct access)
+# But unclear where names come from
+
+Common uses:
+• Quick prototyping: from module import * (discouraged in production)
+• Convenience: direct access to all names
+• Namespace pollution: makes code harder to understand
+• Modules and imports
+
+Example: from module import * imports all public names from a module, but is generally discouraged due to namespace pollution and unclear name origins.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is __name__ == '__main__'?`, 
+    o: ["Checks if script is run directly", "Checks if imported", "Error", "None"], 
+    c: 0, 
+    e: "__name__ is '__main__' when script run directly.",
+    de: `The __name__ variable contains the name of the module. When a Python file is run directly (as a script), __name__ is set to '__main__'. When a file is imported as a module, __name__ is set to the module name. This allows you to check if a script is being run directly or imported, which is useful for running code only when the script is executed directly (not when imported).
+
+__name__ variable:
+• __name__ contains module name
+• '__main__' when script run directly
+• Module name when imported
+• Check with __name__ == '__main__'
+• Allows conditional execution
+
+How it works:
+• Python sets __name__ = '__main__' when run directly
+• Python sets __name__ = 'module_name' when imported
+• Check __name__ == '__main__' to detect direct execution
+• Common pattern for script entry points
+• Allows modules to be both importable and executable
+
+Example:
+# my_script.py
+if __name__ == '__main__':
+    print("Script is run directly")
+    # Code here runs only when script is executed
+else:
+    print("Script is imported as module")
+
+Common uses:
+• Script entry points: if __name__ == '__main__': main()
+• Conditional execution: run code only when script is main
+• Testing: if __name__ == '__main__': run_tests()
+• Modules and imports
+
+Example: __name__ == '__main__' checks if a script is run directly (not imported), allowing conditional execution of code.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is if __name__ == '__main__': pass?`, 
+    o: ["Runs code only when script executed", "Runs always", "Error", "None"], 
+    c: 0, 
+    e: "Common pattern to run code only when script is main.",
+    de: `The pattern if __name__ == '__main__': is a common Python idiom that allows code to run only when a script is executed directly, not when it's imported as a module. This pattern is typically used to place code that should only run when the script is the main entry point (like main() function calls, tests, or script-specific logic) inside the if block.
+
+__name__ == '__main__' pattern:
+• if __name__ == '__main__': checks if script is main
+• Code in block runs only when script executed directly
+• Code doesn't run when module is imported
+• Common pattern for script entry points
+• Allows modules to be both importable and executable
+
+How it works:
+• When script run directly: __name__ = '__main__'
+• When imported: __name__ = 'module_name'
+• if __name__ == '__main__': True only when run directly
+• Code in block executes only when True
+• Allows conditional execution
+
+Example:
+def main():
+    print("Main function")
+    # Script logic here
+
+if __name__ == '__main__':
+    main()  # Runs only when script is executed directly
+# Can import this module without running main()
+
+Common uses:
+• Script entry points: if __name__ == '__main__': main()
+• Testing: if __name__ == '__main__': unittest.main()
+• Conditional execution: run code only when script is main
+• Modules and imports
+
+Example: if __name__ == '__main__': pass is a common pattern that runs code only when a script is executed directly, not when imported as a module.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is import sys; sys.path?`, 
+    o: ["List of module search paths", "Error", "None", "()"], 
+    c: 0, 
+    e: "sys.path contains directories Python searches for modules.",
+    de: `sys.path is a list of directory paths where Python searches for modules when you import them. When you write import module, Python searches for the module in each directory in sys.path in order until it finds the module. sys.path is initialized from the current directory, PYTHONPATH environment variable, and standard library paths. You can modify sys.path to add custom directories to the module search path.
+
+sys.path:
+• sys.path is list of module search paths
+• Python searches directories in order
+• First match found is used
+• Initialized from current dir, PYTHONPATH, stdlib
+• Can be modified to add custom paths
+
+How it works:
+• Python searches for modules in sys.path
+• Checks each directory in order
+• First matching module found is used
+• sys.path[0] is current directory (usually)
+• Can append directories to sys.path
+
+Example:
+import sys
+sys.path  # ['', '/usr/lib/python3.10', ...]
+sys.path.append('/custom/path')  # Add custom path
+import mymodule  # Now searches in /custom/path
+
+Common uses:
+• Module search: understanding where Python looks for modules
+• Custom paths: sys.path.append('/custom/path')
+• Debugging imports: check sys.path for missing modules
+• Modules and imports
+
+Example: import sys; sys.path returns a list of directories where Python searches for modules, allowing you to see and modify the module search path.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is __all__ = ['name1', 'name2']?`, 
+    o: ["Defines public API", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "__all__ defines what 'from module import *' imports.",
+    de: `__all__ is a special variable in modules that explicitly defines the public API - the names that should be imported when using from module import *. If __all__ is defined, only the names listed in __all__ are imported by from module import *. This helps prevent namespace pollution and clearly documents what the module's public API is. Names not in __all__ are still accessible if you import them explicitly.
+
+__all__ variable:
+• __all__ = ['name1', 'name2'] defines public API
+• Controls what from module import * imports
+• Only names in __all__ are imported by *
+• Names not in __all__ still accessible explicitly
+• Documents module's public API
+
+How it works:
+• __all__ = ['name1', 'name2'] defines public names
+• from module import * imports only names in __all__
+• Other names not imported by *
+• Names still accessible via explicit import
+• Helps prevent namespace pollution
+
+Example:
+# mymodule.py
+__all__ = ['public_func', 'PublicClass']
+
+def public_func():
+    pass
+
+def _private_func():  # Not in __all__
+    pass
+
+class PublicClass:
+    pass
+
+# from mymodule import * imports only public_func and PublicClass
+
+Common uses:
+• Defining public API: __all__ = ['public_names']
+• Controlling imports: restrict what * imports
+• Documentation: clearly document public API
+• Modules and imports
+
+Example: __all__ = ['name1', 'name2'] defines the public API of a module, controlling what names are imported by from module import *.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is __file__?`, 
+    o: ["Path to current module file", "Error", "None", "''"], 
+    c: 0, 
+    e: "__file__ contains path to current module.",
+    de: `__file__ is a special variable that contains the path to the current module file. It's automatically set by Python when a module is loaded from a file. __file__ is useful for finding the location of a module, accessing resources relative to the module file, or debugging. Note that __file__ may not exist for modules loaded from other sources (like built-in modules).
+
+__file__ variable:
+• __file__ contains path to current module file
+• Set automatically when module loaded from file
+• Useful for finding module location
+• May not exist for built-in modules
+• Useful for relative paths
+
+How it works:
+• Python sets __file__ when module loaded
+• Contains absolute or relative path to module
+• Can use os.path.dirname(__file__) to get directory
+• Useful for accessing resources near module
+• May be None for built-in modules
+
+Example:
+# mymodule.py
+print(__file__)  # /path/to/mymodule.py
+import os
+module_dir = os.path.dirname(__file__)
+config_path = os.path.join(module_dir, 'config.json')
+
+Common uses:
+• Finding module location: __file__ gives module path
+• Relative paths: use __file__ to find resources near module
+• Debugging: check which file is being executed
+• Modules and imports
+
+Example: __file__ contains the path to the current module file, allowing you to access resources relative to the module's location.
+`
+  }),
   
   // 41-50: Generators and Iterators
-  (_i: number) => ({ q: `What is def gen(): yield 1; type(gen())?`, o: ["<class 'generator'>", "<class 'function'>", "Error", "None"], c: 0, e: "Function with yield returns generator." }),
-  (_i: number) => ({ q: `What is def gen(): yield 1; next(gen())?`, o: ["1", "Error", "None", "0"], c: 0, e: "next() gets next value from generator." }),
-  (_i: number) => ({ q: `What is def gen(): yield 1; yield 2; list(gen())?`, o: ["[1, 2]", "[1]", "Error", "None"], c: 0, e: "Generator yields multiple values." }),
-  (_i: number) => ({ q: `What is def gen(): yield 1; return; g = gen(); next(g); next(g)?`, o: ["StopIteration", "1", "Error", "None"], c: 0, e: "Generator raises StopIteration when exhausted." }),
-  (_i: number) => ({ q: `What is def gen(): yield 1; return 'done'; g = gen(); next(g); g.send(None)?`, o: ["StopIteration with value 'done'", "1", "Error", "None"], c: 0, e: "return value becomes StopIteration value." }),
-  (_i: number) => ({ q: `What is def gen(): x = yield 1; yield x; g = gen(); next(g); g.send(2)?`, o: ["2", "1", "Error", "None"], c: 0, e: "send() sends value to generator, becomes yield expression value." }),
-  (_i: number) => ({ q: `What is (x**2 for x in [1, 2, 3])?`, o: ["Generator expression", "List", "Error", "None"], c: 0, e: "Generator expression creates generator." }),
-  (_i: number) => ({ q: `What is list(x**2 for x in [1, 2, 3])?`, o: ["[1, 4, 9]", "Generator", "Error", "None"], c: 0, e: "list() consumes generator expression." }),
-  (_i: number) => ({ q: `What is def gen(): yield from [1, 2, 3]; list(gen())?`, o: ["[1, 2, 3]", "[1]", "Error", "None"], c: 0, e: "yield from delegates to another iterable." }),
-  (_i: number) => ({ q: `What is class MyIter: def __iter__(self): return self; def __next__(self): return 1; type(MyIter())?`, o: ["<class '__main__.MyIter'>", "<class 'generator'>", "Error", "None"], c: 0, e: "Iterator class implements __iter__ and __next__." }),
+  (_i: number) => ({ 
+    q: `What is def gen(): yield 1; type(gen())?`, 
+    o: ["<class 'generator'>", "<class 'function'>", "Error", "None"], 
+    c: 0, 
+    e: "Function with yield returns generator.",
+    de: `A function containing the yield keyword becomes a generator function. When you call a generator function, it returns a generator object (not the function itself). If def gen(): yield 1; type(gen()), then type(gen()) returns <class 'generator'> because gen() calls the generator function, which returns a generator object. The generator object is an iterator that can produce values one at a time when iterated over.
+
+Generator function:
+• def gen(): yield 1 defines generator function
+• gen() calls generator function
+• Returns generator object (not function)
+• type(gen()) returns <class 'generator'>
+• Generator is lazy (doesn't execute until iterated)
+
+How it works:
+• def gen(): yield 1 defines generator function
+• gen() calls function and returns generator object
+• Generator doesn't execute yet (lazy)
+• type() checks object type
+• Returns: <class 'generator'>
+
+Example:
+def gen():
+    yield 1
+type(gen())              # <class 'generator'> (generator object)
+type(gen)                # <class 'function'> (generator function)
+
+Common uses:
+• Generator functions: def gen(): yield value (creates generator)
+• Lazy evaluation: generators produce values on demand
+• Memory efficiency: generators don't store all values
+• Generators and iterators
+
+Example: If def gen(): yield 1; type(gen()), then type(gen()) returns <class 'generator'> because a function with yield returns a generator object, not a regular function.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def gen(): yield 1; next(gen())?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "next() gets next value from generator.",
+    de: `The next() function gets the next value from a generator. If def gen(): yield 1; next(gen()), then next(gen()) returns 1 because next() advances the generator to the next yield statement and returns the yielded value. Each call to next() on a generator consumes one value. Note that each gen() call creates a new generator, so this returns 1 each time, but if you reuse the same generator object, it will raise StopIteration after yielding all values.
+
+next() with generator:
+• next(gen()) returns 1
+• next() advances generator to next yield
+• Returns yielded value (1)
+• Generator state advances
+• Returns: 1
+
+How it works:
+• gen() creates new generator object
+• next(gen()) starts generator execution
+• Generator executes until yield 1
+• next() returns yielded value: 1
+• Generator pauses at yield
+• Returns: 1
+
+Example:
+def gen():
+    yield 1
+next(gen())              # 1 (first value)
+g = gen()                # Reuse same generator
+next(g)                  # 1
+next(g)                  # StopIteration (exhausted)
+
+Common uses:
+• Generator iteration: next(generator) (get next value)
+• Manual iteration: next() for explicit control
+• Generator values: consume values one at a time
+• Generators and iterators
+
+Example: If def gen(): yield 1; next(gen()), then next(gen()) returns 1 because next() gets the next value from the generator, advancing it to the next yield statement.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def gen(): yield 1; yield 2; list(gen())?`, 
+    o: ["[1, 2]", "[1]", "Error", "None"], 
+    c: 0, 
+    e: "Generator yields multiple values.",
+    de: `A generator can yield multiple values. If def gen(): yield 1; yield 2; list(gen()), then list(gen()) returns [1, 2] because the generator yields both values (1, then 2), and list() consumes all values from the generator, creating a list with all yielded values. Each yield statement produces one value, and the generator continues until it reaches the end (or a return statement).
+
+Multiple yields:
+• list(gen()) returns [1, 2]
+• Generator yields 1, then 2
+• list() consumes all values
+• Creates list with all yielded values
+• Returns: [1, 2]
+
+How it works:
+• gen() creates generator object
+• list() iterates over generator
+• First iteration: generator yields 1
+• Second iteration: generator yields 2
+• list() collects all values: [1, 2]
+• Returns: [1, 2]
+
+Example:
+def gen():
+    yield 1
+    yield 2
+list(gen())              # [1, 2] (all yielded values)
+g = gen()
+next(g)                  # 1
+next(g)                  # 2
+next(g)                  # StopIteration
+
+Common uses:
+• Multiple values: def gen(): yield val1; yield val2
+• List conversion: list(generator) (consume all values)
+• Generator values: produce sequence of values
+• Generators and iterators
+
+Example: If def gen(): yield 1; yield 2; list(gen()), then list(gen()) returns [1, 2] because the generator yields multiple values, and list() consumes all of them.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def gen(): yield 1; return; g = gen(); next(g); next(g)?`, 
+    o: ["StopIteration", "1", "Error", "None"], 
+    c: 0, 
+    e: "Generator raises StopIteration when exhausted.",
+    de: `A generator raises StopIteration when it's exhausted (has no more values to yield). If def gen(): yield 1; return; g = gen(); next(g); next(g), then next(g) raises StopIteration because the generator yields 1 on the first next(), then reaches the return statement (or end of function), so the second next() has no more values to yield and raises StopIteration. This is the standard way iterators signal they're done.
+
+StopIteration exception:
+• next(g) raises StopIteration
+• Generator exhausted (no more values)
+• First next(g) returns 1 (last value)
+• Second next(g) raises StopIteration
+• Standard way iterators signal completion
+
+How it works:
+• g = gen() creates generator
+• next(g) starts generator, yields 1 (returns 1)
+• Generator continues, reaches return
+• next(g) called again
+• Generator has no more values
+• Raises StopIteration
+
+Example:
+def gen():
+    yield 1
+    return
+g = gen()
+next(g)                  # 1 (last value)
+next(g)                  # StopIteration (exhausted)
+
+Common uses:
+• Iterator completion: StopIteration signals end
+• for loops: handle StopIteration automatically
+• Generator exhaustion: check if generator is done
+• Generators and iterators
+
+Example: If def gen(): yield 1; return; g = gen(); next(g); next(g), then next(g) raises StopIteration because the generator is exhausted - it has no more values to yield after yielding 1.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def gen(): yield 1; return 'done'; g = gen(); next(g); g.send(None)?`, 
+    o: ["StopIteration with value 'done'", "1", "Error", "None"], 
+    c: 0, 
+    e: "return value becomes StopIteration value.",
+    de: `When a generator has a return statement with a value, that value becomes the value attribute of the StopIteration exception. If def gen(): yield 1; return 'done'; g = gen(); next(g); g.send(None), then g.send(None) raises StopIteration with value 'done' because after yielding 1, the generator reaches return 'done', and the return value becomes the StopIteration exception's value attribute. You can access it via except StopIteration as e: e.value.
+
+Return value in StopIteration:
+• g.send(None) raises StopIteration with value 'done'
+• Generator returns 'done'
+• Return value becomes StopIteration.value
+• Access via except StopIteration as e: e.value
+• Raises StopIteration
+
+How it works:
+• g = gen() creates generator
+• next(g) yields 1 (returns 1)
+• Generator continues, reaches return 'done'
+• g.send(None) called (same as next(g))
+• Generator exhausted, raises StopIteration
+• StopIteration.value = 'done'
+
+Example:
+def gen():
+    yield 1
+    return 'done'
+g = gen()
+next(g)                  # 1
+try:
+    next(g)
+except StopIteration as e:
+    print(e.value)       # 'done'
+
+Common uses:
+• Generator return values: return value (becomes StopIteration.value)
+• Exception values: access return value from StopIteration
+• Generator completion: return value with final state
+• Generators and iterators
+
+Example: If def gen(): yield 1; return 'done'; g = gen(); next(g); g.send(None), then g.send(None) raises StopIteration with value 'done' because the return value becomes the StopIteration exception's value attribute.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def gen(): x = yield 1; yield x; g = gen(); next(g); g.send(2)?`, 
+    o: ["2", "1", "Error", "None"], 
+    c: 0, 
+    e: "send() sends value to generator, becomes yield expression value.",
+    de: `The send() method sends a value to a generator, and that value becomes the value of the yield expression. If def gen(): x = yield 1; yield x; g = gen(); next(g); g.send(2), then g.send(2) returns 2 because send() sends 2 to the generator, which becomes the value of x = yield 1 (x = 2), then the generator yields x (2). The first next(g) is needed to start the generator and reach the first yield before you can send values. After that, send() can be used to send values into the generator.
+
+send() method:
+• g.send(2) returns 2
+• send() sends value to generator
+• Value becomes yield expression value
+• x = yield 1 becomes x = 2
+• Generator yields x (2)
+• Returns: 2
+
+How it works:
+• g = gen() creates generator
+• next(g) starts generator, yields 1 (returns 1)
+• Generator pauses at x = yield 1
+• g.send(2) sends 2 to generator
+• x = 2 (value of yield expression)
+• Generator continues, yields x (2)
+• Returns: 2
+
+Example:
+def gen():
+    x = yield 1
+    yield x
+g = gen()
+next(g)                  # 1 (starts generator)
+g.send(2)                # 2 (sends 2, yields x=2)
+
+Common uses:
+• Two-way communication: send() sends values to generator
+• Coroutines: generators that receive values
+• Generator communication: yield receives values via send()
+• Generators and iterators
+
+Example: If def gen(): x = yield 1; yield x; g = gen(); next(g); g.send(2), then g.send(2) returns 2 because send() sends a value to the generator, which becomes the value of the yield expression (x = 2), and then the generator yields x.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is (x**2 for x in [1, 2, 3])?`, 
+    o: ["Generator expression", "List", "Error", "None"], 
+    c: 0, 
+    e: "Generator expression creates generator.",
+    de: `A generator expression is a compact way to create a generator, similar to a list comprehension but with parentheses instead of square brackets. If (x**2 for x in [1, 2, 3]), then it returns a generator expression object, which is a generator that will produce values when iterated over. Generator expressions are lazy - they don't compute all values at once, making them memory-efficient for large sequences.
+
+Generator expression:
+• (x**2 for x in [1, 2, 3]) creates generator expression
+• Similar to list comprehension but with ()
+• Lazy evaluation (doesn't compute all values)
+• Returns generator object
+• Memory efficient for large sequences
+
+How it works:
+• (x**2 for x in [1, 2, 3]) creates generator
+• Syntax: (expression for item in iterable)
+• Generator produces values on demand
+• Lazy evaluation (not computed until iterated)
+• Returns generator object
+
+Example:
+gen = (x**2 for x in [1, 2, 3])  # Generator expression
+type(gen)                        # <class 'generator'>
+list(gen)                        # [1, 4, 9] (consume all values)
+# vs
+[x**2 for x in [1, 2, 3]]        # List comprehension (eager)
+
+Common uses:
+• Memory efficiency: generator expressions for large sequences
+• Lazy evaluation: compute values on demand
+• Generator creation: compact syntax for generators
+• Generators and iterators
+
+Example: (x**2 for x in [1, 2, 3]) creates a generator expression, which is a generator object that produces values when iterated over.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is list(x**2 for x in [1, 2, 3])?`, 
+    o: ["[1, 4, 9]", "Generator", "Error", "None"], 
+    c: 0, 
+    e: "list() consumes generator expression.",
+    de: `The list() function can consume a generator expression, converting all its values into a list. If list(x**2 for x in [1, 2, 3]), then list() returns [1, 4, 9] because list() iterates over the generator expression, consuming all values (1**2=1, 2**2=4, 3**2=9) and creating a list with those values. This is equivalent to [x**2 for x in [1, 2, 3]], but using a generator expression inside list() can be more memory-efficient if you need to process values first.
+
+list() consumes generator:
+• list(x**2 for x in [1, 2, 3]) returns [1, 4, 9]
+• list() iterates over generator expression
+• Consumes all values: 1, 4, 9
+• Creates list with all values
+• Returns: [1, 4, 9]
+
+How it works:
+• (x**2 for x in [1, 2, 3]) creates generator
+• list() iterates over generator
+• Generator yields: 1 (1**2), 4 (2**2), 9 (3**2)
+• list() collects all values: [1, 4, 9]
+• Returns: [1, 4, 9]
+
+Example:
+list(x**2 for x in [1, 2, 3])    # [1, 4, 9] (consumes generator)
+# Equivalent to:
+[x**2 for x in [1, 2, 3]]        # [1, 4, 9] (list comprehension)
+
+Common uses:
+• List creation: list(generator) (convert generator to list)
+• Memory efficiency: generator for processing, list() for final result
+• Value consumption: consume all generator values
+• Generators and iterators
+
+Example: If list(x**2 for x in [1, 2, 3]), then list() returns [1, 4, 9] because list() consumes the generator expression, converting all its values into a list.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def gen(): yield from [1, 2, 3]; list(gen())?`, 
+    o: ["[1, 2, 3]", "[1]", "Error", "None"], 
+    c: 0, 
+    e: "yield from delegates to another iterable.",
+    de: `The yield from statement delegates iteration to another iterable. If def gen(): yield from [1, 2, 3]; list(gen()), then list(gen()) returns [1, 2, 3] because yield from [1, 2, 3] delegates to the list, yielding each value from the list. This is equivalent to for item in [1, 2, 3]: yield item, but more concise. yield from is useful for delegating to another generator or iterable, allowing composition of generators.
+
+yield from statement:
+• yield from [1, 2, 3] delegates to list
+• Yields each value from list
+• Equivalent to for item in [1, 2, 3]: yield item
+• list(gen()) collects all values: [1, 2, 3]
+• Returns: [1, 2, 3]
+
+How it works:
+• gen() creates generator
+• list() iterates over generator
+• Generator executes: yield from [1, 2, 3]
+• yield from yields each value: 1, 2, 3
+• list() collects: [1, 2, 3]
+• Returns: [1, 2, 3]
+
+Example:
+def gen():
+    yield from [1, 2, 3]  # Delegates to list
+list(gen())              # [1, 2, 3]
+# Equivalent to:
+def gen():
+    for item in [1, 2, 3]:
+        yield item
+
+Common uses:
+• Generator composition: yield from other_generator()
+• Delegation: yield from iterable (delegate iteration)
+• Concise syntax: yield from instead of for loop
+• Generators and iterators
+
+Example: If def gen(): yield from [1, 2, 3]; list(gen()), then list(gen()) returns [1, 2, 3] because yield from delegates to the iterable, yielding each value from it.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyIter: def __iter__(self): return self; def __next__(self): return 1; type(MyIter())?`, 
+    o: ["<class '__main__.MyIter'>", "<class 'generator'>", "Error", "None"], 
+    c: 0, 
+    e: "Iterator class implements __iter__ and __next__.",
+    de: `An iterator class implements __iter__ (returns self) and __next__ (returns next value) methods. If class MyIter: def __iter__(self): return self; def __next__(self): return 1; type(MyIter()), then type(MyIter()) returns <class '__main__.MyIter'> because MyIter() creates an instance of MyIter, not a generator. The class is an iterator because it implements __iter__ and __next__, but it's still a regular class instance. Generators are a specific type of iterator, but custom iterator classes are also iterators.
+
+Iterator class:
+• type(MyIter()) returns <class '__main__.MyIter'>
+• MyIter() creates class instance (not generator)
+• Class implements __iter__ and __next__
+• Makes it an iterator
+• Returns: <class '__main__.MyIter'>
+
+How it works:
+• class MyIter: defines iterator class
+• __iter__(self): return self (makes it iterable)
+• __next__(self): return 1 (makes it iterator)
+• MyIter() creates instance
+• type() returns class type
+• Returns: <class '__main__.MyIter'>
+
+Example:
+class MyIter:
+    def __iter__(self):
+        return self
+    def __next__(self):
+        return 1
+type(MyIter())          # <class '__main__.MyIter'> (class instance, not generator)
+iter(MyIter())          # <__main__.MyIter object> (is iterator)
+isinstance(MyIter(), collections.abc.Iterator)  # True
+
+Common uses:
+• Custom iterators: class Iterator: __iter__, __next__
+• Iterator protocol: implement __iter__ and __next__
+• Iterator classes: alternative to generator functions
+• Generators and iterators
+
+Example: If class MyIter: def __iter__(self): return self; def __next__(self): return 1; type(MyIter()), then type(MyIter()) returns <class '__main__.MyIter'> because MyIter() creates a class instance, not a generator - it's an iterator class that implements the iterator protocol.
+`
+  }),
   
   // 51-60: Decorators
   (_i: number) => ({
@@ -32165,43 +34847,1081 @@ Example: Composite.operation() calls [c.operation() for c in self.children], rec
   }),
   
   // 71-80: Metaclasses and Advanced Features
-  (_i: number) => ({ q: `What is class Meta(type): pass; class MyClass(metaclass=Meta): pass; type(MyClass)?`, o: ["<class '__main__.Meta'>", "<class 'type'>", "Error", "None"], c: 0, e: "metaclass parameter sets class's metaclass." }),
-  (_i: number) => ({ q: `What is class Meta(type): def __new__(cls, name, bases, dct): return super().__new__(cls, name, bases, dct); class MyClass(metaclass=Meta): pass?`, o: ["Custom metaclass", "Error", "None", "Regular class"], c: 0, e: "Metaclass __new__ controls class creation." }),
-  (_i: number) => ({ q: `What is class Meta(type): def __init__(cls, name, bases, dct): cls.custom_attr = 1; class MyClass(metaclass=Meta): pass; MyClass.custom_attr?`, o: ["1", "Error", "None", "0"], c: 0, e: "Metaclass __init__ can add attributes to class." }),
-  (_i: number) => ({ q: `What is class Meta(type): def __call__(cls, *args, **kwargs): return super().__call__(*args, **kwargs); class MyClass(metaclass=Meta): pass; type(MyClass())?`, o: ["<class '__main__.MyClass'>", "<class '__main__.Meta'>", "Error", "None"], c: 0, e: "Metaclass __call__ controls instance creation." }),
-  (_i: number) => ({ q: `What is class SingletonMeta(type): _instances = {}; def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super().__call__(*args, **kwargs); return cls._instances[cls]; class MyClass(metaclass=SingletonMeta): pass; MyClass() is MyClass()?`, o: ["True", "False", "Error", "None"], c: 0, e: "Metaclass can implement Singleton pattern." }),
-  (_i: number) => ({ q: `What is class MyClass: __slots__ = ['x']; obj = MyClass(); obj.x = 1; obj.y = 2?`, o: ["AttributeError", "Works fine", "Error", "None"], c: 0, e: "__slots__ restricts instance attributes." }),
-  (_i: number) => ({ q: `What is class MyClass: __slots__ = ['x']; obj = MyClass(); '__dict__' in dir(obj)?`, o: ["False", "True", "Error", "None"], c: 0, e: "__slots__ removes __dict__ (saves memory)." }),
-  (_i: number) => ({ q: `What is class MyClass: def __getattribute__(self, name): return super().__getattribute__(name); obj = MyClass(); obj.x?`, o: ["AttributeError", "None", "Error", "0"], c: 0, e: "__getattribute__ intercepts all attribute access." }),
-  (_i: number) => ({ q: `What is class MyClass: def __getattr__(self, name): return f'Missing: {name}'; obj = MyClass(); obj.x?`, o: ["'Missing: x'", "AttributeError", "Error", "None"], c: 0, e: "__getattr__ called only if attribute not found." }),
-  (_i: number) => ({ q: `What is class MyClass: def __setattr__(self, name, value): super().__setattr__(name, value * 2); obj = MyClass(); obj.x = 5; obj.x?`, o: ["10", "5", "Error", "None"], c: 0, e: "__setattr__ intercepts all attribute assignment." }),
+  (_i: number) => ({ 
+    q: `What is class Meta(type): pass; class MyClass(metaclass=Meta): pass; type(MyClass)?`, 
+    o: ["<class '__main__.Meta'>", "<class 'type'>", "Error", "None"], 
+    c: 0, 
+    e: "metaclass parameter sets class's metaclass.",
+    de: `The metaclass parameter allows you to specify a custom metaclass for a class. If class Meta(type): pass; class MyClass(metaclass=Meta): pass; type(MyClass), then type(MyClass) returns <class '__main__.Meta'> because MyClass was created using Meta as its metaclass, so type(MyClass) returns Meta (the class's metaclass), not the default type. Classes are instances of their metaclass, so MyClass is an instance of Meta, making type(MyClass) return Meta.
+
+Custom metaclass:
+• type(MyClass) returns <class '__main__.Meta'>
+• MyClass created with metaclass=Meta
+• Classes are instances of their metaclass
+• MyClass is instance of Meta
+• type() returns class's metaclass
+• Returns: <class '__main__.Meta'>
+
+How it works:
+• class MyClass(metaclass=Meta): specifies metaclass
+• Python uses Meta instead of type to create class
+• MyClass created as instance of Meta
+• type(MyClass) checks class's metaclass
+• Returns: Meta (not type)
+
+Example:
+class Meta(type): pass
+class MyClass(metaclass=Meta): pass
+type(MyClass)              # <class '__main__.Meta'> (metaclass)
+type(MyClass())            # <class '__main__.MyClass'> (class)
+
+Common uses:
+• Custom metaclasses: class MyClass(metaclass=Meta): (custom class creation)
+• Metaprogramming: control how classes are created
+• Metaclasses
+• Advanced Python
+
+Example: If class Meta(type): pass; class MyClass(metaclass=Meta): pass; type(MyClass), then type(MyClass) returns <class '__main__.Meta'> because the metaclass parameter sets the class's metaclass, making MyClass an instance of Meta.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Meta(type): def __new__(cls, name, bases, dct): return super().__new__(cls, name, bases, dct); class MyClass(metaclass=Meta): pass?`, 
+    o: ["Custom metaclass", "Error", "None", "Regular class"], 
+    c: 0, 
+    e: "Metaclass __new__ controls class creation.",
+    de: `A metaclass's __new__ method controls class creation. If class Meta(type): def __new__(cls, name, bases, dct): return super().__new__(cls, name, bases, dct); class MyClass(metaclass=Meta): pass, then MyClass is created using the custom metaclass because Meta.__new__ is called when MyClass is being created. The __new__ method receives the class name, base classes, and class dictionary, and returns the created class. This allows you to modify or validate the class during creation.
+
+Metaclass __new__:
+• MyClass created with custom metaclass
+• Meta.__new__() called during class creation
+• __new__ receives: cls (Meta), name ('MyClass'), bases (()), dct (class dict)
+• __new__ creates and returns the class
+• Allows customization during class creation
+
+How it works:
+• class MyClass(metaclass=Meta): triggers class creation
+• Python calls Meta.__new__(Meta, 'MyClass', (), {...})
+• __new__ creates the class object
+• Returns created class (MyClass)
+• MyClass is instance of Meta
+
+Example:
+class Meta(type):
+    def __new__(cls, name, bases, dct):
+        print(f"Creating class {name}")
+        return super().__new__(cls, name, bases, dct)
+class MyClass(metaclass=Meta): pass  # Prints "Creating class MyClass"
+
+Common uses:
+• Class customization: __new__ can modify class during creation
+• Validation: check class definition before creation
+• Metaprogramming: dynamically modify classes
+• Metaclasses
+
+Example: If class Meta(type): def __new__(cls, name, bases, dct): return super().__new__(cls, name, bases, dct); class MyClass(metaclass=Meta): pass, then MyClass is created using the custom metaclass because Meta.__new__ controls class creation.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Meta(type): def __init__(cls, name, bases, dct): cls.custom_attr = 1; class MyClass(metaclass=Meta): pass; MyClass.custom_attr?`, 
+    o: ["1", "Error", "None", "0"], 
+    c: 0, 
+    e: "Metaclass __init__ can add attributes to class.",
+    de: `A metaclass's __init__ method can add attributes to the class after it's created. If class Meta(type): def __init__(cls, name, bases, dct): cls.custom_attr = 1; class MyClass(metaclass=Meta): pass; MyClass.custom_attr, then MyClass.custom_attr returns 1 because Meta.__init__ is called after the class is created, and it sets cls.custom_attr = 1 on the class. This allows metaclasses to add class attributes automatically.
+
+Metaclass __init__:
+• MyClass.custom_attr returns 1
+• Meta.__init__() called after class creation
+• __init__ receives: cls (MyClass), name, bases, dct
+• Sets cls.custom_attr = 1
+• Attribute added to class
+• Returns: 1
+
+How it works:
+• class MyClass(metaclass=Meta): triggers class creation
+• Meta.__new__() creates the class
+• Meta.__init__(MyClass, 'MyClass', (), {...}) called
+• __init__ sets MyClass.custom_attr = 1
+• Attribute available on class
+• Returns: 1
+
+Example:
+class Meta(type):
+    def __init__(cls, name, bases, dct):
+        cls.custom_attr = 1  # Add attribute to class
+class MyClass(metaclass=Meta): pass
+MyClass.custom_attr        # 1 (added by metaclass)
+
+Common uses:
+• Automatic attributes: metaclass can add attributes to classes
+• Class initialization: __init__ can set up class
+• Metaprogramming: modify classes after creation
+• Metaclasses
+
+Example: If class Meta(type): def __init__(cls, name, bases, dct): cls.custom_attr = 1; class MyClass(metaclass=Meta): pass; MyClass.custom_attr, then MyClass.custom_attr returns 1 because the metaclass __init__ can add attributes to the class after it's created.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class Meta(type): def __call__(cls, *args, **kwargs): return super().__call__(*args, **kwargs); class MyClass(metaclass=Meta): pass; type(MyClass())?`, 
+    o: ["<class '__main__.MyClass'>", "<class '__main__.Meta'>", "Error", "None"], 
+    c: 0, 
+    e: "Metaclass __call__ controls instance creation.",
+    de: `A metaclass's __call__ method controls instance creation (when you call the class like MyClass()). If class Meta(type): def __call__(cls, *args, **kwargs): return super().__call__(*args, **kwargs); class MyClass(metaclass=Meta): pass; type(MyClass()), then type(MyClass()) returns <class '__main__.MyClass'> because Meta.__call__ is called when MyClass() is invoked, and it creates an instance of MyClass. The __call__ method allows you to customize instance creation, such as implementing singleton patterns or adding validation.
+
+Metaclass __call__:
+• type(MyClass()) returns <class '__main__.MyClass'>
+• MyClass() calls Meta.__call__()
+• __call__ receives: cls (MyClass), *args, **kwargs
+• __call__ creates instance using super().__call__()
+• Instance is of MyClass class
+• Returns: <class '__main__.MyClass'>
+
+How it works:
+• MyClass() calls the class (instance creation)
+• Python calls Meta.__call__(MyClass, *args, **kwargs)
+• __call__ executes: return super().__call__(*args, **kwargs)
+• Creates instance of MyClass
+• type(MyClass()) returns MyClass
+• Returns: <class '__main__.MyClass'>
+
+Example:
+class Meta(type):
+    def __call__(cls, *args, **kwargs):
+        print(f"Creating instance of {cls.__name__}")
+        return super().__call__(*args, **kwargs)
+class MyClass(metaclass=Meta): pass
+obj = MyClass()            # Prints "Creating instance of MyClass"
+
+Common uses:
+• Instance creation control: __call__ can customize instance creation
+• Singleton patterns: metaclass can ensure single instance
+• Validation: check arguments before instance creation
+• Metaclasses
+
+Example: If class Meta(type): def __call__(cls, *args, **kwargs): return super().__call__(*args, **kwargs); class MyClass(metaclass=Meta): pass; type(MyClass()), then type(MyClass()) returns <class '__main__.MyClass'> because the metaclass __call__ controls instance creation, creating an instance of MyClass.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class SingletonMeta(type): _instances = {}; def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super().__call__(*args, **kwargs); return cls._instances[cls]; class MyClass(metaclass=SingletonMeta): pass; MyClass() is MyClass()?`, 
+    o: ["True", "False", "Error", "None"], 
+    c: 0, 
+    e: "Metaclass can implement Singleton pattern.",
+    de: `A metaclass can implement the Singleton pattern by controlling instance creation in its __call__ method. If class SingletonMeta(type): _instances = {}; def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super().__call__(*args, **kwargs); return cls._instances[cls]; class MyClass(metaclass=SingletonMeta): pass; MyClass() is MyClass(), then MyClass() is MyClass() returns True because SingletonMeta.__call__ ensures only one instance exists - it stores the first instance in _instances and returns that same instance for all subsequent calls.
+
+Metaclass Singleton:
+• MyClass() is MyClass() returns True
+• SingletonMeta.__call__() controls instance creation
+• First call creates instance, stores in _instances[cls]
+• Subsequent calls return existing instance
+• Only one instance exists
+• Returns: True
+
+How it works:
+• MyClass() calls SingletonMeta.__call__(MyClass)
+• __call__ checks if MyClass in _instances (not found)
+• Creates instance: super().__call__(*args, **kwargs)
+• Stores in _instances[MyClass]
+• Next MyClass() call finds existing instance
+• Returns same instance (obj1 is obj2)
+
+Example:
+class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+class MyClass(metaclass=SingletonMeta): pass
+obj1 = MyClass()
+obj2 = MyClass()
+obj1 is obj2              # True (same instance)
+
+Common uses:
+• Singleton pattern: metaclass ensures single instance
+• Instance control: __call__ manages instance creation
+• Metaprogramming: implement design patterns with metaclasses
+• Metaclasses
+
+Example: If class SingletonMeta(type): _instances = {}; def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super().__call__(*args, **kwargs); return cls._instances[cls]; class MyClass(metaclass=SingletonMeta): pass; MyClass() is MyClass(), then MyClass() is MyClass() returns True because the metaclass implements the Singleton pattern, ensuring only one instance exists.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: __slots__ = ['x']; obj = MyClass(); obj.x = 1; obj.y = 2?`, 
+    o: ["AttributeError", "Works fine", "Error", "None"], 
+    c: 0, 
+    e: "__slots__ restricts instance attributes.",
+    de: `The __slots__ attribute restricts which attributes can be set on instances. If class MyClass: __slots__ = ['x']; obj = MyClass(); obj.x = 1; obj.y = 2, then obj.y = 2 raises an AttributeError because __slots__ only allows 'x' as an instance attribute. Any attempt to set an attribute not in __slots__ raises an AttributeError. This saves memory by preventing the creation of __dict__ for instances.
+
+__slots__ restriction:
+• obj.y = 2 raises AttributeError
+• __slots__ = ['x'] restricts allowed attributes
+• Only 'x' allowed
+• 'y' not in __slots__
+• Raises AttributeError
+
+How it works:
+• obj.x = 1 works (x in __slots__)
+• obj.y = 2 attempts to set 'y'
+• 'y' not in __slots__ = ['x']
+• Attribute not allowed
+• Raises AttributeError: 'MyClass' object has no attribute 'y'
+
+Example:
+class MyClass:
+    __slots__ = ['x', 'y']
+obj = MyClass()
+obj.x = 1                    # Works (x in __slots__)
+obj.y = 2                    # Works (y in __slots__)
+obj.z = 3                    # AttributeError (z not in __slots__)
+
+Common uses:
+• Memory optimization: __slots__ = ['attr1', 'attr2'] (saves memory)
+• Attribute restriction: prevent dynamic attributes
+• Class optimization
+• Memory efficiency
+
+Example: If class MyClass: __slots__ = ['x']; obj = MyClass(); obj.x = 1; obj.y = 2, then obj.y = 2 raises an AttributeError because __slots__ restricts instance attributes to only those listed, and 'y' is not in __slots__.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: __slots__ = ['x']; obj = MyClass(); '__dict__' in dir(obj)?`, 
+    o: ["False", "True", "Error", "None"], 
+    c: 0, 
+    e: "__slots__ removes __dict__ (saves memory).",
+    de: `Using __slots__ removes the __dict__ attribute from instances, saving memory. If class MyClass: __slots__ = ['x']; obj = MyClass(); '__dict__' in dir(obj), then '__dict__' in dir(obj) returns False because __slots__ prevents the creation of __dict__ for instances. dir() lists all attributes, and since instances with __slots__ don't have __dict__, it's not in the list. This is the memory-saving benefit of __slots__ - instances don't need a dictionary to store attributes.
+
+__slots__ removes __dict__:
+• '__dict__' in dir(obj) returns False
+• __slots__ prevents __dict__ creation
+• Instances don't have __dict__
+• dir() doesn't include __dict__
+• Returns: False
+
+How it works:
+• obj.x = 1 sets attribute (stored in slots, not __dict__)
+• dir(obj) lists attributes
+• Instance has no __dict__ (__slots__ prevents it)
+• '__dict__' not in dir(obj)
+• Returns: False
+
+Example:
+class MyClass:
+    __slots__ = ['x']
+obj = MyClass()
+obj.x = 1
+'__dict__' in dir(obj)      # False (no __dict__)
+# vs
+class MyClass:
+    pass  # No __slots__
+obj = MyClass()
+'__dict__' in dir(obj)      # True (has __dict__)
+
+Common uses:
+• Memory optimization: __slots__ removes __dict__ (saves memory)
+• Fixed attributes: __slots__ = ['attr1', 'attr2'] (no dynamic attributes)
+• Class optimization
+• Memory efficiency
+
+Example: If class MyClass: __slots__ = ['x']; obj = MyClass(); '__dict__' in dir(obj), then '__dict__' in dir(obj) returns False because __slots__ removes __dict__ from instances, preventing dynamic attribute creation and saving memory.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __getattribute__(self, name): return super().__getattribute__(name); obj = MyClass(); obj.x?`, 
+    o: ["AttributeError", "None", "Error", "0"], 
+    c: 0, 
+    e: "__getattribute__ intercepts all attribute access.",
+    de: `The __getattribute__ method intercepts all attribute access (both existing and missing attributes). If class MyClass: def __getattribute__(self, name): return super().__getattribute__(name); obj = MyClass(); obj.x, then obj.x raises an AttributeError because __getattribute__ is called for all attribute access, even if the attribute doesn't exist. In this case, it calls super().__getattribute__(name), which uses the default behavior and raises AttributeError for missing attributes. __getattribute__ is called before __getattr__, so it intercepts all attribute access.
+
+__getattribute__ intercepts all access:
+• obj.x raises AttributeError
+• __getattribute__ called for all attribute access
+• Checks if attribute exists
+• obj has no attribute 'x'
+• super().__getattribute__('x') raises AttributeError
+• Raises AttributeError
+
+How it works:
+• obj.x accesses attribute 'x'
+• Python calls obj.__getattribute__('x')
+• __getattribute__ executes: return super().__getattribute__('x')
+• Default __getattribute__ searches for 'x'
+• 'x' not found on obj
+• Raises AttributeError: 'MyClass' object has no attribute 'x'
+
+Example:
+class MyClass:
+    def __getattribute__(self, name):
+        print(f"Accessing {name}")
+        return super().__getattribute__(name)
+obj = MyClass()
+obj.x                    # Prints "Accessing x", then AttributeError
+
+Common uses:
+• Attribute access control: __getattribute__ can log, validate, or modify access
+• Intercept all access: __getattribute__ catches all attribute access
+• Attribute access hooks
+• Special methods
+
+Example: If class MyClass: def __getattribute__(self, name): return super().__getattribute__(name); obj = MyClass(); obj.x, then obj.x raises an AttributeError because __getattribute__ intercepts all attribute access, and since 'x' doesn't exist, it raises AttributeError.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __getattr__(self, name): return f'Missing: {name}'; obj = MyClass(); obj.x?`, 
+    o: ["'Missing: x'", "AttributeError", "Error", "None"], 
+    c: 0, 
+    e: "__getattr__ called only if attribute not found.",
+    de: `The __getattr__ method is called only when an attribute is not found through the normal lookup process (not in __dict__, not a descriptor, not a class attribute). If class MyClass: def __getattr__(self, name): return f'Missing: {name}'; obj = MyClass(); obj.x, then obj.x returns 'Missing: x' because 'x' doesn't exist, so Python calls __getattr__('x'), which returns the string 'Missing: x'. This is different from __getattribute__, which is called for all attribute access - __getattr__ is only called as a fallback for missing attributes.
+
+__getattr__ fallback:
+• obj.x returns 'Missing: x'
+• Normal attribute lookup fails (x doesn't exist)
+• Python calls __getattr__('x') as fallback
+• __getattr__ returns f'Missing: x'
+• Returns: 'Missing: x'
+
+How it works:
+• obj.x accesses attribute 'x'
+• Python searches: obj.__dict__ (not found) → MyClass.__dict__ (not found)
+• Normal lookup fails
+• Python calls obj.__getattr__('x')
+• __getattr__ returns f'Missing: x'
+• Returns: 'Missing: x'
+
+Example:
+class MyClass:
+    def __getattr__(self, name):
+        return f'Missing: {name}'
+obj = MyClass()
+obj.x                    # 'Missing: x' (fallback for missing attribute)
+obj.y                    # 'Missing: y' (fallback)
+
+Common uses:
+• Default values: __getattr__ can provide defaults for missing attributes
+• Dynamic attributes: create attributes on the fly
+• Attribute fallback: handle missing attributes gracefully
+• Special methods
+
+Example: If class MyClass: def __getattr__(self, name): return f'Missing: {name}'; obj = MyClass(); obj.x, then obj.x returns 'Missing: x' because __getattr__ is called only when an attribute is not found, providing a fallback value.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is class MyClass: def __setattr__(self, name, value): super().__setattr__(name, value * 2); obj = MyClass(); obj.x = 5; obj.x?`, 
+    o: ["10", "5", "Error", "None"], 
+    c: 0, 
+    e: "__setattr__ intercepts all attribute assignment.",
+    de: `The __setattr__ method intercepts all attribute assignment (setting attributes). If class MyClass: def __setattr__(self, name, value): super().__setattr__(name, value * 2); obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 10 because __setattr__ intercepts the assignment obj.x = 5, transforms the value (value * 2 = 5 * 2 = 10), and stores 10. Every attribute assignment goes through __setattr__, allowing you to validate, transform, or log assignments.
+
+__setattr__ intercepts assignment:
+• obj.x = 5 calls __setattr__('x', 5)
+• __setattr__ transforms: value * 2 = 5 * 2 = 10
+• Stores transformed value: obj.x = 10
+• obj.x returns 10
+• Returns: 10
+
+How it works:
+• obj.x = 5 attempts to set attribute
+• Python calls obj.__setattr__('x', 5)
+• __setattr__ executes: super().__setattr__(name, value * 2)
+• Evaluates: 5 * 2 = 10
+• Stores: obj.x = 10
+• obj.x returns 10
+
+Example:
+class MyClass:
+    def __setattr__(self, name, value):
+        if value < 0:
+            raise ValueError("Value must be non-negative")
+        super().__setattr__(name, value * 2)
+obj = MyClass()
+obj.x = 5                    # Stores 10 (5 * 2)
+obj.x                        # 10 (transformed value)
+
+Common uses:
+• Value transformation: __setattr__ can transform values before storing
+• Validation: __setattr__ can validate assignments
+• Assignment hooks: intercept all attribute assignments
+• Special methods
+
+Example: If class MyClass: def __setattr__(self, name, value): super().__setattr__(name, value * 2); obj = MyClass(); obj.x = 5; obj.x, then obj.x returns 10 because __setattr__ intercepts all attribute assignment, transforming the value before storing it (5 * 2 = 10).
+`
+  }),
   
   // 81-90: Best Practices and Code Quality
-  (_i: number) => ({ q: `What is PEP 8?`, o: ["Python style guide", "Python version", "Error", "Module"], c: 0, e: "PEP 8 is Python Enhancement Proposal for code style." }),
-  (_i: number) => ({ q: `What is def func(x: int) -> int: return x * 2?`, o: ["Type hints", "SyntaxError", "Error", "None"], c: 0, e: "Type hints specify expected types (PEP 484)." }),
-  (_i: number) => ({ q: `What is from typing import List, Dict; def func(x: List[int]) -> Dict[str, int]: return {}?`, o: ["Type hints with generics", "SyntaxError", "Error", "None"], c: 0, e: "typing module provides generic types." }),
-  (_i: number) => ({ q: `What is def func(x: int = 1) -> int: return x?`, o: ["Type hints with defaults", "SyntaxError", "Error", "None"], c: 0, e: "Type hints work with default parameters." }),
-  (_i: number) => ({ q: `What is def func(x: 'MyClass') -> None: pass?`, o: ["Forward reference (string)", "SyntaxError", "Error", "None"], c: 0, e: "String type hints allow forward references." }),
-  (_i: number) => ({ q: `What is from typing import Optional; def func(x: Optional[int]) -> int: return x or 0?`, o: ["Optional type hint", "SyntaxError", "Error", "None"], c: 0, e: "Optional[T] means T or None." }),
-  (_i: number) => ({ q: `What is from typing import Union; def func(x: Union[int, str]) -> int: return 1?`, o: ["Union type hint", "SyntaxError", "Error", "None"], c: 0, e: "Union[T, U] means T or U." }),
-  (_i: number) => ({ q: `What is from typing import Callable; def func(f: Callable[[int], int]) -> int: return f(1)?`, o: ["Callable type hint", "SyntaxError", "Error", "None"], c: 0, e: "Callable[[args], return] hints function types." }),
-  (_i: number) => ({ q: `What is from dataclasses import dataclass; @dataclass; class Point: x: int; y: int; Point(1, 2)?`, o: ["Data class instance", "SyntaxError", "Error", "None"], c: 0, e: "@dataclass automatically generates __init__, __repr__, etc." }),
-  (_i: number) => ({ q: `What is from enum import Enum; class Color(Enum): RED = 1; GREEN = 2; Color.RED?`, o: ["<Color.RED: 1>", "1", "Error", "None"], c: 0, e: "Enum creates enumeration with named constants." }),
+  (_i: number) => ({ 
+    q: `What is PEP 8?`, 
+    o: ["Python style guide", "Python version", "Error", "Module"], 
+    c: 0, 
+    e: "PEP 8 is Python Enhancement Proposal for code style.",
+    de: `PEP 8 (Python Enhancement Proposal 8) is the official style guide for Python code. It provides conventions for writing readable, consistent Python code, including naming conventions, code layout, whitespace usage, line length, comments, and more. Following PEP 8 makes code easier to read and maintain, and it's widely adopted in the Python community. While not enforced by the language, PEP 8 is considered best practice and many tools (like linters) can check code against PEP 8 standards.
+
+PEP 8 style guide:
+• PEP 8 is Python style guide
+• Provides conventions for readable code
+• Covers naming, layout, whitespace, etc.
+• Widely adopted in Python community
+• Best practice for Python code
+
+How it works:
+• PEP 8 defines style conventions
+• Examples: snake_case for functions, CapitalCase for classes
+• 4 spaces for indentation (not tabs)
+• Maximum 79 characters per line
+• Clear naming conventions
+
+Example:
+# PEP 8 compliant
+def my_function():  # snake_case, 4 spaces
+    my_variable = 1  # snake_case
+    return my_variable
+
+class MyClass:  # CapitalCase
+    pass
+
+Common uses:
+• Code style: follow PEP 8 conventions
+• Readability: consistent, readable code
+• Team standards: shared style guide
+• Best practices
+
+Example: PEP 8 is the Python style guide - a set of conventions for writing readable, consistent Python code, covering naming, layout, whitespace, and more.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def func(x: int) -> int: return x * 2?`, 
+    o: ["Type hints", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "Type hints specify expected types (PEP 484).",
+    de: `Type hints (PEP 484) specify expected types for function parameters and return values. If def func(x: int) -> int: return x * 2, then x: int specifies that parameter x should be an int, and -> int specifies that the function returns an int. Type hints are optional annotations that provide information about types for documentation, IDE support, and static type checkers like mypy. They don't affect runtime behavior but help catch type errors before execution.
+
+Type hints:
+• x: int specifies parameter type
+• -> int specifies return type
+• Optional annotations (don't affect runtime)
+• Help with IDE support and type checking
+• PEP 484 standard
+
+How it works:
+• def func(x: int) -> int: defines function with type hints
+• x: int indicates x should be int
+• -> int indicates function returns int
+• Type hints stored in __annotations__
+• Static type checkers use them
+
+Example:
+def func(x: int) -> int:
+    return x * 2
+func(5)                    # 10 (type hints don't enforce at runtime)
+func('5')                  # Still works (no runtime check)
+# But mypy would warn about wrong type
+
+Common uses:
+• Type documentation: def func(x: int) -> int (document types)
+• IDE support: better autocomplete and error detection
+• Static type checking: tools like mypy check types
+• Best practices
+
+Example: def func(x: int) -> int: return x * 2 uses type hints (PEP 484) to specify that x is an int and the function returns an int - these are optional annotations that help with documentation and type checking.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from typing import List, Dict; def func(x: List[int]) -> Dict[str, int]: return {}?`, 
+    o: ["Type hints with generics", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "typing module provides generic types.",
+    de: `The typing module provides generic types for type hints. If from typing import List, Dict; def func(x: List[int]) -> Dict[str, int]: return {}, then List[int] specifies a list containing integers, and Dict[str, int] specifies a dictionary with string keys and integer values. The typing module provides generic versions of built-in types (like List, Dict, Tuple, Set) that allow you to specify the types of their contents, enabling more precise type hints.
+
+Generic type hints:
+• List[int] specifies list of integers
+• Dict[str, int] specifies dict with str keys, int values
+• typing module provides generic types
+• More precise type information
+• Better type checking
+
+How it works:
+• from typing import List, Dict imports generic types
+• List[int] indicates list containing ints
+• Dict[str, int] indicates dict with str keys, int values
+• Generic types allow precise type hints
+• Type checkers use them for validation
+
+Example:
+from typing import List, Dict
+def func(x: List[int]) -> Dict[str, int]:
+    return {}
+func([1, 2, 3])           # Works (list of ints)
+func(['1', '2'])          # Type checker would warn
+
+Common uses:
+• Generic types: List[T], Dict[K, V], Tuple[T, ...]
+• Precise type hints: specify contents of collections
+• Type checking: better type validation
+• Best practices
+
+Example: from typing import List, Dict; def func(x: List[int]) -> Dict[str, int]: return {} uses generic type hints from the typing module to specify that x is a list of integers and the function returns a dictionary with string keys and integer values.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def func(x: int = 1) -> int: return x?`, 
+    o: ["Type hints with defaults", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "Type hints work with default parameters.",
+    de: `Type hints work with default parameters - you can specify both the type and the default value. If def func(x: int = 1) -> int: return x, then x: int = 1 specifies that parameter x should be an int with a default value of 1. The type hint comes before the default value, allowing you to document the expected type while providing a default. This is a common pattern in Python functions.
+
+Type hints with defaults:
+• x: int = 1 specifies type and default
+• Type hint comes before default value
+• Works with default parameters
+• Documents expected type
+• Provides default value
+
+How it works:
+• def func(x: int = 1) -> int: defines function
+• x: int specifies type (int)
+• = 1 provides default value
+• Type hint and default can be used together
+• Type checker validates against hint
+
+Example:
+def func(x: int = 1) -> int:
+    return x
+func()                  # 1 (uses default)
+func(5)                 # 5 (explicit value)
+func('5')               # Type checker would warn
+
+Common uses:
+• Default parameters: def func(x: int = 1) (type and default)
+• Type documentation: document types even with defaults
+• Type checking: validate types for default parameters
+• Best practices
+
+Example: def func(x: int = 1) -> int: return x uses type hints with default parameters - x: int = 1 specifies the type (int) and default value (1) together.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is def func(x: 'MyClass') -> None: pass?`, 
+    o: ["Forward reference (string)", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "String type hints allow forward references.",
+    de: `String type hints allow forward references to types that haven't been defined yet. If def func(x: 'MyClass') -> None: pass, then 'MyClass' is a forward reference - the class name is in quotes because MyClass may not be defined yet when the function is defined. This allows you to reference classes before they're defined, which is useful for type hints in cases where classes reference each other or when the type is defined later in the file.
+
+Forward references:
+• 'MyClass' is string type hint
+• Allows reference before class defined
+• Useful for circular references
+• Type checker resolves string later
+• Prevents NameError
+
+How it works:
+• def func(x: 'MyClass') -> None: uses string type hint
+• 'MyClass' in quotes (forward reference)
+• Class doesn't need to exist yet
+• Type checker resolves string when needed
+• Prevents NameError if class not defined
+
+Example:
+def func(x: 'MyClass') -> None:  # Forward reference
+    pass
+
+class MyClass:
+    pass
+
+func(MyClass())          # Works (forward reference resolved)
+
+Common uses:
+• Forward references: 'ClassName' (reference before definition)
+• Circular references: classes that reference each other
+• Type hints: use strings for forward references
+• Best practices
+
+Example: def func(x: 'MyClass') -> None: pass uses a string type hint ('MyClass') to allow forward reference - referencing a class that may not be defined yet.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from typing import Optional; def func(x: Optional[int]) -> int: return x or 0?`, 
+    o: ["Optional type hint", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "Optional[T] means T or None.",
+    de: `Optional[T] from the typing module means the type can be T or None. If from typing import Optional; def func(x: Optional[int]) -> int: return x or 0, then Optional[int] means x can be an int or None. This is equivalent to Union[int, None] or int | None (Python 3.10+), but Optional[int] is more concise and clearly expresses that None is an allowed value. The function returns x or 0, handling the case where x is None.
+
+Optional type hint:
+• Optional[int] means int or None
+• Equivalent to Union[int, None]
+• Clearly expresses None is allowed
+• Type checker understands None handling
+• Common pattern for nullable values
+
+How it works:
+• from typing import Optional imports Optional
+• Optional[int] indicates x can be int or None
+• return x or 0 handles None case
+• If x is None, returns 0
+• If x is int, returns x
+
+Example:
+from typing import Optional
+def func(x: Optional[int]) -> int:
+    return x or 0
+func(5)                  # 5 (int provided)
+func(None)               # 0 (None handled)
+
+Common uses:
+• Nullable types: Optional[T] (can be T or None)
+• Type hints: clearly express None is allowed
+• Type checking: validate Optional types
+• Best practices
+
+Example: from typing import Optional; def func(x: Optional[int]) -> int: return x or 0 uses Optional[int] to indicate that x can be an int or None, with the function handling None by returning 0.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from typing import Union; def func(x: Union[int, str]) -> int: return 1?`, 
+    o: ["Union type hint", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "Union[T, U] means T or U.",
+    de: `Union[T, U] from the typing module means the type can be T or U. If from typing import Union; def func(x: Union[int, str]) -> int: return 1, then Union[int, str] means x can be an int or a str. This allows a function to accept multiple types, providing flexibility while still documenting the allowed types. Union types are useful when a function needs to work with multiple types, and type checkers can validate that the correct types are used.
+
+Union type hint:
+• Union[int, str] means int or str
+• Allows multiple types
+• Type checker validates against union
+• Documents allowed types
+• Flexible type hints
+
+How it works:
+• from typing import Union imports Union
+• Union[int, str] indicates x can be int or str
+• Function accepts either type
+• Type checker validates against union
+• Documents allowed types
+
+Example:
+from typing import Union
+def func(x: Union[int, str]) -> int:
+    return len(str(x))  # Works with both int and str
+func(5)                  # Works (int)
+func('hello')            # Works (str)
+
+Common uses:
+• Multiple types: Union[T, U] (can be T or U)
+• Type hints: document multiple allowed types
+• Type checking: validate against union
+• Best practices
+
+Example: from typing import Union; def func(x: Union[int, str]) -> int: return 1 uses Union[int, str] to indicate that x can be an int or a str, allowing flexibility while documenting allowed types.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from typing import Callable; def func(f: Callable[[int], int]) -> int: return f(1)?`, 
+    o: ["Callable type hint", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "Callable[[args], return] hints function types.",
+    de: `Callable from the typing module provides type hints for functions. If from typing import Callable; def func(f: Callable[[int], int]) -> int: return f(1), then Callable[[int], int] specifies that f is a function that takes one int argument and returns an int. The first list contains the argument types, and the second value is the return type. This allows you to type hint functions that take other functions as parameters.
+
+Callable type hint:
+• Callable[[int], int] means function (int) -> int
+• First list: argument types
+• Second value: return type
+• Documents function type
+• Type checker validates function signatures
+
+How it works:
+• from typing import Callable imports Callable
+• Callable[[int], int] indicates function type
+• [int] is argument types (one int parameter)
+• int is return type
+• Type checker validates function matches signature
+
+Example:
+from typing import Callable
+def func(f: Callable[[int], int]) -> int:
+    return f(1)
+def square(x: int) -> int:
+    return x * x
+func(square)             # 1 (calls square(1))
+
+Common uses:
+• Function types: Callable[[args], return] (type hint for functions)
+• Higher-order functions: type hint functions that take functions
+• Type checking: validate function signatures
+• Best practices
+
+Example: from typing import Callable; def func(f: Callable[[int], int]) -> int: return f(1) uses Callable[[int], int] to specify that f is a function that takes one int argument and returns an int.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from dataclasses import dataclass; @dataclass; class Point: x: int; y: int; Point(1, 2)?`, 
+    o: ["Data class instance", "SyntaxError", "Error", "None"], 
+    c: 0, 
+    e: "@dataclass automatically generates __init__, __repr__, etc.",
+    de: `The @dataclass decorator automatically generates common methods like __init__, __repr__, __eq__, and more based on class attributes. If from dataclasses import dataclass; @dataclass; class Point: x: int; y: int; Point(1, 2), then Point(1, 2) creates a Point instance because @dataclass automatically generates __init__ based on the class attributes (x: int and y: int). This eliminates boilerplate code for classes that primarily store data, making them more concise and maintainable.
+
+@dataclass decorator:
+• Point(1, 2) creates Point instance
+• @dataclass generates __init__ automatically
+• __init__ takes x and y as arguments
+• Also generates __repr__, __eq__, etc.
+• Reduces boilerplate code
+
+How it works:
+• @dataclass decorates Point class
+• Analyzes class attributes (x: int, y: int)
+• Generates __init__(self, x: int, y: int)
+• Generates __repr__, __eq__, etc.
+• Point(1, 2) uses generated __init__
+• Returns: Point instance
+
+Example:
+from dataclasses import dataclass
+@dataclass
+class Point:
+    x: int
+    y: int
+p = Point(1, 2)          # Uses generated __init__
+print(p)                 # Point(x=1, y=2) (uses generated __repr__)
+p == Point(1, 2)         # True (uses generated __eq__)
+
+Common uses:
+• Data classes: @dataclass class Point: x: int; y: int (automatic methods)
+• Reduce boilerplate: automatic __init__, __repr__, __eq__
+• Clean code: concise class definitions
+• Best practices
+
+Example: from dataclasses import dataclass; @dataclass; class Point: x: int; y: int; Point(1, 2) uses @dataclass to automatically generate __init__ and other methods, allowing Point(1, 2) to create a Point instance with x=1 and y=2.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from enum import Enum; class Color(Enum): RED = 1; GREEN = 2; Color.RED?`, 
+    o: ["<Color.RED: 1>", "1", "Error", "None"], 
+    c: 0, 
+    e: "Enum creates enumeration with named constants.",
+    de: `Enum from the enum module creates enumerations - a set of named constants. If from enum import Enum; class Color(Enum): RED = 1; GREEN = 2; Color.RED, then Color.RED returns <Color.RED: 1> because Enum creates named constant objects. Each enum member (like Color.RED) is an instance of the enum class with a name and value. Enum members have both a name (RED) and a value (1), and they can be compared by identity (is) or equality (==).
+
+Enum enumeration:
+• Color.RED returns <Color.RED: 1>
+• Enum creates named constants
+• Each member is Color instance with name and value
+• RED has name 'RED' and value 1
+• Members are comparable and iterable
+
+How it works:
+• class Color(Enum): defines enum class
+• RED = 1 creates enum member
+• Color.RED is Color instance with name='RED', value=1
+• Returns enum member object
+• Returns: <Color.RED: 1>
+
+Example:
+from enum import Enum
+class Color(Enum):
+    RED = 1
+    GREEN = 2
+Color.RED                # <Color.RED: 1> (enum member)
+Color.RED.name           # 'RED' (member name)
+Color.RED.value          # 1 (member value)
+Color.RED == Color.RED   # True (comparable)
+
+Common uses:
+• Named constants: class Color(Enum): RED = 1 (named constants)
+• Type safety: enum prevents invalid values
+• Readable code: use Color.RED instead of 1
+• Best practices
+
+Example: from enum import Enum; class Color(Enum): RED = 1; GREEN = 2; Color.RED returns <Color.RED: 1> because Enum creates named constants - Color.RED is an enum member with name 'RED' and value 1.
+`
+  }),
   
   // 91-100: Advanced Topics and Utilities
-  (_i: number) => ({ q: `What is import sys; sys.argv?`, o: ["Command line arguments", "Error", "None", "[]"], c: 0, e: "sys.argv contains command line arguments." }),
-  (_i: number) => ({ q: `What is import os; os.environ?`, o: ["Environment variables dict", "Error", "None", "{}"], c: 0, e: "os.environ contains environment variables." }),
-  (_i: number) => ({ q: `What is import json; json.dumps({'a': 1})?`, o: ["'{\"a\": 1}'", "{'a': 1}", "Error", "None"], c: 0, e: "json.dumps() converts dict to JSON string." }),
-  (_i: number) => ({ q: `What is import json; json.loads('{\"a\": 1}')?`, o: ["{'a': 1}", "'{\"a\": 1}'", "Error", "None"], c: 0, e: "json.loads() converts JSON string to dict." }),
-  (_i: number) => ({ q: `What is import pickle; pickle.dumps([1, 2, 3])?`, o: ["Bytes object", "[1, 2, 3]", "Error", "None"], c: 0, e: "pickle.dumps() serializes object to bytes." }),
-  (_i: number) => ({ q: `What is import pickle; data = pickle.dumps([1, 2, 3]); pickle.loads(data)?`, o: ["[1, 2, 3]", "Bytes object", "Error", "None"], c: 0, e: "pickle.loads() deserializes bytes to object." }),
-  (_i: number) => ({ q: `What is from collections import namedtuple; Point = namedtuple('Point', ['x', 'y']); Point(1, 2)?`, o: ["Point(x=1, y=2)", "Error", "None", "(1, 2)"], c: 0, e: "namedtuple creates tuple subclass with named fields." }),
+  (_i: number) => ({ 
+    q: `What is import sys; sys.argv?`, 
+    o: ["Command line arguments", "Error", "None", "[]"], 
+    c: 0, 
+    e: "sys.argv contains command line arguments.",
+    de: `sys.argv is a list containing command line arguments passed to a Python script. If import sys; sys.argv, then sys.argv returns a list with command line arguments because sys.argv[0] is the script name, and sys.argv[1:] contains the arguments passed to the script. This allows Python scripts to accept command line arguments, making them interactive and configurable. sys.argv is useful for scripts that need input from the command line.
+
+sys.argv:
+• sys.argv contains command line arguments
+• sys.argv[0] is script name
+• sys.argv[1:] contains arguments
+• List of strings
+• Allows scripts to accept arguments
+
+How it works:
+• Python populates sys.argv when script runs
+• sys.argv[0] is script name (path to script)
+• sys.argv[1:] contains arguments
+• All arguments are strings
+• Can be accessed and parsed by script
+
+Example:
+# script.py
+import sys
+print(sys.argv)          # ['script.py', 'arg1', 'arg2'] if run: python script.py arg1 arg2
+print(sys.argv[0])       # 'script.py' (script name)
+print(sys.argv[1:])      # ['arg1', 'arg2'] (arguments)
+
+Common uses:
+• Command line arguments: sys.argv (access arguments)
+• Script configuration: accept arguments from command line
+• Interactive scripts: make scripts configurable
+• Best practices
+
+Example: import sys; sys.argv returns a list containing command line arguments - sys.argv[0] is the script name, and sys.argv[1:] contains the arguments passed to the script.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is import os; os.environ?`, 
+    o: ["Environment variables dict", "Error", "None", "{}"], 
+    c: 0, 
+    e: "os.environ contains environment variables.",
+    de: `os.environ is a dictionary-like object containing environment variables. If import os; os.environ, then os.environ returns a dictionary of environment variables because os.environ is a mapping of environment variable names to their values. You can access environment variables like os.environ['PATH'] or os.environ.get('PATH'), and you can modify them (though changes only affect the current process). Environment variables are typically set by the operating system or parent process.
+
+os.environ:
+• os.environ contains environment variables
+• Dictionary-like object (mapping)
+• Keys are variable names, values are variable values
+• Can access with os.environ['VAR'] or os.environ.get('VAR')
+• Can modify (affects current process only)
+
+How it works:
+• os.environ is mapping of environment variables
+• os.environ['VAR'] accesses environment variable
+• os.environ.get('VAR') gets with default
+• Changes affect current process only
+• Inherited from parent process
+
+Example:
+import os
+os.environ              # Mapping of environment variables
+os.environ.get('PATH')  # Path value (if exists)
+os.environ['MY_VAR'] = 'value'  # Set variable (current process)
+
+Common uses:
+• Environment variables: os.environ (access environment)
+• Configuration: read config from environment variables
+• System integration: interact with system environment
+• Best practices
+
+Example: import os; os.environ returns a dictionary-like object containing environment variables, allowing you to access and modify environment variables.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is import json; json.dumps({'a': 1})?`, 
+    o: ["'{\"a\": 1}'", "{'a': 1}", "Error", "None"], 
+    c: 0, 
+    e: "json.dumps() converts dict to JSON string.",
+    de: `json.dumps() converts a Python object (like a dictionary) to a JSON string. If import json; json.dumps({'a': 1}), then json.dumps({'a': 1}) returns '{"a": 1}' because dumps() serializes the dictionary to a JSON-formatted string. This is useful for sending data over networks, storing data in files, or exchanging data between systems. The JSON format is language-independent and widely supported.
+
+json.dumps():
+• json.dumps({'a': 1}) returns '{"a": 1}'
+• Converts Python object to JSON string
+• Serializes dictionary to JSON format
+• Returns string representation
+• Returns: '{"a": 1}'
+
+How it works:
+• json.dumps({'a': 1}) serializes dictionary
+• Converts Python dict to JSON string
+• JSON uses double quotes (not single)
+• Returns JSON-formatted string
+• Returns: '{"a": 1}'
+
+Example:
+import json
+json.dumps({'a': 1})    # '{"a": 1}' (JSON string)
+json.dumps([1, 2, 3])   # '[1, 2, 3]' (JSON string)
+json.dumps('hello')     # '"hello"' (JSON string)
+
+Common uses:
+• Data serialization: json.dumps(obj) (convert to JSON string)
+• Network communication: send JSON data over HTTP
+• File storage: save data as JSON
+• Best practices
+
+Example: import json; json.dumps({'a': 1}) returns '{"a": 1}' because json.dumps() converts a Python dictionary to a JSON-formatted string.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is import json; json.loads('{\"a\": 1}')?`, 
+    o: ["{'a': 1}", "'{\"a\": 1}'", "Error", "None"], 
+    c: 0, 
+    e: "json.loads() converts JSON string to dict.",
+    de: `json.loads() converts a JSON string to a Python object (like a dictionary). If import json; json.loads('{"a": 1}'), then json.loads('{"a": 1}') returns {'a': 1} because loads() deserializes the JSON string to a Python dictionary. This is the inverse of json.dumps() - it parses a JSON string and creates the corresponding Python object. This is useful for receiving data from networks, reading data from files, or parsing JSON responses.
+
+json.loads():
+• json.loads('{"a": 1}') returns {'a': 1}
+• Converts JSON string to Python object
+• Deserializes JSON string to dictionary
+• Returns Python object
+• Returns: {'a': 1}
+
+How it works:
+• json.loads('{"a": 1}') parses JSON string
+• Converts JSON string to Python dict
+• JSON keys become dict keys
+• JSON values become dict values
+• Returns: {'a': 1}
+
+Example:
+import json
+json.loads('{"a": 1}')  # {'a': 1} (Python dict)
+json.loads('[1, 2, 3]') # [1, 2, 3] (Python list)
+json.loads('"hello"')   # 'hello' (Python string)
+
+Common uses:
+• Data deserialization: json.loads(json_str) (convert from JSON string)
+• Network communication: parse JSON responses
+• File reading: load JSON data from files
+• Best practices
+
+Example: import json; json.loads('{"a": 1}') returns {'a': 1} because json.loads() converts a JSON string to a Python dictionary.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is import pickle; pickle.dumps([1, 2, 3])?`, 
+    o: ["Bytes object", "[1, 2, 3]", "Error", "None"], 
+    c: 0, 
+    e: "pickle.dumps() serializes object to bytes.",
+    de: `pickle.dumps() serializes a Python object to a bytes object. If import pickle; pickle.dumps([1, 2, 3]), then pickle.dumps([1, 2, 3]) returns a bytes object because dumps() converts the Python object to a byte stream. Pickle is Python's native serialization format - it can serialize almost any Python object, including custom classes, functions, and complex nested structures. The serialized data is binary (bytes), not human-readable like JSON.
+
+pickle.dumps():
+• pickle.dumps([1, 2, 3]) returns bytes object
+• Converts Python object to bytes
+• Serializes object to binary format
+• Returns bytes representation
+• Returns: bytes object
+
+How it works:
+• pickle.dumps([1, 2, 3]) serializes list
+• Converts Python object to bytes
+• Creates binary representation
+• Returns bytes object
+• Can be stored or transmitted
+
+Example:
+import pickle
+data = pickle.dumps([1, 2, 3])  # bytes object
+type(data)                       # <class 'bytes'>
+# Can be saved to file or sent over network
+
+Common uses:
+• Python serialization: pickle.dumps(obj) (convert to bytes)
+• Object persistence: save Python objects to files
+• Inter-process communication: send objects between processes
+• Best practices
+
+Example: import pickle; pickle.dumps([1, 2, 3]) returns a bytes object because pickle.dumps() serializes a Python object to a binary byte stream.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is import pickle; data = pickle.dumps([1, 2, 3]); pickle.loads(data)?`, 
+    o: ["[1, 2, 3]", "Bytes object", "Error", "None"], 
+    c: 0, 
+    e: "pickle.loads() deserializes bytes to object.",
+    de: `pickle.loads() deserializes a bytes object back to a Python object. If import pickle; data = pickle.dumps([1, 2, 3]); pickle.loads(data), then pickle.loads(data) returns [1, 2, 3] because loads() converts the pickled bytes back to the original Python object. This is the inverse of pickle.dumps() - it reconstructs the Python object from its pickled representation. This is useful for loading objects from files or receiving objects over networks.
+
+pickle.loads():
+• pickle.loads(data) returns [1, 2, 3]
+• Converts bytes to Python object
+• Deserializes pickled bytes to original object
+• Returns reconstructed Python object
+• Returns: [1, 2, 3]
+
+How it works:
+• data = pickle.dumps([1, 2, 3]) serializes list to bytes
+• pickle.loads(data) deserializes bytes
+• Reconstructs original Python object
+• Returns original list: [1, 2, 3]
+• Returns: [1, 2, 3]
+
+Example:
+import pickle
+data = pickle.dumps([1, 2, 3])  # Serialize to bytes
+original = pickle.loads(data)   # Deserialize back
+original                         # [1, 2, 3] (original object restored)
+
+Common uses:
+• Python deserialization: pickle.loads(bytes) (convert from bytes)
+• Object loading: load Python objects from files
+• Inter-process communication: receive objects between processes
+• Best practices
+
+Example: import pickle; data = pickle.dumps([1, 2, 3]); pickle.loads(data) returns [1, 2, 3] because pickle.loads() deserializes the pickled bytes back to the original Python object.
+`
+  }),
+  (_i: number) => ({ 
+    q: `What is from collections import namedtuple; Point = namedtuple('Point', ['x', 'y']); Point(1, 2)?`, 
+    o: ["Point(x=1, y=2)", "Error", "None", "(1, 2)"], 
+    c: 0, 
+    e: "namedtuple creates tuple subclass with named fields.",
+    de: `namedtuple from collections creates a tuple subclass with named fields. If from collections import namedtuple; Point = namedtuple('Point', ['x', 'y']); Point(1, 2), then Point(1, 2) returns Point(x=1, y=2) because namedtuple creates a class with named fields, allowing you to access elements by name (point.x) instead of index (point[0]). namedtuple combines the memory efficiency of tuples with the readability of named attributes.
+
+namedtuple:
+• Point(1, 2) returns Point(x=1, y=2)
+• namedtuple creates tuple subclass with named fields
+• Access by name: point.x, point.y
+• Access by index: point[0], point[1]
+• Immutable like tuples
+
+How it works:
+• namedtuple('Point', ['x', 'y']) creates Point class
+• Point class is tuple subclass with named fields
+• Point(1, 2) creates instance
+• Fields accessible by name: x=1, y=2
+• Returns: Point(x=1, y=2)
+
+Example:
+from collections import namedtuple
+Point = namedtuple('Point', ['x', 'y'])
+p = Point(1, 2)
+p.x                        # 1 (access by name)
+p.y                        # 2 (access by name)
+p[0]                       # 1 (access by index)
+p[1]                       # 2 (access by index)
+
+Common uses:
+• Named tuples: namedtuple('Name', ['field1', 'field2']) (tuple with names)
+• Readable tuples: access by name instead of index
+• Memory efficient: like tuples but with named fields
+• Best practices
+
+Example: from collections import namedtuple; Point = namedtuple('Point', ['x', 'y']); Point(1, 2) returns Point(x=1, y=2) because namedtuple creates a tuple subclass with named fields, allowing access by name.
+`
+  }),
   (_i: number) => ({
     q: `What is from collections import defaultdict; d = defaultdict(list); d['key']?`,
     o: ["[]", "KeyError", "Error", "None"],
     c: 0,
     e: "defaultdict returns default value for missing keys.",
-    de: `defaultdict from collections automatically creates default values for missing keys. defaultdict(list) creates a dictionary where accessing a missing key returns an empty list [] instead of raising KeyError.
+    de: `defaultdict from collections automatically creates default values for missing keys. If from collections import defaultdict; d = defaultdict(list); d['key'], then d['key'] returns [] because defaultdict(list) creates a dictionary where accessing a missing key automatically creates a default value using the factory function (list). Instead of raising KeyError, defaultdict calls the factory function (list()) and returns the result (empty list []), then stores it for future access.
+
+defaultdict:
+• d['key'] returns []
+• defaultdict(list) uses list as factory
+• Missing key triggers list() → []
+• No KeyError for missing keys
+• Factory function creates default values
+
+How it works:
+• defaultdict(list) creates dict with list factory
+• d['key'] accesses missing key
+• defaultdict calls factory: list()
+• Returns empty list: []
+• Stores [] in dict for future access
+• Returns: []
+
+Example:
+from collections import defaultdict
+d = defaultdict(list)
+d['key']                  # [] (automatic default, no KeyError)
+d['key'].append(1)        # Works (d['key'] is now [1])
+d['key']                  # [1] (stored for future)
+
+Common uses:
+• Default values: defaultdict(list) (automatic defaults)
+• Grouping: group items by key with defaultdict(list)
+• No KeyError: automatic default creation
+• Best practices
+
+Example: from collections import defaultdict; d = defaultdict(list); d['key'] returns [] because defaultdict automatically creates default values for missing keys using the factory function (list in this case).
 
 defaultdict features:
 • from collections import defaultdict: imports defaultdict

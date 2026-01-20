@@ -480,7 +480,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   </p>
                 )}
                 {showDetailedExplanation && currentQuestion.detailedExplanation && (
-                  <div className="animate-in slide-in-from-top-4 duration-300 pt-4 border-t border-indigo-500/20">
+                  <div className="animate-in slide-in-from-top-4 duration-300 pt-4 border-t border-indigo-500/20 space-y-6">
                     <div className="space-y-3">
                       <h5 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] flex items-center gap-2">
                         <i className="fas fa-graduation-cap text-xs"></i>
@@ -490,6 +490,132 @@ export const QuizView: React.FC<QuizViewProps> = ({
                         {currentQuestion.detailedExplanation}
                       </div>
                     </div>
+
+                    {/* Code Versatility Section - Enhanced for Level 9 */}
+                    {level >= 9 && (
+                      <div className="space-y-4 pt-4 border-t border-indigo-500/20">
+                        <h5 className="text-[10px] font-black text-amber-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                          <i className="fas fa-code-branch text-xs"></i>
+                          Code Versatility & Applications
+                        </h5>
+                        <div className="grid gap-4">
+                          {/* Versatility Information */}
+                          <div className="bg-slate-900/50 rounded-xl p-4 border border-amber-500/20">
+                            <h6 className="text-[9px] font-bold text-amber-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                              <i className="fas fa-project-diagram text-[10px]"></i>
+                              Pattern Versatility
+                            </h6>
+                            <p className="text-slate-300 text-xs leading-relaxed">
+                              {(() => {
+                                const concept = currentQuestion.concept?.toLowerCase() || '';
+                                if (concept.includes('inheritance') || currentQuestion.question.includes('super') || currentQuestion.question.includes('Parent') || currentQuestion.question.includes('Child')) {
+                                  return `This inheritance pattern is versatile across multiple scenarios: extending base classes, implementing interfaces, creating plugin architectures, and building framework code. The super() pattern allows clean parent method invocation without hardcoding class names, making code more maintainable when inheritance hierarchies change.`;
+                                } else if (concept.includes('polymorphism') || currentQuestion.question.includes('isinstance') || currentQuestion.question.includes('issubclass')) {
+                                  return `Polymorphism enables code to work with different types through a common interface. This pattern is versatile in API design, plugin systems, factory patterns, and when building extensible frameworks. It allows adding new types without modifying existing code that uses the interface.`;
+                                } else if (concept.includes('encapsulation') || currentQuestion.question.includes('__') || currentQuestion.question.includes('private') || currentQuestion.question.includes('protected')) {
+                                  return `Encapsulation patterns provide controlled access to internal implementation details. This versatility allows protecting invariants, maintaining API stability, enabling refactoring without breaking consumers, and implementing property-based access control with validation or computed values.`;
+                                } else if (currentQuestion.question.includes('property') || currentQuestion.question.includes('@property')) {
+                                  return `The property decorator pattern is versatile for computed attributes, validation, lazy evaluation, and maintaining backward compatibility when converting attributes to methods. It's essential in data models, ORMs, and APIs where attribute access needs special handling.`;
+                                } else if (currentQuestion.question.includes('abstract') || currentQuestion.question.includes('ABC')) {
+                                  return `Abstract base classes provide versatility in defining interfaces and enforcing method implementations. Useful for plugin architectures, defining contracts in frameworks, ensuring API compliance, and creating clear extension points for library users.`;
+                                }
+                                return `This advanced OOP pattern demonstrates versatile application across multiple domains: framework design, library APIs, extensible architectures, and systems requiring clean separation of concerns. Understanding these patterns enables building more maintainable and scalable codebases.`;
+                              })()}
+                            </p>
+                          </div>
+
+                          {/* Real-World Applications */}
+                          <div className="bg-slate-900/50 rounded-xl p-4 border border-indigo-500/20">
+                            <h6 className="text-[9px] font-bold text-indigo-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                              <i className="fas fa-globe text-[10px]"></i>
+                              Real-World Applications
+                            </h6>
+                            <ul className="text-slate-300 text-xs leading-relaxed space-y-1.5 list-disc list-inside">
+                              {(() => {
+                                const concept = currentQuestion.concept?.toLowerCase() || '';
+                                if (concept.includes('inheritance') || currentQuestion.question.includes('super')) {
+                                  return [
+                                    'Framework base classes (Django models, Flask views)',
+                                    'GUI toolkit hierarchies (tkinter, PyQt widget classes)',
+                                    'ORM model inheritance (SQLAlchemy, Django ORM)',
+                                    'Exception class hierarchies for error handling',
+                                    'Plugin systems with base plugin classes'
+                                  ];
+                                } else if (concept.includes('polymorphism')) {
+                                  return [
+                                    'API design with interface-based contracts',
+                                    'Strategy pattern implementations',
+                                    'Dependency injection containers',
+                                    'Protocol-based type checking (PEP 544)',
+                                    'Duck typing for cross-type compatibility'
+                                  ];
+                                } else if (concept.includes('encapsulation')) {
+                                  return [
+                                    'Property-based data validation (Pydantic, attrs)',
+                                    'ORM field descriptors with validation',
+                                    'Computed properties in data models',
+                                    'Lazy-loaded attributes (caching expensive operations)',
+                                    'API versioning with private implementation details'
+                                  ];
+                                }
+                                return [
+                                  'Large-scale application architecture',
+                                  'Library and framework design',
+                                  'Extensible plugin systems',
+                                  'API design and versioning',
+                                  'Enterprise software patterns'
+                                ];
+                              })()}
+                            </ul>
+                          </div>
+
+                          {/* Best Practices */}
+                          <div className="bg-slate-900/50 rounded-xl p-4 border border-emerald-500/20">
+                            <h6 className="text-[9px] font-bold text-emerald-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                              <i className="fas fa-check-circle text-[10px]"></i>
+                              Best Practices
+                            </h6>
+                            <ul className="text-slate-300 text-xs leading-relaxed space-y-1.5 list-disc list-inside">
+                              {(() => {
+                                const concept = currentQuestion.concept?.toLowerCase() || '';
+                                if (concept.includes('inheritance') || currentQuestion.question.includes('super')) {
+                                  return [
+                                    'Use composition over inheritance when possible',
+                                    'Call super() consistently to maintain MRO chain',
+                                    'Prefer super() over Parent.method() for flexibility',
+                                    'Keep inheritance hierarchies shallow (2-3 levels max)',
+                                    'Document expected method signatures in base classes'
+                                  ];
+                                } else if (concept.includes('polymorphism')) {
+                                  return [
+                                    'Use isinstance() for type checking, not type()',
+                                    'Design around interfaces, not concrete classes',
+                                    'Leverage duck typing for flexibility',
+                                    'Use ABCs when you need to enforce interfaces',
+                                    'Favor protocols (PEP 544) for structural typing'
+                                  ];
+                                } else if (concept.includes('encapsulation')) {
+                                  return [
+                                    'Use leading underscores for internal attributes',
+                                    'Use @property for computed or validated attributes',
+                                    'Avoid accessing private attributes from outside',
+                                    'Provide clear public APIs for necessary access',
+                                    'Document which attributes are part of the public API'
+                                  ];
+                                }
+                                return [
+                                  'Follow SOLID principles in OOP design',
+                                  'Prefer composition over deep inheritance',
+                                  'Use type hints for better code clarity',
+                                  'Write clear docstrings explaining class contracts',
+                                  'Keep classes focused on a single responsibility'
+                                ];
+                              })()}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
