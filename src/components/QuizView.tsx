@@ -8,8 +8,8 @@ import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 // Function to format code snippets with proper indentation
 const formatCodeSnippet = (text: string): string => {
-  // If it already has newlines and indentation, return as is
-  if (text.includes('\n') && text.match(/^\s+/m)) {
+  // If it already has newlines and proper indentation, return as is
+  if (text.includes('\n') && text.match(/^\s{4}/m)) {
     return text;
   }
 
@@ -23,11 +23,8 @@ const formatCodeSnippet = (text: string): string => {
   formatted = formatted.replace(/(\bfor\s+[^:]+:)/g, '$1\n');
   formatted = formatted.replace(/(\bwhile\s+[^:]+:)/g, '$1\n');
 
-  // Add indentation for pass/return/print statements
-  formatted = formatted.replace(/(\n|^)(pass|return|print)/g, '$1    $2');
-
-  // Add indentation for nested statements (basic)
-  formatted = formatted.replace(/(\n|^)(\s*)(if|for|while)/g, '$1$2    $3');
+  // Add 4-space indentation to all lines
+  formatted = formatted.split('\n').map(line => line.trim() ? '    ' + line : line).join('\n');
 
   return formatted;
 };
