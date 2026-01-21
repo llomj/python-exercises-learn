@@ -306,6 +306,82 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 - ❌ Many questions still use hardcoded strings like `"hello"` (find, rfind, index, count, startswith, endswith, replace, partition, rpartition, split, splitlines, join, center, ljust, rjust, zfill, etc.)
 - **Action Required**: Replace ALL remaining hardcoded strings with `"..."` and update solutions accordingly
 
+## 🔴 CRITICAL: ID 77 Solution Error (False vs True)
+
+**STATUS: ⚠️ URGENT - VERIFIED BUG**
+
+**Problem**: ID 77 question has incorrect solution marked.
+
+**Question**: `What is "...".isascii()?`
+- **Options**: ["True", "False", "Error", "None"]
+- **Current correct_option_index**: `c: 0` (which is "True")
+- **User reports**: Solution shows "False" 
+- **Python verification**: `"...".isascii()` returns `True` ✅
+- **Expected**: Solution should be "True" (index 0)
+
+**Analysis**:
+- The code shows `c: 0` which means "True" is marked as correct
+- Python confirms `"...".isascii()` = `True`
+- But user sees "False" as the solution
+- This suggests either:
+  1. The correct_option_index is actually wrong in the generated question
+  2. There's a display/rendering issue
+  3. ID 77 maps to a different question than expected
+
+**Action Required**:
+- Verify which question ID 77 actually displays
+- Check if correct_option_index needs to be changed
+- Verify all boolean-returning string methods have correct solutions
+- Do deep analysis of ALL IDs to find similar errors
+
+**Deep Analysis Task - COMPREHENSIVE VALIDATION REQUIRED**:
+
+**Step 1: Verify ID 77 Specifically**
+- Question: `What is "...".isascii()?`
+- Python verification: `"...".isascii()` = `True` ✅
+- Code shows: `c: 0` (index 0 = "True") ✅
+- User reports: Shows "False" as solution ❌
+- **Action**: Check if correct_option_index needs to be changed, or if there's a different issue
+
+**Step 2: Systematic Validation of ALL Questions (1-1000)**
+For each question ID:
+1. Extract the question code (the Python expression being asked about)
+2. Evaluate it in Python (or verify logically)
+3. Check if `options[correct_option_index]` matches the actual Python result
+4. Flag any mismatches
+
+**Categories to Validate**:
+- **Boolean methods**: 
+  - `islower()`, `isupper()`, `istitle()`, `isascii()`, `isdigit()`, `isalpha()`, `isalnum()`, `isspace()`, etc.
+  - Verify: Returns True/False, check if correct_option_index matches
+- **String transformation methods**:
+  - `lower()`, `upper()`, `capitalize()`, `title()`, `swapcase()`, `casefold()`
+  - Verify: Returns string, check if it matches options
+- **Comparison operations**: 
+  - `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`, `is`, `is not`
+  - Verify: Returns True/False, check correctness
+- **Type checks**: 
+  - `type()`, `isinstance()`, `issubclass()`
+  - Verify: Returns type or boolean, check correctness
+- **Arithmetic operations**:
+  - `+`, `-`, `*`, `/`, `//`, `%`, `**`
+  - Verify: Returns correct numeric result
+- **All other operations**: Lists, dicts, functions, classes, etc.
+
+**Validation Method**:
+1. Create a Python script that:
+   - Parses questionsBank.ts (or exports questions to JSON)
+   - For each question, extracts the code expression
+   - Evaluates it in Python
+   - Compares result with `options[correct_option_index]`
+   - Reports all mismatches
+
+2. Manual verification for complex questions that can't be auto-evaluated
+
+**Priority**: CRITICAL - This is a fundamental correctness issue that breaks learning. Every incorrect solution misleads students.
+
+---
+
 **Example Questions Needing Fix**:
 - `What is "hello".find("l")?` → Should be: `What is "...".find("...")?`
 - `What is "hello".replace("l", "L")?` → Should be: `What is "...".replace("...", "...")?`
