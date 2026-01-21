@@ -174,79 +174,83 @@ const App: React.FC = () => {
             </div>
 
             <div className="flex gap-1.5 items-center">
-              <div className="flex items-center gap-1.5">
-                <button 
-                  onClick={() => setView('glossary')}
-                  className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
-                    view === 'glossary' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                  }`}
-                  title={t('app.glossary')}
-                >
-                  <i className="fas fa-circle-info text-sm"></i>
-                </button>
-                <button 
-                  onClick={() => setView('log')}
-                  className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
-                    view === 'log' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                  }`}
-                  title={t('app.learningLog')}
-                >
-                  <i className="fas fa-book-open text-xs"></i>
-                </button>
-                <button 
-                  onClick={() => setShowIdSearch(true)}
-                  className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
-                  title="Search by ID"
-                >
-                  <i className="fas fa-hashtag text-xs"></i>
-                </button>
-                <button 
-                  onClick={() => setShowIdLog(true)}
-                  className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
-                  title="ID Log"
-                >
-                  <i className="fas fa-list text-xs"></i>
-                </button>
-              </div>
-              {view === 'quiz' && (
-                <div className="flex items-center gap-1.5 ml-1.5">
-                  <button
-                    onClick={handleRandomModeToggle}
-                    className={`flex items-center justify-center w-8 h-8 rounded-lg border-2 transition-all shadow-lg hover:scale-110 active:scale-95 ${
-                      randomMode 
-                        ? 'bg-green-500 hover:bg-green-600 border-green-400 text-white shadow-green-500/50' 
-                        : 'bg-white/5 hover:bg-white/10 border-white/10 text-slate-400 hover:text-white'
+              <div className="flex flex-col gap-1">
+                {/* Top row icons */}
+                <div className="flex items-center gap-1.5">
+                  <button 
+                    onClick={() => setView('glossary')}
+                    className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
+                      view === 'glossary' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
                     }`}
-                    title={randomMode ? "Switch to level mode" : "Switch to random mode"}
+                    title={t('app.glossary')}
                   >
-                    <i className="fas fa-shuffle text-sm"></i>
+                    <i className="fas fa-circle-info text-sm"></i>
                   </button>
-                  <button
-                    onClick={() => setShowOperations(true)}
-                    className="flex items-center justify-center w-8 h-8 rounded-lg border-2 border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-lg hover:scale-110 active:scale-95"
-                    title={t('app.operations')}
+                  <button 
+                    onClick={() => setShowIdSearch(true)}
+                    className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
+                    title="Search by ID"
                   >
-                    <i className="fas fa-calculator text-sm"></i>
+                    <i className="fas fa-hashtag text-xs"></i>
+                  </button>
+                  {view === 'quiz' && (
+                    <button
+                      onClick={handleRandomModeToggle}
+                      className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
+                        randomMode 
+                          ? 'bg-green-500 hover:bg-green-600 border-green-400 text-white' 
+                          : 'bg-white/5 hover:bg-white/10 border-white/10 text-slate-400 hover:text-white'
+                      }`}
+                      title={randomMode ? "Switch to level mode" : "Switch to random mode"}
+                    >
+                      <i className="fas fa-shuffle text-sm"></i>
+                    </button>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <i className="fas fa-bolt text-amber-400 text-sm"></i>
+                    <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
+                  </div>
+                </div>
+                {/* Bottom row icons */}
+                <div className="flex items-center gap-1.5">
+                  <button 
+                    onClick={() => setView('log')}
+                    className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
+                      view === 'log' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
+                    }`}
+                    title={t('app.learningLog')}
+                  >
+                    <i className="fas fa-book-open text-xs"></i>
+                  </button>
+                  <button 
+                    onClick={() => setShowIdLog(true)}
+                    className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
+                    title="ID Log"
+                  >
+                    <i className="fas fa-list text-xs"></i>
+                  </button>
+                  {view === 'quiz' && (
+                    <button
+                      onClick={() => setShowOperations(true)}
+                      className="flex items-center justify-center w-9 h-9 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
+                      title={t('app.operations')}
+                    >
+                      <i className="fas fa-calculator text-sm"></i>
+                    </button>
+                  )}
+                  <button
+                    onClick={toggleLanguage}
+                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs"
+                    title={language === 'en' ? 'Français' : 'English'}
+                  >
+                    <i className="fas fa-language"></i>
                   </button>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col items-end gap-1 ml-2">
-          <div className="flex items-center gap-2">
-            <i className="fas fa-bolt text-amber-400 text-sm"></i>
-            <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
-          </div>
-          <button
-            onClick={toggleLanguage}
-            className="w-6 h-6 flex items-center justify-center rounded border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs"
-            title={language === 'en' ? 'Français' : 'English'}
-          >
-            <i className="fas fa-language"></i>
-          </button>
-        </div>
       </nav>
 
       <main className="container mx-auto px-4 py-8 max-w-4xl min-h-[calc(100dvh-160px)]">
