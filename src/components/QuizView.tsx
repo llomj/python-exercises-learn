@@ -5,6 +5,8 @@ import { ProgressBar } from './ProgressBar';
 import { LEVELS } from '../constants';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useLanguage } from '../contexts/LanguageContext';
+import { formatTranslation } from '../translations';
 
 // Function to format code snippets with proper Python indentation
 // Ensures newline after : and 4-space indentation for the next line
@@ -187,6 +189,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
   randomizeTrigger,
   randomMode = false
 }) => {
+  const { t } = useLanguage();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -292,9 +295,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
           </div>
         </div>
         <div className="space-y-2">
-          <p className="text-slate-200 font-bold text-lg">Stabilizing Genome...</p>
+          <p className="text-slate-200 font-bold text-lg">{t('quiz.stabilizingGenome')}</p>
           <p className="text-slate-500 text-xs max-w-xs mx-auto">
-            Sequencing 15 unique logic patterns for Stage {level}.
+            {formatTranslation(t('quiz.sequencingPatterns'), { level })}
           </p>
         </div>
       </div>
@@ -303,9 +306,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
   if (questions.length === 0) return (
     <div className="text-center p-12 glass rounded-3xl">
-      <p className="text-rose-400 font-bold mb-4">Sequence Error</p>
-      <p className="text-slate-400 text-sm mb-6">Could not retrieve questions for this level.</p>
-      <button onClick={onExit} className="px-6 py-2 bg-indigo-500 rounded-xl font-bold">Return to Hub</button>
+      <p className="text-rose-400 font-bold mb-4">{t('quiz.sequenceError')}</p>
+      <p className="text-slate-400 text-sm mb-6">{t('quiz.couldNotRetrieve')}</p>
+      <button onClick={onExit} className="px-6 py-2 bg-indigo-500 rounded-xl font-bold">{t('quiz.returnToHub')}</button>
     </div>
   );
 
@@ -319,7 +322,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
         </button>
         <div className="flex-1 px-6">
           <div className="flex justify-between text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-1.5">
-            <span>MUTATION {currentIndex + 1} OF {questions.length}</span>
+            <span>{formatTranslation(t('quiz.mutationOf'), { current: currentIndex + 1, total: questions.length })}</span>
             <span>{Math.round(((currentIndex + 1) / questions.length) * 100)}%</span>
           </div>
           <ProgressBar current={currentIndex + 1} total={questions.length} colorClass="bg-indigo-500" />
@@ -625,7 +628,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
               onClick={handleNext}
               className="w-full py-5 bg-indigo-500 hover:bg-indigo-600 rounded-2xl font-black text-lg text-white transition-all transform active:scale-95 shadow-2xl shadow-indigo-500/30 flex items-center justify-center gap-3"
             >
-              {currentIndex === questions.length - 1 ? "FINISH EVOLUTION" : "CONTINUE MUTATION"}
+              {currentIndex === questions.length - 1 ? t('quiz.finishEvolution') : t('hub.continueMutation')}
               <i className="fas fa-arrow-right text-sm"></i>
             </button>
           </div>

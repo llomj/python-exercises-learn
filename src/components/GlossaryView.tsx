@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { GLOSSARY, GlossaryItem } from '../constants';
+import { useLanguage } from '../contexts/LanguageContext';
+import { formatTranslation } from '../translations';
 
 interface GlossaryViewProps {
   onBack: () => void;
 }
 
 export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
+  const { t } = useLanguage();
   const [search, setSearch] = useState('');
   const [selectedTerm, setSelectedTerm] = useState<GlossaryItem | null>(null);
 
@@ -51,14 +54,14 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
             <div className="space-y-6 sm:space-y-8">
               <div className="space-y-3 pt-2">
                 <span className="inline-block text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">
-                  Level {selectedTerm.levelRange} Concept
+                  {formatTranslation(t('glossary.levelConcept'), { range: selectedTerm.levelRange })}
                 </span>
                 <h3 className="text-2xl sm:text-3xl font-black text-white">{selectedTerm.term}</h3>
               </div>
 
               <div className="space-y-4">
                 <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                  <i className="fas fa-book-open text-indigo-400"></i> In-Depth Description
+                  <i className="fas fa-book-open text-indigo-400"></i> {t('glossary.inDepthDescription')}
                 </h4>
                 <div className="text-slate-300 leading-relaxed font-medium text-sm sm:text-base whitespace-pre-wrap">
                   {selectedTerm.detailedDescription}
@@ -67,7 +70,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
 
               <div className="space-y-4">
                 <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                  <i className="fas fa-code text-indigo-400"></i> Implementation Example
+                  <i className="fas fa-code text-indigo-400"></i> {t('glossary.implementationExample')}
                 </h4>
                 <div className="bg-slate-900 rounded-2xl p-4 sm:p-6 border border-white/5 shadow-inner overflow-hidden">
                   <pre className="code-font text-xs sm:text-sm text-indigo-300 leading-relaxed overflow-x-auto p-1">
@@ -82,7 +85,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
                   onClick={() => setSelectedTerm(null)}
                   className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-black transition-all shadow-xl shadow-indigo-500/20 active:scale-95"
                 >
-                  GOT IT
+                  {t('operations.gotIt')}
                 </button>
               </div>
             </div>
@@ -98,7 +101,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
           onClick={onBack}
           className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-bold transition-colors"
         >
-          BACK TO HUB
+          {t('history.backToHub')}
         </button>
       </div>
 
@@ -108,7 +111,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
         </div>
         <input 
           type="text"
-          placeholder="Search for terms or datatypes (e.g., 'float', 'class')..."
+          placeholder={t('glossary.searchPlaceholder')}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full pl-12 pr-4 py-4 bg-slate-900 border border-white/5 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-colors"
@@ -162,7 +165,7 @@ export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
           {filteredGlossary.length === 0 && (
             <div className="col-span-full py-12 text-center text-slate-500">
               <i className="fas fa-search-minus text-4xl mb-4 block opacity-20"></i>
-              No terms found matching "{search}"
+              {formatTranslation(t('glossary.noResults'), { search })}
             </div>
           )}
         </div>

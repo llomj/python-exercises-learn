@@ -6,6 +6,8 @@ import { HistoryLog } from './components/HistoryLog';
 import { GlossaryView } from './components/GlossaryView';
 import { OperationsView } from './components/OperationsView';
 import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL } from './constants';
+import { useLanguage } from './contexts/LanguageContext';
+import { formatTranslation } from './translations';
 
 const LOCAL_STORAGE_KEY = 'python_exercises_learn_stats_v3_offline';
 
@@ -19,6 +21,7 @@ const INITIAL_STATS: UserStats = {
 };
 
 const App: React.FC = () => {
+  const { language, setLanguage, t } = useLanguage();
   const [stats, setStats] = useState<UserStats>(INITIAL_STATS);
   const [view, setView] = useState<'hub' | 'quiz' | 'log' | 'glossary'>('hub');
   const [showResult, setShowResult] = useState<{score: number, total: number} | null>(null);
@@ -26,6 +29,10 @@ const App: React.FC = () => {
   const [randomMode, setRandomMode] = useState(false);
   const [showRandomModeModal, setShowRandomModeModal] = useState(false);
   const [showOperations, setShowOperations] = useState(false);
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'fr' : 'en');
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -130,7 +137,7 @@ const App: React.FC = () => {
             <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
               <i className="fas fa-terminal text-white text-xs"></i>
             </div>
-            <span className="font-bold text-lg tracking-tight hidden sm:inline">PYTHON<span className="text-indigo-400">EXERCISES</span></span>
+            <span className="font-bold text-lg tracking-tight hidden sm:inline">{t('app.title')}<span className="text-indigo-400">{t('app.subtitle')}</span></span>
           </div>
           
           <div className="h-8 w-[1px] bg-white/10 mx-2 hidden sm:block"></div>
@@ -142,7 +149,7 @@ const App: React.FC = () => {
                    currentPersona === PersonaStage.SHRIMP ? 'fa-shrimp' : 'fa-fish'} text-white`}></i>
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">Rank</span>
+                <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">{t('app.rank')}</span>
                 <span className="text-sm font-bold text-slate-200 leading-tight">{currentPersona}</span>
               </div>
             </div>
@@ -154,7 +161,7 @@ const App: React.FC = () => {
                   className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
                     view === 'glossary' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
                   }`}
-                  title="Glossary"
+                  title={t('app.glossary')}
                 >
                   <i className="fas fa-circle-info text-sm"></i>
                 </button>
@@ -163,7 +170,7 @@ const App: React.FC = () => {
                   className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
                     view === 'log' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
                   }`}
-                  title="Learning Log"
+                  title={t('app.learningLog')}
                 >
                   <i className="fas fa-book-open text-xs"></i>
                 </button>
@@ -184,7 +191,7 @@ const App: React.FC = () => {
                   <button
                     onClick={() => setShowOperations(true)}
                     className="flex items-center justify-center w-8 h-8 rounded-lg border-2 border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-lg hover:scale-110 active:scale-95"
-                    title="Operations & Math"
+                    title={t('app.operations')}
                   >
                     <i className="fas fa-calculator text-sm"></i>
                   </button>
@@ -194,9 +201,18 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 ml-2">
-          <i className="fas fa-bolt text-amber-400 text-sm"></i>
-          <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
+        <div className="flex flex-col items-end gap-1 ml-2">
+          <div className="flex items-center gap-2">
+            <i className="fas fa-bolt text-amber-400 text-sm"></i>
+            <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
+          </div>
+          <button
+            onClick={toggleLanguage}
+            className="w-6 h-6 flex items-center justify-center rounded border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs"
+            title={language === 'en' ? 'Français' : 'English'}
+          >
+            <i className="fas fa-language"></i>
+          </button>
         </div>
       </nav>
 
@@ -225,8 +241,8 @@ const App: React.FC = () => {
               <i className="fas fa-arrow-up-right-dots"></i>
             </div>
             <div>
-              <h2 className="text-3xl font-bold mb-2">Mutations Complete!</h2>
-              <p className="text-slate-400">Genetics stabilized for {showResult.score} concepts.</p>
+              <h2 className="text-3xl font-bold mb-2">{t('result.mutationsComplete')}</h2>
+              <p className="text-slate-400">{formatTranslation(t('result.geneticsStabilized'), { score: showResult.score })}</p>
             </div>
             <div className="py-4 px-6 bg-white/5 rounded-2xl flex justify-around border border-white/5">
               <div>
@@ -242,7 +258,7 @@ const App: React.FC = () => {
               onClick={() => setShowResult(null)}
               className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 rounded-2xl font-bold text-white transition-all transform active:scale-95 shadow-xl shadow-indigo-500/30"
             >
-              BACK TO HUB
+              {t('result.backToHub')}
             </button>
           </div>
         ) : (
@@ -254,7 +270,7 @@ const App: React.FC = () => {
       </main>
 
       <footer className="mt-auto border-t border-white/5 p-8 text-center text-slate-600 text-sm">
-        <p>&copy; 2024 Python Exercises Learn. Interactive Learning Platform.</p>
+        <p>{t('footer.copyright')}</p>
       </footer>
 
       {/* Operations View Modal */}
@@ -277,12 +293,10 @@ const App: React.FC = () => {
                 <i className={`fas ${randomMode ? 'fa-layer-group' : 'fa-shuffle'}`}></i>
               </div>
               <h2 className="text-2xl font-black text-white">
-                {randomMode ? 'Switch to Level Mode?' : 'Switch to Random Mode?'}
+                {randomMode ? t('randomMode.switchToLevel') : t('randomMode.switchToRandom')}
               </h2>
               <p className="text-slate-400 leading-relaxed">
-                {randomMode 
-                  ? 'Return to level-based questions. You\'ll continue from your current level and progress normally.'
-                  : 'Questions will be randomly selected from all levels. Your progress and XP will still count toward leveling up.'}
+                {randomMode ? t('randomMode.levelModeDesc') : t('randomMode.randomModeDesc')}
               </p>
             </div>
             <div className="flex gap-3">
@@ -290,7 +304,7 @@ const App: React.FC = () => {
                 onClick={() => setShowRandomModeModal(false)}
                 className="flex-1 py-3 bg-white/5 hover:bg-white/10 rounded-xl font-bold text-white transition-all border border-white/10"
               >
-                Cancel
+                {t('randomMode.cancel')}
               </button>
               <button
                 onClick={randomMode ? confirmLevelMode : confirmRandomMode}
@@ -300,7 +314,7 @@ const App: React.FC = () => {
                     : 'bg-green-500 hover:bg-green-600 shadow-xl shadow-green-500/30'
                 }`}
               >
-                {randomMode ? 'Level Mode' : 'Random Mode'}
+                {randomMode ? t('randomMode.levelMode') : t('randomMode.randomMode')}
               </button>
             </div>
           </div>

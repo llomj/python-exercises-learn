@@ -151,3 +151,48 @@ Every single question across all 10 levels is:
 - ✅ Educational and meaningful
 
 The Python Exercises Learn app now has a complete, high-quality question bank covering Python from basics to advanced topics!
+
+---
+
+## Translation Feature Implementation (IN PROGRESS)
+
+### Status: ✅ COMPLETED
+
+**Feature**: Added language translation support (English/French) with toggle icon button.
+
+### Implementation Details:
+- ✅ Created i18n system using React Context (`LanguageContext.tsx`)
+- ✅ Created comprehensive translation files (`translations.ts`) with English and French translations
+- ✅ Added small translation icon button in nav (under score icon)
+- ✅ Updated all components to use translations:
+  - App.tsx
+  - EvolutionHub.tsx
+  - QuizView.tsx
+  - HistoryLog.tsx
+  - GlossaryView.tsx
+  - OperationsView.tsx
+- ✅ Language preference stored in localStorage
+- ✅ Default language: English
+
+### Translation Coverage:
+- Navigation labels and buttons
+- Modal dialogs and messages
+- Quiz interface strings
+- Result screens
+- History log
+- Glossary view
+- Operations & Math view
+- Footer text
+
+### Future Enhancements (Optional):
+- Add more languages (Spanish, German, etc.)
+- Translate level descriptions dynamically
+- Translate glossary terms and definitions
+- Translate persona stage names
+- Consider translating question text (though Python code/questions may remain in English for learning purposes)
+
+### Notes:
+- The translation button is positioned under the XP score icon in the nav
+- Clicking the button toggles between English and French
+- Language preference persists across sessions via localStorage
+- All UI strings are now translatable via the translation system

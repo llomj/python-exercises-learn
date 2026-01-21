@@ -3,6 +3,8 @@ import { UserStats, PersonaStage } from '../types';
 import { LEVELS, QUESTIONS_PER_LEVEL } from '../constants';
 import { PersonaBadge } from './PersonaBadge';
 import { ProgressBar } from './ProgressBar';
+import { useLanguage } from '../contexts/LanguageContext';
+import { formatTranslation } from '../translations';
 
 interface EvolutionHubProps {
   stats: UserStats;
@@ -10,6 +12,7 @@ interface EvolutionHubProps {
 }
 
 export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }) => {
+  const { t } = useLanguage();
   const currentLevelInfo = LEVELS.find(l => l.level === stats.currentLevel) || LEVELS[0];
   const progress = stats.levelProgress[stats.currentLevel] || 0;
   
@@ -27,12 +30,12 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
         <PersonaBadge stage={currentLevelInfo.persona} size="md" />
         <div className="text-center space-y-1">
           <h1 className="text-xl font-black text-white tracking-tight uppercase">
-            Evolution Stage {stats.currentLevel}
+            {formatTranslation(t('hub.evolutionStage'), { level: stats.currentLevel })} {stats.currentLevel}
           </h1>
           <div className="flex items-center gap-2 justify-center">
             <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
             <span className="text-slate-400 font-bold text-[10px] tracking-widest uppercase">
-              {currentLevelInfo.persona} Class
+              {currentLevelInfo.persona} {t('hub.class')}
             </span>
           </div>
         </div>
@@ -42,7 +45,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
         <div className="glass rounded-3xl p-8 space-y-6 flex flex-col justify-between">
           <div>
             <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <i className="fas fa-dna text-indigo-400"></i> Current Genome
+              <i className="fas fa-dna text-indigo-400"></i> {t('hub.currentGenome')}
             </h3>
             <p className="text-slate-400 leading-relaxed text-xs">
               {currentLevelInfo.description}
@@ -58,7 +61,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
           
           <div className="space-y-2 pt-6 border-t border-white/5">
             <div className="flex justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-              <span>Stage Progress</span>
+              <span>{t('hub.stageProgress')}</span>
               <span>{progress} / {QUESTIONS_PER_LEVEL}</span>
             </div>
             <ProgressBar current={progress} total={QUESTIONS_PER_LEVEL} colorClass="bg-indigo-500" />
@@ -68,16 +71,16 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
         <div className="glass rounded-3xl p-8 space-y-6 flex flex-col justify-between border-indigo-500/20 bg-indigo-500/5">
           <div className="space-y-4">
             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <i className="fas fa-microchip text-indigo-400"></i> Next Mutation
+              <i className="fas fa-microchip text-indigo-400"></i> {t('hub.nextMutation')}
             </h3>
             
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-slate-900/50 rounded-2xl p-4 border border-white/5">
-                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Batch Size</div>
-                <div className="text-lg font-black text-white">15 Questions</div>
+                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">{t('hub.batchSize')}</div>
+                <div className="text-lg font-black text-white">15 {t('hub.questions')}</div>
               </div>
               <div className="bg-slate-900/50 rounded-2xl p-4 border border-white/5">
-                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Last Accuracy</div>
+                <div className="text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">{t('hub.lastAccuracy')}</div>
                 <div className={`text-lg font-black ${lastAccuracy !== null ? 'text-amber-400' : 'text-slate-700'}`}>
                   {lastAccuracy !== null ? `${lastAccuracy}%` : '---'}
                 </div>
@@ -85,7 +88,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
             </div>
 
             <p className="text-slate-300 text-xs leading-relaxed">
-              Absorb 15 new logic structures to strengthen your Python DNA. {QUESTIONS_PER_LEVEL - progress} mutations remaining for next evolution.
+              {t('hub.absorbText')} {formatTranslation(t('hub.mutationsRemaining'), { count: QUESTIONS_PER_LEVEL - progress })}
             </p>
           </div>
 
@@ -93,7 +96,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
             onClick={onStartQuiz}
             className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-black text-lg transition-all transform hover:scale-[1.02] active:scale-95 shadow-2xl shadow-indigo-500/40 flex items-center justify-center gap-3"
           >
-            CONTINUE MUTATION <i className="fas fa-chevron-right text-sm"></i>
+            {t('hub.continueMutation')} <i className="fas fa-chevron-right text-sm"></i>
           </button>
         </div>
       </div>
@@ -102,11 +105,11 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-slate-800 flex flex-col items-center justify-center border border-white/5">
             <span className="text-xl font-black text-white">{globalPercentage}%</span>
-            <span className="text-[7px] font-bold text-slate-500 uppercase tracking-widest">Mastery</span>
+            <span className="text-[7px] font-bold text-slate-500 uppercase tracking-widest">{t('hub.mastery')}</span>
           </div>
           <div>
-            <h4 className="font-bold text-xs text-slate-200">Global Progress</h4>
-            <p className="text-[10px] text-slate-500">{totalCompleted} / {totalPossible} unique concepts across the ocean.</p>
+            <h4 className="font-bold text-xs text-slate-200">{t('hub.globalProgress')}</h4>
+            <p className="text-[10px] text-slate-500">{totalCompleted} / {totalPossible} {t('hub.conceptsText')}</p>
           </div>
         </div>
         

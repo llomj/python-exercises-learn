@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { formatTranslation } from '../translations';
 
 interface OperationItem {
   title: string;
@@ -411,6 +413,7 @@ interface OperationsViewProps {
 }
 
 export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
+  const { t } = useLanguage();
   const [search, setSearch] = useState('');
   const [selectedItem, setSelectedItem] = useState<OperationItem | null>(null);
   const [activeTab, setActiveTab] = useState<'operations' | 'math'>('operations');
@@ -465,7 +468,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
 
               <div className="space-y-4">
                 <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                  <i className="fas fa-book-open text-indigo-400"></i> Definition
+                  <i className="fas fa-book-open text-indigo-400"></i> {t('operations.definition')}
                 </h4>
                 <div className="text-slate-300 leading-relaxed font-medium text-sm sm:text-base">
                   {selectedItem.definition}
@@ -474,7 +477,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
 
               <div className="space-y-4">
                 <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                  <i className="fas fa-code text-indigo-400"></i> Examples
+                  <i className="fas fa-code text-indigo-400"></i> {t('operations.examples')}
                 </h4>
                 <div className="bg-slate-900 rounded-2xl p-4 sm:p-6 border border-white/5 shadow-inner max-h-[400px] overflow-y-auto">
                   <div className="space-y-2">
@@ -492,7 +495,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
                   onClick={() => setSelectedItem(null)}
                   className="w-full py-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-2xl font-black transition-all shadow-xl shadow-indigo-500/20 active:scale-95"
                 >
-                  GOT IT
+                  {t('operations.gotIt')}
                 </button>
               </div>
             </div>
@@ -502,13 +505,13 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
 
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-2xl font-black text-white flex items-center gap-3">
-          <i className="fas fa-calculator text-indigo-400"></i> OPERATIONS & MATH
+          <i className="fas fa-calculator text-indigo-400"></i>           {t('operations.title')}
         </h2>
         <button 
           onClick={onBack}
           className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-bold transition-colors"
         >
-          BACK
+          {t('operations.back')}
         </button>
       </div>
 
@@ -526,7 +529,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          <i className="fas fa-code mr-2"></i> Operations
+          <i className="fas fa-code mr-2"></i> {t('operations.operations')}
         </button>
         <button
           onClick={() => {
@@ -540,7 +543,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
               : 'text-slate-400 hover:text-white'
           }`}
         >
-          <i className="fas fa-calculator mr-2"></i> Math Concepts
+          <i className="fas fa-calculator mr-2"></i> {t('operations.mathConcepts')}
         </button>
       </div>
 
@@ -550,7 +553,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
         </div>
         <input 
           type="text"
-          placeholder={`Search ${activeTab === 'operations' ? 'operations' : 'math concepts'}...`}
+          placeholder={formatTranslation(t('operations.searchPlaceholder'), { type: activeTab === 'operations' ? t('operations.operations').toLowerCase() : t('operations.mathConcepts').toLowerCase() })}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full pl-12 pr-4 py-4 bg-slate-900 border border-white/5 rounded-2xl text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 transition-colors"
@@ -577,7 +580,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
         {filteredData.length === 0 && (
           <div className="col-span-full py-12 text-center text-slate-500">
             <i className="fas fa-search-minus text-4xl mb-4 block opacity-20"></i>
-            No items found matching "{search}"
+            {formatTranslation(t('operations.noItemsFound'), { search })}
           </div>
         )}
       </div>
