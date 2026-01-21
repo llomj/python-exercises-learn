@@ -267,13 +267,50 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 - Suspected hard-coding issue affecting multiple IDs
 - Need to verify coherence across all questions and fix logic to prevent such errors
 
-**New Task - Simplify "What is?" Questions**:
-- Replace specific strings in "What is?" questions with "..." to simplify
-- Update options to correspond with "...".method() result
-- For string-returning methods: options ["...", "Error", "None", "False"]
-- For boolean-returning methods: options ["True", "False", "Error", "None"]
-- Ensure correct option matches eval("...".method())
-- Apply to all IDs with "What is?" questions
+**🔴 NEW TASK - Simplify "What is?" Questions with Generic Strings**:
+
+**Problem**: Questions like `"HELLO".lower()` have hardcoded strings that don't match solutions (e.g., solutions show "python" but question uses "HELLO"). This creates confusion and mismatches.
+
+**Solution**: Replace ALL specific strings in "What is?" questions with `"..."` to make them generic.
+
+**Example Fix**:
+- **Before**: `What is "HELLO".lower()?` → Solutions: python, PYTHON, Python, Error ❌ (mismatch!)
+- **After**: `What is "...".lower()?` → Solutions: "...", "Error", "None", "False" ✅ (generic, correct)
+
+**Rules**:
+1. For ALL "What is?" questions that use string methods:
+   - Replace specific strings like `"HELLO"`, `"Python"`, `"hello"`, etc. with `"..."`
+   - Example: `"HELLO".lower()` → `"...".lower()`
+   - Example: `"Python".upper()` → `"...".upper()`
+   - Example: `"hello".capitalize()` → `"...".capitalize()`
+
+2. Update solution options to match the generic result:
+   - For string-returning methods: `["...", "Error", "None", "False"]` (or appropriate variations)
+   - For boolean-returning methods: `["True", "False", "Error", "None"]`
+   - For type-returning methods: `["<class 'str'>", "<class 'int'>", "Error", "None"]` (or appropriate types)
+
+3. Ensure the correct answer index matches what `"...".method()` actually returns
+
+4. Apply to ALL questions with pattern: `What is "SOMETHING".method()?`
+
+**Priority**: CRITICAL - This will fix the coherence issues and make questions more educational (focusing on the method, not specific strings).
+
+**Task Scope**: 
+- Find ALL "What is?" questions with hardcoded strings (e.g., `"HELLO"`, `"Python"`, `"hello"`, etc.)
+- Replace ALL specific strings with `"..."`
+- Update solutions to match generic result
+- Verify correctness for all affected questions
+
+**Current Status**:
+- ✅ Some questions already use `"..."` (upper, lower, capitalize, title, swapcase, islower, isupper, istitle, casefold, isascii)
+- ❌ Many questions still use hardcoded strings like `"hello"` (find, rfind, index, count, startswith, endswith, replace, partition, rpartition, split, splitlines, join, center, ljust, rjust, zfill, etc.)
+- **Action Required**: Replace ALL remaining hardcoded strings with `"..."` and update solutions accordingly
+
+**Example Questions Needing Fix**:
+- `What is "hello".find("l")?` → Should be: `What is "...".find("...")?`
+- `What is "hello".replace("l", "L")?` → Should be: `What is "...".replace("...", "...")?`
+- `What is "hello,world".split(",")?` → Should be: `What is "...".split("...")?`
+- And ALL other similar questions
 
 ---
 
