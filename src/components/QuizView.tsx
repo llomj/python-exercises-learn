@@ -71,45 +71,73 @@ const formatCodeSnippet = (text: string): string => {
 
 // Function to enhance vague method calls with example strings
 // If a method like .title() appears without context, add an example string
+// Also handles cases like "What is?" with nothing after it
 const enhanceVagueMethodCalls = (text: string): string => {
-  // Pattern to match vague method calls (method() without a string/object before it)
-  // Match patterns like: "What is? title()" or "Result of upper()?"
-  // But NOT "What is? "hello".title()" (already has a string)
-  const vagueMethodPattern = /([?\s])([a-z_][a-z0-9_]*)\s*\(\)/gi;
+  let result = text;
   
-  // Common string methods that should have examples
+  // First, handle "What is?" with nothing or vague content after it
+  // Pattern: "What is?" followed by optional whitespace and possibly a trailing ?
+  const vagueWhatIsPattern = /What is\?\s*(?:$|\?)/gi;
+  const vagueWhatIsMatches = [...result.matchAll(vagueWhatIsPattern)];
+  
+  // Process matches in reverse order to maintain indices
+  for (let i = vagueWhatIsMatches.length - 1; i >= 0; i--) {
+    const match = vagueWhatIsMatches[i];
+    const matchStart = match.index!;
+    const matchEnd = match.index! + match[0].length;
+    
+    // Check what comes after "What is?" - if it's empty or just whitespace/question mark, add example
+    const afterMatch = result.substring(matchEnd).trim();
+    
+    // If there's nothing meaningful after "What is?", add a default example
+    if (!afterMatch || afterMatch === '?' || !/[a-zA-Z0-9_()[\]{}]/.test(afterMatch)) {
+      // Find the end of "What is?" (including any trailing ?)
+      const endPos = matchEnd;
+      // Insert example after "What is?"
+      result = result.substring(0, endPos) + ' ("HELLO")' + result.substring(endPos);
+    }
+  }
+  
+  // Expanded list of string methods that should have examples
   const stringMethods = new Set([
     'title', 'upper', 'lower', 'capitalize', 'strip', 'replace', 'split',
     'join', 'find', 'index', 'count', 'startswith', 'endswith', 'islower',
-    'isupper', 'isdigit', 'isalpha', 'isspace', 'format', 'encode', 'decode'
+    'isupper', 'isdigit', 'isalpha', 'isspace', 'format', 'encode', 'decode',
+    'partition', 'rpartition', 'rsplit', 'lstrip', 'rstrip', 'zfill', 'center',
+    'ljust', 'rjust', 'swapcase', 'casefold', 'expandtabs', 'maketrans', 'translate'
   ]);
   
+  // Pattern to match vague method calls (method() without a string/object before it)
+  // Match patterns like: "What is? partition()" or "Result of upper()?"
+  // This pattern matches: space/question mark, method name, optional whitespace, opening paren
+  const vagueMethodPattern = /([?\s])([a-z_][a-z0-9_]*)\s*\(/gi;
+  
   let lastIndex = 0;
-  let result = '';
+  let enhancedResult = '';
   let match;
   
   // Reset regex lastIndex
   vagueMethodPattern.lastIndex = 0;
   
-  while ((match = vagueMethodPattern.exec(text)) !== null) {
+  while ((match = vagueMethodPattern.exec(result)) !== null) {
     const matchStart = match.index;
-    const matchEnd = match.index + match[0].length;
+    const matchEnd = match.index! + match[0].length;
     const prefix = match[1];
     const methodName = match[2];
     
     // Get text before the match to check if there's already a string/variable
-    const beforeMatch = text.substring(Math.max(0, matchStart - 50), matchStart);
+    const beforeMatch = result.substring(Math.max(0, matchStart - 50), matchStart);
     
     // Check if there's already a string literal, variable, or dot before this method
     // This prevents matching "hello".title() or x.title() or obj.method()
     const hasStringBefore = /(["'`][^"'`]*["'`]|[\w\)\]\}])\s*\.\s*$/.test(beforeMatch.trim());
     
     // Add text before this match
-    result += text.substring(lastIndex, matchStart);
+    enhancedResult += result.substring(lastIndex, matchStart);
     
-    // Check if this is a string method that might need an example
+    // Check if this is a string method that might need an example (or any method if it looks vague)
     const lowerMethod = methodName.toLowerCase();
-    if (stringMethods.has(lowerMethod) && !hasStringBefore) {
+    if (!hasStringBefore) {
       // Add an example string before the method call
       const examples: Record<string, string> = {
         'title': '"HELLO"',
@@ -132,23 +160,38 @@ const enhanceVagueMethodCalls = (text: string): string => {
         'isspace': '"   "',
         'format': '"hello"',
         'encode': '"hello"',
-        'decode': 'b"hello"'
+        'decode': 'b"hello"',
+        'partition': '"hello"',
+        'rpartition': '"hello"',
+        'rsplit': '"hello world"',
+        'lstrip': '"  hello"',
+        'rstrip': '"hello  "',
+        'zfill': '"42"',
+        'center': '"hello"',
+        'ljust': '"hello"',
+        'rjust': '"hello"',
+        'swapcase': '"Hello"',
+        'casefold': '"HELLO"',
+        'expandtabs': '"hello\tworld"',
+        'maketrans': '"hello"',
+        'translate': '"hello"'
       };
       
-      const example = examples[lowerMethod] || '"example"';
-      result += `${prefix}${example}.${methodName}()`;
+      const example = examples[lowerMethod] || '"HELLO"'; // Default to "HELLO" for unknown methods
+      // Reconstruct the method call with the example - include the opening paren
+      enhancedResult += `${prefix}${example}.${methodName}(`;
     } else {
       // Return unchanged
-      result += match[0];
+      enhancedResult += match[0];
     }
     
     lastIndex = matchEnd;
   }
   
-  // Add remaining text
-  result += text.substring(lastIndex);
+  // Add remaining text (this includes any method arguments and closing parens)
+  enhancedResult += result.substring(lastIndex);
   
-  return result;
+  return enhancedResult;
 };
 
 // Function to split question into prefix and code
