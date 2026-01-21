@@ -228,6 +228,40 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 
 ---
 
+## 🔴 CRITICAL: Question-Solution Coherence Bug
+
+**STATUS: ⚠️ URGENT - NEEDS SYSTEMATIC FIX**
+
+**Problem**: Questions and their solutions are not coherent. The code in the question doesn't match the expected solutions.
+
+**Example - ID 72**:
+- **Question shows**: `"HELLO".lower()`
+- **Solutions provided**: python, PYTHON, Python, Error
+- **Expected solution**: If question is `"HELLO".lower()`, the answer should be **"hello"**
+- **OR**: If solutions are python, PYTHON, Python, Error, then the question should be `"PYTHON".lower()`
+
+**Root Cause**: It appears questions and solutions were hardcoded separately without verifying they match the actual Python code evaluation.
+
+**Required Actions**:
+1. ✅ Document this issue in ps.md (DONE)
+2. ⚠️ **SYSTEMATIC REVIEW NEEDED**: Check EVERY question ID to ensure:
+   - The code in the question actually evaluates to one of the solution options
+   - The correct answer index matches the actual evaluation result
+   - No hardcoded mismatches between question code and solutions
+3. Fix all incoherent questions by either:
+   - Updating the question code to match the solutions
+   - OR updating the solutions to match what the question code actually returns
+
+**Priority**: CRITICAL - This breaks the fundamental learning experience. Students cannot learn if questions are incorrect.
+
+**Task**: 
+- Review ALL 1000 questions systematically
+- For each question, verify: `eval(question_code) == solutions[correct_option_index]`
+- Fix any mismatches found
+- Document the review process and fixes applied
+
+---
+
 ## Translation Feature Implementation (IN PROGRESS)
 
 ### Status: ✅ COMPLETED
