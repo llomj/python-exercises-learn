@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { formatTranslation } from '../translations';
-
-interface OperationItem {
-  title: string;
-  category: string;
-  definition: string;
-  examples: string[];
-}
+import { useTranslatedOperations, OperationItem } from '../hooks/useTranslatedData';
 
 const OPERATIONS_DATA: OperationItem[] = [
   // Arithmetic Operations
@@ -414,6 +408,7 @@ interface OperationsViewProps {
 
 export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
   const { t } = useLanguage();
+  const translatedData = useTranslatedOperations(OPERATIONS_DATA, MATH_CONCEPTS_DATA);
   const [search, setSearch] = useState('');
   const [selectedItem, setSelectedItem] = useState<OperationItem | null>(null);
   const [activeTab, setActiveTab] = useState<'operations' | 'math'>('operations');
@@ -430,7 +425,7 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
     };
   }, [selectedItem]);
 
-  const currentData = activeTab === 'operations' ? OPERATIONS_DATA : MATH_CONCEPTS_DATA;
+  const currentData = activeTab === 'operations' ? translatedData.operations : translatedData.math;
   
   const filteredData = currentData.filter(item => 
     item.title.toLowerCase().includes(search.toLowerCase()) ||

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { GLOSSARY, GlossaryItem } from '../constants';
+import { GlossaryItem } from '../constants';
 import { useLanguage } from '../contexts/LanguageContext';
 import { formatTranslation } from '../translations';
+import { useTranslatedGlossary } from '../hooks/useTranslatedData';
 
 interface GlossaryViewProps {
   onBack: () => void;
@@ -9,6 +10,7 @@ interface GlossaryViewProps {
 
 export const GlossaryView: React.FC<GlossaryViewProps> = ({ onBack }) => {
   const { t } = useLanguage();
+  const GLOSSARY = useTranslatedGlossary();
   const [search, setSearch] = useState('');
   const [selectedTerm, setSelectedTerm] = useState<GlossaryItem | null>(null);
 
