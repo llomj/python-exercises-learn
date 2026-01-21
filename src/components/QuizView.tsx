@@ -69,12 +69,96 @@ const formatCodeSnippet = (text: string): string => {
   return formattedLines.join('\n');
 };
 
+// Function to enhance vague method calls with example strings
+// If a method like .title() appears without context, add an example string
+const enhanceVagueMethodCalls = (text: string): string => {
+  // Pattern to match vague method calls (method() without a string/object before it)
+  // Match patterns like: "What is? title()" or "Result of upper()?"
+  // But NOT "What is? "hello".title()" (already has a string)
+  const vagueMethodPattern = /([?\s])([a-z_][a-z0-9_]*)\s*\(\)/gi;
+  
+  // Common string methods that should have examples
+  const stringMethods = new Set([
+    'title', 'upper', 'lower', 'capitalize', 'strip', 'replace', 'split',
+    'join', 'find', 'index', 'count', 'startswith', 'endswith', 'islower',
+    'isupper', 'isdigit', 'isalpha', 'isspace', 'format', 'encode', 'decode'
+  ]);
+  
+  let lastIndex = 0;
+  let result = '';
+  let match;
+  
+  // Reset regex lastIndex
+  vagueMethodPattern.lastIndex = 0;
+  
+  while ((match = vagueMethodPattern.exec(text)) !== null) {
+    const matchStart = match.index;
+    const matchEnd = match.index + match[0].length;
+    const prefix = match[1];
+    const methodName = match[2];
+    
+    // Get text before the match to check if there's already a string/variable
+    const beforeMatch = text.substring(Math.max(0, matchStart - 50), matchStart);
+    
+    // Check if there's already a string literal, variable, or dot before this method
+    // This prevents matching "hello".title() or x.title() or obj.method()
+    const hasStringBefore = /(["'`][^"'`]*["'`]|[\w\)\]\}])\s*\.\s*$/.test(beforeMatch.trim());
+    
+    // Add text before this match
+    result += text.substring(lastIndex, matchStart);
+    
+    // Check if this is a string method that might need an example
+    const lowerMethod = methodName.toLowerCase();
+    if (stringMethods.has(lowerMethod) && !hasStringBefore) {
+      // Add an example string before the method call
+      const examples: Record<string, string> = {
+        'title': '"HELLO"',
+        'upper': '"hello"',
+        'lower': '"HELLO"',
+        'capitalize': '"hello"',
+        'strip': '"  hello  "',
+        'replace': '"hello"',
+        'split': '"hello world"',
+        'join': '["a", "b"]',
+        'find': '"hello"',
+        'index': '"hello"',
+        'count': '"hello"',
+        'startswith': '"hello"',
+        'endswith': '"hello"',
+        'islower': '"hello"',
+        'isupper': '"HELLO"',
+        'isdigit': '"123"',
+        'isalpha': '"abc"',
+        'isspace': '"   "',
+        'format': '"hello"',
+        'encode': '"hello"',
+        'decode': 'b"hello"'
+      };
+      
+      const example = examples[lowerMethod] || '"example"';
+      result += `${prefix}${example}.${methodName}()`;
+    } else {
+      // Return unchanged
+      result += match[0];
+    }
+    
+    lastIndex = matchEnd;
+  }
+  
+  // Add remaining text
+  result += text.substring(lastIndex);
+  
+  return result;
+};
+
 // Function to split question into prefix and code
 // Keeps all question text (like "What is", "Result of", "Value of", etc.) together at the top
 const splitQuestion = (text: string) => {
+  // First enhance vague method calls
+  const enhancedText = enhanceVagueMethodCalls(text);
   // Check for multi-line code blocks (has newlines and indentation)
-  if (text.includes('\n')) {
-    const lines = text.split('\n');
+  if (enhancedText.includes('\n')) {
+    const lines = enhancedText.split('\n');
     // Find first line that looks like code (has indentation or code keywords)
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
@@ -90,11 +174,11 @@ const splitQuestion = (text: string) => {
   
   // For single-line questions, find where code starts
   // First, check if there's a question word pattern
-  const questionWordMatch = text.match(/^(What|Result|Output|Value|Which|How|When|Where|Why|Can|Does|Is|Are|Will|Would|Should)\s+(is|of|are|the|does|will|would|should|can)?\s*/i);
+  const questionWordMatch = enhancedText.match(/^(What|Result|Output|Value|Which|How|When|Where|Why|Can|Does|Is|Are|Will|Would|Should)\s+(is|of|are|the|does|will|would|should|can)?\s*/i);
   
   if (questionWordMatch) {
     const questionEnd = questionWordMatch[0].length;
-    let remainingText = text.substring(questionEnd).trim();
+    let remainingText = enhancedText.substring(questionEnd).trim();
     
     // Remove trailing question mark if present (it's part of the question, not code)
     const hasQuestionMark = remainingText.endsWith('?');
@@ -123,20 +207,20 @@ const splitQuestion = (text: string) => {
           const beforeCode = remainingText.substring(0, codeStart).trim();
           if (/^(the|a|an)\s+/i.test(beforeCode)) {
             return {
-              prefix: text.substring(0, questionEnd + codeStart).trim() + (hasQuestionMark ? '?' : ''),
+              prefix: enhancedText.substring(0, questionEnd + codeStart).trim() + (hasQuestionMark ? '?' : ''),
               code: remainingText.substring(codeStart)
             };
           }
         }
         // Code starts at beginning or after question word
         return {
-          prefix: text.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
+          prefix: enhancedText.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
           code: remainingText.substring(codeStart)
         };
       } else {
         // Has code patterns but no clear start - treat all remaining as code
         return {
-          prefix: text.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
+          prefix: enhancedText.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
           code: remainingText
         };
       }
@@ -151,21 +235,21 @@ const splitQuestion = (text: string) => {
   ];
   
   for (const pattern of codePatterns) {
-    const match = text.match(pattern);
+    const match = enhancedText.match(pattern);
     if (match && match.index !== undefined) {
-      const beforeCode = text.substring(0, match.index).trim();
+      const beforeCode = enhancedText.substring(0, match.index).trim();
       // Check if there's a question word before
       if (/^(What|Result|Output|Value|Which|How|When|Where|Why|Can|Does|Is|Are|Will|Would|Should)/i.test(beforeCode)) {
         return {
           prefix: beforeCode,
-          code: text.substring(match.index).trim()
+          code: enhancedText.substring(match.index).trim()
         };
       }
     }
   }
   
   // Fallback: if no clear code pattern, return as prefix
-  return { prefix: text, code: '' };
+  return { prefix: enhancedText, code: '' };
 };
 
 interface QuizViewProps {
@@ -330,9 +414,12 @@ export const QuizView: React.FC<QuizViewProps> = ({
       </div>
 
        <div className="glass rounded-3xl p-6 md:p-10 space-y-8 shadow-2xl relative overflow-hidden">
-         <div className="absolute top-3 left-3 z-10">
+         <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em] border border-indigo-500/20">
              {currentQuestion.concept}
+           </div>
+           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-700/50 text-slate-300 text-[10px] font-black uppercase tracking-[0.2em] border border-slate-600/50">
+             ID: {currentQuestion.id}
            </div>
          </div>
 
@@ -378,12 +465,13 @@ export const QuizView: React.FC<QuizViewProps> = ({
                    </div>
                  );
                }
-               // No code detected, show as regular question
-               return (
-                 <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4">
-                   {currentQuestion.question}
-                 </h2>
-               );
+              // No code detected, show as regular question (with enhancement)
+              const enhancedQuestion = enhanceVagueMethodCalls(currentQuestion.question);
+              return (
+                <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4">
+                  {enhancedQuestion}
+                </h2>
+              );
              })()}
            </div>
          </div>
