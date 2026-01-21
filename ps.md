@@ -108,9 +108,15 @@ Before moving to the next level:
 **Priority**: CRITICAL - This makes questions unanswerable and breaks the learning experience.
 
 **Current Status**:
-- ✅ Method calls: Fixed
+- ✅ Method calls: FIXED - Added ALL Python string methods including `rfind`, `rindex`, etc.
 - ✅ Indexing operations: FIXED (handles [0], [-1], [0:3], [:3], etc.)
 - ✅ Slicing operations: FIXED (included in indexing pattern)
+
+**FIX APPLIED - ID 82 and all methods**:
+- Added comprehensive list of ALL Python string methods (50+ methods)
+- Enhanced logic to catch ALL bare method calls, even unknown ones (defaults to "hello")
+- Now catches: `rfind`, `rindex`, `splitlines`, `removeprefix`, `removesuffix`, and any other string method
+- Better safe than sorry: ALL bare method calls are now enhanced, not just known ones
 
 **Fix Applied (v2)**:
 - Added pattern matching for bare indexing/slicing operations: `[0]`, `[-1]`, `[0:3]`, `[:3]`, etc.

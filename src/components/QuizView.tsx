@@ -98,13 +98,30 @@ const enhanceVagueMethodCalls = (text: string): string => {
     }
   }
   
-  // Expanded list of string methods that should have examples
+  // COMPREHENSIVE list of ALL Python string methods that should have examples
+  // This must include EVERY string method to avoid missing any
   const stringMethods = new Set([
-    'title', 'upper', 'lower', 'capitalize', 'strip', 'replace', 'split',
-    'join', 'find', 'index', 'count', 'startswith', 'endswith', 'islower',
-    'isupper', 'isdigit', 'isalpha', 'isspace', 'format', 'encode', 'decode',
-    'partition', 'rpartition', 'rsplit', 'lstrip', 'rstrip', 'zfill', 'center',
-    'ljust', 'rjust', 'swapcase', 'casefold', 'expandtabs', 'maketrans', 'translate'
+    // Case methods
+    'title', 'upper', 'lower', 'capitalize', 'swapcase', 'casefold',
+    // Search methods
+    'find', 'rfind', 'index', 'rindex', 'count', 'startswith', 'endswith',
+    // Split/join methods
+    'split', 'rsplit', 'splitlines', 'partition', 'rpartition', 'join',
+    // Strip methods
+    'strip', 'lstrip', 'rstrip',
+    // Replace/format methods
+    'replace', 'format', 'format_map',
+    // Encoding methods
+    'encode', 'decode',
+    // Padding/alignment methods
+    'center', 'ljust', 'rjust', 'zfill',
+    // Validation methods
+    'islower', 'isupper', 'isdigit', 'isalpha', 'isalnum', 'isspace', 'isascii',
+    'isdecimal', 'isidentifier', 'isnumeric', 'isprintable', 'istitle',
+    // Translation methods
+    'maketrans', 'translate',
+    // Other methods
+    'expandtabs', 'removeprefix', 'removesuffix'
   ]);
   
   // Pattern to match vague indexing/slicing: [0], [-1], [0:3], etc. without preceding object
@@ -178,46 +195,54 @@ const enhanceVagueMethodCalls = (text: string): string => {
     if (!hasStringBefore) {
       // Add an example string before the method call
       const examples: Record<string, string> = {
-        'title': '"HELLO"',
-        'upper': '"hello"',
-        'lower': '"HELLO"',
-        'capitalize': '"hello"',
-        'strip': '"  hello  "',
-        'replace': '"hello"',
-        'split': '"hello world"',
-        'join': '["a", "b"]',
-        'find': '"hello"',
-        'index': '"hello"',
-        'count': '"hello"',
-        'startswith': '"hello"',
-        'endswith': '"hello"',
-        'islower': '"hello"',
-        'isupper': '"HELLO"',
-        'isdigit': '"123"',
-        'isalpha': '"abc"',
-        'isspace': '"   "',
-        'format': '"hello"',
-        'encode': '"hello"',
-        'decode': 'b"hello"',
-        'partition': '"hello"',
-        'rpartition': '"hello"',
-        'rsplit': '"hello world"',
-        'lstrip': '"  hello"',
-        'rstrip': '"hello  "',
-        'zfill': '"42"',
-        'center': '"hello"',
-        'ljust': '"hello"',
-        'rjust': '"hello"',
-        'swapcase': '"Hello"',
-        'casefold': '"HELLO"',
-        'expandtabs': '"hello\tworld"',
-        'maketrans': '"hello"',
-        'translate': '"hello"'
+        // Case methods
+        'title': '"HELLO"', 'upper': '"hello"', 'lower': '"HELLO"', 'capitalize': '"hello"',
+        'swapcase': '"Hello"', 'casefold': '"HELLO"',
+        // Search methods
+        'find': '"hello"', 'rfind': '"hello"', 'index': '"hello"', 'rindex': '"hello"',
+        'count': '"hello"', 'startswith': '"hello"', 'endswith': '"hello"',
+        // Split/join methods
+        'split': '"hello world"', 'rsplit': '"hello world"', 'splitlines': '"hello\nworld"',
+        'partition': '"hello"', 'rpartition': '"hello"', 'join': '["a", "b"]',
+        // Strip methods
+        'strip': '"  hello  "', 'lstrip': '"  hello"', 'rstrip': '"hello  "',
+        // Replace/format methods
+        'replace': '"hello"', 'format': '"hello"', 'format_map': '"hello"',
+        // Encoding methods
+        'encode': '"hello"', 'decode': 'b"hello"',
+        // Padding/alignment methods
+        'center': '"hello"', 'ljust': '"hello"', 'rjust': '"hello"', 'zfill': '"42"',
+        // Validation methods
+        'islower': '"hello"', 'isupper': '"HELLO"', 'isdigit': '"123"', 'isalpha': '"abc"',
+        'isalnum': '"abc123"', 'isspace': '"   "', 'isascii': '"hello"',
+        'isdecimal': '"123"', 'isidentifier': '"hello"', 'isnumeric': '"123"',
+        'isprintable': '"hello"', 'istitle': '"Hello World"',
+        // Translation methods
+        'maketrans': '"hello"', 'translate': '"hello"',
+        // Other methods
+        'expandtabs': '"hello\tworld"', 'removeprefix': '"hello"', 'removesuffix': '"hello"'
       };
       
-      const example = examples[lowerMethod] || '"HELLO"'; // Default to "HELLO" for unknown methods
-      // Reconstruct the method call with the example - include the opening paren
-      enhancedResult += `${prefix}${example}.${methodName}(`;
+      // If it's a known string method, use specific example, otherwise default to "hello"
+      // BUT: If it looks like a string method (common patterns), enhance it anyway
+      const isLikelyStringMethod = stringMethods.has(lowerMethod) || 
+                                   lowerMethod.includes('find') || 
+                                   lowerMethod.includes('index') ||
+                                   lowerMethod.includes('split') ||
+                                   lowerMethod.includes('strip') ||
+                                   lowerMethod.includes('replace') ||
+                                   lowerMethod.includes('case') ||
+                                   lowerMethod.startsWith('is');
+      
+      if (isLikelyStringMethod || stringMethods.has(lowerMethod)) {
+        const example = examples[lowerMethod] || '"hello"'; // Default to "hello" for unknown string methods
+        // Reconstruct the method call with the example - include the opening paren
+        enhancedResult += `${prefix}${example}.${methodName}(`;
+      } else {
+        // Even if not a string method, if it's bare, we should enhance it (might be list method, etc.)
+        // Default to "hello" for string-like operations
+        enhancedResult += `${prefix}"hello".${methodName}(`;
+      }
     } else {
       // Return unchanged
       enhancedResult += match[0];
@@ -238,35 +263,31 @@ const enhanceVagueMethodCalls = (text: string): string => {
     return `"Python"[${indexContent}]`;
   });
   
-  // Then handle method calls at line start
+  // Then handle method calls at line start - ENHANCE ALL OF THEM, not just known ones
   const lineStartMethodPattern = /^([a-z_][a-z0-9_]*)\s*\(/gm;
   enhancedResult = enhancedResult.replace(lineStartMethodPattern, (match, methodName) => {
-    // Only enhance if this is a known string method and we're in a vague context
+    // Enhance ALL bare method calls at line start - better to enhance than miss one
     const lowerMethod = methodName.toLowerCase();
-    const stringMethods = ['title', 'upper', 'lower', 'capitalize', 'strip', 'replace', 'split',
-      'join', 'find', 'index', 'count', 'startswith', 'endswith', 'islower',
-      'isupper', 'isdigit', 'isalpha', 'isspace', 'format', 'encode', 'decode',
-      'partition', 'rpartition', 'rsplit', 'lstrip', 'rstrip', 'zfill', 'center',
-      'ljust', 'rjust', 'swapcase', 'casefold', 'expandtabs', 'maketrans', 'translate'];
-    
-    if (stringMethods.includes(lowerMethod)) {
-      const examples: Record<string, string> = {
-        'title': '"HELLO"', 'upper': '"hello"', 'lower': '"HELLO"', 'capitalize': '"hello"',
-        'strip': '"  hello  "', 'replace': '"hello"', 'split': '"hello world"',
-        'join': '["a", "b"]', 'find': '"hello"', 'index': '"hello"', 'count': '"hello"',
-        'startswith': '"hello"', 'endswith': '"hello"', 'islower': '"hello"',
-        'isupper': '"HELLO"', 'isdigit': '"123"', 'isalpha': '"abc"', 'isspace': '"   "',
-        'format': '"hello"', 'encode': '"hello"', 'decode': 'b"hello"',
-        'partition': '"hello"', 'rpartition': '"hello"', 'rsplit': '"hello world"',
-        'lstrip': '"  hello"', 'rstrip': '"hello  "', 'zfill': '"42"', 'center': '"hello"',
-        'ljust': '"hello"', 'rjust': '"hello"', 'swapcase': '"Hello"',
-        'casefold': '"HELLO"', 'expandtabs': '"hello\tworld"', 'maketrans': '"hello"',
-        'translate': '"hello"'
-      };
-      const example = examples[lowerMethod] || '"HELLO"';
-      return `${example}.${match}`;
-    }
-    return match;
+    const examples: Record<string, string> = {
+      'title': '"HELLO"', 'upper': '"hello"', 'lower': '"HELLO"', 'capitalize': '"hello"',
+      'swapcase': '"Hello"', 'casefold': '"HELLO"',
+      'find': '"hello"', 'rfind': '"hello"', 'index': '"hello"', 'rindex': '"hello"',
+      'count': '"hello"', 'startswith': '"hello"', 'endswith': '"hello"',
+      'split': '"hello world"', 'rsplit': '"hello world"', 'splitlines': '"hello\nworld"',
+      'partition': '"hello"', 'rpartition': '"hello"', 'join': '["a", "b"]',
+      'strip': '"  hello  "', 'lstrip': '"  hello"', 'rstrip': '"hello  "',
+      'replace': '"hello"', 'format': '"hello"', 'format_map': '"hello"',
+      'encode': '"hello"', 'decode': 'b"hello"',
+      'center': '"hello"', 'ljust': '"hello"', 'rjust': '"hello"', 'zfill': '"42"',
+      'islower': '"hello"', 'isupper': '"HELLO"', 'isdigit': '"123"', 'isalpha': '"abc"',
+      'isalnum': '"abc123"', 'isspace': '"   "', 'isascii': '"hello"',
+      'isdecimal': '"123"', 'isidentifier': '"hello"', 'isnumeric': '"123"',
+      'isprintable': '"hello"', 'istitle': '"Hello World"',
+      'maketrans': '"hello"', 'translate': '"hello"',
+      'expandtabs': '"hello\tworld"', 'removeprefix': '"hello"', 'removesuffix': '"hello"'
+    };
+    const example = examples[lowerMethod] || '"hello"'; // Default to "hello" for any unknown method
+    return `${example}.${match}`;
   });
   
   return enhancedResult;
@@ -299,23 +320,30 @@ const enhanceBareMethodCall = (code: string): string => {
       'partition', 'rpartition', 'rsplit', 'lstrip', 'rstrip', 'zfill', 'center',
       'ljust', 'rjust', 'swapcase', 'casefold', 'expandtabs', 'maketrans', 'translate'];
     
-    if (stringMethods.includes(methodName.toLowerCase())) {
-      const examples: Record<string, string> = {
-        'title': '"HELLO"', 'upper': '"hello"', 'lower': '"HELLO"', 'capitalize': '"hello"',
-        'strip': '"  hello  "', 'replace': '"hello"', 'split': '"hello world"',
-        'join': '["a", "b"]', 'find': '"hello"', 'index': '"hello"', 'count': '"hello"',
-        'startswith': '"hello"', 'endswith': '"hello"', 'islower': '"hello"',
-        'isupper': '"HELLO"', 'isdigit': '"123"', 'isalpha': '"abc"', 'isspace': '"   "',
-        'format': '"hello"', 'encode': '"hello"', 'decode': 'b"hello"',
-        'partition': '"hello"', 'rpartition': '"hello"', 'rsplit': '"hello world"',
-        'lstrip': '"  hello"', 'rstrip': '"hello  "', 'zfill': '"42"', 'center': '"hello"',
-        'ljust': '"hello"', 'rjust': '"hello"', 'swapcase': '"Hello"',
-        'casefold': '"HELLO"', 'expandtabs': '"hello\tworld"', 'maketrans': '"hello"',
-        'translate': '"hello"'
-      };
-      const example = examples[methodName.toLowerCase()] || '"HELLO"';
-      enhancedCode = enhancedCode.replace(bareMethodStartPattern, `${example}.${methodName}(`);
-    }
+    // ENHANCE ALL bare method calls - don't check if in list, just enhance all
+    // This catches rfind, rindex, and any other methods we might have missed
+    const lowerMethod = methodName.toLowerCase();
+    const examples: Record<string, string> = {
+      'title': '"HELLO"', 'upper': '"hello"', 'lower': '"HELLO"', 'capitalize': '"hello"',
+      'swapcase': '"Hello"', 'casefold': '"HELLO"',
+      'find': '"hello"', 'rfind': '"hello"', 'index': '"hello"', 'rindex': '"hello"',
+      'count': '"hello"', 'startswith': '"hello"', 'endswith': '"hello"',
+      'split': '"hello world"', 'rsplit': '"hello world"', 'splitlines': '"hello\nworld"',
+      'partition': '"hello"', 'rpartition': '"hello"', 'join': '["a", "b"]',
+      'strip': '"  hello  "', 'lstrip': '"  hello"', 'rstrip': '"hello  "',
+      'replace': '"hello"', 'format': '"hello"', 'format_map': '"hello"',
+      'encode': '"hello"', 'decode': 'b"hello"',
+      'center': '"hello"', 'ljust': '"hello"', 'rjust': '"hello"', 'zfill': '"42"',
+      'islower': '"hello"', 'isupper': '"HELLO"', 'isdigit': '"123"', 'isalpha': '"abc"',
+      'isalnum': '"abc123"', 'isspace': '"   "', 'isascii': '"hello"',
+      'isdecimal': '"123"', 'isidentifier': '"hello"', 'isnumeric': '"123"',
+      'isprintable': '"hello"', 'istitle': '"Hello World"',
+      'maketrans': '"hello"', 'translate': '"hello"',
+      'expandtabs': '"hello\tworld"', 'removeprefix': '"hello"', 'removesuffix': '"hello"'
+    };
+    // Use specific example if available, otherwise default to "hello" - ENHANCE ALL METHODS
+    const example = examples[lowerMethod] || '"hello"';
+    enhancedCode = enhancedCode.replace(bareMethodStartPattern, `${example}.${methodName}(`);
   }
   
   return enhancedCode;
