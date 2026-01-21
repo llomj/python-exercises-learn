@@ -267,6 +267,14 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 - Suspected hard-coding issue affecting multiple IDs
 - Need to verify coherence across all questions and fix logic to prevent such errors
 
+**New Task - Simplify "What is?" Questions**:
+- Replace specific strings in "What is?" questions with "..." to simplify
+- Update options to correspond with "...".method() result
+- For string-returning methods: options ["...", "Error", "None", "False"]
+- For boolean-returning methods: options ["True", "False", "Error", "None"]
+- Ensure correct option matches eval("...".method())
+- Apply to all IDs with "What is?" questions
+
 ---
 
 ## Translation Feature Implementation (IN PROGRESS)
