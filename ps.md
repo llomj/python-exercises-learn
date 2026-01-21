@@ -127,6 +127,23 @@ Before moving to the next level:
 
 ---
 
+## Code Formatting Issue - Fixed
+
+**Issue**: ID 28 shows `"Python"[3:]` but displays as:
+```
+"Python"[3:
+     ]
+```
+
+**Problem**: `formatCodeSnippet` function was treating colons in slice notation `[3:]` as control flow colons and splitting them.
+
+**Fix Applied**:
+- Modified `formatCodeSnippet` to detect if colon is inside brackets (slicing) vs outside (control flow)
+- Slice notation like `[3:]`, `[:5]`, `[1:3]` now stays on one line
+- Control flow colons (if, for, while) still get proper indentation
+
+---
+
 ## TODO
 - Optimize bundle size with code splitting
 - Add proper error handling for API calls

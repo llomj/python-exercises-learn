@@ -32,18 +32,31 @@ const formatCodeSnippet = (text: string): string => {
       return;
     }
     
-    // If part contains a colon, split it
+    // If part contains a colon, check if it's inside brackets (slicing) or outside (control flow)
     if (p.includes(':')) {
       const colonIndex = p.indexOf(':');
-      const beforeColon = p.substring(0, colonIndex).trim();
-      const afterColon = p.substring(colonIndex + 1).trim();
       
-      // Add the line ending with colon
-      formattedLines.push(' '.repeat(indent * indentSize) + beforeColon + ':');
+      // Check if colon is inside brackets (slicing notation like [3:], [:5], [1:3])
+      const beforeColonText = p.substring(0, colonIndex);
+      const openBrackets = (beforeColonText.match(/\[/g) || []).length;
+      const closeBrackets = (beforeColonText.match(/\]/g) || []).length;
+      const isInsideBrackets = openBrackets > closeBrackets;
       
-      // If there's content after colon, process it with increased indent (4 spaces more)
-      if (afterColon) {
-        processPart(afterColon, indent + 1);
+      if (isInsideBrackets) {
+        // This is slicing notation - keep it on one line, don't split
+        formattedLines.push(' '.repeat(indent * indentSize) + p);
+      } else {
+        // This is a control flow colon (if, for, while, etc.) - split it
+        const beforeColon = p.substring(0, colonIndex).trim();
+        const afterColon = p.substring(colonIndex + 1).trim();
+        
+        // Add the line ending with colon
+        formattedLines.push(' '.repeat(indent * indentSize) + beforeColon + ':');
+        
+        // If there's content after colon, process it with increased indent (4 spaces more)
+        if (afterColon) {
+          processPart(afterColon, indent + 1);
+        }
       }
     } else {
       // No colon - just add the line at current indent
