@@ -107,6 +107,43 @@ const enhanceVagueMethodCalls = (text: string): string => {
     'ljust', 'rjust', 'swapcase', 'casefold', 'expandtabs', 'maketrans', 'translate'
   ]);
   
+  // Pattern to match vague indexing/slicing: [0], [-1], [0:3], etc. without preceding object
+  // Match patterns like: "What is? [0]" or "What is?\n[0]"
+  const vagueIndexPattern = /([?\s\n])\[(-?\d*:?-?\d*:?-?\d*)\]/gi;
+  let processedResult = result;
+  let lastIndexPos = 0;
+  let indexResult = '';
+  let indexMatch;
+  
+  vagueIndexPattern.lastIndex = 0;
+  while ((indexMatch = vagueIndexPattern.exec(result)) !== null) {
+    const matchStart = indexMatch.index;
+    const matchEnd = indexMatch.index! + indexMatch[0].length;
+    const prefix = indexMatch[1];
+    const indexContent = indexMatch[2];
+    
+    // Get text before the match to check if there's already a string/list
+    const beforeMatch = result.substring(Math.max(0, matchStart - 50), matchStart);
+    const hasObjectBefore = /(["'`][^"'`]*["'`]|[\w\)\]\}])\s*$/.test(beforeMatch.trim());
+    
+    // Add text before this match
+    indexResult += result.substring(lastIndexPos, matchStart);
+    
+    if (!hasObjectBefore) {
+      // Add example string before index
+      indexResult += `${prefix}"Python"[${indexContent}]`;
+    } else {
+      // Return unchanged
+      indexResult += indexMatch[0];
+    }
+    
+    lastIndexPos = matchEnd;
+  }
+  
+  // Add remaining text
+  indexResult += result.substring(lastIndexPos);
+  result = indexResult;
+  
   // Pattern to match vague method calls (method() without a string/object before it)
   // Match patterns like: "What is? partition()" or "Result of upper()?" or "What is?\nfind("l")"
   // This pattern matches: space/question mark/newline, method name, optional whitespace, opening paren
@@ -192,8 +229,16 @@ const enhanceVagueMethodCalls = (text: string): string => {
   // Add remaining text (this includes any method arguments and closing parens)
   enhancedResult += result.substring(lastIndex);
   
-  // CRITICAL FIX: Also check for method calls at the START of lines (after newlines)
-  // This handles cases where "What is?" is on one line and "find("l")" is on the next
+  // CRITICAL FIX: Also check for indexing and method calls at the START of lines (after newlines)
+  // This handles cases where "What is?" is on one line and "[0]" or "find("l")" is on the next
+  
+  // First handle bare indexing/slicing at line start: [0], [-1], [0:3], [:3], etc.
+  const lineStartIndexPattern = /^\[(-?\d*:?-?\d*:?-?\d*)\]/gm;
+  enhancedResult = enhancedResult.replace(lineStartIndexPattern, (match, indexContent) => {
+    return `"Python"[${indexContent}]`;
+  });
+  
+  // Then handle method calls at line start
   const lineStartMethodPattern = /^([a-z_][a-z0-9_]*)\s*\(/gm;
   enhancedResult = enhancedResult.replace(lineStartMethodPattern, (match, methodName) => {
     // Only enhance if this is a known string method and we're in a vague context
@@ -227,11 +272,24 @@ const enhanceVagueMethodCalls = (text: string): string => {
   return enhancedResult;
 };
 
-// Function to enhance code section that starts with bare method calls
+// Function to enhance code section that starts with bare method calls or indexing
 const enhanceBareMethodCall = (code: string): string => {
+  let enhancedCode = code;
+  
+  // First, check if code starts with bare indexing/slicing: [0], [-1], [0:3], [:3], etc.
+  const bareIndexPattern = /^\[(-?\d*:?-?\d*:?-?\d*)\]/;
+  const indexMatch = enhancedCode.match(bareIndexPattern);
+  
+  if (indexMatch) {
+    // It's indexing/slicing - add example string before it
+    // For simple index like [0], use "Python" for string context
+    // For slicing, also use string
+    enhancedCode = enhancedCode.replace(bareIndexPattern, '"Python"[$1]');
+  }
+  
   // Check if code starts with a bare method call (no string/object before it)
   const bareMethodStartPattern = /^([a-z_][a-z0-9_]*)\s*\(/i;
-  const match = code.match(bareMethodStartPattern);
+  const match = enhancedCode.match(bareMethodStartPattern);
   
   if (match) {
     const methodName = match[1];
@@ -256,11 +314,11 @@ const enhanceBareMethodCall = (code: string): string => {
         'translate': '"hello"'
       };
       const example = examples[methodName.toLowerCase()] || '"HELLO"';
-      return code.replace(bareMethodStartPattern, `${example}.${methodName}(`);
+      enhancedCode = enhancedCode.replace(bareMethodStartPattern, `${example}.${methodName}(`);
     }
   }
   
-  return code;
+  return enhancedCode;
 };
 
 // Function to split question into prefix and code

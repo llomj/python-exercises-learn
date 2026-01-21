@@ -83,23 +83,41 @@ Before moving to the next level:
 
 ## 🔴 URGENT CRITICAL BUG: Vague "What is?" Questions
 
-**STATUS: ✅ FIXED**
+**STATUS: ⚠️ IN PROGRESS - PARTIALLY FIXED**
 
-**Problem**: Questions like ID 81 show "What is?" and then underneath show `find("l")` or other method calls WITHOUT showing what string/object the method is being called on. Users cannot understand what the question is asking.
+**Problem**: Questions show "What is?" followed by vague code expressions WITHOUT showing what object/string the operation is performed on. Users cannot understand what the question is asking.
 
-**Example of broken question**:
-- Question: "What is?"
-- Code shown: `find("l")`
-- **USER CANNOT KNOW**: Is it "hello".find("l")? "lion".find("l")? "Pete".find("l")?
+**Examples of broken questions**:
+1. **ID 81**: "What is?" → `find("l")` - Missing string object
+2. **ID 24**: "What is?" → `[0]` - Missing string/list object being indexed
+   - Options: p, P, None, Error - User can't know if it's "Python"[0] or [1,2,3][0]!
 
-**Fix Applied**: 
-- Enhanced `enhanceVagueMethodCalls` function to detect method calls across newlines
-- Added `enhanceBareMethodCall` function to enhance code sections that start with bare method calls
-- Now detects method calls that appear after "What is?" (even on separate lines) and adds appropriate example string
-- Example: "What is?" followed by `find("l")` now shows `"hello".find("l")`
-- Applied enhancement to all code sections after question splitting
+**Issues**:
+- Method calls without objects: `find("l")`, `partition()`, `upper()` 
+- Indexing without objects: `[0]`, `[-1]`, `[0:3]`
+- Slicing without objects: `[:3]`, `[1:]`, `[::-1]`
+- ANY code expression after "What is?" that doesn't show what it's operating on
+
+**Required Fix**: 
+- Detect ALL vague patterns after "What is?" including:
+  - Bare indexing: `[0]`, `[-1]`, `[0:3]`, etc. → add example: `"Python"[0]` or `[1,2,3][0]`
+  - Bare method calls: `find("l")`, `partition()` → add example: `"hello".find("l")`
+  - Bare slicing: `[:3]` → add example: `"hello"[:3]`
+- Must verify EVERY "What is?" question has context - NO EXCEPTIONS
 
 **Priority**: CRITICAL - This makes questions unanswerable and breaks the learning experience.
+
+**Current Status**:
+- ✅ Method calls: Fixed
+- ✅ Indexing operations: FIXED (handles [0], [-1], [0:3], [:3], etc.)
+- ✅ Slicing operations: FIXED (included in indexing pattern)
+
+**Fix Applied (v2)**:
+- Added pattern matching for bare indexing/slicing operations: `[0]`, `[-1]`, `[0:3]`, `[:3]`, etc.
+- Enhanced `enhanceBareMethodCall` function to detect and fix bare indexing at code section start
+- Added line-start pattern matching for indexing operations across newlines
+- Questions like "What is? [0]" now display as "What is? \"Python\"[0]"
+- All code sections are enhanced after splitting to catch indexing that appears in code blocks
 
 ---
 
