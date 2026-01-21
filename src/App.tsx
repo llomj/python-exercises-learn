@@ -4,6 +4,7 @@ import { EvolutionHub } from './components/EvolutionHub';
 import { QuizView } from './components/QuizView';
 import { HistoryLog } from './components/HistoryLog';
 import { GlossaryView } from './components/GlossaryView';
+import { OperationsView } from './components/OperationsView';
 import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL } from './constants';
 
 const LOCAL_STORAGE_KEY = 'python_exercises_learn_stats_v3_offline';
@@ -24,6 +25,7 @@ const App: React.FC = () => {
   const [randomizeTrigger, setRandomizeTrigger] = useState(0);
   const [randomMode, setRandomMode] = useState(false);
   const [showRandomModeModal, setShowRandomModeModal] = useState(false);
+  const [showOperations, setShowOperations] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -146,7 +148,7 @@ const App: React.FC = () => {
             </div>
 
             <div className="flex gap-1.5 items-center">
-              <div className="flex flex-col items-center gap-1.5">
+              <div className="flex items-center gap-1.5">
                 <button 
                   onClick={() => setView('glossary')}
                   className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
@@ -156,7 +158,18 @@ const App: React.FC = () => {
                 >
                   <i className="fas fa-circle-info text-sm"></i>
                 </button>
-                {view === 'quiz' && (
+                <button 
+                  onClick={() => setView('log')}
+                  className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
+                    view === 'log' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
+                  }`}
+                  title="Learning Log"
+                >
+                  <i className="fas fa-book-open text-xs"></i>
+                </button>
+              </div>
+              {view === 'quiz' && (
+                <div className="flex items-center gap-1.5">
                   <button
                     onClick={handleRandomModeToggle}
                     className={`flex items-center justify-center w-8 h-8 rounded-lg border-2 transition-all shadow-lg hover:scale-110 active:scale-95 ${
@@ -168,18 +181,15 @@ const App: React.FC = () => {
                   >
                     <i className="fas fa-shuffle text-sm"></i>
                   </button>
-                )}
-              </div>
-
-              <button 
-                onClick={() => setView('log')}
-                className={`flex items-center gap-2 px-3 py-1.5 h-9 rounded-xl border transition-all ${
-                  view === 'log' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                }`}
-              >
-                <i className="fas fa-book-open text-xs"></i>
-                <span className="text-xs font-bold uppercase tracking-wider hidden xs:inline">Log</span>
-              </button>
+                  <button
+                    onClick={() => setShowOperations(true)}
+                    className="flex items-center justify-center w-8 h-8 rounded-lg border-2 border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all shadow-lg hover:scale-110 active:scale-95"
+                    title="Operations & Math"
+                  >
+                    <i className="fas fa-calculator text-sm"></i>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -248,6 +258,15 @@ const App: React.FC = () => {
       <footer className="mt-auto border-t border-white/5 p-8 text-center text-slate-600 text-sm">
         <p>&copy; 2024 Python Exercises Learn. Interactive Learning Platform.</p>
       </footer>
+
+      {/* Operations View Modal */}
+      {showOperations && (
+        <div className="fixed inset-0 z-[100] bg-slate-950 overflow-y-auto">
+          <div className="container mx-auto px-4 py-8 max-w-4xl">
+            <OperationsView onBack={() => setShowOperations(false)} />
+          </div>
+        </div>
+      )}
 
       {/* Random Mode Confirmation Modal */}
       {showRandomModeModal && (
