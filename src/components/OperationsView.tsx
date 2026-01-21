@@ -476,12 +476,12 @@ export const OperationsView: React.FC<OperationsViewProps> = ({ onBack }) => {
                 <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
                   <i className="fas fa-code text-indigo-400"></i> Examples
                 </h4>
-                <div className="bg-slate-900 rounded-2xl p-4 sm:p-6 border border-white/5 shadow-inner">
+                <div className="bg-slate-900 rounded-2xl p-4 sm:p-6 border border-white/5 shadow-inner max-h-[400px] overflow-y-auto">
                   <div className="space-y-2">
                     {selectedItem.examples.map((example, idx) => (
-                      <pre key={idx} className="text-xs sm:text-sm text-indigo-300 leading-relaxed font-mono">
-                        <code>{example}</code>
-                      </pre>
+                      <div key={idx} className="text-xs sm:text-sm text-indigo-300 leading-relaxed font-mono whitespace-pre-wrap break-words">
+                        {example}
+                      </div>
                     ))}
                   </div>
                 </div>
