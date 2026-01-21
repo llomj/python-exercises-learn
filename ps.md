@@ -81,6 +81,28 @@ Before moving to the next level:
 - Add function to format code snippets with proper indentation (newlines and spaces)
 - Detect and format code in question strings for display
 
+## 🔴 URGENT CRITICAL BUG: Vague "What is?" Questions
+
+**STATUS: ✅ FIXED**
+
+**Problem**: Questions like ID 81 show "What is?" and then underneath show `find("l")` or other method calls WITHOUT showing what string/object the method is being called on. Users cannot understand what the question is asking.
+
+**Example of broken question**:
+- Question: "What is?"
+- Code shown: `find("l")`
+- **USER CANNOT KNOW**: Is it "hello".find("l")? "lion".find("l")? "Pete".find("l")?
+
+**Fix Applied**: 
+- Enhanced `enhanceVagueMethodCalls` function to detect method calls across newlines
+- Added `enhanceBareMethodCall` function to enhance code sections that start with bare method calls
+- Now detects method calls that appear after "What is?" (even on separate lines) and adds appropriate example string
+- Example: "What is?" followed by `find("l")` now shows `"hello".find("l")`
+- Applied enhancement to all code sections after question splitting
+
+**Priority**: CRITICAL - This makes questions unanswerable and breaks the learning experience.
+
+---
+
 ## TODO
 - Optimize bundle size with code splitting
 - Add proper error handling for API calls

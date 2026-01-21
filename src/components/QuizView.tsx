@@ -108,9 +108,10 @@ const enhanceVagueMethodCalls = (text: string): string => {
   ]);
   
   // Pattern to match vague method calls (method() without a string/object before it)
-  // Match patterns like: "What is? partition()" or "Result of upper()?"
-  // This pattern matches: space/question mark, method name, optional whitespace, opening paren
-  const vagueMethodPattern = /([?\s])([a-z_][a-z0-9_]*)\s*\(/gi;
+  // Match patterns like: "What is? partition()" or "Result of upper()?" or "What is?\nfind("l")"
+  // This pattern matches: space/question mark/newline, method name, optional whitespace, opening paren
+  // Use [\s\S] instead of . to match across newlines
+  const vagueMethodPattern = /([?\s\n])([a-z_][a-z0-9_]*)\s*\(/gi;
   
   let lastIndex = 0;
   let enhancedResult = '';
@@ -191,7 +192,75 @@ const enhanceVagueMethodCalls = (text: string): string => {
   // Add remaining text (this includes any method arguments and closing parens)
   enhancedResult += result.substring(lastIndex);
   
+  // CRITICAL FIX: Also check for method calls at the START of lines (after newlines)
+  // This handles cases where "What is?" is on one line and "find("l")" is on the next
+  const lineStartMethodPattern = /^([a-z_][a-z0-9_]*)\s*\(/gm;
+  enhancedResult = enhancedResult.replace(lineStartMethodPattern, (match, methodName) => {
+    // Only enhance if this is a known string method and we're in a vague context
+    const lowerMethod = methodName.toLowerCase();
+    const stringMethods = ['title', 'upper', 'lower', 'capitalize', 'strip', 'replace', 'split',
+      'join', 'find', 'index', 'count', 'startswith', 'endswith', 'islower',
+      'isupper', 'isdigit', 'isalpha', 'isspace', 'format', 'encode', 'decode',
+      'partition', 'rpartition', 'rsplit', 'lstrip', 'rstrip', 'zfill', 'center',
+      'ljust', 'rjust', 'swapcase', 'casefold', 'expandtabs', 'maketrans', 'translate'];
+    
+    if (stringMethods.includes(lowerMethod)) {
+      const examples: Record<string, string> = {
+        'title': '"HELLO"', 'upper': '"hello"', 'lower': '"HELLO"', 'capitalize': '"hello"',
+        'strip': '"  hello  "', 'replace': '"hello"', 'split': '"hello world"',
+        'join': '["a", "b"]', 'find': '"hello"', 'index': '"hello"', 'count': '"hello"',
+        'startswith': '"hello"', 'endswith': '"hello"', 'islower': '"hello"',
+        'isupper': '"HELLO"', 'isdigit': '"123"', 'isalpha': '"abc"', 'isspace': '"   "',
+        'format': '"hello"', 'encode': '"hello"', 'decode': 'b"hello"',
+        'partition': '"hello"', 'rpartition': '"hello"', 'rsplit': '"hello world"',
+        'lstrip': '"  hello"', 'rstrip': '"hello  "', 'zfill': '"42"', 'center': '"hello"',
+        'ljust': '"hello"', 'rjust': '"hello"', 'swapcase': '"Hello"',
+        'casefold': '"HELLO"', 'expandtabs': '"hello\tworld"', 'maketrans': '"hello"',
+        'translate': '"hello"'
+      };
+      const example = examples[lowerMethod] || '"HELLO"';
+      return `${example}.${match}`;
+    }
+    return match;
+  });
+  
   return enhancedResult;
+};
+
+// Function to enhance code section that starts with bare method calls
+const enhanceBareMethodCall = (code: string): string => {
+  // Check if code starts with a bare method call (no string/object before it)
+  const bareMethodStartPattern = /^([a-z_][a-z0-9_]*)\s*\(/i;
+  const match = code.match(bareMethodStartPattern);
+  
+  if (match) {
+    const methodName = match[1];
+    const stringMethods = ['title', 'upper', 'lower', 'capitalize', 'strip', 'replace', 'split',
+      'join', 'find', 'index', 'count', 'startswith', 'endswith', 'islower',
+      'isupper', 'isdigit', 'isalpha', 'isspace', 'format', 'encode', 'decode',
+      'partition', 'rpartition', 'rsplit', 'lstrip', 'rstrip', 'zfill', 'center',
+      'ljust', 'rjust', 'swapcase', 'casefold', 'expandtabs', 'maketrans', 'translate'];
+    
+    if (stringMethods.includes(methodName.toLowerCase())) {
+      const examples: Record<string, string> = {
+        'title': '"HELLO"', 'upper': '"hello"', 'lower': '"HELLO"', 'capitalize': '"hello"',
+        'strip': '"  hello  "', 'replace': '"hello"', 'split': '"hello world"',
+        'join': '["a", "b"]', 'find': '"hello"', 'index': '"hello"', 'count': '"hello"',
+        'startswith': '"hello"', 'endswith': '"hello"', 'islower': '"hello"',
+        'isupper': '"HELLO"', 'isdigit': '"123"', 'isalpha': '"abc"', 'isspace': '"   "',
+        'format': '"hello"', 'encode': '"hello"', 'decode': 'b"hello"',
+        'partition': '"hello"', 'rpartition': '"hello"', 'rsplit': '"hello world"',
+        'lstrip': '"  hello"', 'rstrip': '"hello  "', 'zfill': '"42"', 'center': '"hello"',
+        'ljust': '"hello"', 'rjust': '"hello"', 'swapcase': '"Hello"',
+        'casefold': '"HELLO"', 'expandtabs': '"hello\tworld"', 'maketrans': '"hello"',
+        'translate': '"hello"'
+      };
+      const example = examples[methodName.toLowerCase()] || '"HELLO"';
+      return code.replace(bareMethodStartPattern, `${example}.${methodName}(`);
+    }
+  }
+  
+  return code;
 };
 
 // Function to split question into prefix and code
@@ -207,9 +276,10 @@ const splitQuestion = (text: string) => {
       const line = lines[i];
       // If line has indentation or starts with code keywords, split here
       if (/^\s{2,}/.test(line) || /^\s*(def|class|for|while|if|with|import|from)\s+/.test(line)) {
+        const code = lines.slice(i).join('\n');
         return {
           prefix: lines.slice(0, i).join('\n').trim(),
-          code: lines.slice(i).join('\n')
+          code: enhanceBareMethodCall(code) // Enhance code section for bare method calls
         };
       }
     }
@@ -256,15 +326,16 @@ const splitQuestion = (text: string) => {
           }
         }
         // Code starts at beginning or after question word
+        const code = remainingText.substring(codeStart);
         return {
           prefix: enhancedText.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
-          code: remainingText.substring(codeStart)
+          code: enhanceBareMethodCall(code) // Enhance code section for bare method calls
         };
       } else {
         // Has code patterns but no clear start - treat all remaining as code
         return {
           prefix: enhancedText.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
-          code: remainingText
+          code: enhanceBareMethodCall(remainingText) // Enhance code section for bare method calls
         };
       }
     }
@@ -283,9 +354,10 @@ const splitQuestion = (text: string) => {
       const beforeCode = enhancedText.substring(0, match.index).trim();
       // Check if there's a question word before
       if (/^(What|Result|Output|Value|Which|How|When|Where|Why|Can|Does|Is|Are|Will|Would|Should)/i.test(beforeCode)) {
+        const code = enhancedText.substring(match.index).trim();
         return {
           prefix: beforeCode,
-          code: enhancedText.substring(match.index).trim()
+          code: enhanceBareMethodCall(code) // Enhance code section for bare method calls
         };
       }
     }
