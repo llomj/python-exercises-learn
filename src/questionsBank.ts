@@ -12817,28 +12817,29 @@ Example: {x: x*2 for x in range(3) if x > 0} returns {1: 2, 2: 4} because it fil
   }),
   (_i: number) => ({ 
     q: `What is {x if x % 2 == 0 else x*2 for x in range(3)}?`, 
-    o: ["{0, 2, 4}", "{0, 1, 2}", "Error", "None"], 
+    o: ["{0, 2}", "{0, 2, 4}", "Error", "None"], 
     c: 0, 
     e: "Set comprehension with conditional.",
-    de: `Set comprehensions can use conditional expressions (ternary operators) in the expression part. {x if x % 2 == 0 else x*2 for x in range(3)} creates {0, 2, 4} because it iterates over range(3) (0, 1, 2) and uses conditional logic: if x is even (x % 2 == 0), use x, otherwise use x*2. The results are collected into a set. This demonstrates set comprehensions with conditional transformations.
+    de: `Set comprehensions can use conditional expressions (ternary operators) in the expression part. {x if x % 2 == 0 else x*2 for x in range(3)} creates {0, 2} because it iterates over range(3) (0, 1, 2) and uses conditional logic: if x is even (x % 2 == 0), use x, otherwise use x*2. The results are collected into a set, and duplicates are removed. This demonstrates set comprehensions with conditional transformations.
 
 Set comprehension with conditional:
-• {x if x % 2 == 0 else x*2 for x in range(3)} = {0, 2, 4}
+• {x if x % 2 == 0 else x*2 for x in range(3)} = {0, 2}
 • Conditional: x if x % 2 == 0 else x*2
 • Iterates: x = 0, 1, 2
 • Applies conditional to each
-• Results collected into set: {0, 2, 4}
+• Results collected into set: {0, 2} (duplicates removed)
 
 How it works:
 • for x in range(3) iterates: x = 0, 1, 2
 • Conditional evaluated for each:
-  - x=0: 0 % 2 == 0 → True → x = 0
-  - x=1: 1 % 2 == 0 → False → x*2 = 2
-  - x=2: 2 % 2 == 0 → True → x = 2
-• Results collected into set: {0, 2, 4}
+  - x=0: 0 % 2 == 0 → True → x = 0 → result: 0
+  - x=1: 1 % 2 == 0 → False → x*2 = 2 → result: 2
+  - x=2: 2 % 2 == 0 → True → x = 2 → result: 2
+• Results: 0, 2, 2
+• Set removes duplicates: {0, 2}
 
 Example:
-{x if x % 2 == 0 else x*2 for x in range(3)}  # {0, 2, 4}
+{x if x % 2 == 0 else x*2 for x in range(3)}  # {0, 2}
 {x*2 if x > 0 else x for x in range(3)}       # {0, 2, 4}
 
 Common uses:
@@ -12847,7 +12848,7 @@ Common uses:
 • Value selection
 • Conditional set creation
 
-Example: {x if x % 2 == 0 else x*2 for x in range(3)} returns {0, 2, 4} because it applies conditional logic to each element before adding to the set.
+Example: {x if x % 2 == 0 else x*2 for x in range(3)} returns {0, 2} because it applies conditional logic to each element (0→0, 1→2, 2→2), and sets remove duplicates, resulting in {0, 2}.
 `
   }),
   
