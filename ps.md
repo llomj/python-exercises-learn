@@ -254,11 +254,18 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 
 **Priority**: CRITICAL - This breaks the fundamental learning experience. Students cannot learn if questions are incorrect.
 
-**Task**: 
+**Task**:
 - Review ALL 1000 questions systematically
 - For each question, verify: `eval(question_code) == solutions[correct_option_index]`
 - Fix any mismatches found
 - Document the review process and fixes applied
+
+**User Report - ID 71 Issue**:
+- Question: "HELLO".lower()
+- Current solutions: python, PYTHON, Python, Error
+- Expected: "hello" should be the correct answer
+- Suspected hard-coding issue affecting multiple IDs
+- Need to verify coherence across all questions and fix logic to prevent such errors
 
 ---
 
