@@ -169,7 +169,7 @@ const App: React.FC = () => {
                 </button>
               </div>
               {view === 'quiz' && (
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 ml-1.5">
                   <button
                     onClick={handleRandomModeToggle}
                     className={`flex items-center justify-center w-8 h-8 rounded-lg border-2 transition-all shadow-lg hover:scale-110 active:scale-95 ${
@@ -194,7 +194,7 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 ml-4">
           <div className="text-sm font-bold bg-indigo-500/10 text-indigo-400 px-4 py-2 rounded-xl border border-indigo-500/20 shadow-inner">
             <i className="fas fa-bolt text-amber-400 mr-2"></i>
             {stats.xp.toLocaleString()}
