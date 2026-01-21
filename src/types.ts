@@ -35,6 +35,14 @@ export enum PersonaStage {
   GOD_WHALE = "God Whale"
 }
 
+export interface IdLogEntry {
+  id: number;
+  question: string;
+  correctAnswer: string;
+  explanation: string;
+  timestamp: number;
+}
+
 export interface UserStats {
   currentLevel: number;
   xp: number;
@@ -42,6 +50,7 @@ export interface UserStats {
   highestUnlockedLevel: number;
   levelProgress: Record<number, number>; 
   history: QuestionAttempt[];
+  idLog: IdLogEntry[];
   lastSessionScore?: number;
   lastSessionTotal?: number;
 }

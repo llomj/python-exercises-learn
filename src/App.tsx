@@ -5,6 +5,9 @@ import { QuizView } from './components/QuizView';
 import { HistoryLog } from './components/HistoryLog';
 import { GlossaryView } from './components/GlossaryView';
 import { OperationsView } from './components/OperationsView';
+import { IdSearchModal } from './components/IdSearchModal';
+import { IdLogView } from './components/IdLogView';
+import { IdLogEntry } from './types';
 import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
 import { formatTranslation } from './translations';
@@ -17,7 +20,8 @@ const INITIAL_STATS: UserStats = {
   completedQuestionIds: [],
   highestUnlockedLevel: 1,
   levelProgress: {},
-  history: []
+  history: [],
+  idLog: []
 };
 
 const App: React.FC = () => {
@@ -29,6 +33,8 @@ const App: React.FC = () => {
   const [randomMode, setRandomMode] = useState(false);
   const [showRandomModeModal, setShowRandomModeModal] = useState(false);
   const [showOperations, setShowOperations] = useState(false);
+  const [showIdSearch, setShowIdSearch] = useState(false);
+  const [showIdLog, setShowIdLog] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
@@ -41,6 +47,7 @@ const App: React.FC = () => {
         const parsed = JSON.parse(saved);
         if (!parsed.history) parsed.history = [];
         if (!parsed.completedQuestionIds) parsed.completedQuestionIds = [];
+        if (!parsed.idLog) parsed.idLog = [];
         setStats(parsed);
       } catch (e) {
         console.error("Corrupted state, resetting", e);
@@ -91,6 +98,18 @@ const App: React.FC = () => {
       completedQuestionIds: attempt.isCorrect && !prev.completedQuestionIds.includes(attempt.id) 
         ? [...prev.completedQuestionIds, attempt.id] 
         : prev.completedQuestionIds
+    }));
+  };
+
+  const saveToIdLog = (entry: { id: number; question: string; correctAnswer: string; explanation: string }) => {
+    const idLogEntry: IdLogEntry = {
+      ...entry,
+      timestamp: Date.now()
+    };
+    
+    setStats(prev => ({
+      ...prev,
+      idLog: [idLogEntry, ...prev.idLog.filter(e => e.id !== entry.id)].slice(0, 1000)
     }));
   };
 
@@ -173,6 +192,20 @@ const App: React.FC = () => {
                   title={t('app.learningLog')}
                 >
                   <i className="fas fa-book-open text-xs"></i>
+                </button>
+                <button 
+                  onClick={() => setShowIdSearch(true)}
+                  className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
+                  title="Search by ID"
+                >
+                  <i className="fas fa-hashtag text-xs"></i>
+                </button>
+                <button 
+                  onClick={() => setShowIdLog(true)}
+                  className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
+                  title="ID Log"
+                >
+                  <i className="fas fa-list text-xs"></i>
                 </button>
               </div>
               {view === 'quiz' && (
@@ -319,6 +352,22 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* ID Search Modal */}
+      {showIdSearch && (
+        <IdSearchModal 
+          onClose={() => setShowIdSearch(false)}
+          onSaveToLog={saveToIdLog}
+        />
+      )}
+
+      {/* ID Log View */}
+      {showIdLog && (
+        <IdLogView 
+          entries={stats.idLog}
+          onClose={() => setShowIdLog(false)}
+        />
       )}
     </div>
   );

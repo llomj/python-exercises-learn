@@ -3315,7 +3315,7 @@ Example: "".join(["a", "b", "c"]) returns "abc" because the list elements are co
   }),
   (_i: number) => ({ 
     q: `What is "hello".center(10)?`, 
-    o: ["  hello   ", "hello", "Error", "None"], 
+    o: ["  hello   ", "'hello' (no padding)", "Error", "None"], 
     c: 0, 
     e: "center() centers string in given width.",
     de: `The center() method centers a string in a field of specified width by padding it with spaces on both sides. If the string is longer than the width, it returns the original string unchanged. This is useful for formatting text output.
@@ -3354,7 +3354,7 @@ Example: "hello".center(10) returns "  hello   " because the string is centered 
   }),
   (_i: number) => ({ 
     q: `What is "hello".ljust(10)?`, 
-    o: ["hello     ", "hello", "Error", "None"], 
+    o: ["hello     ", "'hello' (no padding)", "Error", "None"], 
     c: 0, 
     e: "ljust() left-justifies string.",
     de: `The ljust() method left-justifies a string in a field of specified width by padding it with spaces on the right side. If the string is longer than the width, it returns the original string unchanged. This is useful for aligning text to the left.
@@ -3392,7 +3392,7 @@ Example: "hello".ljust(10) returns "hello     " because the string is left-justi
   }),
   (_i: number) => ({ 
     q: `What is "hello".rjust(10)?`, 
-    o: ["     hello", "hello", "Error", "None"], 
+    o: ["     hello", "'hello' (no padding)", "Error", "None"], 
     c: 0, 
     e: "rjust() right-justifies string.",
     de: `The rjust() method right-justifies a string in a field of specified width by padding it with spaces on the left side. If the string is longer than the width, it returns the original string unchanged. This is useful for aligning text to the right, especially for numbers.
@@ -3430,7 +3430,7 @@ Example: "hello".rjust(10) returns "     hello" because the string is right-just
   }),
   (_i: number) => ({ 
     q: `What is "hello".zfill(10)?`, 
-    o: ["00000hello", "hello", "Error", "None"], 
+    o: ["00000hello", "'hello' (no padding)", "Error", "None"], 
     c: 0, 
     e: "zfill() pads string with zeros.",
     de: `The zfill() method pads a string on the left with zeros ('0') to make it a specified width. If the string starts with a sign ('+' or '-'), the zeros are inserted after the sign. It's particularly useful for formatting numbers with leading zeros.
