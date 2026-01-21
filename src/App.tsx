@@ -194,11 +194,9 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4 ml-4">
-          <div className="text-sm font-bold bg-indigo-500/10 text-indigo-400 px-4 py-2 rounded-xl border border-indigo-500/20 shadow-inner">
-            <i className="fas fa-bolt text-amber-400 mr-2"></i>
-            {stats.xp.toLocaleString()}
-          </div>
+        <div className="flex items-center gap-2 ml-2">
+          <i className="fas fa-bolt text-amber-400 text-sm"></i>
+          <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
         </div>
       </nav>
 
