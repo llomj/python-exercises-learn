@@ -127,20 +127,31 @@ Before moving to the next level:
 
 ---
 
-## Code Formatting Issue - Fixed
+## Code Formatting Issues - Fixed
 
-**Issue**: ID 28 shows `"Python"[3:]` but displays as:
+### Issue 1: ID 28 - Slice notation splitting
+**Issue**: `"Python"[3:]` displays as:
 ```
 "Python"[3:
      ]
 ```
 
-**Problem**: `formatCodeSnippet` function was treating colons in slice notation `[3:]` as control flow colons and splitting them.
-
 **Fix Applied**:
 - Modified `formatCodeSnippet` to detect if colon is inside brackets (slicing) vs outside (control flow)
 - Slice notation like `[3:]`, `[:5]`, `[1:3]` now stays on one line
-- Control flow colons (if, for, while) still get proper indentation
+
+### Issue 2: ID 579 - Simple expressions split across lines
+**Issue**: Code under "What is?" is being split across multiple lines when it should be on one row.
+
+**Fix Applied**:
+- Added check to detect simple single-line expressions
+- Simple expressions (no newlines, no control flow keywords) now display as-is without formatting
+- Only multi-line code blocks (def, class, if, for, while) get formatted with indentation
+
+### Issue 3: ID 96 - Duplicate values need distinction
+**Issue**: Solutions show identical "hello, hello" which makes it hard to distinguish between the two values.
+
+**Note**: Need to review how duplicate values in options/explanations are displayed and ensure they can be distinguished (e.g., using quotes, indices, or different examples).
 
 ---
 

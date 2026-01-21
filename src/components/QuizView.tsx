@@ -13,6 +13,16 @@ import { formatTranslation } from '../translations';
 const formatCodeSnippet = (text: string): string => {
   if (!text) return '';
   
+  // CRITICAL: For simple single-line expressions (like after "What is?"), don't format
+  // Only format if it contains actual multi-line code blocks (def, class, if, for, while, etc.)
+  const isSimpleExpression = !text.includes('\n') && 
+                             !/\b(def|class|if|for|while|with|try|except|finally|else|elif)\b/.test(text);
+  
+  if (isSimpleExpression) {
+    // Return as-is for simple expressions - don't split or reformat
+    return text;
+  }
+  
   const indentSize = 4; // Python standard is 4 spaces
   
   // Step 1: Split on semicolons to separate statements
