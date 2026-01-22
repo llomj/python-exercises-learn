@@ -228,6 +228,28 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 
 ---
 
+## 🔴 CRITICAL: "..." Replacement Bug in enhanceVagueMethodCalls
+
+**STATUS: ✅ FIXED**
+
+**Problem**: The `enhanceVagueMethodCalls` function in `QuizView.tsx` was replacing `"..."` with actual strings like `"hello"` for method calls, but the answers weren't being updated to match.
+
+**Example - ID 76**:
+- **Source question**: `"...".islower()` with answer `False` (correct - "..." has no letters)
+- **App was showing**: `"hello".islower()` with answer `False` (WRONG - "hello".islower() = True)
+- **Root cause**: The `hasStringBefore` check wasn't properly detecting `"...".islower()` and preventing replacement
+
+**Fix Applied**:
+- Added explicit check for `"..."` in `enhanceVagueMethodCalls` function
+- Now checks for `hasEllipsis` before attempting any replacement
+- If `"..."` is present, the question is left unchanged
+
+**Affected Questions**: All questions using `"..."` placeholder (islower, isupper, istitle, casefold, isascii, and many others)
+
+**Status**: ✅ Fixed - `"..."` will no longer be replaced with actual strings
+
+---
+
 ## 🔴 CRITICAL: Question-Solution Coherence Bug
 
 **STATUS: ⚠️ URGENT - NEEDS SYSTEMATIC FIX**

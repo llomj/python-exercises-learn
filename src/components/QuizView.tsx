@@ -205,17 +205,31 @@ const enhanceVagueMethodCalls = (text: string): string => {
     
     // Get text before the match to check if there's already a string/variable
     const beforeMatch = result.substring(Math.max(0, matchStart - 50), matchStart);
+    const beforeMatchTrimmed = beforeMatch.trim();
+    
+    // CRITICAL: Check if "..." is present - it's intentionally generic and should NEVER be replaced
+    // This must be checked BEFORE the regex check to prevent any replacement
+    const hasEllipsis = beforeMatchTrimmed.includes('"..."') || 
+                        beforeMatchTrimmed.includes("'...'") || 
+                        beforeMatchTrimmed.includes('`...`') ||
+                        result.substring(Math.max(0, matchStart - 10), matchStart + 10).includes('"..."') ||
+                        result.substring(Math.max(0, matchStart - 10), matchStart + 10).includes("'...'");
     
     // Check if there's already a string literal, variable, or dot before this method
     // This prevents matching "hello".title() or x.title() or obj.method()
-    const hasStringBefore = /(["'`][^"'`]*["'`]|[\w\)\]\}])\s*\.\s*$/.test(beforeMatch.trim());
+    const hasStringBefore = /(["'`][^"'`]*["'`]|[\w\)\]\}])\s*\.\s*$/.test(beforeMatchTrimmed);
     
     // Add text before this match
     enhancedResult += result.substring(lastIndex, matchStart);
     
     // Check if this is a string method that might need an example (or any method if it looks vague)
     const lowerMethod = methodName.toLowerCase();
-    if (!hasStringBefore) {
+    
+    // NEVER replace if "..." is present - it's intentionally generic
+    if (hasEllipsis) {
+      // Return unchanged - "..." should never be replaced
+      enhancedResult += match[0];
+    } else if (!hasStringBefore) {
       // Add an example string before the method call
       const examples: Record<string, string> = {
         // Case methods
