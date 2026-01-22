@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IdLogEntry } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { QUESTIONS_BANK } from '../questionsBank';
 
 interface IdLogViewProps {
   entries: IdLogEntry[];
@@ -9,7 +10,25 @@ interface IdLogViewProps {
 
 export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
   const { t } = useLanguage();
+  const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
   const sortedEntries = [...entries].sort((a, b) => b.timestamp - a.timestamp);
+
+  const toggleCodonExplanation = (id: number) => {
+    setExpandedIds(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const getQuestionConcept = (id: number): string | null => {
+    const question = QUESTIONS_BANK.find(q => q.id === id);
+    return question?.concept || null;
+  };
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -42,14 +61,31 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
               >
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center gap-3">
-                    <span className="px-3 py-1 bg-indigo-500/10 text-indigo-400 rounded-lg text-xs font-bold">
+                    <button
+                      onClick={() => toggleCodonExplanation(entry.id)}
+                      className="px-3 py-1 bg-indigo-500/10 text-indigo-400 rounded-lg text-xs font-bold hover:bg-indigo-500/20 transition-all cursor-pointer flex items-center gap-2 group"
+                      title="Click to view codon explanation"
+                    >
                       ID: {entry.id}
-                    </span>
+                      <i className={`fas fa-chevron-${expandedIds.has(entry.id) ? 'up' : 'down'} text-[8px] transition-transform group-hover:scale-110`}></i>
+                    </button>
                   </div>
                   <span className="text-[10px] text-slate-500 font-mono">
                     {new Date(entry.timestamp).toLocaleDateString()}
                   </span>
                 </div>
+                
+                {expandedIds.has(entry.id) && getQuestionConcept(entry.id) && (
+                  <div className="mb-4 p-4 bg-indigo-500/10 rounded-xl border border-indigo-500/20 animate-in slide-in-from-top duration-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <i className="fas fa-lightbulb text-indigo-400 text-sm"></i>
+                      <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-indigo-400">Codon Explanation</h4>
+                    </div>
+                    <p className="text-sm text-indigo-300 font-medium leading-relaxed">
+                      {getQuestionConcept(entry.id)}
+                    </p>
+                  </div>
+                )}
                 
                 <p className="text-slate-200 font-bold mb-3 leading-tight">
                   {entry.question}
