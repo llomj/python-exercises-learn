@@ -250,29 +250,37 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 
 ---
 
-## 🔴 CRITICAL: enhanceVagueMethodCalls DISABLED - Questions Now Used Exactly As-Is
+## 🔴 CRITICAL: ALL Question Enhancement Functions DISABLED - Questions Now Used Exactly As-Is
 
-**STATUS: ✅ FIXED - FUNCTION DISABLED**
+**STATUS: ✅ FIXED - ALL ENHANCEMENT FUNCTIONS DISABLED**
 
-**Problem**: The `enhanceVagueMethodCalls` function was causing multiple bugs:
-1. Matching "is" in "What is" as a method call (ID 58 issue)
-2. Replacing "..." placeholders incorrectly (ID 76 issue)
-3. Complex logic with many edge cases causing unpredictable behavior
-4. Questions in app not matching `questions_solution.md`
+**Problem**: Multiple enhancement functions were corrupting questions:
+1. `enhanceVagueMethodCalls` - Matching "is" in "What is" as a method call (ID 58 issue)
+2. `enhanceBareMethodCall` - Adding "hello" before built-in functions like `bool(1)` (ID 45 issue)
+3. Replacing "..." placeholders incorrectly (ID 76 issue)
+4. Complex logic with many edge cases causing unpredictable behavior
+5. Questions in app not matching `questions_solution.md`
 
-**Solution**: **COMPLETELY DISABLED** the `enhanceVagueMethodCalls` function. Questions are now displayed exactly as they appear in `questionsBank.ts`, ensuring:
+**Solution**: **COMPLETELY DISABLED** both `enhanceVagueMethodCalls` and `enhanceBareMethodCall` functions. Questions are now displayed exactly as they appear in `questionsBank.ts`, ensuring:
 - ✅ Questions match `questions_solution.md` exactly
 - ✅ No more enhancement bugs
 - ✅ Simpler, more maintainable code
 - ✅ Predictable behavior
+- ✅ Every question looks exactly like in `questions_solution.md` with no exceptions
 
 **Implementation**:
 - `enhanceVagueMethodCalls` now simply returns the input text unchanged
+- `enhanceBareMethodCall` now simply returns the input code unchanged
 - All original enhancement logic is commented out (preserved for reference)
 - Questions are used exactly as written in the source
 
+**Example Fixes**:
+- **ID 45**: Was showing `"hello".bool(1)` → Now shows `Result of bool(1)?` ✅
+- **ID 58**: Was showing corrupted "What?" → Now shows `What is (2 + 3) * 4?` ✅
+- All questions now match `questions_solution.md` exactly ✅
+
 **Files Modified**:
-- `src/components/QuizView.tsx` - Disabled `enhanceVagueMethodCalls` function
+- `src/components/QuizView.tsx` - Disabled both `enhanceVagueMethodCalls` and `enhanceBareMethodCall` functions
 
 ---
 

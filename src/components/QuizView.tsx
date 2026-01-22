@@ -365,7 +365,13 @@ const enhanceVagueMethodCalls = (text: string): string => {
 };
 
 // Function to enhance code section that starts with bare method calls or indexing
+// DISABLED: Questions are now used exactly as they appear in the source
+// This prevents bugs and ensures questions match questions_solution.md exactly
 const enhanceBareMethodCall = (code: string): string => {
+  // Return code unchanged - use questions exactly as they are in questionsBank.ts
+  return code;
+  
+  /* DISABLED - Original enhancement logic commented out
   let enhancedCode = code;
   
   // First, check if code starts with bare indexing/slicing: [0], [-1], [0:3], [:3], etc.
@@ -418,6 +424,7 @@ const enhanceBareMethodCall = (code: string): string => {
   }
   
   return enhancedCode;
+  */
 };
 
 // Function to split question into prefix and code
