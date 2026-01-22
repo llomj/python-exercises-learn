@@ -464,44 +464,21 @@ const splitQuestion = (text: string) => {
     }
     
     // If remaining text has function calls, brackets, or other code patterns, treat as code
-    // This catches cases like "type(None)", "print('hello')", "[1, 2, 3]", etc.
+    // This catches cases like "type(None)", "print('hello')", "[1, 2, 3]", "Python"[0], etc.
+    // IMPORTANT: Use ALL remaining text as code to avoid dropping parts (like "Python" in "Python"[0])
     const functionCallPattern = /[a-zA-Z_]\w*\s*\(/;
-    const bracketPattern = /[\[\(\{]/;
     const codeKeywordPattern = /\b(def|class|for|while|if|with|import|from|print)\s+/;
+    const bracketPattern = /[\[\(\{]/;
     
     if (functionCallPattern.test(remainingText) || 
         bracketPattern.test(remainingText) || 
         codeKeywordPattern.test(remainingText)) {
-      // Find where the code actually starts
-      const codeStartMatch = remainingText.match(functionCallPattern) || 
-                            remainingText.match(bracketPattern) ||
-                            remainingText.match(codeKeywordPattern);
-      
-      if (codeStartMatch && codeStartMatch.index !== undefined) {
-        const codeStart = codeStartMatch.index;
-        // If code starts after a short word (like "the"), include it in prefix
-        if (codeStart > 0 && codeStart < 10) {
-          const beforeCode = remainingText.substring(0, codeStart).trim();
-          if (/^(the|a|an)\s+/i.test(beforeCode)) {
-            return {
-              prefix: enhancedText.substring(0, questionEnd + codeStart).trim() + (hasQuestionMark ? '?' : ''),
-              code: remainingText.substring(codeStart)
-            };
-          }
-        }
-        // Code starts at beginning or after question word
-        const code = remainingText.substring(codeStart);
-        return {
-          prefix: enhancedText.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
-          code: enhanceBareMethodCall(code) // Enhance code section for bare method calls
-        };
-      } else {
-        // Has code patterns but no clear start - treat all remaining as code
-        return {
-          prefix: enhancedText.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
-          code: enhanceBareMethodCall(remainingText) // Enhance code section for bare method calls
-        };
-      }
+      // Use ALL remaining text as code - don't try to find "where code starts"
+      // This ensures we never drop parts like "Python" in "Python"[0]
+      return {
+        prefix: enhancedText.substring(0, questionEnd).trim() + (hasQuestionMark ? '?' : ''),
+        code: enhanceBareMethodCall(remainingText) // Enhance code section for bare method calls
+      };
     }
   }
   
@@ -704,9 +681,53 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
          <div className="space-y-4 pt-8">
            <div className="max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
-             <p className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4 pb-4 font-mono">
-               {currentQuestion.question}
-             </p>
+             {(() => {
+               const { prefix, code } = splitQuestion(currentQuestion.question);
+               // If we detected code, show prefix at top and code below
+               if (code) {
+                 return (
+                   <div className="flex flex-col">
+                     {/* Question text always grouped at the top */}
+                     {prefix && (
+                       <div className="px-4 pt-4 pb-2 border-b border-slate-700/50">
+                         <p className="text-white text-lg font-medium leading-relaxed">{prefix}</p>
+                       </div>
+                     )}
+                     {/* Code snippet below with proper formatting */}
+                     <div className="overflow-x-auto flex-1">
+                       <SyntaxHighlighter
+                         language="python"
+                         style={oneDark}
+                         customStyle={{
+                           padding: '1rem',
+                           margin: 0,
+                           background: 'transparent',
+                           fontSize: '0.875rem',
+                           lineHeight: '1.75',
+                           fontFamily: "'Fira Code', monospace"
+                         }}
+                         codeTagProps={{
+                           style: {
+                             fontFamily: "'Fira Code', monospace",
+                             whiteSpace: 'pre',
+                             display: 'block'
+                           }
+                         }}
+                         PreTag="div"
+                       >
+                         {formatCodeSnippet(code)}
+                       </SyntaxHighlighter>
+                     </div>
+                   </div>
+                 );
+               }
+              // No code detected, show as regular question
+              return (
+                <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4">
+                  {currentQuestion.question}
+                </h2>
+              );
+             })()}
            </div>
          </div>
 
