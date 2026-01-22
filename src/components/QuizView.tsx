@@ -704,54 +704,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
          <div className="space-y-4 pt-8">
            <div className="max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
-             {(() => {
-               const { prefix, code } = splitQuestion(currentQuestion.question);
-               // If we detected code, show prefix at top and code below
-               if (code) {
-                 return (
-                   <div className="flex flex-col">
-                     {/* Question text always grouped at the top */}
-                     {prefix && (
-                       <div className="px-4 pt-4 pb-2 border-b border-slate-700/50">
-                         <p className="text-white text-lg font-medium leading-relaxed">{prefix}</p>
-                       </div>
-                     )}
-                     {/* Code snippet below with proper formatting */}
-                     <div className="overflow-x-auto flex-1">
-                       <SyntaxHighlighter
-                         language="python"
-                         style={oneDark}
-                         customStyle={{
-                           padding: '1rem',
-                           margin: 0,
-                           background: 'transparent',
-                           fontSize: '0.875rem',
-                           lineHeight: '1.75',
-                           fontFamily: "'Fira Code', monospace"
-                         }}
-                         codeTagProps={{
-                           style: {
-                             fontFamily: "'Fira Code', monospace",
-                             whiteSpace: 'pre',
-                             display: 'block'
-                           }
-                         }}
-                         PreTag="div"
-                       >
-                         {formatCodeSnippet(code)}
-                       </SyntaxHighlighter>
-                     </div>
-                   </div>
-                 );
-               }
-              // No code detected, show as regular question (with enhancement)
-              const enhancedQuestion = enhanceVagueMethodCalls(currentQuestion.question);
-              return (
-                <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4">
-                  {enhancedQuestion}
-                </h2>
-              );
-             })()}
+             <p className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4 pb-4 font-mono">
+               {currentQuestion.question}
+             </p>
            </div>
          </div>
 

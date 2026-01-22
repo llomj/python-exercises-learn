@@ -250,37 +250,43 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 
 ---
 
-## 🔴 CRITICAL: ALL Question Enhancement Functions DISABLED - Questions Now Used Exactly As-Is
+## 🔴 CRITICAL: splitQuestion REMOVED - Raw Question Text Only (Match questions_solution.md Exactly)
+
+**STATUS: ✅ FIXED - NO SPLIT, NO TRANSFORM, RAW TEXT ONLY**
+
+**Problem**: `splitQuestion` was splitting questions into "prefix" and "code", then rendering them separately. This **dropped parts of the question**:
+- **ID 24**: Source is `What is "Python"[0]?` but app showed `What is? [0]` — `splitQuestion` found the first `[`, treated only `[0]` as "code", and **dropped `"Python"`**.
+- Similar bugs for any question with brackets: the logic used "first `[` or `(`" as "code start", losing everything between the question words and that character.
+
+**Root cause**: `splitQuestion` used `bracketPattern` / `functionCallPattern` to find "where code starts". For `What is "Python"[0]?`, it matched `[` in `[0]`, set `code = "[0]"`, and never included `"Python"` in either prefix or code.
+
+**Solution**: **Stop using `splitQuestion` entirely.** The quiz UI now renders `currentQuestion.question` directly with **zero** transformation:
+- No prefix/code split
+- No `enhanceVagueMethodCalls`, no `enhanceBareMethodCall` in the display path
+- No SyntaxHighlighter for a separate "code" block
+- Just the raw question string, exactly as in `questionsBank.ts` and `questions_solution.md`
+
+**Implementation**:
+- Removed all `splitQuestion` usage from the question display.
+- Replaced the conditional (prefix + code vs enhanced question) with a single `<p>` that shows `currentQuestion.question`.
+- Every question now matches `questions_solution.md` exactly, no exceptions.
+
+**Example Fixes**:
+- **ID 24**: Was showing `What is? [0]` → Now shows `What is "Python"[0]?` ✅
+- **ID 45**: Was showing `"hello".bool(1)` → Now shows `Result of bool(1)?` ✅
+- **ID 58**: Was showing corrupted "What?" → Now shows `What is (2 + 3) * 4?` ✅
+- All 1000 questions match the file exactly ✅
+
+**Files Modified**:
+- `src/components/QuizView.tsx` - Removed splitQuestion from question display; render raw `currentQuestion.question` only.
+
+---
+
+## 🔴 CRITICAL: ALL Question Enhancement Functions DISABLED (Historical)
 
 **STATUS: ✅ FIXED - ALL ENHANCEMENT FUNCTIONS DISABLED**
 
-**Problem**: Multiple enhancement functions were corrupting questions:
-1. `enhanceVagueMethodCalls` - Matching "is" in "What is" as a method call (ID 58 issue)
-2. `enhanceBareMethodCall` - Adding "hello" before built-in functions like `bool(1)` (ID 45 issue)
-3. Replacing "..." placeholders incorrectly (ID 76 issue)
-4. Complex logic with many edge cases causing unpredictable behavior
-5. Questions in app not matching `questions_solution.md`
-
-**Solution**: **COMPLETELY DISABLED** both `enhanceVagueMethodCalls` and `enhanceBareMethodCall` functions. Questions are now displayed exactly as they appear in `questionsBank.ts`, ensuring:
-- ✅ Questions match `questions_solution.md` exactly
-- ✅ No more enhancement bugs
-- ✅ Simpler, more maintainable code
-- ✅ Predictable behavior
-- ✅ Every question looks exactly like in `questions_solution.md` with no exceptions
-
-**Implementation**:
-- `enhanceVagueMethodCalls` now simply returns the input text unchanged
-- `enhanceBareMethodCall` now simply returns the input code unchanged
-- All original enhancement logic is commented out (preserved for reference)
-- Questions are used exactly as written in the source
-
-**Example Fixes**:
-- **ID 45**: Was showing `"hello".bool(1)` → Now shows `Result of bool(1)?` ✅
-- **ID 58**: Was showing corrupted "What?" → Now shows `What is (2 + 3) * 4?` ✅
-- All questions now match `questions_solution.md` exactly ✅
-
-**Files Modified**:
-- `src/components/QuizView.tsx` - Disabled both `enhanceVagueMethodCalls` and `enhanceBareMethodCall` functions
+Enhancement functions (`enhanceVagueMethodCalls`, `enhanceBareMethodCall`) are disabled. The **definitive fix** is above: we no longer split or transform questions at all. We display raw question text only.
 
 ---
 
