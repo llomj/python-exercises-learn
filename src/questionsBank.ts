@@ -2233,23 +2233,23 @@ Example: "a" not in "xyz" returns True because "a" is not found in "xyz". This i
     // 71-80: String Methods - Case Operations
    (_i: number) => {
      return {
-       q: `What is "...".upper()?`,
-       o: ["...", "Error", "None", "False"],
+       q: `What is "hello".upper()?`,
+       o: ["HELLO", "Error", "None", "False"],
        c: 0,
        e: "upper() converts string to uppercase.",
-        de: 'The upper() method converts all characters in a string to uppercase. "...".upper() returns "..." since the string contains no lowercase letters to convert.'
+        de: 'The upper() method converts all characters in a string to uppercase. "hello".upper() returns "HELLO" by converting all lowercase letters to uppercase.'
       };
     },
    (_i: number) => {
     return {
-      q: `What is "...".lower()?`,
-      o: ["...", "Error", "None", "False"],
+      q: `What is "HELLO".lower()?`,
+      o: ["hello", "Error", "None", "False"],
       c: 0,
       e: "lower() converts string to lowercase.",
         de: `The lower() method converts all characters in a string to lowercase (small letters). It returns a new string with all uppercase letters converted to lowercase, leaving non-alphabetic characters unchanged. This is one of Python's most commonly used string methods.
 
 lower() method:
-• "...".lower() = "..."
+• "HELLO".lower() = "hello"
 • Converts all uppercase to lowercase
 • Non-alphabetic characters unchanged
 • Returns new string (original unchanged)
@@ -2261,7 +2261,7 @@ How it works:
 • Creates new string (strings are immutable)
 
 Examples:
-• "...".lower() = "..."
+• "HELLO".lower() = "hello"
 • "HELLO123".lower() = "hello123"
 • "Hello World!".lower() = "hello world!"
 • "Python".lower() = "python"
@@ -2278,19 +2278,19 @@ Best practice:
 • Store lowercase for consistency
 • Remember: creates new string
 
-Example: "...".lower() returns "...". All uppercase letters are converted to lowercase, while numbers and symbols remain unchanged.`
+Example: "HELLO".lower() returns "hello". All uppercase letters are converted to lowercase, while numbers and symbols remain unchanged.`
     };
     },
     (_i: number) => {
      return {
-       q: `What is "...".capitalize()?`,
-       o: ["...", "Error", "None", "False"],
+       q: `What is "hello".capitalize()?`,
+       o: ["Hello", "Error", "None", "False"],
        c: 0,
        e: "capitalize() makes first letter uppercase.",
        de: `The capitalize() method capitalizes the first character of a string and makes the rest lowercase. It returns a new string where only the first letter is uppercase and all other letters are lowercase. This is useful for formatting names, titles, or sentence beginnings.
 
 capitalize() method:
-• "...".capitalize() = "..."
+• "hello".capitalize() = "Hello"
 • First character → uppercase
 • All other characters → lowercase
 • Returns new string
@@ -2302,7 +2302,7 @@ How it works:
 • Creates new string
 
 Examples:
-• "...".capitalize() = "..."
+• "hello".capitalize() = "Hello"
 • "HELLO".capitalize() = "Hello"
 • "hELLO".capitalize() = "Hello"
 • "hello world".capitalize() = "Hello world" (note: only first letter)
@@ -2323,19 +2323,19 @@ Best practice:
 • Use .title() for multi-word titles
 • Remember: only affects first character
 
-Example: "...".capitalize() returns "...". The first letter becomes uppercase, and all other letters become lowercase.`
+Example: "hello".capitalize() returns "Hello". The first letter becomes uppercase, and all other letters become lowercase.`
       };
     },
    (_i: number) => {
     return {
-      q: `What is "...".title()?`,
-      o: ["...", "Error", "None", "False"],
+      q: `What is "hello world".title()?`,
+      o: ["Hello World", "Error", "None", "False"],
       c: 0,
       e: "title() capitalizes each word.",
       de: `The title() method capitalizes the first letter of each word in a string and makes the rest lowercase. It returns a new string in "title case" where each word starts with an uppercase letter. This is useful for formatting titles, headings, or names.
 
 title() method:
-• "...".title() = "..."
+• "hello world".title() = "Hello World"
 • First letter of each word → uppercase
 • Rest of each word → lowercase
 • Returns new string
@@ -2347,7 +2347,7 @@ How it works:
 • Joins words back together
 
 Examples:
-• "...".title() = "..."
+• "hello world".title() = "Hello World"
 • "HELLO WORLD".title() = "Hello World"
 • "hELLO wORLD".title() = "Hello World"
 • "hello-world".title() = "Hello-World" (hyphen separates words)
@@ -2368,19 +2368,19 @@ Best practice:
 • Use .capitalize() for single words or sentences
 • Be aware of word boundaries
 
-Example: "...".title() returns "...". The first letter of each word is capitalized, creating title case formatting.`
+Example: "hello world".title() returns "Hello World". The first letter of each word is capitalized, creating title case formatting.`
      };
    },
    (_i: number) => {
     return {
-      q: `What is "...".swapcase()?`,
-      o: ["...", "Error", "None", "False"],
+      q: `What is "Hello".swapcase()?`,
+      o: ["hELLO", "Error", "None", "False"],
       c: 0,
       e: "swapcase() swaps case of all characters.",
       de: `The swapcase() method swaps the case of all alphabetic characters in a string. Uppercase letters become lowercase, and lowercase letters become uppercase. Non-alphabetic characters remain unchanged. It returns a new string with swapped cases.
 
 swapcase() method:
-• "...".swapcase() = "..."
+• "Hello".swapcase() = "hELLO"
 • Uppercase → lowercase
 • Lowercase → uppercase
 • Non-alphabetic unchanged
@@ -2394,7 +2394,7 @@ How it works:
 • Creates new string
 
 Examples:
-• "...".swapcase() = "..."
+• "Hello".swapcase() = "hELLO"
 • "HELLO".swapcase() = "hello"
 • "hello".swapcase() = "HELLO"
 • "HeLLo123!".swapcase() = "hEllO123!" (numbers and symbols unchanged)
@@ -2410,19 +2410,19 @@ Best practice:
 • Useful for toggling case
 • Remember: creates new string
 
-Example: "...".swapcase() returns "...". Each letter's case is swapped.`
+Example: "Hello".swapcase() returns "hELLO". Each letter's case is swapped.`
      };
    },
    (_i: number) => {
     return {
-      q: `What is "...".islower()?`,
+      q: `What is "HELLO".islower()?`,
       o: ["True", "False", "Error", "None"],
       c: 1,
       e: "islower() checks if all characters are lowercase.",
       de: `The islower() method returns True if all alphabetic characters in the string are lowercase and there is at least one alphabetic character. It returns False otherwise. Non-alphabetic characters are ignored in the check.
 
 islower() method:
-• "...".islower() = False (no alphabetic characters)
+• "HELLO".islower() = False (has uppercase characters)
 • Returns boolean (True/False)
 • Ignores non-alphabetic characters
 • Requires at least one alphabetic character
@@ -2434,8 +2434,8 @@ How it works:
 • Returns False if any 'A'-'Z' exists
 
 Examples:
-• "...".islower() = False
 • "HELLO".islower() = False (has uppercase)
+• "hello".islower() = True (all lowercase)
 • "hello123".islower() = True (numbers ignored)
 • "123".islower() = False (no alphabetic characters)
 • "".islower() = False (empty string)
@@ -2456,34 +2456,34 @@ Best practice:
 • Combine with .lower() for normalization
 • Remember: requires at least one letter
 
-Example: "...".islower() returns False because there are no alphabetic characters in the string.`
+Example: "HELLO".islower() returns False because the string contains uppercase characters.`
      };
    },
    (_i: number) => {
     return {
-      q: `What is "...".isupper()?`,
+      q: `What is "hello".isupper()?`,
       o: ["True", "False", "Error", "None"],
       c: 1,
       e: "isupper() checks if all characters are uppercase.",
-      de: 'The isupper() method returns True if all alphabetic characters in the string are uppercase and there is at least one alphabetic character. It returns False otherwise. Non-alphabetic characters are ignored in the check.\n\nisupper() method:\n• "...".isupper() = False (no alphabetic characters)\n• Returns boolean (True/False)\n• Ignores non-alphabetic characters\n• Requires at least one alphabetic character\n\nHow it works:\n• Checks if all \'A\'-\'Z\' characters exist (uppercase)\n• Ignores numbers, symbols, spaces\n• Returns False if no alphabetic characters\n• Returns False if any \'a\'-\'z\' exists\n\nExamples:\n• "...".isupper() = False\n• "hello".isupper() = False (has lowercase)\n• "HELLO123".isupper() = True (numbers ignored)\n• "123".isupper() = False (no alphabetic characters)\n• "".isupper() = False (empty string)\n\nEdge cases:\n• "HELLO world".isupper() = False (has lowercase)\n• "123".isupper() = False (no letters)\n• "HELLO!".isupper() = True (symbols ignored)\n\nCommon uses:\n• Validation: check if string is all uppercase\n• Input validation\n• Format checking (e.g., acronyms)\n• Data validation\n\nBest practice:\n• Use for validation checks\n• Combine with .upper() for normalization\n• Remember: requires at least one letter\n\nExample: "...".isupper() returns False because there are no alphabetic characters in the string.'
+      de: 'The isupper() method returns True if all alphabetic characters in the string are uppercase and there is at least one alphabetic character. It returns False otherwise. Non-alphabetic characters are ignored in the check.\n\nisupper() method:\n• "hello".isupper() = False (has lowercase characters)\n• Returns boolean (True/False)\n• Ignores non-alphabetic characters\n• Requires at least one alphabetic character\n\nHow it works:\n• Checks if all \'A\'-\'Z\' characters exist (uppercase)\n• Ignores numbers, symbols, spaces\n• Returns False if no alphabetic characters\n• Returns False if any \'a\'-\'z\' exists\n\nExamples:\n• "hello".isupper() = False (has lowercase)\n• "HELLO".isupper() = True (all uppercase)\n• "HELLO123".isupper() = True (numbers ignored)\n• "123".isupper() = False (no alphabetic characters)\n• "".isupper() = False (empty string)\n\nEdge cases:\n• "HELLO world".isupper() = False (has lowercase)\n• "123".isupper() = False (no letters)\n• "HELLO!".isupper() = True (symbols ignored)\n\nCommon uses:\n• Validation: check if string is all uppercase\n• Input validation\n• Format checking (e.g., acronyms)\n• Data validation\n\nBest practice:\n• Use for validation checks\n• Combine with .upper() for normalization\n• Remember: requires at least one letter\n\nExample: "hello".isupper() returns False because the string contains lowercase characters.'
      };
    },
    (_i: number) => {
     return {
-      q: `What is "...".istitle()?`,
+      q: `What is "hello".istitle()?`,
       o: ["True", "False", "Error", "None"],
       c: 1,
       e: "istitle() checks if string is titlecased.",
-      de: 'The istitle() method returns True if the string is in title case (each word starts with an uppercase letter and the rest are lowercase). It returns False otherwise. A string is titlecased if uppercase characters may only follow uncased characters and lowercase characters may only follow cased characters.\n\nistitle() method:\n• "...".istitle() = False (no alphabetic characters)\n• Returns boolean (True/False)\n• Checks if each word starts with uppercase\n• Rest of each word must be lowercase\n\nHow it works:\n• Checks if first letter of each word is uppercase\n• Checks if rest of each word is lowercase\n• Word boundaries are whitespace or non-alphabetic\n• Returns False if any word doesn\'t match\n\nExamples:\n• "...".istitle() = False\n• "Hello world".istitle() = False ("world" not capitalized)\n• "HELLO WORLD".istitle() = False (all uppercase)\n• "Hello-World".istitle() = True\n• "123 Hello".istitle() = True\n\nEdge cases:\n• "".istitle() = False (empty string)\n• "Hello123".istitle() = True\n• "Hello WORLD".istitle() = False\n\nCommon uses:\n• Validation: check if string is properly titlecased\n• Format validation\n• Title checking\n• Data validation\n\nBest practice:\n• Use for title format validation\n• Combine with .title() for formatting\n• Understand word boundaries\n\nExample: "...".istitle() returns False because there are no alphabetic characters in the string.'
+      de: 'The istitle() method returns True if the string is in title case (each word starts with an uppercase letter and the rest are lowercase). It returns False otherwise. A string is titlecased if uppercase characters may only follow uncased characters and lowercase characters may only follow cased characters.\n\nistitle() method:\n• "hello".istitle() = False (not title case - all lowercase)\n• Returns boolean (True/False)\n• Checks if each word starts with uppercase\n• Rest of each word must be lowercase\n\nHow it works:\n• Checks if first letter of each word is uppercase\n• Checks if rest of each word is lowercase\n• Word boundaries are whitespace or non-alphabetic\n• Returns False if any word doesn\'t match\n\nExamples:\n• "hello".istitle() = False (all lowercase)\n• "Hello world".istitle() = False ("world" not capitalized)\n• "HELLO WORLD".istitle() = False (all uppercase)\n• "Hello-World".istitle() = True\n• "123 Hello".istitle() = True\n\nEdge cases:\n• "".istitle() = False (empty string)\n• "Hello123".istitle() = True\n• "Hello WORLD".istitle() = False\n\nCommon uses:\n• Validation: check if string is properly titlecased\n• Format validation\n• Title checking\n• Data validation\n\nBest practice:\n• Use for title format validation\n• Combine with .title() for formatting\n• Understand word boundaries\n\nExample: "hello".istitle() returns False because the string is not in title case (all lowercase).'
      };
    },
    (_i: number) => {
     return {
-      q: `What is "...".casefold()?`,
-      o: ["...", "Error", "None", "False"],
+      q: `What is "HELLO".casefold()?`,
+      o: ["hello", "Error", "None", "False"],
       c: 0,
       e: "casefold() returns casefolded string for caseless matching.",
-      de: 'The casefold() method returns a casefolded copy of the string. Casefolding is similar to lowercasing but more aggressive - it\'s designed for caseless matching. It converts all characters to lowercase and handles special Unicode characters correctly.\n\ncasefold() method:\n• "...".casefold() = "..."\n• More aggressive than .lower()\n• Handles Unicode special cases\n• Returns new string for caseless matching\n\nHow it works:\n• Similar to .lower() but more aggressive\n• Handles special Unicode characters\n• Converts to lowercase for comparison\n• Better for internationalization\n\nExamples:\n• "...".casefold() = "..."\n• "HELLO".casefold() = "hello"\n• "ß".casefold() = "ss" (special Unicode handling)\n• "HELLO WORLD".casefold() = "hello world"\n\nDifference from .lower():\n• Most cases: same as .lower()\n• Unicode: handles special characters better\n• German ß → ss (casefold), ß (lower)\n• Better for caseless matching\n\nCommon uses:\n• Caseless string comparison\n• Internationalization (i18n)\n• Unicode-aware matching\n• Better than .lower() for some languages\n\nBest practice:\n• Use for caseless matching (recommended)\n• Better than .lower() for Unicode\n• Use .lower() for display formatting\n• Prefer over .lower() for comparisons\n\nExample: "...".casefold() returns "...". For most English strings, it\'s similar to .lower(), but it handles Unicode special characters better for international caseless matching.'
+      de: 'The casefold() method returns a casefolded copy of the string. Casefolding is similar to lowercasing but more aggressive - it\'s designed for caseless matching. It converts all characters to lowercase and handles special Unicode characters correctly.\n\ncasefold() method:\n• "HELLO".casefold() = "hello"\n• More aggressive than .lower()\n• Handles Unicode special cases\n• Returns new string for caseless matching\n\nHow it works:\n• Similar to .lower() but more aggressive\n• Handles special Unicode characters\n• Converts to lowercase for comparison\n• Better for internationalization\n\nExamples:\n• "HELLO".casefold() = "hello"\n• "HELLO WORLD".casefold() = "hello world"\n• "ß".casefold() = "ss" (special Unicode handling)\n• "Hello".casefold() = "hello"\n\nDifference from .lower():\n• Most cases: same as .lower()\n• Unicode: handles special characters better\n• German ß → ss (casefold), ß (lower)\n• Better for caseless matching\n\nCommon uses:\n• Caseless string comparison\n• Internationalization (i18n)\n• Unicode-aware matching\n• Better than .lower() for some languages\n\nBest practice:\n• Use for caseless matching (recommended)\n• Better than .lower() for Unicode\n• Use .lower() for display formatting\n• Prefer over .lower() for comparisons\n\nExample: "HELLO".casefold() returns "hello". For most English strings, it\'s similar to .lower(), but it handles Unicode special characters better for international caseless matching.'
      };
    },
    (_i: number) => {
