@@ -200,35 +200,34 @@ const App: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="flex items-center gap-2">
-                <i className="fas fa-bolt text-amber-400 text-sm"></i>
-                <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
-              </div>
-              <div className="relative">
-                <button
-                  onClick={() => setShowSettingsMenu(!showSettingsMenu)}
-                  className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
-                  title="Settings"
-                >
-                  <i className="fas fa-gear text-sm"></i>
-                </button>
-                <SettingsMenu
-                  isOpen={showSettingsMenu}
-                  onClose={() => setShowSettingsMenu(false)}
-                  view={view}
-                  randomMode={randomMode}
-                  onToggleRandomMode={view === 'quiz' ? handleRandomModeToggle : undefined}
-                  onShowGlossary={view === 'hub' ? () => setView('glossary') : undefined}
-                  onShowIdSearch={view === 'hub' ? () => setShowIdSearch(true) : undefined}
-                  onShowIdLog={view === 'hub' ? () => setShowIdLog(true) : undefined}
-                  onShowLearningLog={view === 'hub' ? () => setView('log') : undefined}
-                  onShowOperations={view === 'quiz' ? () => setShowOperations(true) : undefined}
-                  onShowLevelSelector={() => setShowLevelSelector(true)}
-                  onToggleLanguage={toggleLanguage}
-                />
-              </div>
+              <i className="fas fa-bolt text-amber-400 text-sm"></i>
+              <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
             </div>
           </div>
+        </div>
+
+        <div className="relative">
+          <button
+            onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+            className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
+            title="Settings"
+          >
+            <i className="fas fa-gear text-sm"></i>
+          </button>
+          <SettingsMenu
+            isOpen={showSettingsMenu}
+            onClose={() => setShowSettingsMenu(false)}
+            view={view}
+            randomMode={randomMode}
+            onToggleRandomMode={view === 'quiz' ? handleRandomModeToggle : undefined}
+            onShowGlossary={view === 'hub' ? () => setView('glossary') : undefined}
+            onShowIdSearch={view === 'hub' ? () => setShowIdSearch(true) : undefined}
+            onShowIdLog={view === 'hub' ? () => setShowIdLog(true) : undefined}
+            onShowLearningLog={view === 'hub' ? () => setView('log') : undefined}
+            onShowOperations={view === 'quiz' ? () => setShowOperations(true) : undefined}
+            onShowLevelSelector={() => setShowLevelSelector(true)}
+            onToggleLanguage={toggleLanguage}
+          />
         </div>
 
       </nav>
