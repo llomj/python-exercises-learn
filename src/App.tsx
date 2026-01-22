@@ -72,6 +72,22 @@ const App: React.FC = () => {
   const currentPersona = currentLevelInfo.persona;
   const currentProgress = stats.levelProgress[stats.currentLevel] || 0;
 
+  const getPersonaIcon = (persona: PersonaStage): string => {
+    const personaIcons: Record<PersonaStage, string> = {
+      [PersonaStage.PLANKTON]: "fa-microbe",
+      [PersonaStage.SHRIMP]: "fa-shrimp",
+      [PersonaStage.CRAB]: "fa-crab",
+      [PersonaStage.SMALL_FISH]: "fa-fish",
+      [PersonaStage.OCTOPUS]: "fa-octopus",
+      [PersonaStage.SEAL]: "fa-seal",
+      [PersonaStage.DOLPHIN]: "fa-dolphin",
+      [PersonaStage.SHARK]: "fa-shark",
+      [PersonaStage.WHALE]: "fa-whale",
+      [PersonaStage.GOD_WHALE]: "fa-globe",
+    };
+    return personaIcons[persona] || 'fa-fish';
+  };
+
   const handleStartEvolution = () => {
     setView('quiz');
     setShowResult(null);
@@ -173,8 +189,7 @@ const App: React.FC = () => {
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-3 bg-white/5 px-3 py-1.5 rounded-2xl border border-white/10">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-sm">
-                 <i className={`fas ${currentPersona === PersonaStage.PLANKTON ? 'fa-microbe' : 
-                   currentPersona === PersonaStage.SHRIMP ? 'fa-shrimp' : 'fa-fish'} text-white`}></i>
+                 <i className={`fas ${getPersonaIcon(currentPersona)} text-white`}></i>
               </div>
               <div className="flex flex-col">
                 <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest leading-none">{t('app.rank')}</span>

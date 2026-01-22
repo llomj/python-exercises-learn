@@ -29,14 +29,14 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
     const personaIcons: Record<PersonaStage, string> = {
       [PersonaStage.PLANKTON]: "fa-microbe",
       [PersonaStage.SHRIMP]: "fa-shrimp",
-      [PersonaStage.CRAB]: "fa-hand-peace",
+      [PersonaStage.CRAB]: "fa-crab",
       [PersonaStage.SMALL_FISH]: "fa-fish",
-      [PersonaStage.OCTOPUS]: "fa-octopus-deploy",
-      [PersonaStage.SEAL]: "fa-water",
+      [PersonaStage.OCTOPUS]: "fa-octopus",
+      [PersonaStage.SEAL]: "fa-seal",
       [PersonaStage.DOLPHIN]: "fa-dolphin",
-      [PersonaStage.SHARK]: "fa-shield-halved",
-      [PersonaStage.WHALE]: "fa-cloud",
-      [PersonaStage.GOD_WHALE]: "fa-crown",
+      [PersonaStage.SHARK]: "fa-shark",
+      [PersonaStage.WHALE]: "fa-whale",
+      [PersonaStage.GOD_WHALE]: "fa-globe",
     };
     return personaIcons[persona] || 'fa-circle';
   };
