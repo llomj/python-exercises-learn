@@ -8,6 +8,7 @@ import { OperationsView } from './components/OperationsView';
 import { IdSearchModal } from './components/IdSearchModal';
 import { IdLogView } from './components/IdLogView';
 import { LevelSelectorModal } from './components/LevelSelectorModal';
+import { SettingsMenu } from './components/SettingsMenu';
 import { IdLogEntry } from './types';
 import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
@@ -37,6 +38,7 @@ const App: React.FC = () => {
   const [showIdSearch, setShowIdSearch] = useState(false);
   const [showIdLog, setShowIdLog] = useState(false);
   const [showLevelSelector, setShowLevelSelector] = useState(false);
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
@@ -197,86 +199,33 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex gap-1.5 items-center">
-              <div className="flex flex-col gap-1">
-                {/* Top row icons */}
-                <div className="flex items-center gap-1.5">
-                  <button 
-                    onClick={() => setView('glossary')}
-                    className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
-                      view === 'glossary' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                    }`}
-                    title={t('app.glossary')}
-                  >
-                    <i className="fas fa-circle-info text-sm"></i>
-                  </button>
-                  <button 
-                    onClick={() => setShowIdSearch(true)}
-                    className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
-                    title="Search by ID"
-                  >
-                    <i className="fas fa-hashtag text-xs"></i>
-                  </button>
-                  {view === 'quiz' && (
-                    <button
-                      onClick={handleRandomModeToggle}
-                      className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
-                        randomMode 
-                          ? 'bg-green-500 hover:bg-green-600 border-green-400 text-white' 
-                          : 'bg-white/5 hover:bg-white/10 border-white/10 text-slate-400 hover:text-white'
-                      }`}
-                      title={randomMode ? "Switch to level mode" : "Switch to random mode"}
-                    >
-                      <i className="fas fa-shuffle text-sm"></i>
-                    </button>
-                  )}
-                  <div className="flex items-center gap-2">
-                    <i className="fas fa-bolt text-amber-400 text-sm"></i>
-                    <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
-                  </div>
-                </div>
-                {/* Bottom row icons */}
-                <div className="flex items-center gap-1.5">
-                  <button 
-                    onClick={() => setView('log')}
-                    className={`flex items-center justify-center w-9 h-9 rounded-xl border transition-all ${
-                      view === 'log' ? 'bg-indigo-500 border-indigo-400 text-white' : 'bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                    }`}
-                    title={t('app.learningLog')}
-                  >
-                    <i className="fas fa-book-open text-xs"></i>
-                  </button>
-                  <button 
-                    onClick={() => setShowIdLog(true)}
-                    className="flex items-center justify-center w-9 h-9 rounded-xl border bg-white/5 border-white/10 text-slate-400 hover:text-white hover:border-white/20 transition-all"
-                    title="ID Log"
-                  >
-                    <i className="fas fa-list text-xs"></i>
-                  </button>
-                  {view === 'quiz' && (
-                    <button
-                      onClick={() => setShowOperations(true)}
-                      className="flex items-center justify-center w-9 h-9 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
-                      title={t('app.operations')}
-                    >
-                      <i className="fas fa-calculator text-sm"></i>
-                    </button>
-                  )}
-                  <button
-                    onClick={() => setShowLevelSelector(true)}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs"
-                    title="Select Level"
-                  >
-                    <i className="fas fa-layer-group"></i>
-                  </button>
-                  <button
-                    onClick={toggleLanguage}
-                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs"
-                    title={language === 'en' ? 'Français' : 'English'}
-                  >
-                    <i className="fas fa-language"></i>
-                  </button>
-                </div>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <i className="fas fa-bolt text-amber-400 text-sm"></i>
+                <span className="text-sm font-bold text-indigo-400">{stats.xp.toLocaleString()}</span>
+              </div>
+              <div className="relative">
+                <button
+                  onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+                  className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
+                  title="Settings"
+                >
+                  <i className="fas fa-gear text-sm"></i>
+                </button>
+                <SettingsMenu
+                  isOpen={showSettingsMenu}
+                  onClose={() => setShowSettingsMenu(false)}
+                  view={view}
+                  randomMode={randomMode}
+                  onToggleRandomMode={view === 'quiz' ? handleRandomModeToggle : undefined}
+                  onShowGlossary={view === 'hub' ? () => setView('glossary') : undefined}
+                  onShowIdSearch={view === 'hub' ? () => setShowIdSearch(true) : undefined}
+                  onShowIdLog={view === 'hub' ? () => setShowIdLog(true) : undefined}
+                  onShowLearningLog={view === 'hub' ? () => setView('log') : undefined}
+                  onShowOperations={view === 'quiz' ? () => setShowOperations(true) : undefined}
+                  onShowLevelSelector={() => setShowLevelSelector(true)}
+                  onToggleLanguage={toggleLanguage}
+                />
               </div>
             </div>
           </div>
