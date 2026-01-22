@@ -5214,7 +5214,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 325 (Level 4)
 
-**Question:** What is 'for i in range(5): pass'?
+**Question:** What is
+
+    for i in range(5):
+        pass
+
+?
 
 **Options:**
 ✓ 0. Loop that does nothing
@@ -5330,7 +5335,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 332 (Level 4)
 
-**Question:** What does 'for char in "abc":' iterate over?
+**Question:** 
+
+    What does 'for char in "abc":
+        ' iterate over
+
+?
 
 **Options:**
 ✓ 0. 'a', 'b', 'c'
@@ -5362,7 +5372,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 334 (Level 4)
 
-**Question:** What does 'for item in [1, 2, 3]:' iterate over?
+**Question:** 
+
+    What does 'for item in [1, 2, 3]:
+        ' iterate over
+
+?
 
 **Options:**
 ✓ 0. 1, 2, 3
@@ -5394,7 +5409,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 336 (Level 4)
 
-**Question:** What does 'for key in {"a": 1, "b": 2}:' iterate over?
+**Question:** 
+
+    What does 'for key in {"a": 1, "b": 2}:
+        ' iterate over
+
+?
 
 **Options:**
 ✓ 0. 'a', 'b'
@@ -5442,7 +5462,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 339 (Level 4)
 
-**Question:** What is 'for i in range(3): print(i)' output?
+**Question:** What is
+
+    'for i in range(3):
+        print(i)' output
+
+?
 
 **Options:**
 ✓ 0. 0\n1\n2
@@ -5458,7 +5483,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 340 (Level 4)
 
-**Question:** What is 'for i in range(1, 4): print(i)' output?
+**Question:** What is
+
+    'for i in range(1, 4):
+        print(i)' output
+
+?
 
 **Options:**
 ✓ 0. 1\n2\n3
@@ -5474,7 +5504,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 341 (Level 4)
 
-**Question:** What is 'while True: break'?
+**Question:** What is
+
+    while True:
+        break
+
+?
 
 **Options:**
 ✓ 0. Loop that runs once then breaks
@@ -5494,7 +5529,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 342 (Level 4)
 
-**Question:** What is 'while False: pass'?
+**Question:** What is
+
+    while False:
+        pass
+
+?
 
 **Options:**
 ✓ 0. Loop that never runs
@@ -5514,7 +5554,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 343 (Level 4)
 
-**Question:** What is 'x = 0; while x < 3: x += 1' result?
+**Question:** What is
+
+    x = 0
+    while x < 3:
+        x += 1
+
+result?
 
 **Options:**
 ✓ 0. x = 3
@@ -5530,7 +5576,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 344 (Level 4)
 
-**Question:** What is 'x = 0; while x < 3: x = x + 1' result?
+**Question:** What is
+
+    x = 0
+    while x < 3:
+        x = x + 1
+
+result?
 
 **Options:**
 ✓ 0. x = 3
@@ -5546,7 +5598,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 345 (Level 4)
 
-**Question:** What is 'x = 0; while x < 0: x += 1' result?
+**Question:** What is
+
+    x = 0
+    while x < 0:
+        x += 1
+
+result?
 
 **Options:**
 ✓ 0. x = 0
@@ -7666,7 +7724,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 475 (Level 5)
 
-**Question:** What is import copy; copy.copy([1, 2, 3])?
+**Question:** What is
+
+    import copy
+    copy.copy([1, 2, 3])
+
+?
 
 **Options:**
 ✓ 0. [1, 2, 3] (shallow copy)
@@ -7682,7 +7745,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 476 (Level 5)
 
-**Question:** What is import copy; copy.deepcopy([1, 2, 3])?
+**Question:** What is
+
+    import copy
+    copy.deepcopy([1, 2, 3])
+
+?
 
 **Options:**
 ✓ 0. [1, 2, 3] (deep copy)
@@ -7698,7 +7766,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 477 (Level 5)
 
-**Question:** What is a = [1, 2]; b = a; b.append(3); a?
+**Question:** What is
+
+    a = [1, 2]
+    b = a
+    b.append(3); a
+
+?
 
 **Options:**
 ✓ 0. [1, 2, 3]
@@ -7714,7 +7788,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 478 (Level 5)
 
-**Question:** What is a = [1, 2]; b = a.copy(); b.append(3); a?
+**Question:** What is
+
+    a = [1, 2]
+    b = a.copy()
+    b.append(3); a
+
+?
 
 **Options:**
 ✓ 0. [1, 2]
@@ -7730,7 +7810,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 479 (Level 5)
 
-**Question:** What is a = [[1], [2]]; b = a.copy(); b[0].append(3); a?
+**Question:** What is
+
+    a = [[1], [2]]
+    b = a.copy(); b[0].append(3); a
+
+?
 
 **Options:**
 ✓ 0. [[1, 3], [2]]
@@ -7746,7 +7831,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 480 (Level 5)
 
-**Question:** What is a = [[1], [2]]; b = copy.deepcopy(a); b[0].append(3); a?
+**Question:** What is
+
+    a = [[1], [2]]
+    b = copy.deepcopy(a); b[0].append(3); a
+
+?
 
 **Options:**
 ✓ 0. [[1], [2]]
@@ -8618,7 +8708,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 534 (Level 6)
 
-**Question:** What is d = {'a': 1}; d.update({'b': 2}); d?
+**Question:** What is
+
+    d = {'a': 1}
+    d.update({'b': 2}); d
+
+?
 
 **Options:**
 ✓ 0. {'a': 1, 'b': 2}
@@ -8634,7 +8729,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 535 (Level 6)
 
-**Question:** What is d = {'a': 1}; d.update({'a': 2}); d?
+**Question:** What is
+
+    d = {'a': 1}
+    d.update({'a': 2}); d
+
+?
 
 **Options:**
 ✓ 0. {'a': 2}
@@ -8718,7 +8818,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 540 (Level 6)
 
-**Question:** What is d = {'a': 1}; d.clear(); d?
+**Question:** What is
+
+    d = {'a': 1}
+    d.clear(); d
+
+?
 
 **Options:**
 ✓ 0. {}
@@ -8862,7 +8967,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 549 (Level 6)
 
-**Question:** What is a = {'a': [1]}; b = a.copy(); b['a'].append(2); a?
+**Question:** What is
+
+    a = {'a': [1]}
+    b = a.copy(); b['a'].append(2); a
+
+?
 
 **Options:**
 ✓ 0. {'a': [1, 2]}
@@ -8878,7 +8988,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 550 (Level 6)
 
-**Question:** What is import copy; copy.deepcopy({'a': [1]})?
+**Question:** What is
+
+    import copy
+    copy.deepcopy({'a': [1]})
+
+?
 
 **Options:**
 ✓ 0. {'a': [1]} (deep copy)
@@ -9214,7 +9329,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 571 (Level 6)
 
-**Question:** What is d = {'a': 1, 'b': 2}; k = d.keys(); d['c'] = 3; list(k)?
+**Question:** What is
+
+    d = {'a': 1, 'b': 2}
+    k = d.keys(); d['c'] = 3
+    list(k)
+
+?
 
 **Options:**
 ✓ 0. ['a', 'b', 'c']
@@ -9230,7 +9351,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 572 (Level 6)
 
-**Question:** What is d = {'a': 1}; v = d.values(); d['b'] = 2; list(v)?
+**Question:** What is
+
+    d = {'a': 1}
+    v = d.values(); d['b'] = 2
+    list(v)
+
+?
 
 **Options:**
 ✓ 0. [1, 2]
@@ -9246,7 +9373,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 573 (Level 6)
 
-**Question:** What is d = {'a': 1}; i = d.items(); d['b'] = 2; list(i)?
+**Question:** What is
+
+    d = {'a': 1}
+    i = d.items(); d['b'] = 2
+    list(i)
+
+?
 
 **Options:**
 ✓ 0. [('a', 1), ('b', 2)]
@@ -9262,7 +9395,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 574 (Level 6)
 
-**Question:** What is for k in {'a': 1, 'b': 2}: print(k)?
+**Question:** What is
+
+    for k in {'a': 1, 'b': 2}:
+        print(k)
+
+?
 
 **Options:**
 ✓ 0. Prints 'a' then 'b'
@@ -9278,7 +9416,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 575 (Level 6)
 
-**Question:** What is for v in {'a': 1, 'b': 2}.values(): print(v)?
+**Question:** What is
+
+    for v in {'a': 1, 'b': 2}.values():
+        print(v)
+
+?
 
 **Options:**
 ✓ 0. Prints 1 then 2
@@ -9294,7 +9437,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 576 (Level 6)
 
-**Question:** What is for k, v in {'a': 1, 'b': 2}.items(): print(k, v)?
+**Question:** What is
+
+    for k, v in {'a': 1, 'b': 2}.items():
+        print(k, v)
+
+?
 
 **Options:**
 ✓ 0. Prints 'a' 1 then 'b' 2
@@ -9698,7 +9846,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 601 (Level 7)
 
-**Question:** What does def func(x): return x * 2 do?
+**Question:** 
+
+    What does def func(x):
+        return x * 2 do
+
+?
 
 **Options:**
 ✓ 0. Defines a function
@@ -9714,7 +9867,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 602 (Level 7)
 
-**Question:** What is def func(): pass?
+**Question:** What is
+
+    def func():
+        pass
+
+?
 
 **Options:**
 ✓ 0. Defines empty function
@@ -9730,7 +9888,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 603 (Level 7)
 
-**Question:** What is def func(): return?
+**Question:** What is
+
+    def func():
+        return
+
+?
 
 **Options:**
 ✓ 0. Defines function returning None
@@ -9746,7 +9909,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 604 (Level 7)
 
-**Question:** What is def func(): return 1, 2?
+**Question:** What is
+
+    def func():
+        return 1, 2
+
+?
 
 **Options:**
 ✓ 0. Defines function returning tuple
@@ -9778,7 +9946,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 606 (Level 7)
 
-**Question:** What is def func(x, y): return x + y?
+**Question:** What is
+
+    def func(x, y):
+        return x + y
+
+?
 
 **Options:**
 ✓ 0. Defines function with two parameters
@@ -9794,7 +9967,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 607 (Level 7)
 
-**Question:** What is func(1, 2) if def func(x, y): return x + y?
+**Question:** What is
+
+    func(1, 2) if def func(x, y):
+        return x + y
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -9810,7 +9988,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 608 (Level 7)
 
-**Question:** What is func(x=1, y=2) if def func(x, y): return x + y?
+**Question:** What is
+
+    func(x=1, y=2) if def func(x, y):
+        return x + y
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -9826,7 +10009,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 609 (Level 7)
 
-**Question:** What is func(1, y=2) if def func(x, y): return x + y?
+**Question:** What is
+
+    func(1, y=2) if def func(x, y):
+        return x + y
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -9842,7 +10030,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 610 (Level 7)
 
-**Question:** What is func() if def func(x=1): return x?
+**Question:** What is
+
+    func() if def func(x=1):
+        return x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -9858,7 +10051,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 611 (Level 7)
 
-**Question:** What is def func(x=1): return x?
+**Question:** What is
+
+    def func(x=1):
+        return x
+
+?
 
 **Options:**
 ✓ 0. Defines function with default parameter
@@ -9874,7 +10072,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 612 (Level 7)
 
-**Question:** What is func(2) if def func(x=1): return x?
+**Question:** What is
+
+    func(2) if def func(x=1):
+        return x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -9890,7 +10093,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 613 (Level 7)
 
-**Question:** What is def func(x, y=2): return x + y?
+**Question:** What is
+
+    def func(x, y=2):
+        return x + y
+
+?
 
 **Options:**
 ✓ 0. Defines function with required and default parameter
@@ -9906,7 +10114,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 614 (Level 7)
 
-**Question:** What is func(1) if def func(x, y=2): return x + y?
+**Question:** What is
+
+    func(1) if def func(x, y=2):
+        return x + y
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -9922,7 +10135,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 615 (Level 7)
 
-**Question:** What is def func(x=1, y): return x + y?
+**Question:** What is
+
+    def func(x=1, y):
+        return x + y
+
+?
 
 **Options:**
 ✓ 0. SyntaxError
@@ -9938,7 +10156,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 616 (Level 7)
 
-**Question:** What is def func(x=[]): x.append(1); return x?
+**Question:** What is
+
+    def func(x=[]):
+        x.append(1)
+        return x
+
+?
 
 **Options:**
 ✓ 0. Defines function with mutable default (problematic)
@@ -9954,7 +10178,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 617 (Level 7)
 
-**Question:** What is def func(x=None): x = x or []; x.append(1); return x?
+**Question:** What is
+
+    def func(x=None):
+        x = x or []
+    x.append(1); return x
+
+?
 
 **Options:**
 ✓ 0. Defines function with safe mutable default pattern
@@ -9970,7 +10200,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 618 (Level 7)
 
-**Question:** What is func() then func() if def func(x=[]): x.append(1); return x?
+**Question:** What is
+
+    func() then func() if def func(x=[]):
+        x.append(1)
+        return x
+
+?
 
 **Options:**
 ✓ 0. [1] then [1, 1]
@@ -9986,7 +10222,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 619 (Level 7)
 
-**Question:** What is def func(x=1, y=2, z=3): return x, y, z?
+**Question:** What is
+
+    def func(x=1, y=2, z=3):
+        return x, y, z
+
+?
 
 **Options:**
 ✓ 0. Defines function with multiple defaults
@@ -10002,7 +10243,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 620 (Level 7)
 
-**Question:** What is func(10) if def func(x=1, y=2, z=3): return x, y, z?
+**Question:** What is
+
+    func(10) if def func(x=1, y=2, z=3):
+        return x, y, z
+
+?
 
 **Options:**
 ✓ 0. (10, 2, 3)
@@ -10018,7 +10264,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 621 (Level 7)
 
-**Question:** What is def func(*args): return args?
+**Question:** What is
+
+    def func(*args):
+        return args
+
+?
 
 **Options:**
 ✓ 0. Defines function accepting variable positional arguments
@@ -10034,7 +10285,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 622 (Level 7)
 
-**Question:** What is func(1, 2, 3) if def func(*args): return args?
+**Question:** What is
+
+    func(1, 2, 3) if def func(*args):
+        return args
+
+?
 
 **Options:**
 ✓ 0. (1, 2, 3)
@@ -10050,7 +10306,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 623 (Level 7)
 
-**Question:** What is func() if def func(*args): return args?
+**Question:** What is
+
+    func() if def func(*args):
+        return args
+
+?
 
 **Options:**
 ✓ 0. ()
@@ -10066,7 +10327,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 624 (Level 7)
 
-**Question:** What is def func(x, *args): return x, args?
+**Question:** What is
+
+    def func(x, *args):
+        return x, args
+
+?
 
 **Options:**
 ✓ 0. Defines function with required param and *args
@@ -10082,7 +10348,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 625 (Level 7)
 
-**Question:** What is func(1, 2, 3) if def func(x, *args): return x, args?
+**Question:** What is
+
+    func(1, 2, 3) if def func(x, *args):
+        return x, args
+
+?
 
 **Options:**
 ✓ 0. (1, (2, 3))
@@ -10098,7 +10369,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 626 (Level 7)
 
-**Question:** What is def func(**kwargs): return kwargs?
+**Question:** What is
+
+    def func(**kwargs):
+        return kwargs
+
+?
 
 **Options:**
 ✓ 0. Defines function accepting variable keyword arguments
@@ -10114,7 +10390,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 627 (Level 7)
 
-**Question:** What is func(a=1, b=2) if def func(**kwargs): return kwargs?
+**Question:** What is
+
+    func(a=1, b=2) if def func(**kwargs):
+        return kwargs
+
+?
 
 **Options:**
 ✓ 0. {'a': 1, 'b': 2}
@@ -10130,7 +10411,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 628 (Level 7)
 
-**Question:** What is func() if def func(**kwargs): return kwargs?
+**Question:** What is
+
+    func() if def func(**kwargs):
+        return kwargs
+
+?
 
 **Options:**
 ✓ 0. {}
@@ -10146,7 +10432,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 629 (Level 7)
 
-**Question:** What is def func(x, *args, **kwargs): return x, args, kwargs?
+**Question:** What is
+
+    def func(x, *args, **kwargs):
+        return x, args, kwargs
+
+?
 
 **Options:**
 ✓ 0. Defines function with all parameter types
@@ -10162,7 +10453,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 630 (Level 7)
 
-**Question:** What is func(1, 2, 3, a=4) if def func(x, *args, **kwargs): return x, args, kwargs?
+**Question:** What is
+
+    func(1, 2, 3, a=4) if def func(x, *args, **kwargs):
+        return x, args, kwargs
+
+?
 
 **Options:**
 ✓ 0. (1, (2, 3), {'a': 4})
@@ -10286,7 +10582,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 637 (Level 7)
 
-**Question:** What is f = lambda x: x**2; f(5)?
+**Question:** What is
+
+    f = lambda x:
+        x**2
+    f(5)
+
+?
 
 **Options:**
 ✓ 0. 25
@@ -10354,7 +10656,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 641 (Level 7)
 
-**Question:** What is def func(): return 1?
+**Question:** What is
+
+    def func():
+        return 1
+
+?
 
 **Options:**
 ✓ 0. Defines function returning 1
@@ -10370,7 +10677,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 642 (Level 7)
 
-**Question:** What is func() if def func(): return 1?
+**Question:** What is
+
+    func() if def func():
+        return 1
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -10386,7 +10698,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 643 (Level 7)
 
-**Question:** What is def func(): return 1, 2, 3?
+**Question:** What is
+
+    def func():
+        return 1, 2, 3
+
+?
 
 **Options:**
 ✓ 0. Defines function returning tuple (1, 2, 3)
@@ -10402,7 +10719,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 644 (Level 7)
 
-**Question:** What is func() if def func(): return 1, 2, 3?
+**Question:** What is
+
+    func() if def func():
+        return 1, 2, 3
+
+?
 
 **Options:**
 ✓ 0. (1, 2, 3)
@@ -10418,7 +10740,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 645 (Level 7)
 
-**Question:** What is a, b = func() if def func(): return 1, 2?
+**Question:** What is
+
+    a, b = func() if def func():
+        return 1, 2
+
+?
 
 **Options:**
 ✓ 0. a=1, b=2
@@ -10434,7 +10761,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 646 (Level 7)
 
-**Question:** What is def func(): return?
+**Question:** What is
+
+    def func():
+        return
+
+?
 
 **Options:**
 ✓ 0. Defines function returning None
@@ -10450,7 +10782,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 647 (Level 7)
 
-**Question:** What is func() if def func(): return?
+**Question:** What is
+
+    func() if def func():
+        return
+
+?
 
 **Options:**
 ✓ 0. None
@@ -10466,7 +10803,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 648 (Level 7)
 
-**Question:** What is def func(): pass?
+**Question:** What is
+
+    def func():
+        pass
+
+?
 
 **Options:**
 ✓ 0. Defines function returning None
@@ -10482,7 +10824,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 649 (Level 7)
 
-**Question:** What is func() if def func(): pass?
+**Question:** What is
+
+    func() if def func():
+        pass
+
+?
 
 **Options:**
 ✓ 0. None
@@ -10498,7 +10845,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 650 (Level 7)
 
-**Question:** What is def func(): return [1, 2, 3]?
+**Question:** What is
+
+    def func():
+        return [1, 2, 3]
+
+?
 
 **Options:**
 ✓ 0. Defines function returning list
@@ -10514,7 +10866,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 651 (Level 7)
 
-**Question:** What is x = 1; def func(): return x; func()?
+**Question:** What is
+
+    x = 1; def func():
+        return x
+    func()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -10530,7 +10888,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 652 (Level 7)
 
-**Question:** What is x = 1; def func(): x = 2; return x; func()?
+**Question:** What is
+
+    x = 1; def func():
+        x = 2
+        return x
+    func()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -10546,7 +10911,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 653 (Level 7)
 
-**Question:** What is x = 1; def func(): x = 2; func(); x?
+**Question:** What is
+
+    x = 1; def func():
+        x = 2
+    func(); x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -10562,7 +10933,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 654 (Level 7)
 
-**Question:** What is x = 1; def func(): global x; x = 2; func(); x?
+**Question:** What is
+
+    x = 1; def func():
+        global x
+    x = 2
+    func(); x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -10578,7 +10956,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 655 (Level 7)
 
-**Question:** What is def outer(): x = 1; def inner(): return x; return inner(); outer()?
+**Question:** What is
+
+    def outer():
+        x = 1
+        def inner():
+            return x
+        return inner()
+    outer()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -10594,7 +10981,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 656 (Level 7)
 
-**Question:** What is def outer(x): def inner(): return x; return inner; f = outer(5); f()?
+**Question:** What is
+
+    def outer(x):
+        def inner():
+            return x
+        return inner
+    f = outer(5)
+    f()
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -10610,7 +11006,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 657 (Level 7)
 
-**Question:** What is def func(): x = 1; return x; func(); x?
+**Question:** What is
+
+    def func():
+        x = 1
+        return x
+    func(); x
+
+?
 
 **Options:**
 ✓ 0. NameError
@@ -10626,7 +11029,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 658 (Level 7)
 
-**Question:** What is x = 1; def func(y): return x + y; func(2)?
+**Question:** What is
+
+    x = 1; def func(y):
+        return x + y
+    func(2)
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -10642,7 +11051,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 659 (Level 7)
 
-**Question:** What is def func(): x = x + 1; return x; func()?
+**Question:** What is
+
+    def func():
+        x = x + 1
+        return x
+    func()
+
+?
 
 **Options:**
 ✓ 0. UnboundLocalError
@@ -10658,7 +11074,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 660 (Level 7)
 
-**Question:** What is def func(): return len([1, 2, 3]); func()?
+**Question:** What is
+
+    def func():
+        return len([1, 2, 3])
+    func()
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -10674,7 +11096,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 661 (Level 7)
 
-**Question:** What is def fact(n): return 1 if n <= 1 else n * fact(n-1); fact(5)?
+**Question:** What is
+
+    def fact(n):
+        return 1 if n <= 1 else n * fact(n-1)
+    fact(5)
+
+?
 
 **Options:**
 ✓ 0. 120
@@ -10690,7 +11118,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 662 (Level 7)
 
-**Question:** What is def fib(n): return n if n < 2 else fib(n-1) + fib(n-2); fib(5)?
+**Question:** What is
+
+    def fib(n):
+        return n if n < 2 else fib(n-1) + fib(n-2)
+    fib(5)
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -10706,7 +11140,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 663 (Level 7)
 
-**Question:** What is def count(n): return 0 if n <= 0 else 1 + count(n-1); count(5)?
+**Question:** What is
+
+    def count(n):
+        return 0 if n <= 0 else 1 + count(n-1)
+    count(5)
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -10722,7 +11162,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 664 (Level 7)
 
-**Question:** What is def sum_list(lst): return 0 if not lst else lst[0] + sum_list(lst[1:]); sum_list([1,2,3])?
+**Question:** What is
+
+    def sum_list(lst):
+        return 0 if not lst else lst[0] + sum_list(lst[1:])
+    sum_list([1,2,3])
+
+?
 
 **Options:**
 ✓ 0. 6
@@ -10738,7 +11184,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 665 (Level 7)
 
-**Question:** What is def power(x, n): return 1 if n == 0 else x * power(x, n-1); power(2, 3)?
+**Question:** What is
+
+    def power(x, n):
+        return 1 if n == 0 else x * power(x, n-1)
+    power(2, 3)
+
+?
 
 **Options:**
 ✓ 0. 8
@@ -10770,7 +11222,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 667 (Level 7)
 
-**Question:** What is def func(): return func(); func()?
+**Question:** What is
+
+    def func():
+        return func()
+    func()
+
+?
 
 **Options:**
 ✓ 0. RecursionError
@@ -10786,7 +11244,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 668 (Level 7)
 
-**Question:** What is def reverse(s): return '' if not s else reverse(s[1:]) + s[0]; reverse('abc')?
+**Question:** What is
+
+    def reverse(s):
+        return '' if not s else reverse(s[1:]) + s[0]
+    reverse('abc')
+
+?
 
 **Options:**
 ✓ 0. 'cba'
@@ -10802,7 +11266,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 669 (Level 7)
 
-**Question:** What is def gcd(a, b): return a if b == 0 else gcd(b, a % b); gcd(48, 18)?
+**Question:** What is
+
+    def gcd(a, b):
+        return a if b == 0 else gcd(b, a % b)
+    gcd(48, 18)
+
+?
 
 **Options:**
 ✓ 0. 6
@@ -10818,7 +11288,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 670 (Level 7)
 
-**Question:** What is def length(lst): return 0 if not lst else 1 + length(lst[1:]); length([1,2,3])?
+**Question:** What is
+
+    def length(lst):
+        return 0 if not lst else 1 + length(lst[1:])
+    length([1,2,3])
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -10834,7 +11310,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 671 (Level 7)
 
-**Question:** What is def apply(func, x): return func(x); apply(lambda x: x*2, 5)?
+**Question:** What is
+
+    def apply(func, x):
+        return func(x)
+    apply(lambda x: x*2, 5)
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -10850,7 +11332,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 672 (Level 7)
 
-**Question:** What is def make_multiplier(n): return lambda x: x * n; f = make_multiplier(3); f(4)?
+**Question:** What is
+
+    def make_multiplier(n):
+        return lambda x:
+            x * n
+    f = make_multiplier(3)
+    f(4)
+
+?
 
 **Options:**
 ✓ 0. 12
@@ -10866,7 +11356,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 673 (Level 7)
 
-**Question:** What is def compose(f, g): return lambda x: f(g(x)); compose(lambda x: x+1, lambda x: x*2)(3)?
+**Question:** What is
+
+    def compose(f, g):
+        return lambda x:
+            f(g(x))
+    compose(lambda x: x+1, lambda x: x*2)(3)
+
+?
 
 **Options:**
 ✓ 0. 7
@@ -10954,7 +11451,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 678 (Level 7)
 
-**Question:** What is from functools import reduce; reduce(lambda x, y: x + y, [1, 2, 3, 4])?
+**Question:** What is
+
+    from functools import reduce
+    reduce(lambda x, y: x + y, [1, 2, 3, 4])
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -11002,7 +11504,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 681 (Level 7)
 
-**Question:** What is def func(): pass; func.__name__?
+**Question:** What is
+
+    def func():
+        pass
+        func.__name__
+
+?
 
 **Options:**
 ✓ 0. 'func'
@@ -11018,7 +11526,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 682 (Level 7)
 
-**Question:** What is def func(): """doc"""; pass; func.__doc__?
+**Question:** What is
+
+    def func():
+        """doc"""
+        pass
+        func.__doc__
+
+?
 
 **Options:**
 ✓ 0. 'doc'
@@ -11034,7 +11549,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 683 (Level 7)
 
-**Question:** What is def func(): pass; func.__doc__?
+**Question:** What is
+
+    def func():
+        pass
+        func.__doc__
+
+?
 
 **Options:**
 ✓ 0. None
@@ -11050,7 +11571,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 684 (Level 7)
 
-**Question:** What is def func(x, y=2): pass; func.__defaults__?
+**Question:** What is
+
+    def func(x, y=2):
+        pass
+        func.__defaults__
+
+?
 
 **Options:**
 ✓ 0. (2,)
@@ -11066,7 +11593,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 685 (Level 7)
 
-**Question:** What is def func(*args, **kwargs): pass; func.__code__?
+**Question:** What is
+
+    def func(*args, **kwargs):
+        pass
+        func.__code__
+
+?
 
 **Options:**
 ✓ 0. Code object
@@ -11082,7 +11615,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 686 (Level 7)
 
-**Question:** What is def func(): pass; callable(func)?
+**Question:** What is
+
+    def func():
+        pass
+    callable(func)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -11114,7 +11653,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 688 (Level 7)
 
-**Question:** What is def func(): return 1; type(func)?
+**Question:** What is
+
+    def func():
+        return 1
+    type(func)
+
+?
 
 **Options:**
 ✓ 0. <class 'function'>
@@ -11130,7 +11675,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 689 (Level 7)
 
-**Question:** What is def func(): pass; hasattr(func, '__name__')?
+**Question:** What is
+
+    def func():
+        pass
+    hasattr(func, '__name__')
+
+?
 
 **Options:**
 ✓ 0. True
@@ -11146,7 +11697,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 690 (Level 7)
 
-**Question:** What is def func(): pass; func.attr = 'value'; func.attr?
+**Question:** What is
+
+    def func():
+        pass
+    func.attr = 'value'; func.attr
+
+?
 
 **Options:**
 ✓ 0. 'value'
@@ -11162,7 +11719,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 691 (Level 7)
 
-**Question:** What is def func(x): return x; func.__annotations__?
+**Question:** What is
+
+    def func(x):
+        return x
+        func.__annotations__
+
+?
 
 **Options:**
 ✓ 0. {}
@@ -11178,7 +11741,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 692 (Level 7)
 
-**Question:** What is def func(x: int) -> int: return x; func.__annotations__?
+**Question:** What is
+
+    def func(x: int) -> int:
+        return x
+        func.__annotations__
+
+?
 
 **Options:**
 ✓ 0. {'x': <class 'int'>, 'return': <class 'int'>}
@@ -11194,7 +11763,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 693 (Level 7)
 
-**Question:** What is def func(x, y): return x + y; func(1, 2, 3)?
+**Question:** What is
+
+    def func(x, y):
+        return x + y
+    func(1, 2, 3)
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -11210,7 +11785,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 694 (Level 7)
 
-**Question:** What is def func(x, y): return x + y; func(1)?
+**Question:** What is
+
+    def func(x, y):
+        return x + y
+    func(1)
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -11226,7 +11807,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 695 (Level 7)
 
-**Question:** What is def func(x, y, z): return x + y + z; func(1, z=3, y=2)?
+**Question:** What is
+
+    def func(x, y, z):
+        return x + y + z
+    func(1, z=3, y=2)
+
+?
 
 **Options:**
 ✓ 0. 6
@@ -11242,7 +11829,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 696 (Level 7)
 
-**Question:** What is def func(x, y, z): return x + y + z; func(1, 2, z=3)?
+**Question:** What is
+
+    def func(x, y, z):
+        return x + y + z
+    func(1, 2, z=3)
+
+?
 
 **Options:**
 ✓ 0. 6
@@ -11258,7 +11851,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 697 (Level 7)
 
-**Question:** What is def func(x, y, z): return x + y + z; func(1, z=3, 2)?
+**Question:** What is
+
+    def func(x, y, z):
+        return x + y + z
+    func(1, z=3, 2)
+
+?
 
 **Options:**
 ✓ 0. SyntaxError
@@ -11274,7 +11873,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 698 (Level 7)
 
-**Question:** What is def func(*args, x): return args, x; func(1, 2, x=3)?
+**Question:** What is
+
+    def func(*args, x):
+        return args, x
+    func(1, 2, x=3)
+
+?
 
 **Options:**
 ✓ 0. ((1, 2), 3)
@@ -11290,7 +11895,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 699 (Level 7)
 
-**Question:** What is def func(x, *, y): return x + y; func(1, y=2)?
+**Question:** What is
+
+    def func(x, *, y):
+        return x + y
+    func(1, y=2)
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -11306,7 +11917,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 700 (Level 7)
 
-**Question:** What is def func(x, /, y, *, z): return x + y + z; func(1, 2, z=3)?
+**Question:** What is
+
+    def func(x, /, y, *, z):
+        return x + y + z
+    func(1, 2, z=3)
+
+?
 
 **Options:**
 ✓ 0. 6
@@ -11322,7 +11939,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 701 (Level 8)
 
-**Question:** What is class MyClass: pass?
+**Question:** What is
+
+    class MyClass:
+        pass
+
+?
 
 **Options:**
 ✓ 0. Defines a class
@@ -11338,7 +11960,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 702 (Level 8)
 
-**Question:** What is class MyClass: x = 1?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+
+?
 
 **Options:**
 ✓ 0. Defines class with class attribute
@@ -11354,7 +11981,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 703 (Level 8)
 
-**Question:** What is MyClass = class MyClass: pass?
+**Question:** What is
+
+    MyClass = class MyClass:
+        pass
+
+?
 
 **Options:**
 ✓ 0. SyntaxError
@@ -11370,7 +12002,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 704 (Level 8)
 
-**Question:** What is obj = MyClass() if class MyClass: pass?
+**Question:** What is
+
+    obj = MyClass() if class MyClass:
+        pass
+
+?
 
 **Options:**
 ✓ 0. Creates instance of MyClass
@@ -11386,7 +12023,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 705 (Level 8)
 
-**Question:** What is type(MyClass()) if class MyClass: pass?
+**Question:** What is
+
+    type(MyClass()) if class MyClass:
+        pass
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.MyClass'>
@@ -11402,7 +12044,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 706 (Level 8)
 
-**Question:** What is isinstance(MyClass(), MyClass) if class MyClass: pass?
+**Question:** What is
+
+    isinstance(MyClass(), MyClass) if class MyClass:
+        pass
+
+?
 
 **Options:**
 ✓ 0. True
@@ -11418,7 +12065,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 707 (Level 8)
 
-**Question:** What is MyClass.__name__ if class MyClass: pass?
+**Question:** What is
+
+    MyClass.__name__ if class MyClass:
+        pass
+
+?
 
 **Options:**
 ✓ 0. 'MyClass'
@@ -11434,7 +12086,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 708 (Level 8)
 
-**Question:** What is class MyClass: pass; MyClass.__bases__?
+**Question:** What is
+
+    class MyClass:
+        pass
+        MyClass.__bases__
+
+?
 
 **Options:**
 ✓ 0. (<class 'object'>,)
@@ -11450,7 +12108,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 709 (Level 8)
 
-**Question:** What is class MyClass: pass; MyClass.__module__?
+**Question:** What is
+
+    class MyClass:
+        pass
+        MyClass.__module__
+
+?
 
 **Options:**
 ✓ 0. '__main__' or module name
@@ -11466,7 +12130,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 710 (Level 8)
 
-**Question:** What is class MyClass: pass; callable(MyClass)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    callable(MyClass)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -11482,7 +12152,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 711 (Level 8)
 
-**Question:** What is def __init__(self, x): self.x = x?
+**Question:** What is
+
+    def __init__(self, x):
+        self.x = x
+
+?
 
 **Options:**
 ✓ 0. Constructor method
@@ -11498,7 +12173,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 712 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self, x): self.x = x; obj = MyClass(5); obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x):
+            self.x = x
+    obj = MyClass(5); obj.x
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -11514,7 +12196,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 713 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self): pass; obj = MyClass()?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            pass
+    obj = MyClass()
+
+?
 
 **Options:**
 ✓ 0. Creates instance
@@ -11530,7 +12219,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 714 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self, x, y): self.x = x; self.y = y; obj = MyClass(1, 2)?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x, y):
+            self.x = x
+    self.y = y
+    obj = MyClass(1, 2)
+
+?
 
 **Options:**
 ✓ 0. Creates instance with x=1, y=2
@@ -11546,7 +12243,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 715 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self, x=1): self.x = x; obj = MyClass()?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x=1):
+            self.x = x
+    obj = MyClass()
+
+?
 
 **Options:**
 ✓ 0. Creates instance with x=1
@@ -11562,7 +12266,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 716 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self, x=1): self.x = x; obj = MyClass(5)?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x=1):
+            self.x = x
+    obj = MyClass(5)
+
+?
 
 **Options:**
 ✓ 0. Creates instance with x=5
@@ -11578,7 +12289,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 717 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -11594,7 +12312,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 718 (Level 8)
 
-**Question:** What is class MyClass: pass; obj1 = MyClass(); obj2 = MyClass(); obj1 is obj2?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj1 = MyClass()
+    obj2 = MyClass(); obj1 is obj2
+
+?
 
 **Options:**
 ✓ 0. False
@@ -11610,7 +12335,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 719 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); hasattr(obj, 'x')?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    hasattr(obj, 'x')
+
+?
 
 **Options:**
 ✓ 0. False
@@ -11626,7 +12358,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 720 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self, x): self.x = x; obj = MyClass(5); hasattr(obj, 'x')?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x):
+            self.x = x
+    obj = MyClass(5)
+    hasattr(obj, 'x')
+
+?
 
 **Options:**
 ✓ 0. True
@@ -11658,7 +12398,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 722 (Level 8)
 
-**Question:** What is class MyClass: def method(self): return 1; obj = MyClass(); obj.method()?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            return 1
+    obj = MyClass()
+    obj.method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11674,7 +12422,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 723 (Level 8)
 
-**Question:** What is class MyClass: def method(self): return 1; MyClass.method(MyClass())?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            return 1
+    MyClass.method(MyClass())
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11690,7 +12445,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 724 (Level 8)
 
-**Question:** What is class MyClass: def method(self, x): return x * 2; obj = MyClass(); obj.method(5)?
+**Question:** What is
+
+    class MyClass:
+        def method(self, x):
+            return x * 2
+    obj = MyClass()
+    obj.method(5)
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -11706,7 +12469,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 725 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self, x): self.x = x; def get_x(self): return self.x; obj = MyClass(5); obj.get_x()?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x):
+            self.x = x
+        def get_x(self):
+            return self.x
+    obj = MyClass(5)
+    obj.get_x()
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -11722,7 +12495,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 726 (Level 8)
 
-**Question:** What is class MyClass: def method(self): return self; obj = MyClass(); obj.method() is obj?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            return self
+    obj = MyClass()
+    obj.method() is obj
+
+?
 
 **Options:**
 ✓ 0. True
@@ -11738,7 +12519,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 727 (Level 8)
 
-**Question:** What is class MyClass: def method(self, other): return self.x + other.x; obj1 = MyClass(); obj1.x = 1; obj2 = MyClass(); obj2.x = 2; obj1.method(obj2)?
+**Question:** What is
+
+    class MyClass:
+        def method(self, other):
+            return self.x + other.x
+    obj1 = MyClass()
+    obj1.x = 1
+    obj2 = MyClass()
+    obj2.x = 2
+    obj1.method(obj2)
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -11754,7 +12546,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 728 (Level 8)
 
-**Question:** What is class MyClass: def method(self): return 'instance'; obj = MyClass(); MyClass.method?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            return 'instance'
+    obj = MyClass(); MyClass.method
+
+?
 
 **Options:**
 ✓ 0. <function MyClass.method>
@@ -11770,7 +12569,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 729 (Level 8)
 
-**Question:** What is class MyClass: def method(self): return 'instance'; obj = MyClass(); obj.method?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            return 'instance'
+    obj = MyClass(); obj.method
+
+?
 
 **Options:**
 ✓ 0. <bound method MyClass.method>
@@ -11786,7 +12592,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 730 (Level 8)
 
-**Question:** What is class MyClass: def method(self, x=1): return x; obj = MyClass(); obj.method()?
+**Question:** What is
+
+    class MyClass:
+        def method(self, x=1):
+            return x
+    obj = MyClass()
+    obj.method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11802,7 +12616,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 731 (Level 8)
 
-**Question:** What is class MyClass: x = 1; MyClass.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+        MyClass.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11818,7 +12638,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 732 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11834,7 +12660,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 733 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj = MyClass(); obj.x = 2; MyClass.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj = MyClass()
+    obj.x = 2; MyClass.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11850,7 +12683,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 734 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj = MyClass(); obj.x = 2; obj.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj = MyClass()
+    obj.x = 2; obj.x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -11866,7 +12706,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 735 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj1 = MyClass(); obj2 = MyClass(); obj1.x = 2; obj2.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj1 = MyClass()
+    obj2 = MyClass()
+    obj1.x = 2; obj2.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11882,7 +12730,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 736 (Level 8)
 
-**Question:** What is class MyClass: x = []; obj1 = MyClass(); obj2 = MyClass(); obj1.x.append(1); obj2.x?
+**Question:** What is
+
+    class MyClass:
+        x = []
+    obj1 = MyClass()
+    obj2 = MyClass()
+    obj1.x.append(1); obj2.x
+
+?
 
 **Options:**
 ✓ 0. [1]
@@ -11898,7 +12754,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 737 (Level 8)
 
-**Question:** What is class MyClass: x = 1; MyClass.x = 2; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    MyClass.x = 2
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -11914,7 +12777,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 738 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj = MyClass(); obj.x = 2; del obj.x; obj.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj = MyClass()
+    obj.x = 2; del obj.x; obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -11930,7 +12800,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 739 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj = MyClass(); MyClass.x = 2; obj.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj = MyClass()
+    MyClass.x = 2; obj.x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -11946,7 +12823,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 740 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj = MyClass(); obj.x = 2; MyClass.x = 3; obj.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj = MyClass()
+    obj.x = 2
+    MyClass.x = 3; obj.x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -11962,7 +12847,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 741 (Level 8)
 
-**Question:** What is class MyClass: @classmethod; def method(cls): return cls; MyClass.method()?
+**Question:** What is
+
+    class MyClass:
+        @classmethod
+        def method(cls):
+            return cls
+    MyClass.method()
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.MyClass'>
@@ -11978,7 +12871,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 742 (Level 8)
 
-**Question:** What is class MyClass: @classmethod; def method(cls): return cls; obj = MyClass(); obj.method()?
+**Question:** What is
+
+    class MyClass:
+        @classmethod
+        def method(cls):
+            return cls
+    obj = MyClass()
+    obj.method()
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.MyClass'>
@@ -11994,7 +12896,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 743 (Level 8)
 
-**Question:** What is class MyClass: @staticmethod; def method(): return 1; MyClass.method()?
+**Question:** What is
+
+    class MyClass:
+        @staticmethod
+        def method():
+            return 1
+    MyClass.method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12010,7 +12920,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 744 (Level 8)
 
-**Question:** What is class MyClass: @staticmethod; def method(): return 1; obj = MyClass(); obj.method()?
+**Question:** What is
+
+    class MyClass:
+        @staticmethod
+        def method():
+            return 1
+    obj = MyClass()
+    obj.method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12042,7 +12961,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 746 (Level 8)
 
-**Question:** What is class MyClass: x = 1; @classmethod; def get_x(cls): return cls.x; MyClass.get_x()?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+        @classmethod
+        def get_x(cls):
+            return cls.x
+    MyClass.get_x()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12058,7 +12986,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 747 (Level 8)
 
-**Question:** What is class MyClass: @classmethod; def create(cls): return cls(); obj = MyClass.create()?
+**Question:** What is
+
+    class MyClass:
+        @classmethod
+        def create(cls):
+            return cls()
+    obj = MyClass.create()
+
+?
 
 **Options:**
 ✓ 0. Creates instance
@@ -12074,7 +13010,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 748 (Level 8)
 
-**Question:** What is class MyClass: @staticmethod; def add(x, y): return x + y; MyClass.add(1, 2)?
+**Question:** What is
+
+    class MyClass:
+        @staticmethod
+        def add(x, y):
+            return x + y
+    MyClass.add(1, 2)
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -12090,7 +13034,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 749 (Level 8)
 
-**Question:** What is class MyClass: def method(self): return 1; @classmethod; def class_method(cls): return 2; MyClass.class_method()?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            return 1
+        @classmethod
+        def class_method(cls):
+            return 2
+    MyClass.class_method()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -12106,7 +13060,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 750 (Level 8)
 
-**Question:** What is class MyClass: @staticmethod; def method(): return 'static'; obj = MyClass(); obj.method()?
+**Question:** What is
+
+    class MyClass:
+        @staticmethod
+        def method():
+            return 'static'
+    obj = MyClass()
+    obj.method()
+
+?
 
 **Options:**
 ✓ 0. 'static'
@@ -12122,7 +13085,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 751 (Level 8)
 
-**Question:** What is class MyClass: def __str__(self): return 'str'; obj = MyClass(); str(obj)?
+**Question:** What is
+
+    class MyClass:
+        def __str__(self):
+            return 'str'
+    obj = MyClass()
+    str(obj)
+
+?
 
 **Options:**
 ✓ 0. 'str'
@@ -12138,7 +13109,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 752 (Level 8)
 
-**Question:** What is class MyClass: def __repr__(self): return 'repr'; obj = MyClass(); repr(obj)?
+**Question:** What is
+
+    class MyClass:
+        def __repr__(self):
+            return 'repr'
+    obj = MyClass()
+    repr(obj)
+
+?
 
 **Options:**
 ✓ 0. 'repr'
@@ -12154,7 +13133,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 753 (Level 8)
 
-**Question:** What is class MyClass: def __str__(self): return 'str'; def __repr__(self): return 'repr'; obj = MyClass(); print(obj)?
+**Question:** What is
+
+    class MyClass:
+        def __str__(self):
+            return 'str'
+        def __repr__(self):
+            return 'repr'
+    obj = MyClass()
+    print(obj)
+
+?
 
 **Options:**
 ✓ 0. str
@@ -12170,7 +13159,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 754 (Level 8)
 
-**Question:** What is class MyClass: def __len__(self): return 5; obj = MyClass(); len(obj)?
+**Question:** What is
+
+    class MyClass:
+        def __len__(self):
+            return 5
+    obj = MyClass()
+    len(obj)
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -12186,7 +13183,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 755 (Level 8)
 
-**Question:** What is class MyClass: def __eq__(self, other): return True; obj1 = MyClass(); obj2 = MyClass(); obj1 == obj2?
+**Question:** What is
+
+    class MyClass:
+        def __eq__(self, other):
+            return True
+    obj1 = MyClass()
+    obj2 = MyClass()
+    obj1 == obj2
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12202,7 +13208,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 756 (Level 8)
 
-**Question:** What is class MyClass: def __lt__(self, other): return True; obj1 = MyClass(); obj2 = MyClass(); obj1 < obj2?
+**Question:** What is
+
+    class MyClass:
+        def __lt__(self, other):
+            return True
+    obj1 = MyClass()
+    obj2 = MyClass(); obj1 < obj2
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12218,7 +13232,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 757 (Level 8)
 
-**Question:** What is class MyClass: def __add__(self, other): return 10; obj1 = MyClass(); obj2 = MyClass(); obj1 + obj2?
+**Question:** What is
+
+    class MyClass:
+        def __add__(self, other):
+            return 10
+    obj1 = MyClass()
+    obj2 = MyClass(); obj1 + obj2
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -12234,7 +13256,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 758 (Level 8)
 
-**Question:** What is class MyClass: def __getitem__(self, key): return key * 2; obj = MyClass(); obj[5]?
+**Question:** What is
+
+    class MyClass:
+        def __getitem__(self, key):
+            return key * 2
+    obj = MyClass(); obj[5]
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -12250,7 +13279,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 759 (Level 8)
 
-**Question:** What is class MyClass: def __setitem__(self, key, value): self.data = {key: value}; obj = MyClass(); obj[5] = 10; obj.data?
+**Question:** What is
+
+    class MyClass:
+        def __setitem__(self, key, value):
+            self.data = {key: value}
+    obj = MyClass(); obj[5] = 10; obj.data
+
+?
 
 **Options:**
 ✓ 0. {5: 10}
@@ -12266,7 +13302,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 760 (Level 8)
 
-**Question:** What is class MyClass: def __call__(self): return 'called'; obj = MyClass(); obj()?
+**Question:** What is
+
+    class MyClass:
+        def __call__(self):
+            return 'called'
+    obj = MyClass()
+    obj()
+
+?
 
 **Options:**
 ✓ 0. 'called'
@@ -12282,7 +13326,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 761 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return 1; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return 1
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12298,7 +13350,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 762 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return 1; obj = MyClass(); obj.x = 2?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return 1
+    obj = MyClass()
+    obj.x = 2
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -12314,7 +13375,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 763 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return self._x; @x.setter; def x(self, value): self._x = value; obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return self._x
+        @x.setter
+        def x(self, value):
+            self._x = value
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -12330,7 +13403,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 764 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return self._x; @x.setter; def x(self, value): self._x = value * 2; obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return self._x
+        @x.setter
+        def x(self, value):
+            self._x = value * 2
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -12346,7 +13431,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 765 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return self._x; @x.deleter; def x(self): del self._x; obj = MyClass(); obj._x = 1; del obj.x; hasattr(obj, '_x')?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return self._x
+        @x.deleter
+        def x(self):
+            del self._x
+    obj = MyClass()
+    obj._x = 1; del obj.x
+    hasattr(obj, '_x')
+
+?
 
 **Options:**
 ✓ 0. False
@@ -12362,7 +13460,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 766 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        @property
+        def x(self):
+            return self._x
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12378,7 +13486,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 767 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return 1; obj = MyClass(); MyClass.x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return 1
+    obj = MyClass(); MyClass.x
+
+?
 
 **Options:**
 ✓ 0. <property object>
@@ -12394,7 +13510,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 768 (Level 8)
 
-**Question:** What is class MyClass: x = property(lambda self: 1); obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        x = property(lambda self: 1)
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12410,7 +13532,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 769 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return self._x if hasattr(self, '_x') else 0; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return self._x if hasattr(self, '_x') else 0
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 0
@@ -12426,7 +13556,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 770 (Level 8)
 
-**Question:** What is class MyClass: @property; def x(self): return 1; @x.setter; def x(self, value): pass; obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return 1
+        @x.setter
+        def x(self, value):
+            pass
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12442,7 +13584,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 771 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); obj.x = 1; getattr(obj, 'x')?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    obj.x = 1
+    getattr(obj, 'x')
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12458,7 +13608,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 772 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); getattr(obj, 'x', 0)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    getattr(obj, 'x', 0)
+
+?
 
 **Options:**
 ✓ 0. 0
@@ -12474,7 +13631,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 773 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); setattr(obj, 'x', 1); obj.x?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    setattr(obj, 'x', 1); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12490,7 +13654,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 774 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); obj.x = 1; delattr(obj, 'x'); hasattr(obj, 'x')?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    obj.x = 1
+    delattr(obj, 'x')
+    hasattr(obj, 'x')
+
+?
 
 **Options:**
 ✓ 0. False
@@ -12506,7 +13679,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 775 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); dir(obj)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    dir(obj)
+
+?
 
 **Options:**
 ✓ 0. List of attribute names
@@ -12522,7 +13702,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 776 (Level 8)
 
-**Question:** What is class MyClass: x = 1; obj = MyClass(); 'x' in dir(obj)?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    obj = MyClass(); 'x' in dir(obj)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12538,7 +13724,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 777 (Level 8)
 
-**Question:** What is class MyClass: def method(self): pass; obj = MyClass(); 'method' in dir(obj)?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            pass
+    obj = MyClass(); 'method' in dir(obj)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12554,7 +13747,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 778 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); vars(obj)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    vars(obj)
+
+?
 
 **Options:**
 ✓ 0. {}
@@ -12570,7 +13770,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 779 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self, x): self.x = x; obj = MyClass(5); vars(obj)?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x):
+            self.x = x
+    obj = MyClass(5)
+    vars(obj)
+
+?
 
 **Options:**
 ✓ 0. {'x': 5}
@@ -12586,7 +13794,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 780 (Level 8)
 
-**Question:** What is class MyClass: x = 1; vars(MyClass)?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    vars(MyClass)
+
+?
 
 **Options:**
 ✓ 0. Dict with class attributes
@@ -12602,7 +13816,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 781 (Level 8)
 
-**Question:** What is class MyClass: pass; obj1 = MyClass(); obj2 = MyClass(); obj1 is obj2?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj1 = MyClass()
+    obj2 = MyClass(); obj1 is obj2
+
+?
 
 **Options:**
 ✓ 0. False
@@ -12618,7 +13839,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 782 (Level 8)
 
-**Question:** What is class MyClass: pass; obj1 = MyClass(); obj2 = obj1; obj1 is obj2?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj1 = MyClass()
+    obj2 = obj1; obj1 is obj2
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12634,7 +13862,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 783 (Level 8)
 
-**Question:** What is class MyClass: pass; obj1 = MyClass(); obj2 = MyClass(); obj1 == obj2?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj1 = MyClass()
+    obj2 = MyClass()
+    obj1 == obj2
+
+?
 
 **Options:**
 ✓ 0. False
@@ -12650,7 +13886,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 784 (Level 8)
 
-**Question:** What is class MyClass: def __eq__(self, other): return True; obj1 = MyClass(); obj2 = MyClass(); obj1 == obj2?
+**Question:** What is
+
+    class MyClass:
+        def __eq__(self, other):
+            return True
+    obj1 = MyClass()
+    obj2 = MyClass()
+    obj1 == obj2
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12666,7 +13911,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 785 (Level 8)
 
-**Question:** What is class MyClass: def __eq__(self, other): return True; obj1 = MyClass(); obj2 = MyClass(); obj1 != obj2?
+**Question:** What is
+
+    class MyClass:
+        def __eq__(self, other):
+            return True
+    obj1 = MyClass()
+    obj2 = MyClass(); obj1 != obj2
+
+?
 
 **Options:**
 ✓ 0. False
@@ -12682,7 +13935,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 786 (Level 8)
 
-**Question:** What is class MyClass: def __hash__(self): return 1; hash(MyClass())?
+**Question:** What is
+
+    class MyClass:
+        def __hash__(self):
+            return 1
+    hash(MyClass())
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12698,7 +13958,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 787 (Level 8)
 
-**Question:** What is class MyClass: def __eq__(self, other): return True; hash(MyClass())?
+**Question:** What is
+
+    class MyClass:
+        def __eq__(self, other):
+            return True
+    hash(MyClass())
+
+?
 
 **Options:**
 ✓ 0. TypeError (unhashable)
@@ -12714,7 +13981,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 788 (Level 8)
 
-**Question:** What is class MyClass: def __eq__(self, other): return True; def __hash__(self): return 1; {MyClass(): 1}?
+**Question:** What is
+
+    class MyClass:
+        def __eq__(self, other):
+            return True
+        def __hash__(self):
+            return 1
+        {MyClass(): 1}
+
+?
 
 **Options:**
 ✓ 0. {MyClass instance: 1}
@@ -12730,7 +14006,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 789 (Level 8)
 
-**Question:** What is class MyClass: pass; id(MyClass())?
+**Question:** What is
+
+    class MyClass:
+        pass
+    id(MyClass())
+
+?
 
 **Options:**
 ✓ 0. Unique integer id
@@ -12746,7 +14028,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 790 (Level 8)
 
-**Question:** What is class MyClass: pass; obj1 = MyClass(); obj2 = MyClass(); id(obj1) == id(obj2)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj1 = MyClass()
+    obj2 = MyClass()
+    id(obj1) == id(obj2)
+
+?
 
 **Options:**
 ✓ 0. False
@@ -12762,7 +14052,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 791 (Level 8)
 
-**Question:** What is class MyClass: __slots__ = ['x', 'y']; obj = MyClass(); obj.x = 1; obj.z = 2?
+**Question:** What is
+
+    class MyClass:
+        __slots__ = ['x', 'y']
+    obj = MyClass()
+    obj.x = 1
+    obj.z = 2
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -12778,7 +14076,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 792 (Level 8)
 
-**Question:** What is class MyClass: __slots__ = ['x']; obj = MyClass(); obj.x = 1; vars(obj)?
+**Question:** What is
+
+    class MyClass:
+        __slots__ = ['x']
+    obj = MyClass()
+    obj.x = 1
+    vars(obj)
+
+?
 
 **Options:**
 ✓ 0. AttributeError (no __dict__)
@@ -12794,7 +14100,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 793 (Level 8)
 
-**Question:** What is class MyClass: def __init__(self): self.x = 1; obj = MyClass(); obj.__dict__?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.x = 1
+    obj = MyClass(); obj.__dict__
+
+?
 
 **Options:**
 ✓ 0. {'x': 1}
@@ -12810,7 +14123,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 794 (Level 8)
 
-**Question:** What is class MyClass: x = 1; MyClass.__dict__?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+        MyClass.__dict__
+
+?
 
 **Options:**
 ✓ 0. Dict with class attributes and methods
@@ -12826,7 +14145,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 795 (Level 8)
 
-**Question:** What is class MyClass: def method(self): pass; 'method' in MyClass.__dict__?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            pass
+        'method' in MyClass.__dict__
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12842,7 +14168,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 796 (Level 8)
 
-**Question:** What is class MyClass: pass; obj = MyClass(); type(obj)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    obj = MyClass()
+    type(obj)
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.MyClass'>
@@ -12858,7 +14191,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 797 (Level 8)
 
-**Question:** What is class MyClass: pass; type(MyClass)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    type(MyClass)
+
+?
 
 **Options:**
 ✓ 0. <class 'type'>
@@ -12874,7 +14213,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 798 (Level 8)
 
-**Question:** What is class MyClass: pass; issubclass(MyClass, object)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    issubclass(MyClass, object)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12890,7 +14235,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 799 (Level 8)
 
-**Question:** What is class MyClass: pass; isinstance(MyClass, type)?
+**Question:** What is
+
+    class MyClass:
+        pass
+    isinstance(MyClass, type)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12906,7 +14257,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 800 (Level 8)
 
-**Question:** What is class MyClass: pass; MyClass.mro()?
+**Question:** What is
+
+    class MyClass:
+        pass
+    MyClass.mro()
+
+?
 
 **Options:**
 ✓ 0. Method Resolution Order list
@@ -12938,7 +14295,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 802 (Level 9)
 
-**Question:** What is class Parent: x = 1; class Child(Parent): pass; Child.x?
+**Question:** What is
+
+    class Parent:
+        x = 1
+    class Child(Parent):
+        pass
+        Child.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12954,7 +14319,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 803 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): pass; Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        pass
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -12970,7 +14344,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 804 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; issubclass(Child, Parent)?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    issubclass(Child, Parent)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -12986,7 +14368,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 805 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), Parent)?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    isinstance(Child(), Parent)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -13002,7 +14392,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 806 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; Child.__bases__?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+        Child.__bases__
+
+?
 
 **Options:**
 ✓ 0. (<class '__main__.Parent'>,)
@@ -13018,7 +14416,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 807 (Level 9)
 
-**Question:** What is class Parent: x = 1; class Child(Parent): pass; obj = Child(); obj.x?
+**Question:** What is
+
+    class Parent:
+        x = 1
+    class Child(Parent):
+        pass
+    obj = Child(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13034,7 +14440,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 808 (Level 9)
 
-**Question:** What is class Parent: def __init__(self): self.x = 1; class Child(Parent): pass; Child().x?
+**Question:** What is
+
+    class Parent:
+        def __init__(self):
+            self.x = 1
+    class Child(Parent):
+        pass
+    Child().x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13050,7 +14465,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 809 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; Parent.__subclasses__()?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    Parent.__subclasses__()
+
+?
 
 **Options:**
 ✓ 0. [<class '__main__.Child'>]
@@ -13066,7 +14489,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 810 (Level 9)
 
-**Question:** What is class Parent: x = 1; class Child(Parent): x = 2; Child.x?
+**Question:** What is
+
+    class Parent:
+        x = 1
+    class Child(Parent):
+        x = 2
+        Child.x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13098,7 +14529,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 812 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): def method(self): return 2; Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        def method(self):
+            return 2
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13114,7 +14555,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 813 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): def method(self): return super().method(); Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        def method(self):
+            return super().method()
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13130,7 +14581,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 814 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): def method(self): return super().method() + 1; Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        def method(self):
+            return super().method() + 1
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13146,7 +14607,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 815 (Level 9)
 
-**Question:** What is class Parent: def __init__(self): self.x = 1; class Child(Parent): def __init__(self): self.y = 2; Child().x?
+**Question:** What is
+
+    class Parent:
+        def __init__(self):
+            self.x = 1
+    class Child(Parent):
+        def __init__(self):
+            self.y = 2
+    Child().x
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -13162,7 +14633,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 816 (Level 9)
 
-**Question:** What is class Parent: def __init__(self): self.x = 1; class Child(Parent): def __init__(self): super().__init__(); self.y = 2; obj = Child(); obj.x?
+**Question:** What is
+
+    class Parent:
+        def __init__(self):
+            self.x = 1
+    class Child(Parent):
+        def __init__(self):
+            super().__init__()
+    self.y = 2
+    obj = Child(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13178,7 +14660,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 817 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 'parent'; class Child(Parent): pass; Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 'parent'
+    class Child(Parent):
+        pass
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 'parent'
@@ -13194,7 +14685,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 818 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): def method(self): return super().method(); Parent().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        def method(self):
+            return super().method()
+    Parent().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13210,7 +14711,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 819 (Level 9)
 
-**Question:** What is class Parent: @classmethod; def method(cls): return 1; class Child(Parent): @classmethod; def method(cls): return 2; Child.method()?
+**Question:** What is
+
+    class Parent:
+        @classmethod
+        def method(cls):
+            return 1
+    class Child(Parent):
+        @classmethod
+        def method(cls):
+            return 2
+    Child.method()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13226,7 +14739,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 820 (Level 9)
 
-**Question:** What is class Parent: @staticmethod; def method(): return 1; class Child(Parent): @staticmethod; def method(): return 2; Child.method()?
+**Question:** What is
+
+    class Parent:
+        @staticmethod
+        def method():
+            return 1
+    class Child(Parent):
+        @staticmethod
+        def method():
+            return 2
+    Child.method()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13242,7 +14767,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 821 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): def method(self): return super().method(); Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        def method(self):
+            return super().method()
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13258,7 +14793,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 822 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): def method(self): return super(Child, self).method(); Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        def method(self):
+            return super(Child, self).method()
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13274,7 +14819,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 823 (Level 9)
 
-**Question:** What is class Parent: x = 1; class Child(Parent): def method(self): return super().x; Child().method()?
+**Question:** What is
+
+    class Parent:
+        x = 1
+    class Child(Parent):
+        def method(self):
+            return super().x
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13290,7 +14844,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 824 (Level 9)
 
-**Question:** What is class Parent: def __init__(self, x): self.x = x; class Child(Parent): def __init__(self, x, y): super().__init__(x); self.y = y; obj = Child(1, 2); obj.x?
+**Question:** What is
+
+    class Parent:
+        def __init__(self, x):
+            self.x = x
+    class Child(Parent):
+        def __init__(self, x, y):
+            super().__init__(x)
+    self.y = y
+    obj = Child(1, 2); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13306,7 +14871,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 825 (Level 9)
 
-**Question:** What is class Parent: @classmethod; def method(cls): return 1; class Child(Parent): @classmethod; def method(cls): return super().method(); Child.method()?
+**Question:** What is
+
+    class Parent:
+        @classmethod
+        def method(cls):
+            return 1
+    class Child(Parent):
+        @classmethod
+        def method(cls):
+            return super().method()
+    Child.method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13322,7 +14899,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 826 (Level 9)
 
-**Question:** What is class Parent: @staticmethod; def method(): return 1; class Child(Parent): @staticmethod; def method(): return super().method(); Child.method()?
+**Question:** What is
+
+    class Parent:
+        @staticmethod
+        def method():
+            return 1
+    class Child(Parent):
+        @staticmethod
+        def method():
+            return super().method()
+    Child.method()
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -13338,7 +14927,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 827 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 'parent'; class Child(Parent): def method(self): return super().method() + ' child'; Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 'parent'
+    class Child(Parent):
+        def method(self):
+            return super().method() + ' child'
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 'parent child'
@@ -13354,7 +14953,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 828 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Child(Parent): pass; super(Child, Child()).method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Child(Parent):
+        pass
+    super(Child, Child()).method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13370,7 +14978,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 829 (Level 9)
 
-**Question:** What is class Parent: x = 1; class Child(Parent): x = 2; def method(self): return super().x; Child().method()?
+**Question:** What is
+
+    class Parent:
+        x = 1
+    class Child(Parent):
+        x = 2
+        def method(self):
+            return super().x
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13386,7 +15004,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 830 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 1; class Middle(Parent): def method(self): return 2; class Child(Middle): def method(self): return super().method(); Child().method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 1
+    class Middle(Parent):
+        def method(self):
+            return 2
+    class Child(Middle):
+        def method(self):
+            return super().method()
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13402,7 +15033,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 831 (Level 9)
 
-**Question:** What is class A: x = 1; class B: x = 2; class C(A, B): pass; C.x?
+**Question:** What is
+
+    class A:
+        x = 1
+    class B:
+        x = 2
+    class C(A, B):
+        pass
+        C.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13418,7 +15059,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 832 (Level 9)
 
-**Question:** What is class A: x = 1; class B: x = 2; class C(B, A): pass; C.x?
+**Question:** What is
+
+    class A:
+        x = 1
+    class B:
+        x = 2
+    class C(B, A):
+        pass
+        C.x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13434,7 +15085,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 833 (Level 9)
 
-**Question:** What is class A: def method(self): return 'A'; class B: def method(self): return 'B'; class C(A, B): pass; C().method()?
+**Question:** What is
+
+    class A:
+        def method(self):
+            return 'A'
+    class B:
+        def method(self):
+            return 'B'
+    class C(A, B):
+        pass
+    C().method()
+
+?
 
 **Options:**
 ✓ 0. 'A'
@@ -13450,7 +15113,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 834 (Level 9)
 
-**Question:** What is class A: def method(self): return 'A'; class B: def method(self): return 'B'; class C(A, B): def method(self): return super().method(); C().method()?
+**Question:** What is
+
+    class A:
+        def method(self):
+            return 'A'
+    class B:
+        def method(self):
+            return 'B'
+    class C(A, B):
+        def method(self):
+            return super().method()
+    C().method()
+
+?
 
 **Options:**
 ✓ 0. 'A'
@@ -13466,7 +15142,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 835 (Level 9)
 
-**Question:** What is class A: pass; class B: pass; class C(A, B): pass; C.__bases__?
+**Question:** What is
+
+    class A:
+        pass
+    class B:
+        pass
+    class C(A, B):
+        pass
+        C.__bases__
+
+?
 
 **Options:**
 ✓ 0. (<class '__main__.A'>, <class '__main__.B'>)
@@ -13482,7 +15168,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 836 (Level 9)
 
-**Question:** What is class A: pass; class B(A): pass; class C(A): pass; class D(B, C): pass; D.mro()?
+**Question:** What is
+
+    class A:
+        pass
+    class B(A):
+        pass
+    class C(A):
+        pass
+    class D(B, C):
+        pass
+    D.mro()
+
+?
 
 **Options:**
 ✓ 0. [D, B, C, A, object]
@@ -13498,7 +15196,22 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 837 (Level 9)
 
-**Question:** What is class A: def method(self): return 'A'; class B(A): def method(self): return 'B'; class C(A): def method(self): return 'C'; class D(B, C): pass; D().method()?
+**Question:** What is
+
+    class A:
+        def method(self):
+            return 'A'
+    class B(A):
+        def method(self):
+            return 'B'
+    class C(A):
+        def method(self):
+            return 'C'
+    class D(B, C):
+        pass
+    D().method()
+
+?
 
 **Options:**
 ✓ 0. 'B'
@@ -13514,7 +15227,21 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 838 (Level 9)
 
-**Question:** What is class A: def method(self): return 'A'; class B(A): pass; class C(A): def method(self): return 'C'; class D(B, C): pass; D().method()?
+**Question:** What is
+
+    class A:
+        def method(self):
+            return 'A'
+    class B(A):
+        pass
+    class C(A):
+        def method(self):
+            return 'C'
+    class D(B, C):
+        pass
+    D().method()
+
+?
 
 **Options:**
 ✓ 0. 'C'
@@ -13530,7 +15257,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 839 (Level 9)
 
-**Question:** What is class A: x = 1; class B: x = 2; class C(A, B): x = 3; C.x?
+**Question:** What is
+
+    class A:
+        x = 1
+    class B:
+        x = 2
+    class C(A, B):
+        x = 3
+        C.x
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -13546,7 +15283,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 840 (Level 9)
 
-**Question:** What is class A: def method(self): return 'A'; class B: def method(self): return 'B'; class C(A, B): def method(self): return super().method(); C().method()?
+**Question:** What is
+
+    class A:
+        def method(self):
+            return 'A'
+    class B:
+        def method(self):
+            return 'B'
+    class C(A, B):
+        def method(self):
+            return super().method()
+    C().method()
+
+?
 
 **Options:**
 ✓ 0. 'A'
@@ -13578,7 +15328,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 842 (Level 9)
 
-**Question:** What is class Animal: def speak(self): return 'sound'; class Dog(Animal): def speak(self): return 'bark'; class Cat(Animal): def speak(self): return 'meow'; [Dog().speak(), Cat().speak()]?
+**Question:** What is
+
+    class Animal:
+        def speak(self):
+            return 'sound'
+    class Dog(Animal):
+        def speak(self):
+            return 'bark'
+    class Cat(Animal):
+        def speak(self):
+            return 'meow'
+        [Dog().speak(), Cat().speak()]
+
+?
 
 **Options:**
 ✓ 0. ['bark', 'meow']
@@ -13594,7 +15357,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 843 (Level 9)
 
-**Question:** What is class Shape: def area(self): return 0; class Circle(Shape): def area(self): return 3.14; class Square(Shape): def area(self): return 1; [Circle().area(), Square().area()]?
+**Question:** What is
+
+    class Shape:
+        def area(self):
+            return 0
+    class Circle(Shape):
+        def area(self):
+            return 3.14
+    class Square(Shape):
+        def area(self):
+            return 1
+        [Circle().area(), Square().area()]
+
+?
 
 **Options:**
 ✓ 0. [3.14, 1]
@@ -13610,7 +15386,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 844 (Level 9)
 
-**Question:** What is def process(obj): return obj.method(); class A: def method(self): return 1; class B: def method(self): return 2; [process(A()), process(B())]?
+**Question:** What is
+
+    def process(obj):
+        return obj.method()
+    class A:
+        def method(self):
+            return 1
+    class B:
+        def method(self):
+            return 2
+        [process(A()), process(B())]
+
+?
 
 **Options:**
 ✓ 0. [1, 2]
@@ -13626,7 +15414,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 845 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 'parent'; class Child(Parent): def method(self): return 'child'; obj = Parent(); obj = Child(); obj.method()?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 'parent'
+    class Child(Parent):
+        def method(self):
+            return 'child'
+    obj = Parent()
+    obj = Child()
+    obj.method()
+
+?
 
 **Options:**
 ✓ 0. 'child'
@@ -13642,7 +15442,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 846 (Level 9)
 
-**Question:** What is class A: def __add__(self, other): return 'A'; class B: def __add__(self, other): return 'B'; A() + B()?
+**Question:** What is
+
+    class A:
+        def __add__(self, other):
+            return 'A'
+    class B:
+        def __add__(self, other):
+            return 'B'
+    A() + B()
+
+?
 
 **Options:**
 ✓ 0. 'A'
@@ -13658,7 +15468,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 847 (Level 9)
 
-**Question:** What is class Animal: def speak(self): pass; class Dog(Animal): def speak(self): return 'bark'; def make_sound(animal): return animal.speak(); make_sound(Dog())?
+**Question:** What is
+
+    class Animal:
+        def speak(self):
+            pass
+    class Dog(Animal):
+        def speak(self):
+            return 'bark'
+        def make_sound(animal):
+            return animal.speak()
+    make_sound(Dog())
+
+?
 
 **Options:**
 ✓ 0. 'bark'
@@ -13674,7 +15496,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 848 (Level 9)
 
-**Question:** What is class A: def method(self): return 1; class B(A): def method(self): return 2; class C(B): def method(self): return 3; [A().method(), B().method(), C().method()]?
+**Question:** What is
+
+    class A:
+        def method(self):
+            return 1
+    class B(A):
+        def method(self):
+            return 2
+    class C(B):
+        def method(self):
+            return 3
+        [A().method(), B().method(), C().method()]
+
+?
 
 **Options:**
 ✓ 0. [1, 2, 3]
@@ -13690,7 +15525,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 849 (Level 9)
 
-**Question:** What is class Parent: def method(self): return 'parent'; class Child(Parent): pass; [Parent().method(), Child().method()]?
+**Question:** What is
+
+    class Parent:
+        def method(self):
+            return 'parent'
+    class Child(Parent):
+        pass
+        [Parent().method(), Child().method()]
+
+?
 
 **Options:**
 ✓ 0. ['parent', 'parent']
@@ -13706,7 +15550,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 850 (Level 9)
 
-**Question:** What is class A: def __str__(self): return 'A'; class B: def __str__(self): return 'B'; [str(A()), str(B())]?
+**Question:** What is
+
+    class A:
+        def __str__(self):
+            return 'A'
+    class B:
+        def __str__(self):
+            return 'B'
+        [str(A()), str(B())]
+
+?
 
 **Options:**
 ✓ 0. ['A', 'B']
@@ -13722,7 +15576,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 851 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj.__x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.__x = 1
+    obj = MyClass(); obj.__x
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -13738,7 +15599,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 852 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.__x = 1; obj = MyClass(); obj._MyClass__x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.__x = 1
+    obj = MyClass(); obj._MyClass__x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13754,7 +15622,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 853 (Level 9)
 
-**Question:** What is class MyClass: __x = 1; MyClass.__x?
+**Question:** What is
+
+    class MyClass:
+        __x = 1
+        MyClass.__x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13770,7 +15644,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 854 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; obj = MyClass(); obj._x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+    obj = MyClass(); obj._x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13786,7 +15667,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 855 (Level 9)
 
-**Question:** What is class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self.__x; Child().method()?
+**Question:** What is
+
+    class Parent:
+        def __init__(self):
+            self.__x = 1
+    class Child(Parent):
+        def method(self):
+            return self.__x
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -13802,7 +15693,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 856 (Level 9)
 
-**Question:** What is class Parent: def __init__(self): self.__x = 1; class Child(Parent): def method(self): return self._Parent__x; Child().method()?
+**Question:** What is
+
+    class Parent:
+        def __init__(self):
+            self.__x = 1
+    class Child(Parent):
+        def method(self):
+            return self._Parent__x
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13818,7 +15719,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 857 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.__x__ = 1; obj = MyClass(); obj.__x__?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.__x__ = 1
+    obj = MyClass(); obj.__x__
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13834,7 +15742,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 858 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; obj = MyClass(); obj.get_x()?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        def get_x(self):
+            return self._x
+    obj = MyClass()
+    obj.get_x()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13850,7 +15768,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 859 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.__x = 1; def get_x(self): return self.__x; obj = MyClass(); obj.get_x()?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.__x = 1
+        def get_x(self):
+            return self.__x
+    obj = MyClass()
+    obj.get_x()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13866,7 +15794,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 860 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.__x = 1; def set_x(self, val): self.__x = val; obj = MyClass(); obj.set_x(2); obj.get_x() if hasattr(obj, 'get_x') else obj._MyClass__x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.__x = 1
+        def set_x(self, val):
+            self.__x = val
+    obj = MyClass()
+    obj.set_x(2)
+    obj.get_x() if hasattr(obj, 'get_x') else obj._MyClass__x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -13882,7 +15821,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 861 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        @property
+        def x(self):
+            return self._x
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13898,7 +15847,21 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 862 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): self._x = val * 2; obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        @property
+        def x(self):
+            return self._x
+        @x.setter
+        def x(self, val):
+            self._x = val * 2
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -13914,7 +15877,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 863 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.__x = 1; @property; def x(self): return self.__x; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.__x = 1
+        @property
+        def x(self):
+            return self.__x
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13930,7 +15903,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 864 (Level 9)
 
-**Question:** What is class MyClass: @property; def x(self): return 1; @x.setter; def x(self, val): pass; obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return 1
+        @x.setter
+        def x(self, val):
+            pass
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -13946,7 +15931,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 865 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; def get_x(self): return self._x; def set_x(self, val): self._x = val; x = property(get_x, set_x); obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        def get_x(self):
+            return self._x
+        def set_x(self, val):
+            self._x = val
+    x = property(get_x, set_x)
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 5
@@ -13962,7 +15960,21 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 866 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.deleter; def x(self): del self._x; obj = MyClass(); del obj.x; hasattr(obj, '_x')?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        @property
+        def x(self):
+            return self._x
+        @x.deleter
+        def x(self):
+            del self._x
+    obj = MyClass(); del obj.x
+    hasattr(obj, '_x')
+
+?
 
 **Options:**
 ✓ 0. False
@@ -13978,7 +15990,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 867 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; obj = MyClass(); obj.x = 2?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        @property
+        def x(self):
+            return self._x
+    obj = MyClass()
+    obj.x = 2
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -13994,7 +16017,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 868 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x if self._x > 0 else 0; obj = MyClass(); obj._x = -1; obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        @property
+        def x(self):
+            return self._x if self._x > 0 else 0
+    obj = MyClass()
+    obj._x = -1; obj.x
+
+?
 
 **Options:**
 ✓ 0. 0
@@ -14010,7 +16044,23 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 869 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; @property; def x(self): return self._x; @x.setter; def x(self, val): if val < 0: raise ValueError; self._x = val; obj = MyClass(); obj.x = -1?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+        @property
+        def x(self):
+            return self._x
+        @x.setter
+        def x(self, val):
+            if val < 0:
+                raise ValueError
+    self._x = val
+    obj = MyClass()
+    obj.x = -1
+
+?
 
 **Options:**
 ✓ 0. ValueError
@@ -14026,7 +16076,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 870 (Level 9)
 
-**Question:** What is class MyClass: _x = 1; @classmethod; @property; def x(cls): return cls._x?
+**Question:** What is
+
+    class MyClass:
+        _x = 1
+        @classmethod
+        @property
+        def x(cls):
+            return cls._x
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -14042,7 +16101,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 871 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass()?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class MyClass(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+    MyClass()
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -14058,7 +16126,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 872 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; Child()?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class Parent(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+    class Child(Parent):
+        pass
+    Child()
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -14074,7 +16153,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 873 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child().method()?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class Parent(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+    class Child(Parent):
+        def method(self):
+            return 1
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14090,7 +16181,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 874 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): @abstractmethod; def method(self): pass; Child()?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class Parent(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+    class Child(Parent):
+        @abstractmethod
+        def method(self):
+            pass
+    Child()
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -14106,7 +16210,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 875 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; MyClass.__abstractmethods__?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class MyClass(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+        MyClass.__abstractmethods__
+
+?
 
 **Options:**
 ✓ 0. frozenset({'method'})
@@ -14122,7 +16235,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 876 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): def method(self): return 1; Child.__abstractmethods__?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class Parent(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+    class Child(Parent):
+        def method(self):
+            return 1
+        Child.__abstractmethods__
+
+?
 
 **Options:**
 ✓ 0. frozenset()
@@ -14138,7 +16263,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 877 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @classmethod; def method(cls): pass; MyClass()?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class MyClass(ABC):
+        @abstractmethod
+        @classmethod
+        def method(cls):
+            pass
+    MyClass()
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -14154,7 +16289,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 878 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; @staticmethod; def method(): pass; MyClass()?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class MyClass(ABC):
+        @abstractmethod
+        @staticmethod
+        def method():
+            pass
+    MyClass()
+
+?
 
 **Options:**
 ✓ 0. TypeError
@@ -14170,7 +16315,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 879 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class Parent(ABC): @abstractmethod; def method(self): pass; class Child(Parent): pass; issubclass(Child, Parent)?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class Parent(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+    class Child(Parent):
+        pass
+    issubclass(Child, Parent)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14186,7 +16342,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 880 (Level 9)
 
-**Question:** What is from abc import ABC, abstractmethod; class MyClass(ABC): @abstractmethod; def method(self): pass; isinstance(MyClass(), MyClass)?
+**Question:** What is
+
+    from abc import ABC, abstractmethod
+    class MyClass(ABC):
+        @abstractmethod
+        def method(self):
+            pass
+    isinstance(MyClass(), MyClass)
+
+?
 
 **Options:**
 ✓ 0. TypeError (can't instantiate)
@@ -14202,7 +16367,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 881 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), Parent)?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    isinstance(Child(), Parent)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14218,7 +16391,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 882 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), Child)?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    isinstance(Child(), Child)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14234,7 +16415,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 883 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; isinstance(Child(), (Parent, str))?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    isinstance(Child(), (Parent, str))
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14250,7 +16439,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 884 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; isinstance(Parent(), Child)?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    isinstance(Parent(), Child)
+
+?
 
 **Options:**
 ✓ 0. False
@@ -14266,7 +16463,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 885 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; issubclass(Child, Parent)?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    issubclass(Child, Parent)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14282,7 +16487,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 886 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; issubclass(Parent, Child)?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    issubclass(Parent, Child)
+
+?
 
 **Options:**
 ✓ 0. False
@@ -14298,7 +16511,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 887 (Level 9)
 
-**Question:** What is class Parent: pass; class Child(Parent): pass; issubclass(Child, (Parent, str))?
+**Question:** What is
+
+    class Parent:
+        pass
+    class Child(Parent):
+        pass
+    issubclass(Child, (Parent, str))
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14314,7 +16535,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 888 (Level 9)
 
-**Question:** What is class A: pass; class B(A): pass; class C(B): pass; issubclass(C, A)?
+**Question:** What is
+
+    class A:
+        pass
+    class B(A):
+        pass
+    class C(B):
+        pass
+    issubclass(C, A)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14330,7 +16561,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 889 (Level 9)
 
-**Question:** What is class A: pass; class B(A): pass; class C(B): pass; isinstance(C(), A)?
+**Question:** What is
+
+    class A:
+        pass
+    class B(A):
+        pass
+    class C(B):
+        pass
+    isinstance(C(), A)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14346,7 +16587,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 890 (Level 9)
 
-**Question:** What is class A: pass; class B: pass; class C(A, B): pass; issubclass(C, A) and issubclass(C, B)?
+**Question:** What is
+
+    class A:
+        pass
+    class B:
+        pass
+    class C(A, B):
+        pass
+    issubclass(C, A) and issubclass(C, B)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14362,7 +16613,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 891 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.x = 1; class Child(MyClass): def __init__(self): super().__init__(); self.y = 2; obj = Child(); [obj.x, obj.y]?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.x = 1
+    class Child(MyClass):
+        def __init__(self):
+            super().__init__()
+    self.y = 2
+    obj = Child(); [obj.x, obj.y]
+
+?
 
 **Options:**
 ✓ 0. [1, 2]
@@ -14378,7 +16640,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 892 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self, x): self.x = x; class Child(MyClass): def __init__(self, x, y): super().__init__(x); self.y = y; Child(1, 2).x?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self, x):
+            self.x = x
+    class Child(MyClass):
+        def __init__(self, x, y):
+            super().__init__(x)
+    self.y = y
+    Child(1, 2).x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14394,7 +16667,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 893 (Level 9)
 
-**Question:** What is class MyClass: x = 1; class Child(MyClass): x = 2; class GrandChild(Child): pass; GrandChild.x?
+**Question:** What is
+
+    class MyClass:
+        x = 1
+    class Child(MyClass):
+        x = 2
+    class GrandChild(Child):
+        pass
+        GrandChild.x
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -14410,7 +16693,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 894 (Level 9)
 
-**Question:** What is class MyClass: def method(self): return 1; class Child(MyClass): def method(self): return super().method() + 1; Child().method()?
+**Question:** What is
+
+    class MyClass:
+        def method(self):
+            return 1
+    class Child(MyClass):
+        def method(self):
+            return super().method() + 1
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -14426,7 +16719,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 895 (Level 9)
 
-**Question:** What is class MyClass: def __str__(self): return 'MyClass'; class Child(MyClass): def __str__(self): return 'Child'; str(Child())?
+**Question:** What is
+
+    class MyClass:
+        def __str__(self):
+            return 'MyClass'
+    class Child(MyClass):
+        def __str__(self):
+            return 'Child'
+    str(Child())
+
+?
 
 **Options:**
 ✓ 0. 'Child'
@@ -14442,7 +16745,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 896 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self.__x = 1; class Child(MyClass): def method(self): return self.__x; Child().method()?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self.__x = 1
+    class Child(MyClass):
+        def method(self):
+            return self.__x
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -14458,7 +16771,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 897 (Level 9)
 
-**Question:** What is class MyClass: def __init__(self): self._x = 1; class Child(MyClass): def method(self): return self._x; Child().method()?
+**Question:** What is
+
+    class MyClass:
+        def __init__(self):
+            self._x = 1
+    class Child(MyClass):
+        def method(self):
+            return self._x
+    Child().method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14474,7 +16797,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 898 (Level 9)
 
-**Question:** What is class MyClass: @classmethod; def method(cls): return cls; class Child(MyClass): pass; Child.method()?
+**Question:** What is
+
+    class MyClass:
+        @classmethod
+        def method(cls):
+            return cls
+    class Child(MyClass):
+        pass
+    Child.method()
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.Child'>
@@ -14490,7 +16823,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 899 (Level 9)
 
-**Question:** What is class MyClass: @staticmethod; def method(): return 1; class Child(MyClass): pass; Child.method()?
+**Question:** What is
+
+    class MyClass:
+        @staticmethod
+        def method():
+            return 1
+    class Child(MyClass):
+        pass
+    Child.method()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14506,7 +16849,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 900 (Level 9)
 
-**Question:** What is class MyClass: @property; def x(self): return 1; class Child(MyClass): pass; Child().x?
+**Question:** What is
+
+    class MyClass:
+        @property
+        def x(self):
+            return 1
+    class Child(MyClass):
+        pass
+    Child().x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14538,7 +16891,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 902 (Level 10)
 
-**Question:** What is try: 1/0; except: pass?
+**Question:** What is
+
+    try:
+        1/0
+        except:
+            pass
+
+?
 
 **Options:**
 ✓ 0. Catches all exceptions
@@ -14554,7 +16914,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 903 (Level 10)
 
-**Question:** What is try: 1/0; except ZeroDivisionError: pass?
+**Question:** What is
+
+    try:
+        1/0
+        except ZeroDivisionError:
+            pass
+
+?
 
 **Options:**
 ✓ 0. Catches ZeroDivisionError
@@ -14570,7 +16937,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 904 (Level 10)
 
-**Question:** What is try: 1/0; except ZeroDivisionError as e: type(e)?
+**Question:** What is
+
+    try:
+        1/0
+        except ZeroDivisionError as e:
+            type(e)
+
+?
 
 **Options:**
 ✓ 0. <class 'ZeroDivisionError'>
@@ -14586,7 +16960,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 905 (Level 10)
 
-**Question:** What is try: 1/0; except (ZeroDivisionError, ValueError): pass?
+**Question:** What is
+
+    try:
+        1/0
+    except (ZeroDivisionError, ValueError):
+        pass
+
+?
 
 **Options:**
 ✓ 0. Catches multiple exception types
@@ -14602,7 +16983,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 906 (Level 10)
 
-**Question:** What is try: 1/0; except ZeroDivisionError: pass; except ValueError: pass?
+**Question:** What is
+
+    try:
+        1/0
+        except ZeroDivisionError:
+            pass
+        except ValueError:
+            pass
+
+?
 
 **Options:**
 ✓ 0. Multiple except clauses
@@ -14618,7 +17008,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 907 (Level 10)
 
-**Question:** What is try: pass; except: pass; else: x = 1; x?
+**Question:** What is
+
+    try:
+        pass
+        except:
+            pass
+        else:
+            x = 1
+        x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14634,7 +17034,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 908 (Level 10)
 
-**Question:** What is try: 1/0; except: pass; else: x = 1; x?
+**Question:** What is
+
+    try:
+        1/0
+        except:
+            pass
+        else:
+            x = 1
+        x
+
+?
 
 **Options:**
 ✓ 0. NameError
@@ -14650,7 +17060,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 909 (Level 10)
 
-**Question:** What is try: pass; except: pass; finally: x = 1; x?
+**Question:** What is
+
+    try:
+        pass
+        except:
+            pass
+        finally:
+            x = 1
+        x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14666,7 +17086,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 910 (Level 10)
 
-**Question:** What is try: 1/0; except: pass; finally: x = 1; x?
+**Question:** What is
+
+    try:
+        1/0
+        except:
+            pass
+        finally:
+            x = 1
+        x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14714,7 +17144,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 913 (Level 10)
 
-**Question:** What is try: raise ValueError; except ValueError as e: raise?
+**Question:** What is
+
+    try:
+        raise ValueError
+        except ValueError as e:
+            raise
+
+?
 
 **Options:**
 ✓ 0. Re-raises the exception
@@ -14730,7 +17167,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 914 (Level 10)
 
-**Question:** What is class MyError(Exception): pass; raise MyError()?
+**Question:** What is
+
+    class MyError(Exception):
+        pass
+        raise MyError()
+
+?
 
 **Options:**
 ✓ 0. Raises custom exception
@@ -14746,7 +17189,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 915 (Level 10)
 
-**Question:** What is class MyError(Exception): pass; isinstance(MyError(), Exception)?
+**Question:** What is
+
+    class MyError(Exception):
+        pass
+    isinstance(MyError(), Exception)
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14762,7 +17211,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 916 (Level 10)
 
-**Question:** What is try: raise ValueError('msg'); except ValueError as e: str(e)?
+**Question:** What is
+
+    try:
+        raise ValueError('msg')
+        except ValueError as e:
+            str(e)
+
+?
 
 **Options:**
 ✓ 0. 'msg'
@@ -14778,7 +17234,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 917 (Level 10)
 
-**Question:** What is try: raise ValueError('msg'); except ValueError as e: repr(e)?
+**Question:** What is
+
+    try:
+        raise ValueError('msg')
+        except ValueError as e:
+            repr(e)
+
+?
 
 **Options:**
 ✓ 0. "ValueError('msg')"
@@ -14794,7 +17257,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 918 (Level 10)
 
-**Question:** What is try: 1/0; except Exception as e: type(e).__name__?
+**Question:** What is
+
+    try:
+        1/0
+        except Exception as e:
+            type(e).__name__
+
+?
 
 **Options:**
 ✓ 0. 'ZeroDivisionError'
@@ -14810,7 +17280,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 919 (Level 10)
 
-**Question:** What is try: raise ValueError; except Exception: pass?
+**Question:** What is
+
+    try:
+        raise ValueError
+        except Exception:
+            pass
+
+?
 
 **Options:**
 ✓ 0. Catches ValueError (subclass)
@@ -14826,7 +17303,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 920 (Level 10)
 
-**Question:** What is try: raise ValueError; except (ValueError, TypeError): pass?
+**Question:** What is
+
+    try:
+        raise ValueError
+    except (ValueError, TypeError):
+        pass
+
+?
 
 **Options:**
 ✓ 0. Catches ValueError
@@ -14858,7 +17342,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 922 (Level 10)
 
-**Question:** What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): pass; with MyContext() as ctx: pass?
+**Question:** What is
+
+    class MyContext:
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            pass
+    with MyContext() as ctx:
+        pass
+
+?
 
 **Options:**
 ✓ 0. Uses context manager
@@ -14874,7 +17368,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 923 (Level 10)
 
-**Question:** What is class MyContext: def __enter__(self): return 1; def __exit__(self, *args): pass; with MyContext() as x: x?
+**Question:** What is
+
+    class MyContext:
+        def __enter__(self):
+            return 1
+        def __exit__(self, *args):
+            pass
+    with MyContext() as x:
+        x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14890,7 +17394,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 924 (Level 10)
 
-**Question:** What is class MyContext: def __enter__(self): return self; def __exit__(self, exc_type, exc_val, exc_tb): return True; with MyContext(): 1/0?
+**Question:** What is
+
+    class MyContext:
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc_val, exc_tb):
+            return True
+    with MyContext():
+        1/0
+
+?
 
 **Options:**
 ✓ 0. Suppresses exception
@@ -14906,7 +17420,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 925 (Level 10)
 
-**Question:** What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): pass; with MyContext() as ctx: ctx?
+**Question:** What is
+
+    class MyContext:
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            pass
+    with MyContext() as ctx:
+        ctx
+
+?
 
 **Options:**
 ✓ 0. MyContext instance
@@ -14922,7 +17446,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 926 (Level 10)
 
-**Question:** What is from contextlib import contextmanager; @contextmanager; def my_context(): yield 1; with my_context() as x: x?
+**Question:** What is
+
+    from contextlib import contextmanager; @contextmanager; def my_context():
+        yield 1
+    with my_context() as x:
+        x
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -14938,7 +17469,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 927 (Level 10)
 
-**Question:** What is with open('file', 'w') as f: f.write('text'); f.closed?
+**Question:** What is
+
+    with open('file', 'w') as f:
+        f.write('text')
+        f.closed
+
+?
 
 **Options:**
 ✓ 0. True
@@ -14954,7 +17491,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 928 (Level 10)
 
-**Question:** What is with open('file', 'w') as f1, open('file2', 'w') as f2: pass?
+**Question:** What is
+
+    with open('file', 'w') as f1, open('file2', 'w') as f2:
+        pass
+
+?
 
 **Options:**
 ✓ 0. Multiple context managers
@@ -14970,7 +17512,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 929 (Level 10)
 
-**Question:** What is from contextlib import suppress; with suppress(ValueError): raise ValueError()?
+**Question:** What is
+
+    from contextlib import suppress
+    with suppress(ValueError):
+        raise ValueError()
+
+?
 
 **Options:**
 ✓ 0. Suppresses ValueError
@@ -14986,7 +17534,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 930 (Level 10)
 
-**Question:** What is class MyContext: def __enter__(self): return self; def __exit__(self, *args): self.closed = True; ctx = MyContext(); with ctx: pass; ctx.closed?
+**Question:** What is
+
+    class MyContext:
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            self.closed = True
+    ctx = MyContext()
+    with ctx:
+        pass
+        ctx.closed
+
+?
 
 **Options:**
 ✓ 0. True
@@ -15102,7 +17662,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 937 (Level 10)
 
-**Question:** What is if __name__ == '__main__': pass?
+**Question:** What is
+
+    if __name__ == '__main__':
+        pass
+
+?
 
 **Options:**
 ✓ 0. Runs code only when script executed
@@ -15170,7 +17735,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 941 (Level 10)
 
-**Question:** What is def gen(): yield 1; type(gen())?
+**Question:** What is
+
+    def gen():
+        yield 1
+    type(gen())
+
+?
 
 **Options:**
 ✓ 0. <class 'generator'>
@@ -15186,7 +17757,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 942 (Level 10)
 
-**Question:** What is def gen(): yield 1; next(gen())?
+**Question:** What is
+
+    def gen():
+        yield 1
+    next(gen())
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -15202,7 +17779,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 943 (Level 10)
 
-**Question:** What is def gen(): yield 1; yield 2; list(gen())?
+**Question:** What is
+
+    def gen():
+        yield 1
+        yield 2
+    list(gen())
+
+?
 
 **Options:**
 ✓ 0. [1, 2]
@@ -15218,7 +17802,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 944 (Level 10)
 
-**Question:** What is def gen(): yield 1; return; g = gen(); next(g); next(g)?
+**Question:** What is
+
+    def gen():
+        yield 1
+        return
+    g = gen()
+    next(g)
+    next(g)
+
+?
 
 **Options:**
 ✓ 0. StopIteration
@@ -15234,7 +17827,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 945 (Level 10)
 
-**Question:** What is def gen(): yield 1; return 'done'; g = gen(); next(g); g.send(None)?
+**Question:** What is
+
+    def gen():
+        yield 1
+        return 'done'
+    g = gen()
+    next(g)
+    g.send(None)
+
+?
 
 **Options:**
 ✓ 0. StopIteration with value 'done'
@@ -15250,7 +17852,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 946 (Level 10)
 
-**Question:** What is def gen(): x = yield 1; yield x; g = gen(); next(g); g.send(2)?
+**Question:** What is
+
+    def gen():
+        x = yield 1
+        yield x
+    g = gen()
+    next(g)
+    g.send(2)
+
+?
 
 **Options:**
 ✓ 0. 2
@@ -15302,7 +17913,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 949 (Level 10)
 
-**Question:** What is def gen(): yield from [1, 2, 3]; list(gen())?
+**Question:** What is
+
+    def gen():
+        yield from [1, 2, 3]
+    list(gen())
+
+?
 
 **Options:**
 ✓ 0. [1, 2, 3]
@@ -15318,7 +17935,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 950 (Level 10)
 
-**Question:** What is class MyIter: def __iter__(self): return self; def __next__(self): return 1; type(MyIter())?
+**Question:** What is
+
+    class MyIter:
+        def __iter__(self):
+            return self
+        def __next__(self):
+            return 1
+    type(MyIter())
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.MyIter'>
@@ -15334,7 +17960,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 951 (Level 10)
 
-**Question:** What is def decorator(func): return func; @decorator; def func(): pass; type(func)?
+**Question:** What is
+
+    def decorator(func):
+        return func
+        @decorator
+        def func():
+            pass
+    type(func)
+
+?
 
 **Options:**
 ✓ 0. <class 'function'>
@@ -15350,7 +17985,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 952 (Level 10)
 
-**Question:** What is def decorator(func): def wrapper(): return func(); return wrapper; @decorator; def func(): return 1; func()?
+**Question:** What is
+
+    def decorator(func):
+        def wrapper():
+            return func()
+        return wrapper
+        @decorator
+        def func():
+            return 1
+    func()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -15366,7 +18012,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 953 (Level 10)
 
-**Question:** What is def decorator(func): def wrapper(*args, **kwargs): return func(*args, **kwargs); return wrapper; @decorator; def add(x, y): return x + y; add(1, 2)?
+**Question:** What is
+
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            return func(*args, **kwargs)
+        return wrapper
+        @decorator
+        def add(x, y):
+            return x + y
+    add(1, 2)
+
+?
 
 **Options:**
 ✓ 0. 3
@@ -15382,7 +18039,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 954 (Level 10)
 
-**Question:** What is from functools import wraps; def decorator(func): @wraps(func); def wrapper(): return func(); return wrapper; @decorator; def func(): pass; func.__name__?
+**Question:** What is
+
+    from functools import wraps; def decorator(func):
+        @wraps(func)
+        def wrapper():
+            return func()
+        return wrapper
+        @decorator
+        def func():
+            pass
+        func.__name__
+
+?
 
 **Options:**
 ✓ 0. 'func'
@@ -15398,7 +18067,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 955 (Level 10)
 
-**Question:** What is def decorator(arg): return lambda func: func; @decorator(1); def func(): pass?
+**Question:** What is
+
+    def decorator(arg):
+        return lambda func:
+            func
+        @decorator(1)
+        def func():
+            pass
+
+?
 
 **Options:**
 ✓ 0. Decorator with argument
@@ -15414,7 +18092,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 956 (Level 10)
 
-**Question:** What is class Decorator: def __init__(self, func): self.func = func; def __call__(self): return self.func(); @Decorator; def func(): return 1; func()?
+**Question:** What is
+
+    class Decorator:
+        def __init__(self, func):
+            self.func = func
+        def __call__(self):
+            return self.func()
+        @Decorator
+        def func():
+            return 1
+    func()
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -15478,7 +18168,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 960 (Level 10)
 
-**Question:** What is def decorator1(func): return func; def decorator2(func): return func; @decorator1; @decorator2; def func(): pass?
+**Question:** What is
+
+    def decorator1(func):
+        return func
+        def decorator2(func):
+            return func
+        @decorator1
+        @decorator2
+        def func():
+            pass
+
+?
 
 **Options:**
 ✓ 0. Multiple decorators
@@ -15494,7 +18195,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 961 (Level 10)
 
-**Question:** What is class Singleton: _instance = None; def __new__(cls): if cls._instance is None: cls._instance = super().__new__(cls); return cls._instance; obj1 = Singleton(); obj2 = Singleton(); obj1 is obj2?
+**Question:** What is
+
+    class Singleton:
+        _instance = None
+        def __new__(cls):
+            if cls._instance is None:
+                cls._instance = super().__new__(cls)
+        return cls._instance
+    obj1 = Singleton()
+    obj2 = Singleton(); obj1 is obj2
+
+?
 
 **Options:**
 ✓ 0. True
@@ -15510,7 +18222,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 962 (Level 10)
 
-**Question:** What is class Factory: @staticmethod; def create(type): return type(); obj = Factory.create(list)?
+**Question:** What is
+
+    class Factory:
+        @staticmethod
+        def create(type):
+            return type()
+    obj = Factory.create(list)
+
+?
 
 **Options:**
 ✓ 0. []
@@ -15526,7 +18246,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 963 (Level 10)
 
-**Question:** What is class Observer: def __init__(self): self._observers = []; def attach(self, observer): self._observers.append(observer); def notify(self): [o.update() for o in self._observers]?
+**Question:** What is
+
+    class Observer:
+        def __init__(self):
+            self._observers = []
+        def attach(self, observer):
+            self._observers.append(observer)
+        def notify(self):
+            [o.update() for o in self._observers]
+
+?
 
 **Options:**
 ✓ 0. Observer pattern
@@ -15542,7 +18272,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 964 (Level 10)
 
-**Question:** What is class Strategy: def execute(self): pass; class StrategyA(Strategy): def execute(self): return 'A'; class StrategyB(Strategy): def execute(self): return 'B'?
+**Question:** What is
+
+    class Strategy:
+        def execute(self):
+            pass
+    class StrategyA(Strategy):
+        def execute(self):
+            return 'A'
+    class StrategyB(Strategy):
+        def execute(self):
+            return 'B'
+
+?
 
 **Options:**
 ✓ 0. Strategy pattern
@@ -15558,7 +18300,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 965 (Level 10)
 
-**Question:** What is class Adapter: def __init__(self, obj): self.obj = obj; def method(self): return self.obj.other_method()?
+**Question:** What is
+
+    class Adapter:
+        def __init__(self, obj):
+            self.obj = obj
+        def method(self):
+            return self.obj.other_method()
+
+?
 
 **Options:**
 ✓ 0. Adapter pattern
@@ -15574,7 +18324,18 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 966 (Level 10)
 
-**Question:** What is class Builder: def __init__(self): self.parts = []; def add(self, part): self.parts.append(part); return self; def build(self): return ''.join(self.parts)?
+**Question:** What is
+
+    class Builder:
+        def __init__(self):
+            self.parts = []
+        def add(self, part):
+            self.parts.append(part)
+        return self
+        def build(self):
+            return ''.join(self.parts)
+
+?
 
 **Options:**
 ✓ 0. Builder pattern
@@ -15590,7 +18351,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 967 (Level 10)
 
-**Question:** What is class Prototype: def clone(self): return type(self)()?
+**Question:** What is
+
+    class Prototype:
+        def clone(self):
+            return type(self)()
+
+?
 
 **Options:**
 ✓ 0. Prototype pattern
@@ -15606,7 +18373,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 968 (Level 10)
 
-**Question:** What is class Facade: def __init__(self): self.subsystem1 = Subsystem1(); self.subsystem2 = Subsystem2(); def operation(self): return self.subsystem1.method() + self.subsystem2.method()?
+**Question:** What is
+
+    class Facade:
+        def __init__(self):
+            self.subsystem1 = Subsystem1()
+    self.subsystem2 = Subsystem2(); def operation(self):
+        return self.subsystem1.method() + self.subsystem2.method()
+
+?
 
 **Options:**
 ✓ 0. Facade pattern
@@ -15622,7 +18397,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 969 (Level 10)
 
-**Question:** What is class Command: def execute(self): pass; class Invoker: def __init__(self): self.command = None; def set_command(self, cmd): self.command = cmd; def execute(self): self.command.execute()?
+**Question:** What is
+
+    class Command:
+        def execute(self):
+            pass
+    class Invoker:
+        def __init__(self):
+            self.command = None
+        def set_command(self, cmd):
+            self.command = cmd
+        def execute(self):
+            self.command.execute()
+
+?
 
 **Options:**
 ✓ 0. Command pattern
@@ -15638,7 +18426,20 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 970 (Level 10)
 
-**Question:** What is class Component: def operation(self): pass; class Composite(Component): def __init__(self): self.children = []; def add(self, child): self.children.append(child); def operation(self): [c.operation() for c in self.children]?
+**Question:** What is
+
+    class Component:
+        def operation(self):
+            pass
+    class Composite(Component):
+        def __init__(self):
+            self.children = []
+        def add(self, child):
+            self.children.append(child)
+        def operation(self):
+            [c.operation() for c in self.children]
+
+?
 
 **Options:**
 ✓ 0. Composite pattern
@@ -15654,7 +18455,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 971 (Level 10)
 
-**Question:** What is class Meta(type): pass; class MyClass(metaclass=Meta): pass; type(MyClass)?
+**Question:** What is
+
+    class Meta(type):
+        pass
+    class MyClass(metaclass=Meta):
+        pass
+    type(MyClass)
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.Meta'>
@@ -15670,7 +18479,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 972 (Level 10)
 
-**Question:** What is class Meta(type): def __new__(cls, name, bases, dct): return super().__new__(cls, name, bases, dct); class MyClass(metaclass=Meta): pass?
+**Question:** What is
+
+    class Meta(type):
+        def __new__(cls, name, bases, dct):
+            return super().__new__(cls, name, bases, dct)
+    class MyClass(metaclass=Meta):
+        pass
+
+?
 
 **Options:**
 ✓ 0. Custom metaclass
@@ -15686,7 +18503,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 973 (Level 10)
 
-**Question:** What is class Meta(type): def __init__(cls, name, bases, dct): cls.custom_attr = 1; class MyClass(metaclass=Meta): pass; MyClass.custom_attr?
+**Question:** What is
+
+    class Meta(type):
+        def __init__(cls, name, bases, dct):
+            cls.custom_attr = 1
+    class MyClass(metaclass=Meta):
+        pass
+        MyClass.custom_attr
+
+?
 
 **Options:**
 ✓ 0. 1
@@ -15702,7 +18528,16 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 974 (Level 10)
 
-**Question:** What is class Meta(type): def __call__(cls, *args, **kwargs): return super().__call__(*args, **kwargs); class MyClass(metaclass=Meta): pass; type(MyClass())?
+**Question:** What is
+
+    class Meta(type):
+        def __call__(cls, *args, **kwargs):
+            return super().__call__(*args, **kwargs)
+    class MyClass(metaclass=Meta):
+        pass
+    type(MyClass())
+
+?
 
 **Options:**
 ✓ 0. <class '__main__.MyClass'>
@@ -15718,7 +18553,19 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 975 (Level 10)
 
-**Question:** What is class SingletonMeta(type): _instances = {}; def __call__(cls, *args, **kwargs): if cls not in cls._instances: cls._instances[cls] = super().__call__(*args, **kwargs); return cls._instances[cls]; class MyClass(metaclass=SingletonMeta): pass; MyClass() is MyClass()?
+**Question:** What is
+
+    class SingletonMeta(type):
+        _instances = {}
+        def __call__(cls, *args, **kwargs):
+            if cls not in cls._instances:
+                cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+    class MyClass(metaclass=SingletonMeta):
+        pass
+    MyClass() is MyClass()
+
+?
 
 **Options:**
 ✓ 0. True
@@ -15734,7 +18581,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 976 (Level 10)
 
-**Question:** What is class MyClass: __slots__ = ['x']; obj = MyClass(); obj.x = 1; obj.y = 2?
+**Question:** What is
+
+    class MyClass:
+        __slots__ = ['x']
+    obj = MyClass()
+    obj.x = 1
+    obj.y = 2
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -15750,7 +18605,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 977 (Level 10)
 
-**Question:** What is class MyClass: __slots__ = ['x']; obj = MyClass(); '__dict__' in dir(obj)?
+**Question:** What is
+
+    class MyClass:
+        __slots__ = ['x']
+    obj = MyClass(); '__dict__' in dir(obj)
+
+?
 
 **Options:**
 ✓ 0. False
@@ -15766,7 +18627,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 978 (Level 10)
 
-**Question:** What is class MyClass: def __getattribute__(self, name): return super().__getattribute__(name); obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __getattribute__(self, name):
+            return super().__getattribute__(name)
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. AttributeError
@@ -15782,7 +18650,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 979 (Level 10)
 
-**Question:** What is class MyClass: def __getattr__(self, name): return f'Missing: {name}'; obj = MyClass(); obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __getattr__(self, name):
+            return f'Missing:
+                {name}'
+    obj = MyClass(); obj.x
+
+?
 
 **Options:**
 ✓ 0. 'Missing: x'
@@ -15798,7 +18674,15 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 980 (Level 10)
 
-**Question:** What is class MyClass: def __setattr__(self, name, value): super().__setattr__(name, value * 2); obj = MyClass(); obj.x = 5; obj.x?
+**Question:** What is
+
+    class MyClass:
+        def __setattr__(self, name, value):
+            super().__setattr__(name, value * 2)
+    obj = MyClass()
+    obj.x = 5; obj.x
+
+?
 
 **Options:**
 ✓ 0. 10
@@ -15830,7 +18714,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 982 (Level 10)
 
-**Question:** What is def func(x: int) -> int: return x * 2?
+**Question:** What is
+
+    def func(x: int) -> int:
+        return x * 2
+
+?
 
 **Options:**
 ✓ 0. Type hints
@@ -15846,7 +18735,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 983 (Level 10)
 
-**Question:** What is from typing import List, Dict; def func(x: List[int]) -> Dict[str, int]: return {}?
+**Question:** What is
+
+    from typing import List, Dict; def func(x: List[int]) -> Dict[str, int]:
+        return {}
+
+?
 
 **Options:**
 ✓ 0. Type hints with generics
@@ -15862,7 +18756,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 984 (Level 10)
 
-**Question:** What is def func(x: int = 1) -> int: return x?
+**Question:** What is
+
+    def func(x: int = 1) -> int:
+        return x
+
+?
 
 **Options:**
 ✓ 0. Type hints with defaults
@@ -15878,7 +18777,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 985 (Level 10)
 
-**Question:** What is def func(x: 'MyClass') -> None: pass?
+**Question:** What is
+
+    def func(x: 'MyClass') -> None:
+        pass
+
+?
 
 **Options:**
 ✓ 0. Forward reference (string)
@@ -15894,7 +18798,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 986 (Level 10)
 
-**Question:** What is from typing import Optional; def func(x: Optional[int]) -> int: return x or 0?
+**Question:** What is
+
+    from typing import Optional; def func(x: Optional[int]) -> int:
+        return x or 0
+
+?
 
 **Options:**
 ✓ 0. Optional type hint
@@ -15910,7 +18819,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 987 (Level 10)
 
-**Question:** What is from typing import Union; def func(x: Union[int, str]) -> int: return 1?
+**Question:** What is
+
+    from typing import Union; def func(x: Union[int, str]) -> int:
+        return 1
+
+?
 
 **Options:**
 ✓ 0. Union type hint
@@ -15926,7 +18840,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 988 (Level 10)
 
-**Question:** What is from typing import Callable; def func(f: Callable[[int], int]) -> int: return f(1)?
+**Question:** What is
+
+    from typing import Callable; def func(f: Callable[[int], int]) -> int:
+        return f(1)
+
+?
 
 **Options:**
 ✓ 0. Callable type hint
@@ -15942,7 +18861,17 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 989 (Level 10)
 
-**Question:** What is from dataclasses import dataclass; @dataclass; class Point: x: int; y: int; Point(1, 2)?
+**Question:** What is
+
+    from dataclasses import dataclass; @dataclass
+    class Point:
+        x:
+            int
+        y:
+            int
+    Point(1, 2)
+
+?
 
 **Options:**
 ✓ 0. Data class instance
@@ -15958,7 +18887,14 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 990 (Level 10)
 
-**Question:** What is from enum import Enum; class Color(Enum): RED = 1; GREEN = 2; Color.RED?
+**Question:** What is
+
+    from enum import Enum
+    class Color(Enum):
+        RED = 1
+    GREEN = 2; Color.RED
+
+?
 
 **Options:**
 ✓ 0. <Color.RED: 1>
@@ -16006,7 +18942,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 993 (Level 10)
 
-**Question:** What is import json; json.dumps({'a': 1})?
+**Question:** What is
+
+    import json
+    json.dumps({'a': 1})
+
+?
 
 **Options:**
 ✓ 0. '{"a": 1}'
@@ -16022,7 +18963,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 994 (Level 10)
 
-**Question:** What is import json; json.loads('{"a": 1}')?
+**Question:** What is
+
+    import json
+    json.loads('{"a": 1}')
+
+?
 
 **Options:**
 ✓ 0. {'a': 1}
@@ -16038,7 +18984,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 995 (Level 10)
 
-**Question:** What is import pickle; pickle.dumps([1, 2, 3])?
+**Question:** What is
+
+    import pickle
+    pickle.dumps([1, 2, 3])
+
+?
 
 **Options:**
 ✓ 0. Bytes object
@@ -16054,7 +19005,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 996 (Level 10)
 
-**Question:** What is import pickle; data = pickle.dumps([1, 2, 3]); pickle.loads(data)?
+**Question:** What is
+
+    import pickle
+    data = pickle.dumps([1, 2, 3])
+    pickle.loads(data)
+
+?
 
 **Options:**
 ✓ 0. [1, 2, 3]
@@ -16070,7 +19027,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 997 (Level 10)
 
-**Question:** What is from collections import namedtuple; Point = namedtuple('Point', ['x', 'y']); Point(1, 2)?
+**Question:** What is
+
+    from collections import namedtuple
+    Point = namedtuple('Point', ['x', 'y'])
+    Point(1, 2)
+
+?
 
 **Options:**
 ✓ 0. Point(x=1, y=2)
@@ -16086,7 +19049,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 998 (Level 10)
 
-**Question:** What is from collections import defaultdict; d = defaultdict(list); d['key']?
+**Question:** What is
+
+    from collections import defaultdict
+    d = defaultdict(list); d['key']
+
+?
 
 **Options:**
 ✓ 0. []
@@ -16102,7 +19070,12 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 999 (Level 10)
 
-**Question:** What is from collections import Counter; Counter([1, 1, 2, 2, 2])?
+**Question:** What is
+
+    from collections import Counter
+    Counter([1, 1, 2, 2, 2])
+
+?
 
 **Options:**
 ✓ 0. Counter({2: 3, 1: 2})
@@ -16118,7 +19091,13 @@ This file contains all questions with their correct solutions extracted DIRECTLY
 
 ## ID 1000 (Level 10)
 
-**Question:** What is from functools import lru_cache; @lru_cache(maxsize=128); def fib(n): return n if n < 2 else fib(n-1) + fib(n-2); fib(10)?
+**Question:** What is
+
+    from functools import lru_cache; @lru_cache(maxsize=128); def fib(n):
+        return n if n < 2 else fib(n-1) + fib(n-2)
+    fib(10)
+
+?
 
 **Options:**
 ✓ 0. 55
