@@ -187,8 +187,10 @@ const enhanceVagueMethodCalls = (text: string): string => {
   // Pattern to match vague method calls (method() without a string/object before it)
   // Match patterns like: "What is? partition()" or "Result of upper()?" or "What is?\nfind("l")"
   // This pattern matches: space/question mark/newline, method name, optional whitespace, opening paren
-  // Use [\s\S] instead of . to match across newlines
-  const vagueMethodPattern = /([?\s\n])([a-z_][a-z0-9_]*)\s*\(/gi;
+  // CRITICAL: Exclude "is" when it's part of "What is" or "Result is" - these are question words, not methods
+  // IMPORTANT: Exclude single-letter method names like "is" to avoid matching question words
+  // The pattern requires method name to be at least 2 characters OR be a known string method
+  const vagueMethodPattern = /([?\s\n])([a-z_][a-z0-9_]+)\s*\(/gi;
   
   let lastIndex = 0;
   let enhancedResult = '';
@@ -206,6 +208,27 @@ const enhanceVagueMethodCalls = (text: string): string => {
     // Get text before the match to check if there's already a string/variable
     const beforeMatch = result.substring(Math.max(0, matchStart - 50), matchStart);
     const beforeMatchTrimmed = beforeMatch.trim();
+    
+    // CRITICAL: Exclude "is" when it's part of question phrases like "What is", "Result is", etc.
+    // These are question words, not method calls
+    // Also exclude single-letter method names that are likely question words
+    const lowerMethodName = methodName.toLowerCase();
+    const isQuestionWord = (lowerMethodName === 'is' || lowerMethodName.length <= 2) && 
+                           (beforeMatchTrimmed.endsWith('What') || 
+                            beforeMatchTrimmed.endsWith('what') ||
+                            beforeMatchTrimmed.endsWith('Result') ||
+                            beforeMatchTrimmed.endsWith('result') ||
+                            beforeMatchTrimmed.endsWith('Output') ||
+                            beforeMatchTrimmed.endsWith('output') ||
+                            beforeMatchTrimmed.endsWith('Value') ||
+                            beforeMatchTrimmed.endsWith('value') ||
+                            beforeMatchTrimmed.endsWith('Which') ||
+                            beforeMatchTrimmed.endsWith('which'));
+    
+    // Also check if the method name is NOT a known string method and is very short - likely a false match
+    const isLikelyFalseMatch = !stringMethods.has(lowerMethodName) && 
+                               lowerMethodName.length <= 2 && 
+                               !['id', 'in', 'if', 'or', 'and', 'is', 'as'].includes(lowerMethodName);
     
     // CRITICAL: Check if "..." is present - it's intentionally generic and should NEVER be replaced
     // This must be checked BEFORE the regex check to prevent any replacement
@@ -226,8 +249,10 @@ const enhanceVagueMethodCalls = (text: string): string => {
     const lowerMethod = methodName.toLowerCase();
     
     // NEVER replace if "..." is present - it's intentionally generic
-    if (hasEllipsis) {
-      // Return unchanged - "..." should never be replaced
+    // NEVER replace "is" when it's part of question phrases
+    // NEVER replace very short method names that are likely false matches
+    if (hasEllipsis || isQuestionWord || isLikelyFalseMatch) {
+      // Return unchanged - "..." should never be replaced, and question words should not be treated as methods
       enhancedResult += match[0];
     } else if (!hasStringBefore) {
       // Add an example string before the method call

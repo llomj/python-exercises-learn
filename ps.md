@@ -250,6 +250,28 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 
 ---
 
+## 🔴 CRITICAL: enhanceVagueMethodCalls Matching "is" in "What is" as Method Call
+
+**STATUS: ✅ FIXED**
+
+**Problem**: The `enhanceVagueMethodCalls` function was incorrectly matching "is" in question phrases like "What is (2 + 3) * 4?" and treating it as a method call. This caused questions to be corrupted, showing things like "What?" instead of "What is?" and then incorrectly adding method calls.
+
+**Root Cause**: The regex pattern `/([?\s\n])([a-z_][a-z0-9_]+)\s*\(/gi` was matching "is" followed by "(" in expressions like "(2 + 3)", treating "is" as a method name.
+
+**Fix Applied**:
+1. Added check to exclude "is" when it's part of question phrases like "What is", "Result is", "Output is", etc.
+2. Added check to exclude very short method names (≤2 characters) that are likely false matches when they're not known string methods
+3. The function now skips these false matches and leaves the question text unchanged
+
+**Example**:
+- **Before**: "What is (2 + 3) * 4?" → corrupted to "What?" with broken method calls
+- **After**: "What is (2 + 3) * 4?" → remains unchanged ✅
+
+**Files Modified**:
+- `src/components/QuizView.tsx` - Added `isQuestionWord` and `isLikelyFalseMatch` checks
+
+---
+
 ## 🔴 CRITICAL: Question-Solution Coherence Bug
 
 **STATUS: ⚠️ URGENT - NEEDS SYSTEMATIC FIX**
