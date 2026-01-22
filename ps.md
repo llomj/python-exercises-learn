@@ -250,25 +250,29 @@ The Python Exercises Learn app now has a complete, high-quality question bank co
 
 ---
 
-## 🔴 CRITICAL: enhanceVagueMethodCalls Matching "is" in "What is" as Method Call
+## 🔴 CRITICAL: enhanceVagueMethodCalls DISABLED - Questions Now Used Exactly As-Is
 
-**STATUS: ✅ FIXED**
+**STATUS: ✅ FIXED - FUNCTION DISABLED**
 
-**Problem**: The `enhanceVagueMethodCalls` function was incorrectly matching "is" in question phrases like "What is (2 + 3) * 4?" and treating it as a method call. This caused questions to be corrupted, showing things like "What?" instead of "What is?" and then incorrectly adding method calls.
+**Problem**: The `enhanceVagueMethodCalls` function was causing multiple bugs:
+1. Matching "is" in "What is" as a method call (ID 58 issue)
+2. Replacing "..." placeholders incorrectly (ID 76 issue)
+3. Complex logic with many edge cases causing unpredictable behavior
+4. Questions in app not matching `questions_solution.md`
 
-**Root Cause**: The regex pattern `/([?\s\n])([a-z_][a-z0-9_]+)\s*\(/gi` was matching "is" followed by "(" in expressions like "(2 + 3)", treating "is" as a method name.
+**Solution**: **COMPLETELY DISABLED** the `enhanceVagueMethodCalls` function. Questions are now displayed exactly as they appear in `questionsBank.ts`, ensuring:
+- ✅ Questions match `questions_solution.md` exactly
+- ✅ No more enhancement bugs
+- ✅ Simpler, more maintainable code
+- ✅ Predictable behavior
 
-**Fix Applied**:
-1. Added check to exclude "is" when it's part of question phrases like "What is", "Result is", "Output is", etc.
-2. Added check to exclude very short method names (≤2 characters) that are likely false matches when they're not known string methods
-3. The function now skips these false matches and leaves the question text unchanged
-
-**Example**:
-- **Before**: "What is (2 + 3) * 4?" → corrupted to "What?" with broken method calls
-- **After**: "What is (2 + 3) * 4?" → remains unchanged ✅
+**Implementation**:
+- `enhanceVagueMethodCalls` now simply returns the input text unchanged
+- All original enhancement logic is commented out (preserved for reference)
+- Questions are used exactly as written in the source
 
 **Files Modified**:
-- `src/components/QuizView.tsx` - Added `isQuestionWord` and `isLikelyFalseMatch` checks
+- `src/components/QuizView.tsx` - Disabled `enhanceVagueMethodCalls` function
 
 ---
 

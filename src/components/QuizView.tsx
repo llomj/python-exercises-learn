@@ -93,9 +93,17 @@ const formatCodeSnippet = (text: string): string => {
 };
 
 // Function to enhance vague method calls with example strings
-// If a method like .title() appears without context, add an example string
-// Also handles cases like "What is?" with nothing after it
+// DISABLED: Questions are now used exactly as they appear in the source
+// This prevents bugs and ensures questions match questions_solution.md exactly
 const enhanceVagueMethodCalls = (text: string): string => {
+  // Return text unchanged - use questions exactly as they are in questionsBank.ts
+  // This ensures questions match questions_solution.md exactly and prevents all enhancement bugs
+  return text;
+  
+  /* DISABLED - Original enhancement logic commented out
+   * Questions are now used exactly as they appear in the source to prevent bugs
+   * and ensure consistency with questions_solution.md
+   *
   let result = text;
   
   // First, handle "What is?" with nothing or vague content after it
@@ -353,6 +361,7 @@ const enhanceVagueMethodCalls = (text: string): string => {
   });
   
   return enhancedResult;
+  */
 };
 
 // Function to enhance code section that starts with bare method calls or indexing
