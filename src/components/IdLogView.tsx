@@ -25,9 +25,9 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
     });
   };
 
-  const getQuestionConcept = (id: number): string | null => {
+  const getQuestionDetailedExplanation = (id: number): string | null => {
     const question = QUESTIONS_BANK.find(q => q.id === id);
-    return question?.concept || null;
+    return question?.detailedExplanation || null;
   };
 
   return (
@@ -75,15 +75,23 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
                   </span>
                 </div>
                 
-                {expandedIds.has(entry.id) && getQuestionConcept(entry.id) && (
-                  <div className="mb-4 p-4 bg-indigo-500/10 rounded-xl border border-indigo-500/20 animate-in slide-in-from-top duration-200">
-                    <div className="flex items-center gap-2 mb-2">
+                {expandedIds.has(entry.id) && getQuestionDetailedExplanation(entry.id) && (
+                  <div className="mb-4 p-6 bg-indigo-500/10 rounded-xl border border-indigo-500/20 animate-in slide-in-from-top duration-200">
+                    <div className="flex items-center gap-2 mb-3">
                       <i className="fas fa-lightbulb text-indigo-400 text-sm"></i>
                       <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-indigo-400">Codon Explanation</h4>
                     </div>
-                    <p className="text-sm text-indigo-300 font-medium leading-relaxed">
-                      {getQuestionConcept(entry.id)}
-                    </p>
+                    <div className="space-y-3">
+                      <div className="space-y-2">
+                        <h5 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                          <i className="fas fa-graduation-cap text-xs"></i>
+                          In-Depth Explanation
+                        </h5>
+                        <div className="text-slate-200 leading-relaxed text-sm whitespace-pre-wrap">
+                          {getQuestionDetailedExplanation(entry.id)}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
                 
