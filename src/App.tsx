@@ -7,6 +7,7 @@ import { GlossaryView } from './components/GlossaryView';
 import { OperationsView } from './components/OperationsView';
 import { IdSearchModal } from './components/IdSearchModal';
 import { IdLogView } from './components/IdLogView';
+import { LevelSelectorModal } from './components/LevelSelectorModal';
 import { IdLogEntry } from './types';
 import { LEVELS, XP_PER_QUESTION, QUESTIONS_PER_LEVEL } from './constants';
 import { useLanguage } from './contexts/LanguageContext';
@@ -35,9 +36,17 @@ const App: React.FC = () => {
   const [showOperations, setShowOperations] = useState(false);
   const [showIdSearch, setShowIdSearch] = useState(false);
   const [showIdLog, setShowIdLog] = useState(false);
+  const [showLevelSelector, setShowLevelSelector] = useState(false);
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'fr' : 'en');
+  };
+
+  const handleLevelChange = (level: number) => {
+    setStats(prev => ({
+      ...prev,
+      currentLevel: level
+    }));
   };
 
   useEffect(() => {
@@ -239,6 +248,13 @@ const App: React.FC = () => {
                     </button>
                   )}
                   <button
+                    onClick={() => setShowLevelSelector(true)}
+                    className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs"
+                    title="Select Level"
+                  >
+                    <i className="fas fa-layer-group"></i>
+                  </button>
+                  <button
                     onClick={toggleLanguage}
                     className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all text-xs"
                     title={language === 'en' ? 'Français' : 'English'}
@@ -371,6 +387,16 @@ const App: React.FC = () => {
         <IdLogView 
           entries={stats.idLog}
           onClose={() => setShowIdLog(false)}
+        />
+      )}
+
+      {/* Level Selector Modal */}
+      {showLevelSelector && (
+        <LevelSelectorModal
+          currentLevel={stats.currentLevel}
+          highestUnlockedLevel={stats.highestUnlockedLevel}
+          onSelectLevel={handleLevelChange}
+          onClose={() => setShowLevelSelector(false)}
         />
       )}
     </div>
