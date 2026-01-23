@@ -36,15 +36,15 @@ export const translations = {
       sequenceError: "Sequence Error",
       couldNotRetrieve: "Could not retrieve questions for this level.",
       returnToHub: "Return to Hub",
-      showExplanation: "Show Explanation",
-      hideExplanation: "Hide Explanation",
+      showExplanation: "Click for detailed explanation",
+      hideExplanation: "Click to collapse",
       next: "NEXT",
       finishEvolution: "FINISH EVOLUTION",
       continueMutation: "CONTINUE MUTATION",
       correct: "Correct",
       incorrect: "Incorrect",
       yourAnswer: "Your Answer",
-      correctAnswer: "Correct",
+      correctAnswer: "Correct Answer",
     },
     
     // Result Modal
@@ -117,6 +117,62 @@ export const translations = {
       whale: "Whale",
       godWhale: "God Whale",
     },
+    
+    // Settings Menu
+    settings: {
+      searchById: "Search by ID",
+      idLog: "ID Log",
+      selectLevel: "Select Level",
+      switchToLevelMode: "Switch to Level Mode",
+      switchToRandomMode: "Switch to Random Mode",
+      settings: "Settings",
+    },
+    
+    // Level Selector
+    levelSelector: {
+      selectLevel: "Select Level",
+      level: "Level {level}",
+      currentLevel: "Current Level",
+      highestUnlocked: "Highest Unlocked",
+      youAreOnLevel: "You are currently on Level {level}. Complete questions to unlock higher levels.",
+      currentLevelInfo: "Current Level: {current} • Highest Unlocked: {highest}",
+    },
+    
+    // ID Search & Log
+    idSearch: {
+      searchById: "Search by ID",
+      enterId: "Enter question ID (1-1000)",
+      search: "Search",
+      saveToLog: "Save to Log",
+      saved: "Saved!",
+      options: "Options",
+      explanation: "Explanation",
+      showDetailedExplanation: "Show Detailed Explanation",
+      noSavedQuestions: "No saved questions yet. Search by ID and save questions for reference.",
+      idLog: "ID Log",
+      invalidId: "Please enter a valid ID between 1 and 1000",
+      questionNotFound: "Question with ID {id} not found",
+    },
+    
+    // ID Log
+    idLog: {
+      clickToViewCodon: "Click to view codon explanation",
+      codonExplanation: "Codon Explanation",
+    },
+    
+    // Level Descriptions
+    levels: {
+      level1: "Basic data types and variable assignment. Learn to store and manipulate simple values.",
+      level2: "Mathematical operations and expression evaluation. Master arithmetic and precedence rules.",
+      level3: "Decision-making with if/elif/else. Understand boolean logic and truth values.",
+      level4: "Repetitive execution with for and while loops. Learn to iterate over sequences.",
+      level5: "Ordered collections and list operations. Master mutable sequences.",
+      level6: "Associative arrays and fast lookups. Learn unordered key-value mappings.",
+      level7: "Reusable code blocks with parameters and return values. Master function design.",
+      level8: "Object-oriented programming basics. Learn to create and use custom types.",
+      level9: "Advanced OOP concepts. Understand class hierarchies and behavior inheritance.",
+      level10: "Professional-level patterns and practices. Master scalable code design.",
+    },
   },
   
   fr: {
@@ -156,13 +212,13 @@ export const translations = {
       sequenceError: "Erreur de Séquence",
       couldNotRetrieve: "Impossible de récupérer les questions pour ce niveau.",
       returnToHub: "Retour au Hub",
-      showExplanation: "Afficher l'Explication",
-      hideExplanation: "Masquer l'Explication",
+      showExplanation: "Cliquez pour l'explication détaillée",
+      hideExplanation: "Cliquez pour réduire",
       next: "SUIVANT",
       correct: "Correct",
       incorrect: "Incorrect",
       yourAnswer: "Votre Réponse",
-      correctAnswer: "Correct",
+      correctAnswer: "Bonne Réponse",
     },
     
     // Result Modal
@@ -234,6 +290,62 @@ export const translations = {
       shark: "Requin",
       whale: "Baleine",
       godWhale: "Baleine Divine",
+    },
+    
+    // Settings Menu
+    settings: {
+      searchById: "Rechercher par ID",
+      idLog: "Journal ID",
+      selectLevel: "Sélectionner le Niveau",
+      switchToLevelMode: "Passer en Mode Niveau",
+      switchToRandomMode: "Passer en Mode Aléatoire",
+      settings: "Paramètres",
+    },
+    
+    // Level Selector
+    levelSelector: {
+      selectLevel: "Sélectionner le Niveau",
+      level: "Niveau {level}",
+      currentLevel: "Niveau Actuel",
+      highestUnlocked: "Plus Haut Débloqué",
+      youAreOnLevel: "Vous êtes actuellement au Niveau {level}. Complétez des questions pour débloquer des niveaux supérieurs.",
+      currentLevelInfo: "Niveau Actuel: {current} • Plus Haut Débloqué: {highest}",
+    },
+    
+    // ID Search & Log
+    idSearch: {
+      searchById: "Rechercher par ID",
+      enterId: "Entrer l'ID de la question (1-1000)",
+      search: "Rechercher",
+      saveToLog: "Enregistrer dans le Journal",
+      saved: "Enregistré!",
+      options: "Options",
+      explanation: "Explication",
+      showDetailedExplanation: "Afficher l'Explication Détaillée",
+      noSavedQuestions: "Aucune question enregistrée pour le moment. Recherchez par ID et enregistrez des questions pour référence.",
+      idLog: "Journal ID",
+      invalidId: "Veuillez entrer un ID valide entre 1 et 1000",
+      questionNotFound: "Question avec l'ID {id} introuvable",
+    },
+    
+    // ID Log
+    idLog: {
+      clickToViewCodon: "Cliquez pour voir l'explication du codon",
+      codonExplanation: "Explication du Codon",
+    },
+    
+    // Level Descriptions
+    levels: {
+      level1: "Types de données de base et assignation de variables. Apprenez à stocker et manipuler des valeurs simples.",
+      level2: "Opérations mathématiques et évaluation d'expressions. Maîtrisez l'arithmétique et les règles de précédence.",
+      level3: "Prise de décision avec if/elif/else. Comprenez la logique booléenne et les valeurs de vérité.",
+      level4: "Exécution répétitive avec les boucles for et while. Apprenez à itérer sur des séquences.",
+      level5: "Collections ordonnées et opérations sur les listes. Maîtrisez les séquences mutables.",
+      level6: "Tableaux associatifs et recherches rapides. Apprenez les mappages clé-valeur non ordonnés.",
+      level7: "Blocs de code réutilisables avec paramètres et valeurs de retour. Maîtrisez la conception de fonctions.",
+      level8: "Bases de la programmation orientée objet. Apprenez à créer et utiliser des types personnalisés.",
+      level9: "Concepts OOP avancés. Comprenez les hiérarchies de classes et l'héritage de comportement.",
+      level10: "Modèles et pratiques de niveau professionnel. Maîtrisez la conception de code évolutif.",
     },
   },
 };

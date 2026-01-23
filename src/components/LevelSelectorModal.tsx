@@ -2,6 +2,7 @@ import React from 'react';
 import { LEVELS } from '../constants';
 import { PersonaStage } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+import { formatTranslation } from '../translations';
 
 interface LevelSelectorModalProps {
   currentLevel: number;
@@ -46,7 +47,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
       <div className="glass rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto space-y-6 animate-in zoom-in duration-300 shadow-2xl border border-white/10">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-black text-white flex items-center gap-3">
-            <i className="fas fa-layer-group text-indigo-400"></i> Select Level
+            <i className="fas fa-layer-group text-indigo-400"></i> {t('levelSelector.selectLevel')}
           </h2>
           <button
             onClick={onClose}
@@ -103,7 +104,7 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
                     <div className={`text-sm font-black ${
                       isCurrent ? 'text-indigo-400' : isUnlocked ? 'text-white' : 'text-slate-500'
                     }`}>
-                      Level {levelInfo.level}
+                      {formatTranslation(t('levelSelector.level'), { level: levelInfo.level })}
                     </div>
                     <div className={`text-[10px] font-bold uppercase tracking-wider mt-1 ${
                       isCurrent ? 'text-indigo-300' : isUnlocked ? 'text-slate-400' : 'text-slate-600'
@@ -120,8 +121,8 @@ export const LevelSelectorModal: React.FC<LevelSelectorModalProps> = ({
         <div className="pt-4 border-t border-white/10">
           <p className="text-xs text-slate-400 text-center">
             {currentLevel === highestUnlockedLevel 
-              ? `You are currently on Level ${currentLevel}. Complete questions to unlock higher levels.`
-              : `Current Level: ${currentLevel} • Highest Unlocked: ${highestUnlockedLevel}`
+              ? formatTranslation(t('levelSelector.youAreOnLevel'), { level: currentLevel })
+              : formatTranslation(t('levelSelector.currentLevelInfo'), { current: currentLevel, highest: highestUnlockedLevel })
             }
           </p>
         </div>

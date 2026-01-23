@@ -427,11 +427,95 @@ const enhanceBareMethodCall = (code: string): string => {
   */
 };
 
+// Function to translate common question patterns and explanations
+const translateText = (text: string, language: string): string => {
+  if (language !== 'fr') return text;
+  
+  // Common question pattern translations
+  const questionTranslations: Record<string, string> = {
+    'What is': 'Qu\'est-ce que c\'est',
+    'What is?': 'Qu\'est-ce que c\'est ?',
+    'Result of': 'Résultat de',
+    'Output of': 'Sortie de',
+    'Value of': 'Valeur de',
+    'Which': 'Lequel',
+    'How': 'Comment',
+    'When': 'Quand',
+    'Where': 'Où',
+    'Why': 'Pourquoi',
+    'Can': 'Peut',
+    'Does': 'Est-ce que',
+    'Is': 'Est',
+    'Are': 'Sont',
+    'Will': 'Va',
+    'Would': 'Serait',
+    'Should': 'Devrait',
+  };
+  
+  // Common explanation pattern translations
+  const explanationTranslations: Record<string, string> = {
+    'returns': 'retourne',
+    'Returns': 'Retourne',
+    'converts': 'convertit',
+    'Converts': 'Convertit',
+    'creates': 'crée',
+    'Creates': 'Crée',
+    'checks': 'vérifie',
+    'Checks': 'Vérifie',
+    'finds': 'trouve',
+    'Finds': 'Trouve',
+    'removes': 'supprime',
+    'Removes': 'Supprime',
+    'adds': 'ajoute',
+    'Adds': 'Ajoute',
+    'The': 'Le',
+    'the': 'le',
+    'This': 'Ceci',
+    'this': 'ceci',
+    'method': 'méthode',
+    'Method': 'Méthode',
+    'function': 'fonction',
+    'Function': 'Fonction',
+    'returns a': 'retourne un',
+    'Returns a': 'Retourne un',
+  };
+  
+  let translated = text;
+  
+  // Apply question translations (at start of text)
+  for (const [en, fr] of Object.entries(questionTranslations)) {
+    const pattern = new RegExp(`^${en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'i');
+    if (pattern.test(translated)) {
+      translated = translated.replace(pattern, fr);
+    }
+  }
+  
+  // Apply explanation translations (throughout text, but be careful with code)
+  // Only translate if it's clearly an explanation (not code)
+  if (!text.match(/^[a-zA-Z_][a-zA-Z0-9_]*\s*\(/) && !text.includes('def ') && !text.includes('class ')) {
+    for (const [en, fr] of Object.entries(explanationTranslations)) {
+      // Use word boundaries to avoid partial matches
+      const pattern = new RegExp(`\\b${en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'gi');
+      translated = translated.replace(pattern, (match) => {
+        // Preserve case
+        if (match[0] === match[0].toUpperCase()) {
+          return fr.charAt(0).toUpperCase() + fr.slice(1);
+        }
+        return fr.toLowerCase();
+      });
+    }
+  }
+  
+  return translated;
+};
+
 // Function to split question into prefix and code
 // Keeps all question text (like "What is", "Result of", "Value of", etc.) together at the top
-const splitQuestion = (text: string) => {
-  // First enhance vague method calls
-  const enhancedText = enhanceVagueMethodCalls(text);
+const splitQuestion = (text: string, language: string = 'en') => {
+  // First translate if needed
+  const translatedText = translateText(text, language);
+  // Then enhance vague method calls
+  const enhancedText = enhanceVagueMethodCalls(translatedText);
   // Check for multi-line code blocks (has newlines and indentation)
   if (enhancedText.includes('\n')) {
     const lines = enhancedText.split('\n');
@@ -450,8 +534,8 @@ const splitQuestion = (text: string) => {
   }
   
   // For single-line questions, find where code starts
-  // First, check if there's a question word pattern
-  const questionWordMatch = enhancedText.match(/^(What|Result|Output|Value|Which|How|When|Where|Why|Can|Does|Is|Are|Will|Would|Should)\s+(is|of|are|the|does|will|would|should|can)?\s*/i);
+  // First, check if there's a question word pattern (English or French)
+  const questionWordMatch = enhancedText.match(/^(What|Qu'est-ce que c'est|Result|Résultat|Output|Sortie|Value|Valeur|Which|Lequel|How|Comment|When|Quand|Where|Où|Why|Pourquoi|Can|Peut|Does|Est-ce que|Is|Est|Are|Sont|Will|Va|Would|Serait|Should|Devrait)\s+(is|est|of|de|are|sont|the|le|la|les|does|est-ce que|will|va|would|serait|should|devrait|can|peut)?\s*/i);
   
   if (questionWordMatch) {
     const questionEnd = questionWordMatch[0].length;
@@ -682,7 +766,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
          <div className="space-y-4 pt-8">
            <div className="max-h-[70vh] overflow-y-auto overflow-x-hidden bg-slate-800 rounded-lg">
              {(() => {
-               const { prefix, code } = splitQuestion(currentQuestion.question);
+               const { prefix, code } = splitQuestion(currentQuestion.question, language);
                // If we detected code, show prefix at top and code below
                if (code) {
                  return (
@@ -724,7 +808,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
               // No code detected, show as regular question
               return (
                 <h2 className="text-xl md:text-2xl font-bold leading-tight text-white px-4 pt-4">
-                  {currentQuestion.question}
+                  {translateText(currentQuestion.question, language)}
                 </h2>
               );
              })()}
@@ -781,9 +865,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 >
                   <div className="flex items-center gap-2">
                     <i className="fas fa-lightbulb text-sm"></i>
-                    <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">Codon Explanation</h4>
+                    <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">{t('idLog.codonExplanation')}</h4>
                     <span className="text-[9px] text-indigo-500/70 font-normal normal-case">
-                      {showDetailedExplanation ? '(Click to collapse)' : '(Click for detailed explanation)'}
+                      {showDetailedExplanation ? `(${t('quiz.hideExplanation')})` : `(${t('quiz.showExplanation')})`}
                     </span>
                   </div>
                   <i className={`fas fa-chevron-${showDetailedExplanation ? 'up' : 'down'} text-xs transition-transform group-hover:scale-110`}></i>
@@ -791,7 +875,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
               ) : (
                 <div className="flex items-center gap-2 mb-3 text-indigo-400">
                   <i className="fas fa-lightbulb text-sm"></i>
-                  <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">Codon Explanation</h4>
+                  <h4 className="font-black text-[10px] uppercase tracking-[0.2em]">{t('idLog.codonExplanation')}</h4>
                 </div>
               )}
               <div className="space-y-4">
@@ -822,7 +906,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   </div>
                 ) : (
                   <p className="text-slate-300 leading-relaxed text-sm font-medium whitespace-pre-wrap">
-                    {currentQuestion.explanation}
+                    {translateText(currentQuestion.explanation, language)}
                   </p>
                 )}
                 {showDetailedExplanation && currentQuestion.detailedExplanation && (
@@ -830,10 +914,10 @@ export const QuizView: React.FC<QuizViewProps> = ({
                     <div className="space-y-3">
                       <h5 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] flex items-center gap-2">
                         <i className="fas fa-graduation-cap text-xs"></i>
-                        In-Depth Explanation
+                        {t('glossary.inDepthDescription')}
                       </h5>
                       <div className="text-slate-200 leading-relaxed text-sm whitespace-pre-wrap">
-                        {currentQuestion.detailedExplanation}
+                        {translateText(currentQuestion.detailedExplanation, language)}
                       </div>
                     </div>
 

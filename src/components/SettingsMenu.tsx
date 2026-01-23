@@ -53,7 +53,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
     if (onShowIdSearch) {
       menuItems.push({
         icon: 'fa-hashtag',
-        label: 'Search by ID',
+        label: t('settings.searchById'),
         onClick: () => {
           onShowIdSearch();
           onClose();
@@ -63,7 +63,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
     if (onShowIdLog) {
       menuItems.push({
         icon: 'fa-list',
-        label: 'ID Log',
+        label: t('settings.idLog'),
         onClick: () => {
           onShowIdLog();
           onClose();
@@ -98,7 +98,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
     if (onToggleRandomMode) {
       menuItems.push({
         icon: 'fa-shuffle',
-        label: randomMode ? 'Switch to Level Mode' : 'Switch to Random Mode',
+        label: randomMode ? t('settings.switchToLevelMode') : t('settings.switchToRandomMode'),
         onClick: () => {
           onToggleRandomMode();
           onClose();
@@ -112,7 +112,7 @@ export const SettingsMenu: React.FC<SettingsMenuProps> = ({
   if (onShowLevelSelector) {
     menuItems.push({
       icon: 'fa-layer-group',
-      label: 'Select Level',
+      label: t('settings.selectLevel'),
       onClick: () => {
         onShowLevelSelector();
         onClose();

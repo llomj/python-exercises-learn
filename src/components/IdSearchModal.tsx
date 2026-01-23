@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Question } from '../types';
 import { QUESTIONS_BANK } from '../questionsBank';
 import { useLanguage } from '../contexts/LanguageContext';
+import { formatTranslation } from '../translations';
 
 interface IdSearchModalProps {
   onClose: () => void;
@@ -17,14 +18,14 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
   const handleSearch = () => {
     const id = parseInt(idInput.trim());
     if (isNaN(id) || id < 1 || id > 1000) {
-      setError('Please enter a valid ID between 1 and 1000');
+      setError(t('idSearch.invalidId'));
       setQuestion(null);
       return;
     }
 
     const found = QUESTIONS_BANK.find(q => q.id === id);
     if (!found) {
-      setError(`Question with ID ${id} not found`);
+      setError(formatTranslation(t('idSearch.questionNotFound'), { id }));
       setQuestion(null);
       return;
     }
@@ -46,9 +47,9 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
     // Show confirmation
     const confirmBtn = document.getElementById('save-confirm');
     if (confirmBtn) {
-      confirmBtn.textContent = 'Saved!';
+      confirmBtn.textContent = t('idSearch.saved');
       setTimeout(() => {
-        if (confirmBtn) confirmBtn.textContent = 'Save to Log';
+        if (confirmBtn) confirmBtn.textContent = t('idSearch.saveToLog');
       }, 2000);
     }
   };
@@ -64,7 +65,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
       <div className="glass rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto space-y-6 animate-in zoom-in duration-300 shadow-2xl border border-white/10">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-black text-white flex items-center gap-3">
-            <i className="fas fa-hashtag text-indigo-400"></i> Search by ID
+            <i className="fas fa-hashtag text-indigo-400"></i> {t('idSearch.searchById')}
           </h2>
           <button
             onClick={onClose}
@@ -81,7 +82,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
               value={idInput}
               onChange={(e) => setIdInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Enter question ID (1-1000)"
+              placeholder={t('idSearch.enterId')}
               className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
               min="1"
               max="1000"
@@ -90,7 +91,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
               onClick={handleSearch}
               className="px-6 py-3 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl font-bold transition-all"
             >
-              <i className="fas fa-search mr-2"></i>Search
+              <i className="fas fa-search mr-2"></i>{t('idSearch.search')}
             </button>
           </div>
 
@@ -108,7 +109,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                     ID: {question.id}
                   </span>
                   <span className="px-3 py-1 bg-slate-800 text-slate-300 rounded-lg text-xs font-bold">
-                    Level {question.level}
+                    {formatTranslation(t('levelSelector.level'), { level: question.level })}
                   </span>
                 </div>
                 <button
@@ -116,7 +117,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                   onClick={handleSave}
                   className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold transition-all flex items-center gap-2"
                 >
-                  <i className="fas fa-bookmark"></i> Save to Log
+                  <i className="fas fa-bookmark"></i> {t('idSearch.saveToLog')}
                 </button>
               </div>
 
@@ -126,7 +127,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                 </p>
 
                 <div className="space-y-2 mb-4">
-                  <p className="text-sm font-bold text-slate-400 mb-2">Options:</p>
+                  <p className="text-sm font-bold text-slate-400 mb-2">{t('idSearch.options')}:</p>
                   {question.options.map((option, idx) => (
                     <div
                       key={idx}
@@ -143,7 +144,7 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                         <span className="font-mono text-xs mr-2">{String.fromCharCode(65 + idx)}.</span>
                         <span>{option}</span>
                         {idx === question.correct_option_index && (
-                          <span className="ml-auto text-xs font-bold">Correct</span>
+                          <span className="ml-auto text-xs font-bold">{t('quiz.correct')}</span>
                         )}
                       </div>
                     </div>
@@ -151,14 +152,14 @@ export const IdSearchModal: React.FC<IdSearchModalProps> = ({ onClose, onSaveToL
                 </div>
 
                 <div className="pt-4 border-t border-white/10">
-                  <p className="text-sm font-bold text-slate-400 mb-2">Explanation:</p>
+                  <p className="text-sm font-bold text-slate-400 mb-2">{t('idSearch.explanation')}:</p>
                   <p className="text-sm text-slate-300 leading-relaxed">
                     {question.explanation}
                   </p>
                   {question.detailedExplanation && (
                     <details className="mt-3">
                       <summary className="cursor-pointer text-sm text-indigo-400 hover:text-indigo-300 font-bold">
-                        Show Detailed Explanation
+                        {t('idSearch.showDetailedExplanation')}
                       </summary>
                       <p className="mt-2 text-sm text-slate-400 leading-relaxed whitespace-pre-line">
                         {question.detailedExplanation}

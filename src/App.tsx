@@ -210,7 +210,7 @@ const App: React.FC = () => {
           <button
             onClick={() => setShowSettingsMenu(!showSettingsMenu)}
             className="w-9 h-9 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all"
-            title="Settings"
+                  title={t('settings.settings')}
           >
             <i className="fas fa-gear text-sm"></i>
           </button>

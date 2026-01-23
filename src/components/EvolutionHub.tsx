@@ -48,7 +48,7 @@ export const EvolutionHub: React.FC<EvolutionHubProps> = ({ stats, onStartQuiz }
               <i className="fas fa-dna text-indigo-400"></i> {t('hub.currentGenome')}
             </h3>
             <p className="text-slate-400 leading-relaxed text-xs">
-              {currentLevelInfo.description}
+              {t(`levels.level${currentLevelInfo.level}` as any)}
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {currentLevelInfo.concepts.map(c => (

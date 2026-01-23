@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IdLogEntry } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
 import { QUESTIONS_BANK } from '../questionsBank';
+import { formatTranslation } from '../translations';
 
 interface IdLogViewProps {
   entries: IdLogEntry[];
@@ -35,7 +36,7 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
       <div className="glass rounded-3xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto space-y-6 animate-in zoom-in duration-300 shadow-2xl border border-white/10">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-black text-white flex items-center gap-3">
-            <i className="fas fa-list text-indigo-400"></i> ID Log
+            <i className="fas fa-list text-indigo-400"></i> {t('idSearch.idLog')}
           </h2>
           <button
             onClick={onClose}
@@ -50,7 +51,7 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
             <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-500 text-2xl">
               <i className="fas fa-bookmark"></i>
             </div>
-            <p className="text-slate-500 font-medium">No saved questions yet. Search by ID and save questions for reference.</p>
+            <p className="text-slate-500 font-medium">{t('idSearch.noSavedQuestions')}</p>
           </div>
         ) : (
           <div className="grid gap-4">
@@ -64,7 +65,7 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
                     <button
                       onClick={() => toggleCodonExplanation(entry.id)}
                       className="px-3 py-1 bg-indigo-500/10 text-indigo-400 rounded-lg text-xs font-bold hover:bg-indigo-500/20 transition-all cursor-pointer flex items-center gap-2 group"
-                      title="Click to view codon explanation"
+                      title={t('idLog.clickToViewCodon')}
                     >
                       ID: {entry.id}
                       <i className={`fas fa-chevron-${expandedIds.has(entry.id) ? 'up' : 'down'} text-[8px] transition-transform group-hover:scale-110`}></i>
@@ -79,13 +80,13 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
                   <div className="mb-4 p-6 bg-indigo-500/10 rounded-xl border border-indigo-500/20 animate-in slide-in-from-top duration-200">
                     <div className="flex items-center gap-2 mb-3">
                       <i className="fas fa-lightbulb text-indigo-400 text-sm"></i>
-                      <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-indigo-400">Codon Explanation</h4>
+                      <h4 className="font-black text-[10px] uppercase tracking-[0.2em] text-indigo-400">{t('idLog.codonExplanation')}</h4>
                     </div>
                     <div className="space-y-3">
                       <div className="space-y-2">
                         <h5 className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] flex items-center gap-2">
                           <i className="fas fa-graduation-cap text-xs"></i>
-                          In-Depth Explanation
+                          {t('glossary.inDepthDescription')}
                         </h5>
                         <div className="text-slate-200 leading-relaxed text-sm whitespace-pre-wrap">
                           {getQuestionDetailedExplanation(entry.id)}
@@ -102,7 +103,7 @@ export const IdLogView: React.FC<IdLogViewProps> = ({ entries, onClose }) => {
                 <div className="mb-4">
                   <div className="text-xs p-2 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center gap-2">
                     <i className="fas fa-check-circle"></i>
-                    <span>Correct Answer: {entry.correctAnswer}</span>
+                    <span>{t('quiz.correctAnswer')}: {entry.correctAnswer}</span>
                   </div>
                 </div>
 
