@@ -274,5 +274,311 @@ export const GLOSSARY = [
     levelRange: "9-10",
     detailedDescription: "Generators are functions that use the 'yield' keyword to produce a sequence of values lazily. Instead of computing all values at once and storing them in memory, generators compute values on-demand. This makes them memory-efficient for large datasets. Generators can be consumed using next() or in for loops.",
     example: "def fibonacci_generator():\n    a, b = 0, 1\n    while True:\n        yield a\n        a, b = b, a + b\n\nfib = fibonacci_generator()\nprint(next(fib))  # 0\nprint(next(fib))  # 1\nprint(next(fib))  # 1\nprint(next(fib))  # 2\n\n# Or use in a loop\nfor num in fib:\n    if num > 100:\n        break\n    print(num)"
+  },
+  // Level 1-2 Additional Terms
+  {
+    term: "None",
+    definition: "A special constant representing the absence of a value.",
+    levelRange: "1-2",
+    detailedDescription: "None is Python's null value, representing the absence of a value or a null object. It is a singleton object (only one instance exists). None is commonly used as a default return value for functions that don't explicitly return anything. It is falsy in boolean contexts.",
+    example: "value = None\nif value is None:\n    print('No value assigned')\n\ndef find_item(items, target):\n    for item in items:\n        if item == target:\n            return item\n    return None  # Not found"
+  },
+  {
+    term: "Comment",
+    definition: "Text in code that is ignored by the Python interpreter, used for documentation.",
+    levelRange: "1-2",
+    detailedDescription: "Comments start with # and continue to the end of the line. They are used to explain code, document functions, or temporarily disable code. Multi-line comments can be created using multiple # lines or triple-quoted strings (though the latter creates a string object). Comments are essential for code readability and maintenance.",
+    example: "# This is a single-line comment\n\n# Multi-line comments use\n# multiple hash symbols\n\nx = 5  # Inline comment explaining the variable\n\n\"\"\"\nThis is a docstring, not technically a comment,\nbut often used for documentation.\n\"\"\""
+  },
+  {
+    term: "Type Conversion",
+    definition: "Converting a value from one data type to another.",
+    levelRange: "1-2",
+    detailedDescription: "Type conversion (also called type casting) transforms values from one type to another. Python provides built-in functions like int(), float(), str(), bool() for conversions. Some conversions are automatic (implicit), while others must be explicit. Not all conversions are possible - attempting invalid conversions raises TypeError.",
+    example: "x = '42'\nnumber = int(x)  # Convert string to integer: 42\n\ndecimal = float(5)  # Convert int to float: 5.0\n\ntext = str(123)  # Convert number to string: '123'\n\nboolean = bool(1)  # Convert to boolean: True\nboolean2 = bool(0)  # False"
+  },
+  {
+    term: "Arithmetic Operator",
+    definition: "Operators that perform mathematical operations: +, -, *, /, //, %, **.",
+    levelRange: "1-2",
+    detailedDescription: "Arithmetic operators perform basic mathematical operations. + (addition), - (subtraction), * (multiplication), / (division, always returns float), // (floor division), % (modulo/remainder), ** (exponentiation). Python follows standard mathematical precedence rules. Division by zero raises ZeroDivisionError.",
+    example: "a = 10\nb = 3\n\nprint(a + b)   # 13 (addition)\nprint(a - b)   # 7 (subtraction)\nprint(a * b)   # 30 (multiplication)\nprint(a / b)   # 3.333... (division)\nprint(a // b)  # 3 (floor division)\nprint(a % b)   # 1 (modulo)\nprint(a ** b)  # 1000 (exponentiation)"
+  },
+  {
+    term: "String Concatenation",
+    definition: "Combining multiple strings into a single string using + or join().",
+    levelRange: "1-2",
+    detailedDescription: "String concatenation combines strings end-to-end. The + operator concatenates two strings. For multiple strings, join() is more efficient than repeated + operations. String concatenation creates new string objects since strings are immutable. The += operator can be used for in-place concatenation (though it still creates a new object).",
+    example: "first = 'Hello'\nlast = 'World'\nresult = first + ' ' + last  # 'Hello World'\n\n# Using join (more efficient for many strings)\nwords = ['Hello', 'World', 'Python']\ncombined = ' '.join(words)  # 'Hello World Python'\n\n# String repetition\nrepeated = 'ha' * 3  # 'hahaha'"
+  },
+  {
+    term: "String Slicing",
+    definition: "Extracting a portion of a string using index notation [start:end:step].",
+    levelRange: "1-2",
+    detailedDescription: "String slicing extracts substrings using bracket notation with colons. The syntax is [start:end:step] where start is inclusive, end is exclusive, and step controls the increment. Negative indices count from the end. Omitting start defaults to 0, omitting end defaults to the end. Slicing returns a new string and never raises IndexError.",
+    example: "text = 'Python'\nprint(text[0:2])    # 'Py'\nprint(text[:3])     # 'Pyt'\nprint(text[3:])     # 'hon'\nprint(text[-3:])    # 'hon'\nprint(text[::2])    # 'Pto' (every 2nd character)\nprint(text[::-1])   # 'nohtyP' (reverse)"
+  },
+  {
+    term: "Assignment Operator",
+    definition: "The = operator that assigns a value to a variable.",
+    levelRange: "1-2",
+    detailedDescription: "The assignment operator = binds a value to a variable name. Python supports multiple assignment (unpacking), augmented assignment (+=, -=, *=, etc.), and chained assignment. Assignment doesn't copy objects - it creates a reference. For mutable objects, this means multiple variables can reference the same object.",
+    example: "x = 10  # Simple assignment\n\na, b = 1, 2  # Multiple assignment\n\nx += 5  # Augmented assignment (same as x = x + 5)\n\n# Chained assignment\nx = y = z = 0  # All three variables equal 0"
+  },
+  {
+    term: "F-String",
+    definition: "A formatted string literal that allows embedded expressions using f prefix.",
+    levelRange: "1-2",
+    detailedDescription: "F-strings (formatted string literals) are prefixed with 'f' or 'F' and allow embedding Python expressions inside curly braces {}. They provide a concise and readable way to format strings. F-strings are evaluated at runtime and support expressions, function calls, and formatting specifiers. They are the preferred method for string formatting in Python 3.6+.",
+    example: "name = 'Alice'\nage = 30\n\n# F-string with variables\nmessage = f'Hello, {name}!'\n\n# F-string with expressions\ninfo = f'{name} is {age} years old'\n\n# F-string with formatting\nprice = 19.99\nformatted = f'Price: ${price:.2f}'  # 'Price: $19.99'\n\n# F-string with function calls\nresult = f'The length is {len(name)}'"
+  },
+  // Level 3-4 Additional Terms
+  {
+    term: "Elif Statement",
+    definition: "A conditional clause that checks additional conditions after an if statement.",
+    levelRange: "3-4",
+    detailedDescription: "Elif (else-if) allows checking multiple conditions sequentially. It combines else and if into a single keyword. Elif clauses are evaluated only if all previous conditions were False. Once a True condition is found, that block executes and subsequent elif/else clauses are skipped. Elif provides a cleaner alternative to nested if statements.",
+    example: "score = 85\n\nif score >= 90:\n    grade = 'A'\nelif score >= 80:\n    grade = 'B'\nelif score >= 70:\n    grade = 'C'\nelse:\n    grade = 'F'\n\nprint(grade)  # 'B'"
+  },
+  {
+    term: "Else Clause",
+    definition: "An optional clause that executes when all previous conditions are False.",
+    levelRange: "3-4",
+    detailedDescription: "The else clause provides a default action when no conditions in an if/elif chain are True. It must come after all if and elif statements. There can only be one else clause per if statement. Else can also be used with for and while loops to execute code when the loop completes normally (not via break).",
+    example: "age = 15\n\nif age >= 18:\n    status = 'Adult'\nelse:\n    status = 'Minor'\n\n# Else with loops\nfor i in range(5):\n    if i == 10:\n        break\nelse:\n    print('Loop completed normally')  # This executes"
+  },
+  {
+    term: "Ternary Operator",
+    definition: "A conditional expression that returns one value if True, another if False.",
+    levelRange: "3-4",
+    detailedDescription: "Python's ternary operator (conditional expression) has the syntax: value_if_true if condition else value_if_false. It's a concise way to assign values based on conditions. Unlike if-else statements, ternary operators are expressions that return values. They can be nested but should be used sparingly for readability.",
+    example: "age = 20\nstatus = 'Adult' if age >= 18 else 'Minor'\n\n# Equivalent to:\n# if age >= 18:\n#     status = 'Adult'\n# else:\n#     status = 'Minor'\n\nmax_value = a if a > b else b  # Find maximum"
+  },
+  {
+    term: "Truthiness",
+    definition: "The inherent boolean value of any Python object.",
+    levelRange: "3-4",
+    detailedDescription: "Every Python object has a truthiness value - it's considered either truthy or falsy. Falsy values include: None, False, 0, empty sequences (\"\", [], ()), empty mappings ({}), and objects with __bool__() or __len__() returning False/0. All other values are truthy. Truthiness is evaluated in boolean contexts like if statements.",
+    example: "if 0:  # Falsy\n    print('This won't print')\n\nif 1:  # Truthy\n    print('This will print')\n\nif '':  # Falsy (empty string)\n    print('Won't print')\n\nif 'hello':  # Truthy\n    print('Will print')\n\nif []:  # Falsy (empty list)\n    print('Won't print')"
+  },
+  {
+    term: "Short-Circuit Evaluation",
+    definition: "The behavior where logical operators stop evaluating once the result is determined.",
+    levelRange: "3-4",
+    detailedDescription: "Python's 'and' and 'or' operators use short-circuit evaluation. For 'and', if the left operand is False, the right operand isn't evaluated. For 'or', if the left operand is True, the right operand isn't evaluated. This can improve performance and allow safe operations like checking if a list exists before accessing it.",
+    example: "x = 0\ny = 5\n\n# Short-circuit with 'and'\nresult = x and y  # Returns 0, doesn't evaluate y\n\n# Short-circuit with 'or'\nresult = x or y  # Returns 5, doesn't need to check further\n\n# Safe list access\nitems = [1, 2, 3]\nif items and items[0] > 0:  # Safe: checks items exists first\n    print('First item is positive')"
+  },
+  {
+    term: "Nested Loop",
+    definition: "A loop inside another loop, used to iterate over multi-dimensional data.",
+    levelRange: "3-4",
+    detailedDescription: "Nested loops place one loop inside another, creating a pattern where the inner loop completes all iterations for each iteration of the outer loop. This is useful for working with 2D data structures, generating combinations, or processing grids. The total iterations equals the product of both loop ranges.",
+    example: "for i in range(3):\n    for j in range(2):\n        print(f'({i}, {j})')\n# Output:\n# (0, 0) (0, 1)\n# (1, 0) (1, 1)\n# (2, 0) (2, 1)\n\n# Processing a 2D grid\nmatrix = [[1, 2], [3, 4]]\nfor row in matrix:\n    for cell in row:\n        print(cell)"
+  },
+  {
+    term: "Loop Variable",
+    definition: "The variable that takes each value from the iterable in a for loop.",
+    levelRange: "3-4",
+    detailedDescription: "The loop variable is the identifier that receives each value from the iterable during iteration. It's created in the loop scope and persists after the loop completes with its final value. The loop variable can be any valid identifier and can be used within the loop body. Modifying the loop variable doesn't affect the original iterable.",
+    example: "for number in [1, 2, 3, 4, 5]:\n    print(number * 2)  # number is the loop variable\n\n# Loop variable persists after loop\nfor item in ['a', 'b']:\n    pass\nprint(item)  # 'b' (last value)\n\n# Using loop variable with range\nfor i in range(5):\n    print(f'Index: {i}')"
+  },
+  {
+    term: "Infinite Loop",
+    definition: "A loop that continues indefinitely because its condition never becomes False.",
+    levelRange: "3-4",
+    detailedDescription: "An infinite loop occurs when a while loop's condition always evaluates to True, or when the loop variable in a for loop never reaches a termination point. While sometimes intentional (with break statements), infinite loops are usually bugs. They can cause programs to hang or consume excessive resources. Always ensure loop conditions can become False.",
+    example: "# Intentional infinite loop with break\nwhile True:\n    user_input = input('Enter command: ')\n    if user_input == 'quit':\n        break  # Exit the loop\n    print(f'You entered: {user_input}')\n\n# Accidental infinite loop (BUG!)\n# count = 0\n# while count < 5:\n#     print(count)\n#     # Forgot to increment count - infinite loop!"
+  },
+  {
+    term: "Pass Statement",
+    definition: "A null operation that does nothing, used as a placeholder.",
+    levelRange: "3-4",
+    detailedDescription: "The pass statement is a null operation - when executed, nothing happens. It's useful as a placeholder where syntax requires a statement but no action is needed. Common uses include: empty function/class bodies, conditional blocks that will be implemented later, or exception handlers that intentionally do nothing.",
+    example: "def function_to_implement_later():\n    pass  # Placeholder - will add code later\n\nif condition:\n    pass  # Do nothing if condition is True\nelse:\n    print('Condition is False')\n\ntry:\n    risky_operation()\nexcept:\n    pass  # Silently ignore errors"
+  },
+  // Level 5-6 Additional Terms
+  {
+    term: "List Indexing",
+    definition: "Accessing individual elements of a list using their position (index).",
+    levelRange: "5-6",
+    detailedDescription: "List indexing uses square brackets with an integer index to access elements. Indices start at 0 for the first element. Negative indices count from the end (-1 is the last element). Accessing an invalid index raises IndexError. Indexing returns a reference to the object, so modifying mutable elements affects the original list.",
+    example: "fruits = ['apple', 'banana', 'cherry']\n\nprint(fruits[0])   # 'apple' (first element)\nprint(fruits[1])   # 'banana'\nprint(fruits[-1])  # 'cherry' (last element)\nprint(fruits[-2])  # 'banana' (second from end)\n\n# Modifying through index\nfruits[0] = 'orange'  # ['orange', 'banana', 'cherry']"
+  },
+  {
+    term: "List Method",
+    definition: "Built-in functions that operate on lists: append(), remove(), sort(), etc.",
+    levelRange: "5-6",
+    detailedDescription: "List methods are functions called on list objects using dot notation. Common methods include: append() (add to end), insert() (add at position), remove() (remove by value), pop() (remove and return), sort() (in-place sorting), reverse() (reverse order), count() (count occurrences), index() (find position). Most list methods modify the list in-place.",
+    example: "numbers = [3, 1, 4, 1, 5]\n\nnumbers.append(9)      # [3, 1, 4, 1, 5, 9]\nnumbers.insert(1, 2)   # [3, 2, 1, 4, 1, 5, 9]\nnumbers.remove(1)      # [3, 2, 4, 1, 5, 9] (removes first 1)\nnumbers.sort()         # [1, 2, 3, 4, 5, 9]\nnumbers.reverse()      # [9, 5, 4, 3, 2, 1]\ncount = numbers.count(1)  # 1"
+  },
+  {
+    term: "List Comprehension",
+    definition: "A concise way to create lists using a single line of code.",
+    levelRange: "5-6",
+    detailedDescription: "List comprehensions provide a compact syntax for creating lists. The basic form is [expression for item in iterable]. They can include conditions: [expression for item in iterable if condition]. List comprehensions are more readable and often faster than equivalent for loops. They can be nested for multi-dimensional lists.",
+    example: "numbers = [1, 2, 3, 4, 5]\n\n# Square each number\nsquares = [x**2 for x in numbers]  # [1, 4, 9, 16, 25]\n\n# Filter even numbers\n evens = [x for x in numbers if x % 2 == 0]  # [2, 4]\n\n# Nested comprehension\nmatrix = [[i*j for j in range(3)] for i in range(3)]\n# [[0, 0, 0], [0, 1, 2], [0, 2, 4]]"
+  },
+  {
+    term: "Tuple",
+    definition: "An immutable, ordered sequence of objects, defined with parentheses.",
+    levelRange: "5-6",
+    detailedDescription: "Tuples are immutable sequences, meaning they cannot be modified after creation. They are defined with parentheses (or just commas). Tuples are faster than lists and can be used as dictionary keys (since they're hashable). They're useful for fixed collections of related values. Single-element tuples require a trailing comma.",
+    example: "point = (3, 4)  # Coordinates\nperson = ('Alice', 30, 'Engineer')  # Multiple values\n\n# Single element tuple\nsingle = (42,)  # Note the comma\nnot_tuple = (42)  # This is just an integer\n\n# Tuple unpacking\nx, y = point  # x = 3, y = 4\n\n# Tuples as dictionary keys\nlocations = {(0, 0): 'Origin', (1, 1): 'Corner'}"
+  },
+  {
+    term: "Set",
+    definition: "An unordered collection of unique, hashable objects.",
+    levelRange: "5-6",
+    detailedDescription: "Sets are mutable collections that store unique elements. They don't maintain order (though Python 3.7+ preserves insertion order). Sets are useful for membership testing, removing duplicates, and mathematical set operations (union, intersection, difference). Elements must be hashable (immutable). Sets are created with {} or set().",
+    example: "numbers = {1, 2, 3, 3, 4}  # {1, 2, 3, 4} (duplicates removed)\n\n# Set operations\nset1 = {1, 2, 3}\nset2 = {3, 4, 5}\n\nunion = set1 | set2        # {1, 2, 3, 4, 5}\nintersection = set1 & set2  # {3}\ndifference = set1 - set2    # {1, 2}\n\n# Membership testing\nprint(2 in set1)  # True"
+  },
+  {
+    term: "Dictionary Key",
+    definition: "The unique identifier used to access values in a dictionary.",
+    levelRange: "5-6",
+    detailedDescription: "Dictionary keys must be hashable (immutable) objects like strings, numbers, or tuples. Keys are unique - assigning to an existing key overwrites the value. Keys are used to access, add, or modify dictionary values. Accessing a non-existent key raises KeyError (use get() to avoid this). Keys can be iterated over with .keys().",
+    example: "person = {'name': 'Alice', 'age': 30}\n\n# Accessing values\nname = person['name']  # 'Alice'\nage = person.get('age', 0)  # 30 (with default)\n\n# Adding/modifying\nperson['city'] = 'NYC'  # Add new key\nperson['age'] = 31     # Modify existing\n\n# Iterating keys\nfor key in person.keys():\n    print(key, person[key])"
+  },
+  {
+    term: "Dictionary Value",
+    definition: "The data associated with a key in a dictionary.",
+    levelRange: "5-6",
+    detailedDescription: "Dictionary values can be any Python object - strings, numbers, lists, other dictionaries, functions, etc. Values are accessed using their corresponding keys. Unlike keys, values don't need to be unique or hashable. Values can be modified, added, or removed. The .values() method returns all values in a dictionary.",
+    example: "data = {\n    'name': 'Alice',\n    'scores': [85, 90, 88],\n    'info': {'age': 30, 'city': 'NYC'}\n}\n\n# Accessing values\nname = data['name']           # 'Alice'\nscores = data['scores']        # [85, 90, 88]\ninfo = data['info']            # {'age': 30, 'city': 'NYC'}\n\n# Modifying values\ndata['scores'].append(92)  # Modifies the list\n\n# Iterating values\nfor value in data.values():\n    print(value)"
+  },
+  {
+    term: "Dictionary Comprehension",
+    definition: "A concise way to create dictionaries using a single expression.",
+    levelRange: "5-6",
+    detailedDescription: "Dictionary comprehensions create dictionaries using the syntax {key: value for item in iterable}. They can include conditions: {key: value for item in iterable if condition}. Dictionary comprehensions are more readable and efficient than creating dictionaries with loops. They're useful for transforming data structures.",
+    example: "numbers = [1, 2, 3, 4, 5]\n\n# Create dictionary of squares\nsquares = {x: x**2 for x in numbers}\n# {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n\n# With condition\n evens = {x: x*2 for x in numbers if x % 2 == 0}\n# {2: 4, 4: 8}\n\n# From two lists\nkeys = ['a', 'b', 'c']\nvalues = [1, 2, 3]\ndict_from_lists = {k: v for k, v in zip(keys, values)}\n# {'a': 1, 'b': 2, 'c': 3}"
+  },
+  // Level 7-8 Additional Terms
+  {
+    term: "Parameter",
+    definition: "A variable in a function definition that receives a value when the function is called.",
+    levelRange: "7-8",
+    detailedDescription: "Parameters are placeholders in function definitions that specify what arguments the function expects. When a function is called, arguments are passed and assigned to parameters. Parameters can have default values, making them optional. Functions can accept variable numbers of arguments using *args and **kwargs.",
+    example: "def greet(name, greeting='Hello'):  # name and greeting are parameters\n    return f'{greeting}, {name}!'\n\nresult = greet('Alice')  # 'Alice' is the argument\nresult2 = greet('Bob', 'Hi')  # 'Bob' and 'Hi' are arguments"
+  },
+  {
+    term: "Argument",
+    definition: "A value passed to a function when it is called.",
+    levelRange: "7-8",
+    detailedDescription: "Arguments are the actual values passed to functions when they're called. They correspond to the function's parameters. Arguments can be positional (matched by position) or keyword (matched by name). Functions can accept variable numbers of arguments. Arguments are evaluated before being passed to the function.",
+    example: "def add(a, b):  # a and b are parameters\n    return a + b\n\nresult = add(5, 3)  # 5 and 3 are arguments\nresult2 = add(a=5, b=3)  # Keyword arguments\nresult3 = add(b=3, a=5)  # Order doesn't matter with keywords"
+  },
+  {
+    term: "Return Statement",
+    definition: "A statement that exits a function and optionally returns a value.",
+    levelRange: "7-8",
+    detailedDescription: "The return statement exits a function immediately and can return a value to the caller. Functions without an explicit return statement return None. Return can return multiple values as a tuple. Once return executes, no further code in the function runs. Return is an expression, not a statement, so it can be used in expressions.",
+    example: "def add(a, b):\n    return a + b  # Returns the sum\n\nresult = add(3, 5)  # result = 8\n\ndef get_name_and_age():\n    return 'Alice', 30  # Returns tuple\n\nname, age = get_name_and_age()  # Unpacking"
+  },
+  {
+    term: "Default Parameter",
+    definition: "A parameter with a default value that is used if no argument is provided.",
+    levelRange: "7-8",
+    detailedDescription: "Default parameters have values assigned in the function definition. If no argument is provided for a default parameter, the default value is used. Default parameters must come after non-default parameters. Default values are evaluated once when the function is defined, which can cause issues with mutable defaults (use None instead).",
+    example: "def greet(name, greeting='Hello'):  # greeting has default 'Hello'\n    return f'{greeting}, {name}!'\n\nprint(greet('Alice'))        # 'Hello, Alice!'\nprint(greet('Bob', 'Hi'))    # 'Hi, Bob!'\n\n# Mutable default (problematic)\ndef add_item(item, items=[]):  # BAD!\n    items.append(item)\n    return items\n\n# Better approach\ndef add_item(item, items=None):\n    if items is None:\n        items = []\n    items.append(item)\n    return items"
+  },
+  {
+    term: "Instance",
+    definition: "An individual object created from a class.",
+    levelRange: "7-8",
+    detailedDescription: "An instance is a specific object created from a class blueprint. Each instance has its own set of attributes (instance variables) but shares the class's methods. Instances are created by calling the class like a function, which invokes __init__. Multiple instances of the same class are independent objects with separate state.",
+    example: "class Person:\n    def __init__(self, name):\n        self.name = name\n\n# Creating instances\nperson1 = Person('Alice')  # person1 is an instance\nperson2 = Person('Bob')    # person2 is another instance\n\nprint(person1.name)  # 'Alice'\nprint(person2.name)  # 'Bob'"
+  },
+  {
+    term: "Instance Variable",
+    definition: "A variable that belongs to a specific instance of a class.",
+    levelRange: "7-8",
+    detailedDescription: "Instance variables (also called attributes) store data unique to each instance. They are created by assigning to self.attribute_name. Each instance has its own copy of instance variables. Instance variables can be accessed using dot notation (instance.attribute) or through self within methods.",
+    example: "class Person:\n    def __init__(self, name, age):\n        self.name = name      # Instance variable\n        self.age = age        # Instance variable\n\nperson = Person('Alice', 30)\nprint(person.name)  # 'Alice' (accessing instance variable)\nprint(person.age)   # 30"
+  },
+  {
+    term: "Class Variable",
+    definition: "A variable shared by all instances of a class.",
+    levelRange: "7-8",
+    detailedDescription: "Class variables are defined at the class level (outside methods) and are shared by all instances. They are useful for storing data common to all instances. Class variables can be accessed through the class or any instance. Modifying a class variable through an instance creates an instance variable with the same name (shadowing).",
+    example: "class Dog:\n    species = 'Canis familiaris'  # Class variable\n    \n    def __init__(self, name):\n        self.name = name  # Instance variable\n\ndog1 = Dog('Buddy')\ndog2 = Dog('Max')\n\nprint(dog1.species)  # 'Canis familiaris'\nprint(dog2.species)  # 'Canis familiaris'\nprint(Dog.species)   # 'Canis familiaris' (same for all)"
+  },
+  {
+    term: "Self",
+    definition: "A reference to the current instance, used to access instance attributes and methods.",
+    levelRange: "7-8",
+    detailedDescription: "Self is the conventional name for the first parameter of instance methods. It refers to the instance on which the method is called. Through self, methods can access and modify instance variables and call other methods. Self is automatically passed when calling methods on instances - you don't pass it explicitly.",
+    example: "class Person:\n    def __init__(self, name):\n        self.name = name  # self refers to the instance\n    \n    def greet(self):\n        return f'Hello, I am {self.name}'  # Accessing via self\n\nperson = Person('Alice')\nperson.greet()  # self is automatically person"
+  },
+  {
+    term: "Constructor",
+    definition: "A special method __init__ that initializes a new instance of a class.",
+    levelRange: "7-8",
+    detailedDescription: "The constructor (__init__ method) is automatically called when a new instance is created. It's used to initialize instance variables and perform setup. __init__ doesn't create the object (that's done by __new__), but it's the primary place for initialization. It can accept parameters to customize the instance.",
+    example: "class Person:\n    def __init__(self, name, age):  # Constructor\n        self.name = name\n        self.age = age\n        print(f'{name} created')\n\nperson = Person('Alice', 30)  # Constructor is called automatically\n# Output: 'Alice created'"
+  },
+  // Level 9-10 Additional Terms
+  {
+    term: "Inheritance",
+    definition: "A mechanism where a child class inherits attributes and methods from a parent class.",
+    levelRange: "9-10",
+    detailedDescription: "Inheritance allows creating new classes based on existing ones. The child class (subclass) inherits all attributes and methods from the parent class (superclass) and can add new ones or override existing ones. Inheritance promotes code reuse and establishes an 'is-a' relationship. Python supports multiple inheritance.",
+    example: "class Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        return 'Some sound'\n\nclass Dog(Animal):  # Dog inherits from Animal\n    def speak(self):  # Override parent method\n        return 'Woof!'\n\ndog = Dog('Buddy')\nprint(dog.name)    # Inherited attribute\nprint(dog.speak())  # Overridden method: 'Woof!'"
+  },
+  {
+    term: "Polymorphism",
+    definition: "The ability of different classes to respond to the same method call in different ways.",
+    levelRange: "9-10",
+    detailedDescription: "Polymorphism allows objects of different types to be treated uniformly through a common interface. In Python, polymorphism is achieved through duck typing - if an object has the required method, it can be used. This enables writing code that works with multiple types without explicit type checking.",
+    example: "class Dog:\n    def speak(self):\n        return 'Woof!'\n\nclass Cat:\n    def speak(self):\n        return 'Meow!'\n\n# Polymorphic function\ndef make_sound(animal):\n    return animal.speak()  # Works with any object with speak()\n\ndog = Dog()\ncat = Cat()\nprint(make_sound(dog))  # 'Woof!'\nprint(make_sound(cat))  # 'Meow!'"
+  },
+  {
+    term: "Encapsulation",
+    definition: "The bundling of data and methods that operate on that data within a single unit.",
+    levelRange: "9-10",
+    detailedDescription: "Encapsulation is the principle of hiding internal implementation details and exposing only what's necessary. In Python, encapsulation is achieved through naming conventions: single underscore (_) for 'protected' and double underscore (__) for 'private' (name mangling). Python doesn't enforce strict encapsulation - it's a convention.",
+    example: "class BankAccount:\n    def __init__(self, balance):\n        self.__balance = balance  # 'Private' attribute\n    \n    def deposit(self, amount):\n        self.__balance += amount  # Controlled access\n    \n    def get_balance(self):\n        return self.__balance  # Public interface\n\naccount = BankAccount(100)\n# account.__balance  # Error: name mangling\nprint(account.get_balance())  # 100"
+  },
+  {
+    term: "Super",
+    definition: "A built-in function that returns a proxy object to access parent class methods.",
+    levelRange: "9-10",
+    detailedDescription: "Super() provides a way to call methods from parent classes. It's commonly used in __init__ to ensure parent initialization. Super() follows the method resolution order (MRO) to find the correct parent method. It's essential in multiple inheritance scenarios to call the right parent method.",
+    example: "class Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        return 'Some sound'\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(name)  # Call parent __init__\n        self.breed = breed\n    \n    def speak(self):\n        return super().speak() + ' Woof!'  # Extend parent method\n\ndog = Dog('Buddy', 'Labrador')\nprint(dog.name)  # 'Buddy' (from parent)\nprint(dog.speak())  # 'Some sound Woof!'"
+  },
+  {
+    term: "Method Overriding",
+    definition: "Defining a method in a child class that replaces a method from the parent class.",
+    levelRange: "9-10",
+    detailedDescription: "Method overriding occurs when a child class defines a method with the same name as a parent class method. The child's method takes precedence when called on child instances. Overriding allows customizing behavior while maintaining the same interface. The parent method can still be accessed using super().",
+    example: "class Shape:\n    def area(self):\n        return 0\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def area(self):  # Override parent method\n        return self.width * self.height\n\nrect = Rectangle(5, 3)\nprint(rect.area())  # 15 (uses overridden method)"
+  },
+  {
+    term: "Abstract Method",
+    definition: "A method declared in a base class that must be implemented by subclasses.",
+    levelRange: "9-10",
+    detailedDescription: "Abstract methods define an interface that subclasses must implement. In Python, abstract methods are created using the abc (Abstract Base Class) module. Classes with abstract methods cannot be instantiated directly. Abstract methods ensure that subclasses provide required functionality, enforcing a contract.",
+    example: "from abc import ABC, abstractmethod\n\nclass Shape(ABC):  # Abstract base class\n    @abstractmethod\n    def area(self):  # Must be implemented by subclasses\n        pass\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def area(self):  # Required implementation\n        return self.width * self.height\n\n# shape = Shape()  # Error: cannot instantiate abstract class\nrect = Rectangle(5, 3)  # OK"
+  },
+  {
+    term: "Design Pattern",
+    definition: "A reusable solution to a commonly occurring problem in software design.",
+    levelRange: "9-10",
+    detailedDescription: "Design patterns are proven solutions to common programming problems. They provide templates for structuring code to achieve flexibility, maintainability, and reusability. Common patterns include Singleton, Factory, Observer, Strategy, and Decorator. Patterns are language-agnostic concepts that can be implemented in Python.",
+    example: "# Singleton Pattern\nclass Singleton:\n    _instance = None\n    \n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance\n\n# Factory Pattern\nclass AnimalFactory:\n    @staticmethod\n    def create_animal(animal_type):\n        if animal_type == 'dog':\n            return Dog()\n        elif animal_type == 'cat':\n            return Cat()\n        return None"
+  },
+  {
+    term: "Exception Handling",
+    definition: "A mechanism to handle errors and exceptional conditions using try/except blocks.",
+    levelRange: "9-10",
+    detailedDescription: "Exception handling allows programs to gracefully handle errors without crashing. The try block contains code that might raise exceptions. The except block catches and handles specific exceptions. Optional else runs if no exception occurs, and finally always executes. Proper exception handling improves program robustness.",
+    example: "try:\n    result = 10 / 0  # Raises ZeroDivisionError\nexcept ZeroDivisionError:\n    print('Cannot divide by zero')\nexcept Exception as e:\n    print(f'An error occurred: {e}')\nelse:\n    print('No errors occurred')\nfinally:\n    print('This always executes')"
+  },
+  {
+    term: "Context Manager",
+    definition: "An object that manages resources using the 'with' statement.",
+    levelRange: "9-10",
+    detailedDescription: "Context managers ensure proper resource management (like file closing) using the 'with' statement. They implement __enter__ and __exit__ methods. Context managers automatically handle setup and cleanup, even if exceptions occur. The 'with' statement is preferred over manual resource management.",
+    example: "# Built-in file context manager\nwith open('file.txt', 'r') as f:\n    content = f.read()\n# File is automatically closed here\n\n# Custom context manager\nclass Timer:\n    def __enter__(self):\n        self.start = time.time()\n        return self\n    \n    def __exit__(self, *args):\n        print(f'Elapsed: {time.time() - self.start}')\n\nwith Timer():\n    # Do something\n    pass"
   }
 ];
