@@ -512,10 +512,11 @@ const translateText = (text: string, language: string): string => {
 // Function to split question into prefix and code
 // Keeps all question text (like "What is", "Result of", "Value of", etc.) together at the top
 const splitQuestion = (text: string, language: string = 'en') => {
-  // First translate if needed
-  const translatedText = translateText(text, language);
-  // Then enhance vague method calls
-  const enhancedText = enhanceVagueMethodCalls(translatedText);
+  try {
+    // First translate if needed
+    const translatedText = translateText(text, language);
+    // Then enhance vague method calls
+    const enhancedText = enhanceVagueMethodCalls(translatedText);
   // Check for multi-line code blocks (has newlines and indentation)
   if (enhancedText.includes('\n')) {
     const lines = enhancedText.split('\n');
@@ -535,9 +536,22 @@ const splitQuestion = (text: string, language: string = 'en') => {
   
   // For single-line questions, find where code starts
   // First, check if there's a question word pattern (English or French)
-  const questionWordMatch = enhancedText.match(/^(What|Qu'est-ce que c'est|Result|Résultat|Output|Sortie|Value|Valeur|Which|Lequel|How|Comment|When|Quand|Where|Où|Why|Pourquoi|Can|Peut|Does|Est-ce que|Is|Est|Are|Sont|Will|Va|Would|Serait|Should|Devrait)\s+(is|est|of|de|are|sont|the|le|la|les|does|est-ce que|will|va|would|serait|should|devrait|can|peut)?\s*/i);
+  // Use simpler pattern matching to avoid regex issues with special characters
+  const questionWords = ['What', 'Qu\'est-ce que c\'est', 'Result', 'Résultat', 'Output', 'Sortie', 'Value', 'Valeur', 
+    'Which', 'Lequel', 'How', 'Comment', 'When', 'Quand', 'Where', 'Où', 'Why', 'Pourquoi', 
+    'Can', 'Peut', 'Does', 'Est-ce que', 'Is', 'Est', 'Are', 'Sont', 'Will', 'Va', 'Would', 'Serait', 'Should', 'Devrait'];
   
-  if (questionWordMatch) {
+  let questionWordMatch = null;
+  for (const word of questionWords) {
+    const pattern = new RegExp(`^${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s+`, 'i');
+    const match = enhancedText.match(pattern);
+    if (match) {
+      questionWordMatch = match;
+      break;
+    }
+  }
+  
+  if (questionWordMatch && questionWordMatch[0]) {
     const questionEnd = questionWordMatch[0].length;
     let remainingText = enhancedText.substring(questionEnd).trim();
     
@@ -589,7 +603,12 @@ const splitQuestion = (text: string, language: string = 'en') => {
   }
   
   // Fallback: if no clear code pattern, return as prefix
-  return { prefix: enhancedText, code: '' };
+    return { prefix: enhancedText, code: '' };
+  } catch (error) {
+    // If anything goes wrong, just return the original text as prefix
+    console.error('Error in splitQuestion:', error);
+    return { prefix: text, code: '' };
+  }
 };
 
 interface QuizViewProps {
@@ -613,7 +632,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
   randomizeTrigger,
   randomMode = false
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
